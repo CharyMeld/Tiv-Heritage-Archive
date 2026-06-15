@@ -1,0 +1,9 @@
+# Correct MIME types — Firefox strictly rejects CSS/JS with wrong types
+AddType text/css .css
+AddType application/javascript .js
+AddCharset UTF-8 .css .js
+
+# Prevent MIME sniffing
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>

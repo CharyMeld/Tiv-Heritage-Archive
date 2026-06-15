@@ -1,0 +1,62 @@
+# Tiv Culture Archive - Apache/LiteSpeed Configuration
+
+# Enable rewrite engine
+RewriteEngine On
+
+# Redirect HTTP to HTTPS (works behind Hostinger's load balancer)
+# NOTE: commented out for local development — uncomment when deploying to Hostinger
+# RewriteCond %{HTTPS} !=on
+# RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Prevent directory listing
+Options -Indexes
+
+# Allow access to assets and uploads directly (bypass PHP)
+RewriteRule ^assets/ - [L]
+RewriteRule ^uploads/ - [L]
+RewriteRule ^storage/ - [L]
+RewriteRule ^favicon\.png$ - [L]
+RewriteRule ^manifest\.json$ - [L]
+RewriteRule ^service-worker\.js$ - [L]
+RewriteRule ^logo\.png$ - [L]
+
+# Route everything else through index.php
+# Both rules use absolute URL paths so they are unaffected by RewriteBase.
+
+# localhost — app lives in /Tiv-Heritage-Archive/ subdirectory
+RewriteCond %{HTTP_HOST} ^(localhost|127\.0\.0\.1)(:[0-9]+)?$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /Tiv-Heritage-Archive/index.php?url=$1 [QSA,L]
+
+# Production (tiv.teamodigitalsolutions.com) — subdomain root IS the app root
+RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:[0-9]+)?$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php?url=$1 [QSA,L]
+
+# Security headers (CSP is set by index.php — not duplicated here)
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Browser caching for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType text/css "access plus 3 months"
+    ExpiresByType application/javascript "access plus 3 months"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json
+</IfModule>

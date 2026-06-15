@@ -1,0 +1,25 @@
+# Sensitive config — keep a database.example.php instead
+config/database.php
+
+# Database dumps
+*.sql
+u594116203_tiv_db*.sql
+
+# Uploads and cache
+uploads/
+storage/cache/
+storage/logs/
+
+# Personal files
+my-signature.jpeg
+signature_transparent.png
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# PHP compiled / vendor
+vendor/
+*.log

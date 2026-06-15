@@ -1,0 +1,16 @@
+{
+  "name": "Tiv Culture Archive",
+  "short_name": "Tiv Archive",
+  "description": "Preserving Language, History & Identity",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#FAF7F2",
+  "theme_color": "#5C3A21",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "200x200",
+      "type": "image/png"
+    }
+  ]
+}
