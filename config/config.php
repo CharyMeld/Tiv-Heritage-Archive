@@ -95,8 +95,8 @@ define('USER_ROLES', [
 // Model: facebook/nllb-200-distilled-600M  (supports tiv_Latn)
 // Get a free key at: https://huggingface.co/settings/tokens
 define('NLLB_ENABLED',   true);
-define('NLLB_API_KEY',   '***REMOVED-OLD-NLLB-KEY***');
-define('NLLB_ENDPOINT',  'https://api-inference.huggingface.co/models/facebook/nllb-200-distilled-600M');
+define('NLLB_API_KEY',   '');
+define('NLLB_ENDPOINT',  '');
 define('NLLB_TIMEOUT',   55);     // seconds — wait_for_model handles cold-start
 
 // ============================================
@@ -105,8 +105,8 @@ define('NLLB_TIMEOUT',   55);     // seconds — wait_for_model handles cold-sta
 // Get your API key at: https://console.anthropic.com/
 // Paste it below then set CHARYMELD_ENABLED to true
 define('CHARYMELD_ENABLED',   true);            // AI assistant is active
-define('ANTHROPIC_API_KEY',   '***REMOVED-OLD-ANTHROPIC-KEY***');             // ← paste your sk-ant-... key here
-define('CHARYMELD_MODEL',     'claude-haiku-4-5-20251001');
+define('ANTHROPIC_API_KEY',   '');             // ← paste your sk-ant-... key here
+define('CHARYMELD_MODEL',     '');
 define('CHARYMELD_MAX_TOKENS', 768);
 define('CHARYMELD_TIMEOUT',   30);             // seconds
 
