@@ -973,6 +973,13 @@ class TranslationEngine
                 $wantedPos = 'adjective';
             } elseif (in_array($next, ['the','a','an'])) {
                 $wantedPos = 'adjective';
+            } elseif (in_array($prev, ['i','you','he','she','it','we','they'])) {
+                // Subject pronoun immediately before the word being resolved —
+                // e.g. "we saw", "she runs" — strongly suggests a verb reading.
+                // Distinct word set from the possessive-determiner noun signal
+                // above (my/your/his/her/our/their), so this cannot conflict
+                // with it.
+                $wantedPos = 'verb';
             }
 
             // 2. Intrinsic POS for English function words when no surrounding signal
