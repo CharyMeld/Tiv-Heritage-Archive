@@ -24,6 +24,12 @@ class ContentCategoryController extends Controller
                     'description' => 'Learn the Tiv alphabet, consonants, vowels, and tonal markers that form the language foundation.',
                     'placeholder' => true,
                 ],
+                'grammar' => [
+                    'label'       => 'Grammar',
+                    'icon'        => '&#128220;',
+                    'description' => 'Curated Tiv grammar rules — nouns, pronouns, verbs, adjectives, sentence structure, and question formation.',
+                    'placeholder' => true,
+                ],
                 'lessons' => [
                     'label'       => 'Lessons',
                     'icon'        => '&#127979;',
@@ -188,6 +194,32 @@ class ContentCategoryController extends Controller
                 'sub'           => $subKey,
                 'subConfig'     => $subConfig,
                 'extraItems'    => $extra,
+                'currentPage'   => 'language',
+            ]);
+            return;
+        }
+
+        // Grammar gets its own dedicated view
+        if ($section === 'language' && $subKey === 'grammar') {
+            $grouped = array_fill_keys(
+                ['noun', 'pronoun', 'verb', 'adjective', 'sentence_structure', 'question_formation'],
+                []
+            );
+            try {
+                require_once BASE_PATH . '/models/TivGrammarRule.php';
+                $grouped = (new TivGrammarRule())->getAllGrouped();
+            } catch (Throwable $e) {
+                // tiv_grammar_rules migration not yet applied — render with empty sections
+                // rather than a fatal error (deploy.sh does not run SQL migrations).
+            }
+            $this->render('content/grammar', [
+                'title'         => 'Tiv Grammar | Tiv Heritage Archive',
+                'description'   => 'Curated Tiv grammar rules — nouns, pronouns, verbs, adjectives, sentence structure, and question formation.',
+                'section'       => $section,
+                'sectionConfig' => $sConfig,
+                'sub'           => $subKey,
+                'subConfig'     => $subConfig,
+                'grouped'       => $grouped,
                 'currentPage'   => 'language',
             ]);
             return;

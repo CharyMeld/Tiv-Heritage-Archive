@@ -236,6 +236,14 @@ $router->get('admin/alphabet/{id}/edit',        'AdminAlphabetController', 'edit
 $router->post('admin/alphabet/{id}/edit',       'AdminAlphabetController', 'update');
 $router->post('admin/alphabet/{id}/delete',     'AdminAlphabetController', 'delete');
 
+// Admin Grammar Manager (nouns / pronouns / verbs / adjectives / sentence structure / questions)
+$router->get('admin/grammar',                  'AdminGrammarController', 'index');
+$router->get('admin/grammar/create',           'AdminGrammarController', 'create');
+$router->post('admin/grammar/create',          'AdminGrammarController', 'store');
+$router->get('admin/grammar/{id}/edit',        'AdminGrammarController', 'edit');
+$router->post('admin/grammar/{id}/edit',       'AdminGrammarController', 'update');
+$router->post('admin/grammar/{id}/delete',     'AdminGrammarController', 'delete');
+
 // Admin Content Items CRUD
 $router->get('admin/content-items/{section}/{sub}', 'AdminContentItemController', 'index');
 $router->get('admin/content-items/{section}/{sub}/create', 'AdminContentItemController', 'create');

@@ -31,6 +31,7 @@
 .mega-section-header-title { font-size: 1.25rem; font-weight: 700; color: #5C3A21; margin: 0; }
 .mega-section-header-desc { font-size: .92rem; color: #7a6a5a; margin: 0 0 0 auto; max-width: 480px; text-align: right; }
 .mega-grid { display: grid; gap: .8rem; }
+.mega-grid-5 { grid-template-columns: repeat(5, 1fr); }
 .mega-grid-4 { grid-template-columns: repeat(4, 1fr); }
 .mega-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .mega-grid-2 { grid-template-columns: repeat(2, 1fr); }
@@ -223,6 +224,7 @@
             <ul class="mnav-sub" id="ms-lang">
                 <li><a href="<?= url('archive/words') ?>"><i class="mni">&#128218;</i>Dictionary</a></li>
                 <li><a href="<?= url('language/alphabet') ?>"><i class="mni">&#127279;</i>Alphabet</a></li>
+                <li><a href="<?= url('language/grammar') ?>"><i class="mni">&#128220;</i>Grammar</a></li>
                 <li><a href="<?= url('learn') ?>"><i class="mni">&#127979;</i>Lessons</a></li>
                 <li><a href="<?= url('translate') ?>"><i class="mni">&#127760;</i>Translation</a></li>
             </ul>
@@ -354,7 +356,7 @@
                 </a>
                 <div class="mega-panel">
                     <div class="mega-inner">
-                        <div class="mega-grid mega-grid-4">
+                        <div class="mega-grid mega-grid-5">
                             <a href="<?= url('archive/words') ?>" class="mega-item">
                                 <span class="mega-item-icon">&#128218;</span>
                                 <div class="mega-item-body">
@@ -367,6 +369,13 @@
                                 <div class="mega-item-body">
                                     <p class="mega-item-label">Alphabet</p>
                                     <p class="mega-item-desc">Consonants, vowels &amp; tonal markers</p>
+                                </div>
+                            </a>
+                            <a href="<?= url('language/grammar') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#128220;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">Grammar</p>
+                                    <p class="mega-item-desc">Nouns, pronouns, verbs &amp; sentence structure</p>
                                 </div>
                             </a>
                             <a href="<?= url('learn') ?>" class="mega-item">
