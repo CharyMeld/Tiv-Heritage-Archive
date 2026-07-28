@@ -236,6 +236,10 @@
                 <input type="text" id="english_meaning" name="english_meaning" class="form-input" value="<?= old('english_meaning') ?>" required>
             </div>
             <div class="form-group">
+                <label for="alternate_meaning" class="form-label">Alternate Meaning</label>
+                <input type="text" id="alternate_meaning" name="alternate_meaning" class="form-input" value="<?= old('alternate_meaning') ?>">
+            </div>
+            <div class="form-group">
                 <label for="part_of_speech" class="form-label">Part of Speech</label>
                 <select id="part_of_speech" name="part_of_speech" class="form-select">
                     <option value="noun">Noun</option>
@@ -250,8 +254,31 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="category" class="form-label">Semantic Category</label>
+                <input type="text" id="category" name="category" class="form-input" list="semanticDomains" value="<?= old('category') ?>" placeholder="e.g. religion, farming, family">
+                <datalist id="semanticDomains">
+                    <option value="religion"><option value="farming"><option value="family">
+                    <option value="greeting"><option value="health"><option value="education">
+                    <option value="food"><option value="travel">
+                </datalist>
+                <p class="form-hint">Used by the translation engine to bias word choice by topic.</p>
+            </div>
+            <div class="form-group">
                 <label for="pronunciation" class="form-label">Pronunciation</label>
                 <input type="text" id="pronunciation" name="pronunciation" class="form-input" value="<?= old('pronunciation') ?>">
+            </div>
+            <div class="form-group">
+                <label for="ipa" class="form-label">IPA Transcription</label>
+                <input type="text" id="ipa" name="ipa" class="form-input" value="<?= old('ipa') ?>" placeholder="e.g. /a.tsɛ/">
+            </div>
+            <div class="form-group">
+                <label for="tone" class="form-label">Tone</label>
+                <input type="text" id="tone" name="tone" class="form-input" value="<?= old('tone') ?>" placeholder="e.g. high-low">
+            </div>
+            <div class="form-group">
+                <label for="root_word_tiv" class="form-label">Root Word (Tiv spelling)</label>
+                <input type="text" id="root_word_tiv" name="root_word_tiv" class="form-input" value="<?= old('root_word_tiv') ?>">
+                <p class="form-hint">If this word is derived from another word already in the dictionary, type its exact Tiv spelling here.</p>
             </div>
             <div class="form-group">
                 <label class="form-label">Record Pronunciation</label>
@@ -289,6 +316,32 @@
             <div class="form-group">
                 <label for="example_english" class="form-label">Example (English)</label>
                 <input type="text" id="example_english" name="example_english" class="form-input" value="<?= old('example_english') ?>">
+            </div>
+            <div class="form-group">
+                <label for="literal_meaning" class="form-label">Literal Meaning</label>
+                <textarea id="literal_meaning" name="literal_meaning" class="form-textarea"><?= old('literal_meaning') ?></textarea>
+            </div>
+            <div class="form-group">
+                <label for="figurative_meaning" class="form-label">Figurative Meaning</label>
+                <textarea id="figurative_meaning" name="figurative_meaning" class="form-textarea"><?= old('figurative_meaning') ?></textarea>
+            </div>
+            <div class="form-group">
+                <label for="usage_notes" class="form-label">Usage Notes</label>
+                <textarea id="usage_notes" name="usage_notes" class="form-textarea"><?= old('usage_notes') ?></textarea>
+            </div>
+            <div class="form-group">
+                <label for="dialect_region" class="form-label">Dialect / Regional Notes</label>
+                <input type="text" id="dialect_region" name="dialect_region" class="form-input" value="<?= old('dialect_region') ?>">
+            </div>
+            <div class="form-group">
+                <label for="frequency" class="form-label">Frequency</label>
+                <select id="frequency" name="frequency" class="form-select">
+                    <option value="">— Not set —</option>
+                    <option value="very_common" <?= old('frequency') === 'very_common' ? 'selected' : '' ?>>Very Common</option>
+                    <option value="common" <?= old('frequency') === 'common' ? 'selected' : '' ?>>Common</option>
+                    <option value="uncommon" <?= old('frequency') === 'uncommon' ? 'selected' : '' ?>>Uncommon</option>
+                    <option value="rare" <?= old('frequency') === 'rare' ? 'selected' : '' ?>>Rare</option>
+                </select>
             </div>
             <div class="form-group">
                 <label class="form-checkbox">

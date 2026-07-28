@@ -275,6 +275,10 @@
                 <input type="text" id="english_meaning" name="english_meaning" class="form-input" value="<?= e($item['english_meaning']) ?>" required>
             </div>
             <div class="form-group">
+                <label for="alternate_meaning" class="form-label">Alternate Meaning</label>
+                <input type="text" id="alternate_meaning" name="alternate_meaning" class="form-input" value="<?= e($item['alternate_meaning'] ?? '') ?>">
+            </div>
+            <div class="form-group">
                 <label for="part_of_speech" class="form-label">Part of Speech</label>
                 <select id="part_of_speech" name="part_of_speech" class="form-select">
                     <?php foreach (['noun', 'verb', 'adjective', 'adverb', 'pronoun', 'preposition', 'conjunction', 'interjection', 'phrase'] as $pos): ?>
@@ -283,8 +287,31 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="category" class="form-label">Semantic Category</label>
+                <input type="text" id="category" name="category" class="form-input" list="semanticDomains" value="<?= e($item['category'] ?? '') ?>" placeholder="e.g. religion, farming, family">
+                <datalist id="semanticDomains">
+                    <option value="religion"><option value="farming"><option value="family">
+                    <option value="greeting"><option value="health"><option value="education">
+                    <option value="food"><option value="travel">
+                </datalist>
+                <p class="form-hint">Used by the translation engine to bias word choice by topic.</p>
+            </div>
+            <div class="form-group">
                 <label for="pronunciation" class="form-label">Pronunciation</label>
                 <input type="text" id="pronunciation" name="pronunciation" class="form-input" value="<?= e($item['pronunciation']) ?>">
+            </div>
+            <div class="form-group">
+                <label for="ipa" class="form-label">IPA Transcription</label>
+                <input type="text" id="ipa" name="ipa" class="form-input" value="<?= e($item['ipa'] ?? '') ?>" placeholder="e.g. /a.tsɛ/">
+            </div>
+            <div class="form-group">
+                <label for="tone" class="form-label">Tone</label>
+                <input type="text" id="tone" name="tone" class="form-input" value="<?= e($item['tone'] ?? '') ?>" placeholder="e.g. high-low">
+            </div>
+            <div class="form-group">
+                <label for="root_word_tiv" class="form-label">Root Word (Tiv spelling)</label>
+                <input type="text" id="root_word_tiv" name="root_word_tiv" class="form-input" value="<?= e($rootWord['tiv_word'] ?? '') ?>">
+                <p class="form-hint">If this word is derived from another word already in the dictionary, type its exact Tiv spelling here.</p>
             </div>
             <div class="form-group">
                 <label class="form-label">Record Pronunciation</label>
@@ -331,6 +358,31 @@
             <div class="form-group">
                 <label for="example_english" class="form-label">Example (English)</label>
                 <input type="text" id="example_english" name="example_english" class="form-input" value="<?= e($item['example_english']) ?>">
+            </div>
+            <div class="form-group">
+                <label for="literal_meaning" class="form-label">Literal Meaning</label>
+                <textarea id="literal_meaning" name="literal_meaning" class="form-textarea"><?= e($item['literal_meaning'] ?? '') ?></textarea>
+            </div>
+            <div class="form-group">
+                <label for="figurative_meaning" class="form-label">Figurative Meaning</label>
+                <textarea id="figurative_meaning" name="figurative_meaning" class="form-textarea"><?= e($item['figurative_meaning'] ?? '') ?></textarea>
+            </div>
+            <div class="form-group">
+                <label for="usage_notes" class="form-label">Usage Notes</label>
+                <textarea id="usage_notes" name="usage_notes" class="form-textarea"><?= e($item['usage_notes'] ?? '') ?></textarea>
+            </div>
+            <div class="form-group">
+                <label for="dialect_region" class="form-label">Dialect / Regional Notes</label>
+                <input type="text" id="dialect_region" name="dialect_region" class="form-input" value="<?= e($item['dialect_region'] ?? '') ?>">
+            </div>
+            <div class="form-group">
+                <label for="frequency" class="form-label">Frequency</label>
+                <select id="frequency" name="frequency" class="form-select">
+                    <option value="">— Not set —</option>
+                    <?php foreach (['very_common' => 'Very Common', 'common' => 'Common', 'uncommon' => 'Uncommon', 'rare' => 'Rare'] as $val => $label): ?>
+                    <option value="<?= $val ?>" <?= ($item['frequency'] ?? '') === $val ? 'selected' : '' ?>><?= $label ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <div class="form-group">
                 <label class="form-checkbox">
@@ -448,6 +500,48 @@
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
+
+<?php if ($category === 'words'): ?>
+<!-- ── Synonyms, Antonyms & Related Words Manager ────────── -->
+<div style="max-width:800px; margin-top:2rem;">
+    <div class="admin-card" style="padding:1.75rem;">
+        <h2 style="font-family:var(--font-heading);font-size:1.15rem;color:var(--color-primary);margin:0 0 1.25rem;">
+            &#128279; Synonyms, Antonyms &amp; Related Words
+        </h2>
+        <?php if (empty($wordRelations)): ?>
+        <p class="form-hint">No related words yet.</p>
+        <?php else: ?>
+        <div style="display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.2rem;">
+            <?php foreach ($wordRelations as $rel): ?>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.5rem .75rem;background:#f7f4ee;border-radius:6px;font-size:.85rem;">
+                <span><strong style="text-transform:capitalize;"><?= e($rel['relation']) ?>:</strong> <?= e($rel['item']['tiv_word'] ?? '') ?> — <?= e($rel['item']['english_meaning'] ?? '') ?></span>
+                <form method="POST" action="<?= url('admin/content/words/' . $item['id'] . '/relations/' . $rel['link_id'] . '/delete') ?>" onsubmit="return confirm('Remove this relation?')" style="margin:0;">
+                    <?= csrf_field() ?>
+                    <button type="submit" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:.8rem;font-weight:600;">Remove</button>
+                </form>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+        <form method="POST" action="<?= url('admin/content/words/' . $item['id'] . '/relations') ?>" style="display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;">
+            <?= csrf_field() ?>
+            <div>
+                <label style="font-size:.78rem;color:#7a6a5a;display:block;margin-bottom:.2rem;">Related word (Tiv spelling)</label>
+                <input type="text" name="target_tiv_word" class="form-input" required style="width:200px;">
+            </div>
+            <div>
+                <label style="font-size:.78rem;color:#7a6a5a;display:block;margin-bottom:.2rem;">Relation</label>
+                <select name="relation_type" class="form-select">
+                    <option value="synonym">Synonym</option>
+                    <option value="antonym">Antonym</option>
+                    <option value="see_also">See also</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-secondary">Add</button>
+        </form>
+    </div>
+</div>
+<?php endif; ?>
 
 <?php if ($category === 'festivals'): ?>
 <!-- ── Festival Gallery Manager ──────────────────────────── -->

@@ -169,13 +169,25 @@ class DetailController extends Controller
 
         $ctx = $this->getContext('daily_words', (int) $id, $item['source_id'] ?? null);
 
+        $rootWord = !empty($item['root_word_id']) ? $model->find((int) $item['root_word_id']) : null;
+        $derivedWords = $model->getDerivedWords((int) $id, 8);
+
+        $wordRelations = array_filter(
+            $ctx['links'],
+            fn($link) => in_array($link['relation'], ['synonym', 'antonym', 'see_also'], true)
+                && $link['table'] === 'daily_words'
+        );
+
         $this->render('detail/word', [
-            'title'       => $item['tiv_word'] . ' - Tiv Word',
-            'item'        => $item,
-            'related'     => $related,
-            'source'      => $ctx['source'],
-            'links'       => $ctx['links'],
-            'currentPage' => 'archive',
+            'title'         => $item['tiv_word'] . ' - Tiv Word',
+            'item'          => $item,
+            'related'       => $related,
+            'source'        => $ctx['source'],
+            'links'         => $ctx['links'],
+            'rootWord'      => $rootWord,
+            'derivedWords'  => $derivedWords,
+            'wordRelations' => $wordRelations,
+            'currentPage'   => 'archive',
         ]);
     }
 }

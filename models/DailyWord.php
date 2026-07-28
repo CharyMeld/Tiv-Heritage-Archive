@@ -12,11 +12,22 @@ class DailyWord extends Model
     protected array $fillable = [
         'tiv_word',
         'english_meaning',
+        'alternate_meaning',
         'part_of_speech',
+        'category',
         'pronunciation',
+        'ipa',
+        'tone',
+        'root_word_id',
         'audio_file',
         'example_tiv',
         'example_english',
+        'literal_meaning',
+        'figurative_meaning',
+        'usage_notes',
+        'dialect_region',
+        'frequency',
+        'related_words',
         'is_active',
         'display_date',
         'created_by',
@@ -108,7 +119,7 @@ class DailyWord extends Model
 	{
 	    // Enforce DailyWord-specific searchable fields
 	    if (empty($fields)) {
-		$fields = ['tiv_word', 'english_meaning'];
+		$fields = ['tiv_word', 'english_meaning', 'alternate_meaning'];
 	    }
 
 	    return parent::search($query, $fields, $limit);
@@ -150,6 +161,21 @@ class DailyWord extends Model
     public function scheduleForDate(int $id, string $date): bool
     {
         return $this->update($id, ['display_date' => $date]);
+    }
+
+    /**
+     * Get words derived from a given root word
+     */
+    public function getDerivedWords(int $rootId, int $limit = 20): array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table}
+            WHERE root_word_id = ? AND is_active = 1
+            ORDER BY tiv_word ASC
+            LIMIT ?"
+        );
+        $stmt->execute([$rootId, $limit]);
+        return $stmt->fetchAll();
     }
 
     /**

@@ -340,13 +340,29 @@ class AdminController extends Controller
             $gallery = (new TivFestival())->getGallery((int) $id);
         }
 
+        $rootWord      = null;
+        $wordRelations = [];
+        if ($category === 'words') {
+            if (!empty($item['root_word_id'])) {
+                $rootWord = (new DailyWord())->find((int) $item['root_word_id']);
+            }
+            require_once BASE_PATH . '/models/KnowledgeLink.php';
+            $wordRelations = array_filter(
+                (new KnowledgeLink())->getRelatedItems('daily_words', (int) $id),
+                fn($link) => in_array($link['relation'], ['synonym', 'antonym', 'see_also'], true)
+                    && $link['table'] === 'daily_words'
+            );
+        }
+
         $this->render('admin/edit', [
-            'title'       => 'Edit ' . rtrim(ucfirst($category), 's'),
-            'category'    => $category,
-            'item'        => $item,
-            'gallery'     => $gallery,
-            'currentPage' => $category,
-            'sources'     => $this->sourceModel->getAllOrdered()
+            'title'         => 'Edit ' . rtrim(ucfirst($category), 's'),
+            'category'      => $category,
+            'item'          => $item,
+            'gallery'       => $gallery,
+            'currentPage'   => $category,
+            'sources'       => $this->sourceModel->getAllOrdered(),
+            'rootWord'      => $rootWord,
+            'wordRelations' => $wordRelations
         ], 'admin');
     }
 
@@ -438,6 +454,70 @@ class AdminController extends Controller
         Cache::forget('archive_rows');
         $this->flash('Content deleted successfully.', 'success');
         $this->redirect(url('admin/content/' . $category));
+    }
+
+    /**
+     * Add a synonym/antonym/see-also relation from the word edit page
+     */
+    public function addWordRelation(string $id): void
+    {
+        $this->requireModerator();
+
+        if (!$this->validateCSRF()) {
+            $this->back();
+            return;
+        }
+
+        $targetTivWord = trim((string) $this->post('target_tiv_word'));
+        $relationType  = $this->post('relation_type', 'synonym');
+
+        if (!in_array($relationType, ['synonym', 'antonym', 'see_also'], true)) {
+            $relationType = 'synonym';
+        }
+
+        if ($targetTivWord === '') {
+            $this->flash('Enter the related word\'s Tiv spelling.', 'error');
+            $this->redirect(url('admin/content/words/' . $id . '/edit'));
+            return;
+        }
+
+        $targetWord = (new DailyWord())->findBy('tiv_word', $targetTivWord);
+        if (!$targetWord) {
+            $this->flash('No word found with that exact spelling.', 'error');
+            $this->redirect(url('admin/content/words/' . $id . '/edit'));
+            return;
+        }
+
+        if ((int) $targetWord['id'] === (int) $id) {
+            $this->flash('A word cannot be related to itself.', 'error');
+            $this->redirect(url('admin/content/words/' . $id . '/edit'));
+            return;
+        }
+
+        require_once BASE_PATH . '/models/KnowledgeLink.php';
+        (new KnowledgeLink())->addLink('daily_words', (int) $id, 'daily_words', (int) $targetWord['id'], $relationType);
+
+        $this->flash('Related word added.', 'success');
+        $this->redirect(url('admin/content/words/' . $id . '/edit'));
+    }
+
+    /**
+     * Remove a word relation from the word edit page
+     */
+    public function removeWordRelation(string $id, string $linkId): void
+    {
+        $this->requireModerator();
+
+        if (!$this->validateCSRF()) {
+            $this->back();
+            return;
+        }
+
+        require_once BASE_PATH . '/models/KnowledgeLink.php';
+        (new KnowledgeLink())->delete((int) $linkId);
+
+        $this->flash('Relation removed.', 'info');
+        $this->redirect(url('admin/content/words/' . $id . '/edit'));
     }
 
     /**
@@ -955,13 +1035,30 @@ class AdminController extends Controller
                 ];
 
             case 'words':
+                $rootWordTiv = trim((string) $this->post('root_word_tiv'));
+                $rootWordId  = null;
+                if ($rootWordTiv !== '') {
+                    $rootWord   = (new DailyWord())->findBy('tiv_word', $rootWordTiv);
+                    $rootWordId = $rootWord['id'] ?? null;
+                }
+
                 return [
                     'tiv_word' => $this->post('tiv_word'),
                     'english_meaning' => $this->post('english_meaning'),
+                    'alternate_meaning' => $this->post('alternate_meaning') ?: null,
                     'part_of_speech' => $this->post('part_of_speech', 'noun'),
+                    'category' => $this->post('category') ?: null,
                     'pronunciation' => $this->post('pronunciation'),
+                    'ipa' => $this->post('ipa') ?: null,
+                    'tone' => $this->post('tone') ?: null,
+                    'root_word_id' => $rootWordId,
                     'example_tiv' => $this->post('example_tiv'),
                     'example_english' => $this->post('example_english'),
+                    'literal_meaning' => $this->post('literal_meaning') ?: null,
+                    'figurative_meaning' => $this->post('figurative_meaning') ?: null,
+                    'usage_notes' => $this->post('usage_notes') ?: null,
+                    'dialect_region' => $this->post('dialect_region') ?: null,
+                    'frequency' => $this->post('frequency') ?: null,
                     'is_active' => $this->post('is_active') ? 1 : 0,
                     'source_id' => $this->post('source_id') ?: null
                 ];

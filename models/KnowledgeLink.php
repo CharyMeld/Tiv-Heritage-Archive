@@ -70,6 +70,7 @@ class KnowledgeLink extends Model
             $cfg = self::$tableConfig[$link['target_table']] ?? null;
             if (!$cfg) continue;
             $toFetch[$link['target_table']][$link['target_id']] = [
+                'link_id'   => $link['id'],
                 'relation'  => $link['relation_type'],
                 'direction' => 'out',
                 'cfg'       => $cfg,
@@ -80,6 +81,7 @@ class KnowledgeLink extends Model
             $cfg = self::$tableConfig[$link['source_table']] ?? null;
             if (!$cfg) continue;
             $toFetch[$link['source_table']][$link['source_id']] = [
+                'link_id'   => $link['id'],
                 'relation'  => $link['relation_type'],
                 'direction' => 'in',
                 'cfg'       => $cfg,
@@ -98,6 +100,7 @@ class KnowledgeLink extends Model
             foreach ($stmt->fetchAll() as $row) {
                 $meta      = $items[$row['id']];
                 $results[] = [
+                    'link_id'   => $meta['link_id'],
                     'relation'  => $meta['relation'],
                     'direction' => $meta['direction'],
                     'table'     => $tbl,

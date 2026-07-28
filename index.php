@@ -119,6 +119,8 @@ $router->post('admin/content/{category}/create', 'AdminController', 'store');
 $router->get('admin/content/{category}/{id}/edit', 'AdminController', 'edit');
 $router->post('admin/content/{category}/{id}/edit', 'AdminController', 'update');
 $router->post('admin/content/{category}/{id}/delete', 'AdminController', 'delete');
+$router->post('admin/content/words/{id}/relations', 'AdminController', 'addWordRelation');
+$router->post('admin/content/words/{id}/relations/{linkId}/delete', 'AdminController', 'removeWordRelation');
 $router->post('admin/festivals/{id}/gallery/upload', 'AdminController', 'uploadGalleryPhoto');
 $router->post('admin/festivals/{id}/gallery/{photoId}/delete', 'AdminController', 'deleteGalleryPhoto');
 $router->get('admin/bible', 'BibleController', 'index');

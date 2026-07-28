@@ -36,7 +36,10 @@
             <a href="<?= url('word/' . $item['id']) ?>" class="archive-item-modern">
                 <div class="archive-item-modern-icon" style="background:rgba(26,82,118,0.12);">&#128172;</div>
                 <div class="archive-item-modern-body">
-                    <div class="archive-item-modern-title"><?= e($item['tiv_word']) ?></div>
+                    <div class="archive-item-modern-title">
+                        <?= e($item['tiv_word']) ?>
+                        <?php if (!empty($item['ipa'])): ?><span style="font-family:monospace;font-weight:400;font-size:.8em;color:var(--color-text-muted);"><?= e($item['ipa']) ?></span><?php endif; ?>
+                    </div>
                     <div class="archive-item-modern-sub"><?= e($item['english_meaning']) ?></div>
                 </div>
                 <?php if (!empty($item['part_of_speech'])): ?>

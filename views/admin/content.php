@@ -60,6 +60,8 @@
                         <th>Tiv Word</th>
                         <th>English Meaning</th>
                         <th>Part of Speech</th>
+                        <th>IPA</th>
+                        <th>Tone</th>
                     <?php elseif ($category === 'animals'): ?>
                         <th>Tiv Name</th>
                         <th>English Name</th>
@@ -88,6 +90,8 @@
                             <td><strong><?= e($item['tiv_word']) ?></strong></td>
                             <td><?= e($item['english_meaning']) ?></td>
                             <td><?= e($item['part_of_speech']) ?></td>
+                            <td><?= e($item['ipa'] ?? '-') ?></td>
+                            <td><?= e($item['tone'] ?? '-') ?></td>
                         <?php elseif ($category === 'animals'): ?>
                             <td><strong><?= e($item['tiv_name']) ?></strong></td>
                             <td><?= e($item['name'] ?? '-') ?></td>

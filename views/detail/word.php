@@ -15,6 +15,18 @@
             <?php if (!empty($item['pronunciation'])): ?>
             <span class="detail-banner-badge">&#127908; <?= e($item['pronunciation']) ?></span>
             <?php endif; ?>
+            <?php if (!empty($item['ipa'])): ?>
+            <span class="detail-banner-badge" style="font-family:monospace;"><?= e($item['ipa']) ?></span>
+            <?php endif; ?>
+            <?php if (!empty($item['tone'])): ?>
+            <span class="detail-banner-badge">&#127925; <?= e($item['tone']) ?> tone</span>
+            <?php endif; ?>
+            <?php if (!empty($item['category'])): ?>
+            <span class="detail-banner-badge"><?= e(ucfirst($item['category'])) ?></span>
+            <?php endif; ?>
+            <?php if (!empty($item['frequency'])): ?>
+            <span class="detail-banner-badge"><?= e(ucwords(str_replace('_', ' ', $item['frequency']))) ?></span>
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -50,6 +62,72 @@
                 "<?= e($item['example_english']) ?>"
             </p>
             <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if (!empty($item['literal_meaning']) || !empty($item['figurative_meaning'])): ?>
+        <div class="detail-section-modern">
+            <?php if (!empty($item['literal_meaning'])): ?>
+            <span class="detail-section-label">Literal Meaning</span>
+            <p class="detail-section-text"><?= e($item['literal_meaning']) ?></p>
+            <?php endif; ?>
+            <?php if (!empty($item['figurative_meaning'])): ?>
+            <span class="detail-section-label" style="margin-top:.75rem;display:block;">Figurative Meaning</span>
+            <p class="detail-section-text"><?= e($item['figurative_meaning']) ?></p>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if (!empty($item['usage_notes']) || !empty($item['dialect_region'])): ?>
+        <div class="detail-section-modern">
+            <?php if (!empty($item['usage_notes'])): ?>
+            <span class="detail-section-label">Usage Notes</span>
+            <p class="detail-section-text"><?= e($item['usage_notes']) ?></p>
+            <?php endif; ?>
+            <?php if (!empty($item['dialect_region'])): ?>
+            <span class="detail-section-label" style="margin-top:.75rem;display:block;">Dialect / Region</span>
+            <p class="detail-section-text"><?= e($item['dialect_region']) ?></p>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if (!empty($rootWord) || !empty($derivedWords)): ?>
+        <div class="detail-section-modern">
+            <?php if (!empty($rootWord)): ?>
+            <span class="detail-section-label">Root Word</span>
+            <p class="detail-section-text">
+                <a href="<?= url('word/' . $rootWord['id']) ?>"><strong><?= e($rootWord['tiv_word']) ?></strong> — <?= e($rootWord['english_meaning']) ?></a>
+            </p>
+            <?php endif; ?>
+            <?php if (!empty($derivedWords)): ?>
+            <span class="detail-section-label" style="margin-top:.75rem;display:block;">Derived Words</span>
+            <div class="archive-grid-modern">
+                <?php foreach ($derivedWords as $dw): ?>
+                <a href="<?= url('word/' . $dw['id']) ?>" class="archive-card-modern archive-card-words">
+                    <span class="archive-card-modern-icon">&#128172;</span>
+                    <h4 class="archive-card-modern-title"><?= e($dw['tiv_word']) ?></h4>
+                    <p class="archive-card-modern-sub"><?= e($dw['english_meaning']) ?></p>
+                </a>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if (!empty($wordRelations)): ?>
+        <div class="detail-section-modern">
+            <span class="detail-section-label">Synonyms &amp; Related Words</span>
+            <?php
+            $grouped = ['synonym' => [], 'antonym' => [], 'see_also' => []];
+            foreach ($wordRelations as $rel) { $grouped[$rel['relation']][] = $rel['item']; }
+            $groupLabels = ['synonym' => 'Synonyms', 'antonym' => 'Antonyms', 'see_also' => 'See Also'];
+            ?>
+            <?php foreach ($groupLabels as $key => $label): if (empty($grouped[$key])) continue; ?>
+            <p class="detail-section-text" style="margin-top:.5rem;">
+                <strong><?= $label ?>:</strong>
+                <?php foreach ($grouped[$key] as $i => $w): ?><?= $i ? ', ' : '' ?><a href="<?= url('word/' . $w['id']) ?>"><?= e($w['tiv_word']) ?></a><?php endforeach; ?>
+            </p>
+            <?php endforeach; ?>
         </div>
         <?php endif; ?>
 
