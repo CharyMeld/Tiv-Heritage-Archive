@@ -40,6 +40,19 @@ class GrammarEngine
     /** Auxiliary verbs stripped only when immediately followed by "not" */
     private const NEGATION_AUX_STRIP = ['do', 'does', 'did'];
 
+    /**
+     * Object-case pronoun overrides. Tiv marks some pronouns differently
+     * when they're the object of a verb rather than its subject (e.g. "we
+     * saw you" takes "ven", not the subject form "u"). Confirmed directly
+     * by Charles against the "we saw you yesterday..." mistranslation —
+     * "us" is unambiguous in English (always object-case), "you" is only
+     * swapped in when context marks it as the object (see objectPronoun()).
+     */
+    private const OBJECT_PRONOUNS = [
+        'us'  => 'vese',
+        'you' => 'ven',
+    ];
+
     public function __construct(PDO $db)
     {
         $this->db = $db;
@@ -132,6 +145,60 @@ class GrammarEngine
      * to handle full question sentences ("where is the market") — only
      * the safe, unambiguous single-word case.
      */
+    /**
+     * "us" always maps to its object form; "you" only does when the caller
+     * has determined (from sentence context) that it's in object position —
+     * pass $isObjectPosition=false for the ambiguous subject case and the
+     * normal subject-pronoun dictionary lookup is used instead.
+     */
+    public function objectPronoun(string $englishWord, bool $isObjectPosition): ?string
+    {
+        $word = mb_strtolower(trim($englishWord), 'UTF-8');
+        if ($word === 'us') return self::OBJECT_PRONOUNS['us'];
+        if ($word === 'you' && $isObjectPosition) return self::OBJECT_PRONOUNS['you'];
+        return null;
+    }
+
+    /** Linking particle required immediately before an object-case pronoun (confirmed by Charles). */
+    public function objectPronounParticle(): string
+    {
+        return 'a';
+    }
+
+    /**
+     * Tiv time adverbs that front the sentence rather than staying where the
+     * English word fell. Confirmed by Charles for "yesterday" (nyen) against
+     * the "we saw you yesterday..." correction, then explicitly extended by
+     * him to the other daily_words time-adverb entries (today/tomorrow/now).
+     */
+    private const FRONTING_TIME_ADVERBS = ['nyen', 'nyian', 'kper', 'hegen'];
+
+    public function frontingTimeAdverbs(): array
+    {
+        return self::FRONTING_TIME_ADVERBS;
+    }
+
+    public function timeAdverbFrontingCitation(): array
+    {
+        return [
+            'type'  => 'grammar',
+            'table' => 'daily_words',
+            'id'    => null,
+            'label' => 'Time-adverb word order, confirmed by Charles',
+        ];
+    }
+
+    public function objectPronounCitation(): ?array
+    {
+        if ($this->negationRuleId === null) return null;
+        return [
+            'type'  => 'grammar',
+            'table' => 'tiv_grammar_rules',
+            'id'    => $this->negationRuleId,
+            'label' => $this->negationRuleTitle,
+        ];
+    }
+
     public function mapQuestionWord(string $normalizedInput): ?array
     {
         $key = mb_strtolower(trim($normalizedInput), 'UTF-8');

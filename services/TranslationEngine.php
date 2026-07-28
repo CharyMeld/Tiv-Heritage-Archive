@@ -1228,6 +1228,7 @@ class TranslationEngine
         $missingTokens      = [];
         $pronunciationParts = [];
         $citedWordIds       = [];
+        $objectPronounUsed  = false;
         $count              = count($tokens);
         $i                  = 0;
 
@@ -1348,6 +1349,29 @@ class TranslationEngine
                 }
             }
 
+            // Grammar: object-case pronoun override ("we saw you" -> "...a ven",
+            // not the subject form "u"). "us" is unconditionally object-case in
+            // English; "you" only swaps in when the immediately preceding word
+            // was just resolved as a verb (the same signal resolvePosByContext()
+            // uses for the reverse case). See GrammarEngine::objectPronoun().
+            if (!$chunkMatched && $sourceLang === 'english') {
+                $token = $tokens[$i];
+                $lastPos = !empty($wordResults) ? ($wordResults[count($wordResults) - 1]['pos'] ?? '') : '';
+                $objTiv  = $this->grammar->objectPronoun($token, $lastPos === 'verb');
+                if ($objTiv !== null) {
+                    // Confirmed by Charles: object-case pronouns take a required
+                    // linking particle "a" immediately before them.
+                    $combined = $this->grammar->objectPronounParticle() . ' ' . $objTiv;
+                    $translated[]  = $combined;
+                    $wordResults[] = ['token' => $token, 'result' => $combined, 'source' => 'grammar-rule', 'pos' => 'pronoun', 'found' => true];
+                    $found++;
+                    $pronunciationParts[] = $this->phonology->generatePronunciation($combined);
+                    $objectPronounUsed = true;
+                    $i++;
+                    $chunkMatched = true;
+                }
+            }
+
             // Fall back to single-token lookup — pass surrounding tokens for POS context
             if (!$chunkMatched) {
                 $token     = $tokens[$i];
@@ -1426,6 +1450,18 @@ class TranslationEngine
             $wordResults[]  = ['token' => '(negation)', 'result' => $this->grammar->negationParticle(), 'source' => 'grammar-rule', 'pos' => '', 'found' => true];
             $negCitation = $this->grammar->negationCitation();
             if ($negCitation !== null) $citations[] = $negCitation;
+        }
+        if ($objectPronounUsed) {
+            $objCitation = $this->grammar->objectPronounCitation();
+            if ($objCitation !== null) $citations[] = $objCitation;
+        }
+
+        // Grammar: front recognised Tiv time adverbs (nyen/nyian/kper/hegen)
+        // rather than leaving them wherever the English word fell — see
+        // GrammarEngine::frontingTimeAdverbs().
+        if ($sourceLang === 'english') {
+            [$assembledText, $fronted] = $this->frontTimeAdverb($assembledText);
+            if ($fronted) $citations[] = $this->grammar->timeAdverbFrontingCitation();
         }
 
         // Citations: one entry per distinct dictionary word actually used
@@ -1861,6 +1897,28 @@ class TranslationEngine
         // Collapse multiple spaces
         $text = preg_replace('/\s+/', ' ', $text);
         return trim($text);
+    }
+
+    /**
+     * Move a recognised Tiv time adverb (nyen/nyian/kper/hegen) from wherever
+     * it landed in word-by-word output to the front of the sentence. Any
+     * punctuation immediately following the adverb reattaches to the word
+     * that preceded it — that word is now the true clause-final word once
+     * the adverb moves. Returns [text, wasFronted].
+     */
+    private function frontTimeAdverb(string $text): array
+    {
+        foreach ($this->grammar->frontingTimeAdverbs() as $tiv) {
+            $pattern = '/\b(\S+)\s+(' . preg_quote($tiv, '/') . ')\b([,;:!?\.]*)/iu';
+            if (preg_match($pattern, $text, $m)) {
+                $replacement = $m[1] . $m[3];
+                $rest = preg_replace($pattern, $replacement, $text, 1);
+                $rest = mb_strtolower(mb_substr($rest, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($rest, 1, null, 'UTF-8');
+                $fronted = $this->capitalizeFirst(mb_strtolower($m[2], 'UTF-8')) . ' ' . $rest;
+                return [$fronted, true];
+            }
+        }
+        return [$text, false];
     }
 
     private function tokenize(string $text): array
