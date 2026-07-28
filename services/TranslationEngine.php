@@ -21,7 +21,7 @@
 class TranslationEngine
 {
     private PDO             $db;
-    private ?NllbTranslator $nllb = null;
+    private ?string $_currentDomain = null; // semantic domain of the current sentence
 
     // Free tier: max daily translations per guest/user
     const FREE_DAILY_LIMIT_GUEST = 5;
@@ -31,17 +31,19 @@ class TranslationEngine
     {
         $this->db = $db;
 
-        require_once BASE_PATH . '/services/NllbTranslator.php';
-        $nllb = new NllbTranslator();
-        if ($nllb->isAvailable()) {
-            $this->nllb = $nllb;
-        }
-
         require_once BASE_PATH . '/services/BibleTranslationMiner.php';
         $this->miner = new BibleTranslationMiner($db);
+
+        require_once BASE_PATH . '/services/PhonologyEngine.php';
+        $this->phonology = new PhonologyEngine($db);
+
+        require_once BASE_PATH . '/services/GrammarEngine.php';
+        $this->grammar = new GrammarEngine($db);
     }
 
     private BibleTranslationMiner $miner;
+    private PhonologyEngine       $phonology;
+    private GrammarEngine         $grammar;
 
     // -------------------------------------------------------
     // PUBLIC: Main translate method
@@ -94,6 +96,15 @@ class TranslationEngine
             $result['missing_word_ids'] = $this->saveMissingWords(
                 $result['missing_tokens'], $sourceLang, $targetLang
             );
+        }
+
+        // Populate alternatives and why-explanation
+        if (!empty($result['translated_text'])) {
+            $posVariants = $result['_pos_variants'] ?? [];
+            unset($result['_pos_variants']); // don't leak internal field
+            $wordId = ($result['source_table'] ?? null) === 'daily_words' ? (int) $result['source_id'] : null;
+            $result['alternatives']    = $this->findAlternatives($input, $sourceLang, $targetLang, $result['translated_text'], $posVariants, $wordId);
+            $result['why_explanation'] = $this->buildWhyExplanation($result);
         }
 
         // Save translation log
@@ -200,6 +211,10 @@ class TranslationEngine
             return $this->emptyResult();
         }
 
+        // Detect the semantic domain of this sentence so word-selection can prefer
+        // domain-appropriate vocabulary when multiple dictionary entries exist.
+        $this->_currentDomain = $this->detectSemanticDomain($line);
+
         $result = null;
 
         // Step 1 — Proverb match
@@ -266,20 +281,65 @@ class TranslationEngine
             $result['translated_text'] = $this->cleanupOutput($result['translated_text']);
         }
 
-        // Step 9 — NLLB refinement pass
-        // Runs after the full DB pipeline so curated matches are found first.
-        // For word-by-word and "none" results, NLLB receives the original source
-        // text and produces a more natural translation. Placeholder protection
-        // inside translateWithNllb() preserves any DB-curated phrases.
+        // Step 9 — Local statistical refinement
+        // For word-by-word and "none" results, attempt to improve the output
+        // using n-gram statistics learned from high-confidence past translations
+        // and additional Bible verse mining for unknown tokens.
         $needsRefinement = in_array($result['match_type'] ?? '', ['word_by_word', 'none'], true);
         if ($needsRefinement) {
-            $refined = $this->translateWithNllb($line, $sourceLang, $targetLang);
+            $refined = $this->refineLocally($line, $sourceLang, $targetLang, $result);
             if ($refined !== null) {
                 $result = $refined;
             }
         }
 
+        // Step 10 — Citations: package which archive record grounded this
+        // translation, so the UI can show "why". word_by_word() builds its
+        // own richer per-word + per-grammar-rule citation list internally
+        // (source_table === 'multiple') — don't overwrite that.
+        if ($result && empty($result['citations'])
+            && !empty($result['source_table']) && $result['source_table'] !== 'multiple') {
+            $citations   = $result['_extra_citations'] ?? [];
+            $matchType   = $result['match_type'] ?? '';
+            $citations[] = [
+                'type'  => self::CITATION_TYPE_BY_MATCH[$matchType] ?? 'other',
+                'table' => $result['source_table'],
+                'id'    => $result['source_id'],
+                'label' => $this->citationLabel($result['source_table']),
+            ];
+            $result['citations'] = $citations;
+        }
+        unset($result['_extra_citations']);
+
         return $result ?? $this->emptyResult();
+    }
+
+    private const CITATION_TYPE_BY_MATCH = [
+        'proverb'       => 'proverb',
+        'phrase'        => 'phrase',
+        'word'          => 'dictionary',
+        'category'      => 'culture',
+        'bible'         => 'bible',
+        'learned'       => 'learned',
+        'bible_refined' => 'bible',
+    ];
+
+    /** Human-readable source label for the citations UI card. */
+    private function citationLabel(string $table): string
+    {
+        return match ($table) {
+            'tiv_proverbs'        => 'Tiv Proverbs Archive',
+            'translation_phrases' => 'Curated Translation Phrases',
+            'daily_words'         => 'Tiv Dictionary',
+            'tiv_names'           => 'Tiv Names Archive',
+            'tiv_plants'          => 'Tiv Plants Archive',
+            'tiv_foods'           => 'Tiv Foods Archive',
+            'tiv_festivals'       => 'Tiv Festivals Archive',
+            'tiv_animals'         => 'Tiv Animals Archive',
+            'bible_verses'        => 'Tiv Bible',
+            'translation_ngrams'  => 'Learned Translation History',
+            default               => ucfirst(str_replace('_', ' ', $table)),
+        };
     }
 
     // -------------------------------------------------------
@@ -343,94 +403,121 @@ class TranslationEngine
     }
 
     // -------------------------------------------------------
-    // STEP 3: NLLB AI Translation (primary translator)
+    // STEP 9: Local Statistical Refinement
+    // Replaces the former NLLB external API call.
+    // Improves word-by-word and "none" results using:
+    //   a) N-gram statistics from approved past translations
+    //   b) Additional Bible verse mining for unknown tokens
+    //   c) Grammar rule re-application after Bible mining
     // -------------------------------------------------------
 
-    /**
-     * Translate $input via NLLB-200 with curated-phrase protection.
-     *
-     * Strategy:
-     *  1. Load all active (source → target) phrases sorted longest-first.
-     *  2. Replace matches in the input with short placeholders (NLLBPH0, NLLBPH1…)
-     *     so they pass through NLLB untouched.
-     *  3. Call NLLB on the placeholder-replaced text.
-     *  4. Restore placeholders with the curated target translations.
-     *  5. Apply grammar rules and final cleanup.
-     *
-     * Returns null if NLLB is not configured or the API call fails,
-     * allowing the engine to fall through to the rule-based fallbacks.
-     */
-    private function translateWithNllb(string $input, string $sourceLang, string $targetLang): ?array
+    private function refineLocally(string $input, string $sourceLang, string $targetLang, array $currentResult): ?array
     {
-        if ($this->nllb === null) {
-            return null;
-        }
+        $normalized = $this->normalize($input);
+        $improvementsApplied = 0;
 
-        // 1. Load curated phrases (longest first for greedy left-to-right matching)
-        $phrases = $this->loadActivePhrases($sourceLang, $targetLang);
-
-        // 2. Replace known source phrases with placeholders
-        $placeholders  = [];   // ph → curated target text
-        $protectedText = $input;
-
-        foreach ($phrases as $i => $phrase) {
-            $src = trim($phrase['source_text']);
-            if ($src === '') continue;
-
-            // Case-insensitive, replace first occurrence only
-            if (stripos($protectedText, $src) !== false) {
-                $ph = 'NLLBPH' . $i;
-                $placeholders[$ph] = trim($phrase['target_text']);
-                $protectedText = preg_replace('/' . preg_quote($src, '/') . '/iu', $ph, $protectedText, 1);
+        // a) Check translation_ngrams for a learned single-token mapping
+        if (str_word_count($normalized) === 1) {
+            $hit = $this->lookupNgram($normalized, $sourceLang, $targetLang);
+            if ($hit !== null) {
+                $output = $this->applyRules($hit['target'], $sourceLang, $targetLang);
+                $output = $this->cleanupOutput($output);
+                if ($output !== '') {
+                    return [
+                        'translated_text'  => $output,
+                        'literal_meaning'  => $output,
+                        'cultural_meaning' => '',
+                        'usage_context'    => '',
+                        'source_table'     => 'translation_ngrams',
+                        'source_id'        => null,
+                        'category'         => 'learned',
+                        'explanation'      => 'Learned from archive translation history.',
+                        'match_type'       => 'learned',
+                        'confidence_score' => min(78, (int) $hit['confidence']),
+                        'word_results'     => $currentResult['word_results'] ?? [],
+                        'missing_tokens'   => [],
+                    ];
+                }
             }
         }
 
-        // 3. Call NLLB
-        $nllbRaw = $this->nllb->translate($protectedText, $sourceLang, $targetLang);
-        if ($nllbRaw === null) {
-            return null;   // API failed — fall through to rule-based path
-        }
+        // b) Re-attempt Bible mining for any missing tokens
+        $missingTokens = $currentResult['missing_tokens'] ?? [];
+        $wordResults   = $currentResult['word_results'] ?? [];
 
-        // 4. Restore placeholders → curated translations
-        $correctionsApplied = 0;
-        $output = $nllbRaw;
-        foreach ($placeholders as $ph => $curatedTarget) {
-            if (stripos($output, $ph) !== false) {
-                $output = str_ireplace($ph, $curatedTarget, $output);
-                $correctionsApplied++;
+        if (!empty($missingTokens)) {
+            $resolved = [];
+            foreach ($missingTokens as $token) {
+                $mineHit = $this->miner->lookupWordInBible($token, $sourceLang);
+                if ($mineHit !== null) {
+                    $resolved[$token] = $mineHit;
+                    $improvementsApplied++;
+                }
             }
-            // If NLLB mangled a placeholder, skip it — the AI handled that segment.
+
+            if (!empty($resolved)) {
+                // Rebuild translated text replacing missing tokens with Bible-mined values
+                $rebuilt = $currentResult['translated_text'] ?? '';
+                foreach ($resolved as $orig => $replacement) {
+                    $rebuilt = preg_replace('/\b' . preg_quote($orig, '/') . '\b/iu', $replacement, $rebuilt);
+                }
+
+                $rebuilt = $this->applyRules($rebuilt, $sourceLang, $targetLang);
+                $rebuilt = $this->cleanupOutput($rebuilt);
+
+                if ($rebuilt !== '' && $rebuilt !== $currentResult['translated_text']) {
+                    $stillMissing = array_diff($missingTokens, array_keys($resolved));
+                    $newConfidence = min(82, ($currentResult['confidence_score'] ?? 40) + ($improvementsApplied * 5));
+                    return array_merge($currentResult, [
+                        'translated_text'  => $rebuilt,
+                        'match_type'       => 'bible_refined',
+                        'confidence_score' => $newConfidence,
+                        'missing_tokens'   => array_values($stillMissing),
+                        'explanation'      => "Refined using Bible bilingual data ({$improvementsApplied} token(s) resolved).",
+                        'source_table'     => 'bible_verses',
+                    ]);
+                }
+            }
         }
 
-        // 5. Apply grammar rules and cleanup
-        $output = $this->applyRules($output, $sourceLang, $targetLang);
-        $output = $this->cleanupOutput($output);
-
-        if ($output === '') {
-            return null;
+        // c) If word_by_word produced some output, apply one more round of grammar rules
+        $current = $currentResult['translated_text'] ?? '';
+        if ($current !== '' && ($currentResult['match_type'] ?? '') === 'word_by_word') {
+            $refined = $this->applyRules($current, $sourceLang, $targetLang);
+            $refined = $this->cleanupOutput($refined);
+            if ($refined !== $current) {
+                return array_merge($currentResult, [
+                    'translated_text'  => $refined,
+                    'match_type'       => 'word_by_word',
+                    'explanation'      => 'Grammar rules applied.',
+                ]);
+            }
         }
 
-        // Confidence: base 72, +3 per phrase correction (capped at 85)
-        $confidence = min(85, 72 + ($correctionsApplied * 3));
-        $matchType  = $correctionsApplied > 0 ? 'ai_refined' : 'ai';
-        $explanation = $correctionsApplied > 0
-            ? "AI translation (NLLB-200) refined with {$correctionsApplied} curated phrase correction(s)."
-            : 'AI translation (NLLB-200).';
+        return null;
+    }
 
-        return [
-            'translated_text'  => $output,
-            'literal_meaning'  => '',
-            'cultural_meaning' => '',
-            'usage_context'    => '',
-            'source_table'     => 'nllb',
-            'source_id'        => null,
-            'category'         => 'ai',
-            'explanation'      => $explanation,
-            'match_type'       => $matchType,
-            'confidence_score' => $confidence,
-            'word_results'     => [],
-            'missing_tokens'   => [],
-        ];
+    /**
+     * Look up a single token in the learned n-gram statistics table.
+     */
+    private function lookupNgram(string $token, string $sourceLang, string $targetLang): ?array
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT target_ngram, confidence FROM translation_ngrams
+                 WHERE source_ngram = ? AND source_lang = ? AND target_lang = ?
+                 ORDER BY frequency DESC, confidence DESC
+                 LIMIT 1"
+            );
+            $stmt->execute([$token, $sourceLang, $targetLang]);
+            $row = $stmt->fetch();
+            if ($row) {
+                return ['target' => $row['target_ngram'], 'confidence' => $row['confidence']];
+            }
+        } catch (\PDOException $e) {
+            // Table may not exist yet — degrade gracefully
+        }
+        return null;
     }
 
     /**
@@ -618,53 +705,11 @@ class TranslationEngine
 
     private function matchWord(string $normalized, string $sourceLang, string $targetLang): ?array
     {
-        $prefix  = $normalized . '%';
-        $toForm  = 'to ' . $normalized; // e.g. "walk" → "to walk"
+        // Fetch ALL POS variants so we can disambiguate and show alternatives
+        $variants = $this->fetchAllPosVariants($normalized, $sourceLang);
 
-        if ($sourceLang === 'tiv') {
-            $stmt = $this->db->prepare(
-                "SELECT * FROM daily_words
-                 WHERE LOWER(tiv_word) = ? OR LOWER(tiv_word) LIKE ?
-                 ORDER BY CASE WHEN LOWER(tiv_word) = ? THEN 0 ELSE 1 END
-                 LIMIT 1"
-            );
-            $stmt->execute([$normalized, $prefix, $normalized]);
-        } else {
-            // Also check alternate_meaning and "to {word}" form common in verb entries
-            $stmt = $this->db->prepare(
-                "SELECT * FROM daily_words
-                 WHERE LOWER(english_meaning) = ?
-                    OR LOWER(alternate_meaning) = ?
-                    OR LOWER(english_meaning) = ?
-                    OR LOWER(alternate_meaning) = ?
-                    OR LOWER(english_meaning) LIKE ?
-                    OR LOWER(alternate_meaning) LIKE ?
-                 ORDER BY CASE
-                     WHEN LOWER(english_meaning) = ?     THEN 0
-                     WHEN LOWER(alternate_meaning) = ?   THEN 1
-                     WHEN LOWER(english_meaning) = ?     THEN 2
-                     WHEN LOWER(alternate_meaning) = ?   THEN 3
-                     WHEN LOWER(english_meaning) LIKE ?  THEN 4
-                     ELSE 5
-                 END
-                 LIMIT 1"
-            );
-            $stmt->execute([
-                $normalized, $normalized,
-                $toForm,     $toForm,
-                $prefix,     $prefix,
-                $normalized, $normalized,
-                $toForm,     $toForm,
-                $prefix,
-            ]);
-        }
-
-        $row = $stmt->fetch();
-
-        // If daily_words has no match, fall through to translation_phrases
-        // (single-word entries like "Please", "Sorry", "Welcome", etc.)
-        // Exclude bible-tagged entries — those are handled by matchBibleVerse.
-        if (!$row) {
+        if (empty($variants)) {
+            // Fall through to translation_phrases
             $phraseRow = $this->db->prepare(
                 "SELECT target_text, context_tag, confidence_score FROM translation_phrases
                  WHERE source_language = ?
@@ -693,6 +738,9 @@ class TranslationEngine
             return null;
         }
 
+        // Pick the best POS variant, passing the word itself for function-word POS detection
+        $row = $this->resolvePosByContext($variants, null, null, $sourceLang, $normalized);
+
         if ($sourceLang === 'tiv') {
             $translated = $row['english_meaning'];
             if (!empty($row['alternate_meaning'])) {
@@ -702,25 +750,334 @@ class TranslationEngine
             $translated = $row['tiv_word'];
         }
 
-        $explanation = '';
-        if (!empty($row['example_tiv'])) {
-            $explanation = 'Example: ' . $row['example_tiv'];
-            if (!empty($row['example_english'])) {
-                $explanation .= ' — ' . $row['example_english'];
+        // Build POS disambiguation note when homonyms exist
+        $posNote   = '';
+        $posAlts   = [];
+        if (count($variants) > 1) {
+            foreach ($variants as $v) {
+                if ($v['id'] === $row['id']) continue;
+                $altMeaning = $sourceLang === 'tiv' ? $v['english_meaning'] : $v['tiv_word'];
+                $posAlts[]  = '[' . ($v['part_of_speech'] ?: 'other') . '] ' . $altMeaning;
             }
+            $posNote = 'This word has ' . count($variants) . ' meanings depending on part of speech. '
+                     . 'Showing: [' . ($row['part_of_speech'] ?: 'noun') . '] '
+                     . ($sourceLang === 'tiv' ? $row['english_meaning'] : $row['tiv_word']) . '.';
+        }
+
+        $explanation = $posNote;
+        if (!empty($row['example_tiv'])) {
+            $ex = 'Example: ' . $row['example_tiv'];
+            if (!empty($row['example_english'])) {
+                $ex .= ' — ' . $row['example_english'];
+            }
+            $explanation = $explanation ? $explanation . ' ' . $ex : $ex;
+        }
+        if (!empty($row['usage_notes'])) {
+            $explanation = $explanation ? $explanation . ' ' . $row['usage_notes'] : $row['usage_notes'];
+        }
+
+        // Dictionary enrichment: prefer curated literal/figurative meaning
+        // when an admin has filled them in; otherwise keep the established
+        // behaviour (literal_meaning = the translated text itself).
+        $literalMeaning  = !empty($row['literal_meaning']) ? $row['literal_meaning'] : $translated;
+        $culturalMeaning = !empty($row['figurative_meaning']) ? $row['figurative_meaning'] : '';
+
+        $pronunciation = $this->wordPronunciation($row);
+
+        // Root word: surfaced as an extra citation, never used for fallback
+        // matching (Tiv has no fixed derivation/pluralisation rule to guess).
+        $extraCitations = [];
+        if (!empty($row['root_word_id'])) {
+            $extraCitations[] = [
+                'type'  => 'dictionary',
+                'table' => 'daily_words',
+                'id'    => (int) $row['root_word_id'],
+                'label' => 'Tiv Dictionary — root word',
+            ];
         }
 
         return [
-            'translated_text'  => $translated,
-            'literal_meaning'  => $translated,
-            'cultural_meaning' => '',
-            'usage_context'    => $row['part_of_speech'] ?? '',
-            'source_table'     => 'daily_words',
-            'source_id'        => (int) $row['id'],
-            'category'         => $row['category'] ?? $row['part_of_speech'] ?? 'word',
-            'explanation'      => $explanation,
-            'pronunciation'    => $row['pronunciation'] ?? '',
+            'translated_text'   => $translated,
+            'literal_meaning'   => $literalMeaning,
+            'cultural_meaning'  => $culturalMeaning,
+            'usage_context'     => $row['part_of_speech'] ?? '',
+            'source_table'      => 'daily_words',
+            'source_id'         => (int) $row['id'],
+            'category'          => $row['category'] ?? $row['part_of_speech'] ?? 'word',
+            'explanation'       => $explanation,
+            'pronunciation'     => $pronunciation,
+            '_pos_variants'     => $variants,  // passed to findAlternatives
+            '_extra_citations'  => $extraCitations,
         ];
+    }
+
+    /**
+     * Join several already-bracketed per-word pronunciation strings
+     * ("/m/", "/ya/", …) into one clean phrase-level "/m ya .../" guide.
+     */
+    private function joinPronunciationParts(array $parts): string
+    {
+        $clean = array_filter(array_map(fn($p) => trim($p, '/ '), $parts), fn($p) => $p !== '');
+        return empty($clean) ? '' : '/' . implode(' ', $clean) . '/';
+    }
+
+    /**
+     * Pronunciation for a daily_words row: curated IPA/tone > free-text
+     * pronunciation column > Alphabet-generated fallback (only when
+     * nothing else is available — never overrides curated data).
+     */
+    private function wordPronunciation(array $row): string
+    {
+        $pronunciation = $row['pronunciation'] ?? '';
+        if (!empty($row['ipa'])) {
+            return $row['ipa'] . (!empty($row['tone']) ? ' (' . $row['tone'] . ' tone)' : '');
+        }
+        if (!empty($row['tone'])) {
+            return trim($pronunciation . ' (' . $row['tone'] . ' tone)');
+        }
+        if ($pronunciation === '' && !empty($row['tiv_word'])) {
+            return $this->phonology->generatePronunciation($row['tiv_word']);
+        }
+        return $pronunciation;
+    }
+
+    // -------------------------------------------------------
+    // POS DISAMBIGUATION HELPERS
+    // -------------------------------------------------------
+
+    /**
+     * Fetch all POS variants of a word from daily_words.
+     * Returns rows ordered by match quality so variants[0] is always the best match.
+     *
+     * Priority (for both directions):
+     *   0 — exact primary-field match
+     *   1 — exact alternate-field match
+     *   2 — exact "to {word}" match (verb forms)
+     *   3 — exact alternate "to {word}" match
+     *   4 — single-word prefix match (only if query ≥ 4 chars to avoid "we"→"weather")
+     *   5 — everything else
+     *
+     * Within each priority tier, shorter meanings come first (more specific).
+     */
+    private function fetchAllPosVariants(string $normalized, string $sourceLang): array
+    {
+        $toForm = 'to ' . $normalized;
+        // Only use prefix LIKE for queries of 4+ chars to avoid false positives
+        // (e.g. "we" matching "weather", "and" matching "android")
+        $usePrefixLike = mb_strlen($normalized) >= 4;
+        $prefix = $normalized . '%';
+
+        if ($sourceLang === 'tiv') {
+            $stmt = $this->db->prepare(
+                "SELECT * FROM daily_words
+                 WHERE is_active = 1
+                   AND (LOWER(tiv_word) = ?"
+                   . ($usePrefixLike ? " OR LOWER(tiv_word) LIKE ?" : "")
+                   . ")
+                 ORDER BY
+                   CASE WHEN LOWER(tiv_word) = ? THEN 0 ELSE 1 END,
+                   CHAR_LENGTH(tiv_word) ASC
+                 LIMIT 8"
+            );
+            $params = $usePrefixLike
+                ? [$normalized, $prefix, $normalized]
+                : [$normalized, $normalized];
+            $stmt->execute($params);
+        } else {
+            // English → Tiv: match against english_meaning and alternate_meaning.
+            // Uses the same priority order as the original lookupToken so the
+            // best-matching row always ends up at variants[0].
+            $likeClause = $usePrefixLike
+                ? " OR (LOWER(english_meaning) LIKE ? AND english_meaning NOT LIKE '% %' AND CHAR_LENGTH(english_meaning) <= ?)"
+                  . " OR (LOWER(alternate_meaning) LIKE ? AND alternate_meaning NOT LIKE '% %' AND CHAR_LENGTH(alternate_meaning) <= ?)"
+                : "";
+
+            // Domain boost: if a semantic domain is active, entries whose category
+            // matches the domain get a lower sort rank (= preferred).
+            $domainCase = '';
+            if ($this->_currentDomain !== null) {
+                $domain = $this->db->quote($this->_currentDomain);
+                $domainCase = ", CASE WHEN LOWER(category) = {$domain} THEN 0 ELSE 1 END";
+            }
+
+            $sql = "SELECT * FROM daily_words
+                    WHERE is_active = 1
+                      AND (LOWER(english_meaning) = ?
+                           OR LOWER(alternate_meaning) = ?
+                           OR LOWER(english_meaning) = ?
+                           OR LOWER(alternate_meaning) = ?
+                           {$likeClause})
+                    ORDER BY
+                      CASE
+                        WHEN LOWER(english_meaning) = ?   THEN 0
+                        WHEN LOWER(alternate_meaning) = ? THEN 1
+                        WHEN LOWER(english_meaning) = ?   THEN 2
+                        WHEN LOWER(alternate_meaning) = ? THEN 3
+                        ELSE 4
+                      END
+                      {$domainCase},
+                      CHAR_LENGTH(english_meaning) ASC
+                    LIMIT 8";
+
+            $maxLen = mb_strlen($normalized) + 3; // single-word matches only
+            $params = [$normalized, $normalized, $toForm, $toForm];
+            if ($usePrefixLike) {
+                $params = array_merge($params, [$prefix, $maxLen, $prefix, $maxLen]);
+            }
+            $params = array_merge($params, [$normalized, $normalized, $toForm, $toForm]);
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+        }
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Given multiple POS variants of the same word, pick the best one based on context.
+     *
+     * Resolution priority:
+     *   1. Context signals from surrounding tokens (prev/next word)
+     *   2. Intrinsic English POS of the current token (function words: pronouns,
+     *      conjunctions, prepositions, articles)
+     *   3. Trust SQL ordering — variants[0] is already the best match by exact/prefix rank
+     *
+     * The old frequency-based "noun > verb > ..." fallback was removed because it
+     * caused "we"→"weather" (noun>pronoun), "my"→"yam/food" (noun>pronoun), and
+     * "and"→"have learned driving" (bad noun entry over correct conjunction entry).
+     */
+    private function resolvePosByContext(
+        array   $variants,
+        ?string $prevToken,
+        ?string $nextToken,
+        string  $sourceLang,
+        ?string $currentToken = null
+    ): array {
+        if (count($variants) === 1) return $variants[0];
+
+        $prev = $prevToken    ? mb_strtolower($prevToken)    : null;
+        $next = $nextToken    ? mb_strtolower($nextToken)    : null;
+        $curr = $currentToken ? mb_strtolower($currentToken) : null;
+
+        $wantedPos = null;
+
+        if ($sourceLang === 'english') {
+            // 1. Signals from surrounding tokens
+            if ($prev === 'to') {
+                $wantedPos = 'verb';
+            } elseif (in_array($prev, ['the','a','an','this','that','these','those','my','your','his','her','our','their'])) {
+                $wantedPos = 'noun';
+            } elseif (in_array($prev, ['is','are','was','were','be','been','being','am'])) {
+                $wantedPos = 'adjective';
+            } elseif (in_array($prev, ['very','quite','rather','too','so'])) {
+                $wantedPos = 'adjective';
+            } elseif (in_array($next, ['the','a','an'])) {
+                $wantedPos = 'adjective';
+            }
+
+            // 2. Intrinsic POS for English function words when no surrounding signal
+            if ($wantedPos === null && $curr !== null) {
+                $wantedPos = $this->guessEnglishFunctionPos($curr);
+            }
+        }
+
+        // Try to find a variant that matches the wanted POS
+        if ($wantedPos !== null) {
+            foreach ($variants as $v) {
+                if (($v['part_of_speech'] ?? '') === $wantedPos) {
+                    return $v;
+                }
+            }
+        }
+
+        // 3. No match for wantedPos — return SQL-ordered best match (variants[0]).
+        return $variants[0];
+    }
+
+    /**
+     * Identify the expected POS for common English function words.
+     * These words have stable POS regardless of sentence context.
+     */
+    /**
+     * Detect the semantic domain of a sentence so we can prefer domain-appropriate
+     * vocabulary when multiple translations exist.
+     *
+     * Returns a category tag or null (no specific domain detected).
+     */
+    public function detectSemanticDomain(string $text): ?string
+    {
+        $t = mb_strtolower($text);
+
+        $domains = [
+            'religion'   => ['pray','prayer','god','lord','church','jesus','bible','holy',
+                             'worship','pastor','faith','spirit','salvation','aondo','ter'],
+            'farming'    => ['farm','crop','harvest','plant','soil','seed','rain','field',
+                             'yam','cassava','hoe','plough','cultivate','sowing'],
+            'family'     => ['family','father','mother','son','daughter','brother','sister',
+                             'husband','wife','child','children','home','house','parent'],
+            'greeting'   => ['morning','afternoon','evening','hello','welcome','greet',
+                             'how are you','good day','farewell','goodbye'],
+            'health'     => ['sick','disease','medicine','hospital','doctor','pain','fever',
+                             'treatment','heal','health','ill','injury'],
+            'education'  => ['school','learn','teach','study','book','class','student',
+                             'teacher','lesson','read','write','knowledge'],
+            'food'       => ['eat','food','meal','cook','drink','rice','soup','meat',
+                             'fish','breakfast','lunch','dinner','hunger'],
+            'travel'     => ['journey','travel','road','walk','run','car','market',
+                             'city','village','destination','arrive'],
+        ];
+
+        $scores = [];
+        foreach ($domains as $domain => $keywords) {
+            $score = 0;
+            foreach ($keywords as $kw) {
+                if (mb_strpos($t, $kw) !== false) $score++;
+            }
+            if ($score > 0) $scores[$domain] = $score;
+        }
+
+        if (empty($scores)) return null;
+        arsort($scores);
+        return array_key_first($scores);
+    }
+
+    private function guessEnglishFunctionPos(string $token): ?string
+    {
+        static $pronouns = [
+            'i','me','my','mine','myself',
+            'we','us','our','ours','ourselves',
+            'you','your','yours','yourself','yourselves',
+            'he','him','his','himself',
+            'she','her','hers','herself',
+            'it','its','itself',
+            'they','them','their','theirs','themselves',
+            'who','whom','whose','which','that',
+        ];
+        static $conjunctions = [
+            'and','or','but','nor','for','yet','so',
+            'both','either','neither','whether',
+            'although','though','even though',
+            'because','since','unless','until',
+            'while','whereas','if','although',
+        ];
+        static $prepositions = [
+            'in','on','at','by','to','of','up','as',
+            'for','from','into','onto','upon',
+            'with','about','above','across','after',
+            'against','along','among','around',
+            'before','behind','below','beneath',
+            'beside','between','beyond','during',
+            'except','inside','near','off','out',
+            'outside','over','past','since',
+            'through','till','under','until',
+            'via','within','without',
+        ];
+
+        if (in_array($token, $pronouns, true))    return 'pronoun';
+        if (in_array($token, $conjunctions, true)) return 'conjunction';
+        if (in_array($token, $prepositions, true)) return 'preposition';
+
+        return null;
     }
 
     // -------------------------------------------------------
@@ -814,28 +1171,106 @@ class TranslationEngine
 
     private function wordByWord(string $normalized, string $sourceLang, string $targetLang, string $originalLine = ''): array
     {
+        // Pre-scan: protect known multi-word phrases (4–10 words) before tokenising.
+        // The main loop handles bigrams and trigrams; pre-scanning catches longer units
+        // like "thank you very much", "have a nice day", "I don't speak Tiv", etc.
+        [$normalized, $phraseMap] = $this->preScanPhrases($normalized, $sourceLang, $targetLang);
+
         $tokens = $this->tokenize($normalized);
         if (empty($tokens)) {
             return $this->noneResult($normalized);
         }
 
-        $translated    = [];
-        $found         = 0;
-        $wordResults   = [];
-        $missingTokens = [];
-        $count         = count($tokens);
-        $i             = 0;
+        // Grammar: a bare recognised English question word ("where", "who", …)
+        // as the WHOLE input maps directly via the Grammar module's data — the
+        // one safe, unambiguous case (see GrammarEngine docblock for why full
+        // question-sentence restructuring is deliberately not attempted).
+        if ($sourceLang === 'english' && count($tokens) === 1) {
+            $qMatch = $this->grammar->mapQuestionWord($tokens[0]);
+            if ($qMatch !== null) {
+                return [
+                    'translated_text'  => $this->capitalizeFirst($qMatch['tiv']),
+                    'literal_meaning'  => $qMatch['tiv'],
+                    'cultural_meaning' => '',
+                    'usage_context'    => '',
+                    'source_table'     => 'multiple',
+                    'source_id'        => null,
+                    'category'         => 'sentence',
+                    'explanation'      => 'Tiv question word, from the Grammar module.',
+                    'pronunciation'    => $this->phonology->generatePronunciation($qMatch['tiv']),
+                    'word_results'     => [['token' => $tokens[0], 'result' => $qMatch['tiv'], 'source' => 'grammar-rule', 'pos' => '', 'found' => true]],
+                    'missing_tokens'   => [],
+                    'match_type'       => 'word_by_word',
+                    'confidence_score' => 70,
+                    'citations'        => [$qMatch['citation']],
+                ];
+            }
+        }
+
+        // Grammar: strip English negation markers before translating the rest
+        // of the sentence; the Tiv clause-final particle is appended after
+        // assembly below (see GrammarEngine::negationParticle()).
+        $negated = false;
+        if ($sourceLang === 'english') {
+            [$tokens, $negated] = $this->grammar->stripNegation($tokens);
+        }
+
+        $translated         = [];
+        $found              = 0;
+        $wordResults        = [];
+        $missingTokens      = [];
+        $pronunciationParts = [];
+        $citedWordIds       = [];
+        $count              = count($tokens);
+        $i                  = 0;
 
         while ($i < $count) {
             $chunkMatched = false;
 
+            // Restore pre-scanned phrase placeholders (e.g. KPHR0, KPHR1 …)
+            $token = $tokens[$i];
+            if (isset($phraseMap[$token])) {
+                $translated[]  = $phraseMap[$token];
+                $wordResults[] = ['token' => $token, 'result' => $phraseMap[$token],
+                                  'source' => 'phrase', 'pos' => '', 'found' => true];
+                $found++;
+                $i++;
+                continue;
+            }
+
+            // Try 5-gram chunk (extended window)
+            if (!$chunkMatched && $i + 4 < $count) {
+                $fivegram = implode(' ', array_slice($tokens, $i, 5));
+                $chunkText = $this->lookupPhraseChunk($fivegram, $sourceLang, $targetLang);
+                if ($chunkText !== null) {
+                    $translated[]  = $chunkText;
+                    $wordResults[] = ['token' => $fivegram, 'result' => $chunkText, 'source' => 'phrase', 'pos' => '', 'found' => true];
+                    $found++;
+                    $i += 5;
+                    $chunkMatched = true;
+                }
+            }
+
+            // Try 4-gram chunk (extended window)
+            if (!$chunkMatched && $i + 3 < $count) {
+                $fourgram = implode(' ', array_slice($tokens, $i, 4));
+                $chunkText = $this->lookupPhraseChunk($fourgram, $sourceLang, $targetLang);
+                if ($chunkText !== null) {
+                    $translated[]  = $chunkText;
+                    $wordResults[] = ['token' => $fourgram, 'result' => $chunkText, 'source' => 'phrase', 'pos' => '', 'found' => true];
+                    $found++;
+                    $i += 4;
+                    $chunkMatched = true;
+                }
+            }
+
             // Try 3-gram chunk against translation_phrases first
-            if ($i + 2 < $count) {
+            if (!$chunkMatched && $i + 2 < $count) {
                 $trigram = implode(' ', array_slice($tokens, $i, 3));
                 $chunkText = $this->lookupPhraseChunk($trigram, $sourceLang, $targetLang);
                 if ($chunkText !== null) {
                     $translated[]  = $chunkText;
-                    $wordResults[] = ['token' => $trigram, 'result' => $chunkText, 'source' => 'phrase', 'found' => true];
+                    $wordResults[] = ['token' => $trigram, 'result' => $chunkText, 'source' => 'phrase', 'pos' => '', 'found' => true];
                     $found++;
                     $i += 3;
                     $chunkMatched = true;
@@ -848,7 +1283,7 @@ class TranslationEngine
                 $chunkText = $this->lookupPhraseChunk($bigram, $sourceLang, $targetLang);
                 if ($chunkText !== null) {
                     $translated[]  = $chunkText;
-                    $wordResults[] = ['token' => $bigram, 'result' => $chunkText, 'source' => 'phrase', 'found' => true];
+                    $wordResults[] = ['token' => $bigram, 'result' => $chunkText, 'source' => 'phrase', 'pos' => '', 'found' => true];
                     $found++;
                     $i += 2;
                     $chunkMatched = true;
@@ -870,10 +1305,9 @@ class TranslationEngine
                 $dropArticles = ['a' => true, 'an' => true];
 
                 if (isset($tivArticleMap[$token]) && isset($tokens[$i + 1])) {
-                    // Look up the following noun first
+                    // Look up the following noun first — pass article as prevToken so it resolves as noun
                     $nextToken = $tokens[$i + 1];
-                    // Check if the noun + remainder is a phrase chunk we already matched — if so skip
-                    $nextMatch = $this->lookupToken($nextToken, $sourceLang, $targetLang);
+                    $nextMatch = $this->lookupToken($nextToken, $sourceLang, $targetLang, $token, $tokens[$i + 2] ?? null);
                     if ($nextMatch !== null) {
                         $tivArticle = $tivArticleMap[$token];
                         // Lowercase noun so cleanupOutput() capitalises only sentence start
@@ -887,6 +1321,8 @@ class TranslationEngine
                             'found'  => true,
                         ];
                         $found++;
+                        if (!empty($nextMatch['pronunciation'])) $pronunciationParts[] = $nextMatch['pronunciation'];
+                        if (!empty($nextMatch['word_id'])) $citedWordIds[$nextMatch['word_id']] = true;
                         $i += 2;        // consume both the article and the noun
                         $chunkMatched = true;
                     }
@@ -905,14 +1341,19 @@ class TranslationEngine
                 }
             }
 
-            // Fall back to single-token lookup
+            // Fall back to single-token lookup — pass surrounding tokens for POS context
             if (!$chunkMatched) {
-                $token = $tokens[$i];
-                $match = $this->lookupToken($token, $sourceLang, $targetLang);
+                $token     = $tokens[$i];
+                $prevTok   = $i > 0           ? $tokens[$i - 1] : null;
+                $nextTok   = $i + 1 < $count  ? $tokens[$i + 1] : null;
+                $match = $this->lookupToken($token, $sourceLang, $targetLang, $prevTok, $nextTok);
                 if ($match) {
                     $translated[]  = $match['text'];
-                    $wordResults[] = ['token' => $token, 'result' => $match['text'], 'source' => $match['source'], 'found' => true];
+                    $pos           = $match['pos'] ?? '';
+                    $wordResults[] = ['token' => $token, 'result' => $match['text'], 'source' => $match['source'], 'pos' => $pos, 'found' => true];
                     $found++;
+                    if (!empty($match['pronunciation'])) $pronunciationParts[] = $match['pronunciation'];
+                    if (!empty($match['word_id'])) $citedWordIds[$match['word_id']] = true;
                 } else {
                     $translated[]  = $token;
                     $wordResults[] = ['token' => $token, 'result' => null, 'source' => null, 'found' => false];
@@ -969,6 +1410,23 @@ class TranslationEngine
             $assembledText = implode(' ', $translated);
         }
 
+        // Grammar: append Tiv's clause-final negation particle (see
+        // GrammarEngine::stripNegation() above, which removed the English
+        // negation markers before word-by-word translation began).
+        $citations = [];
+        if ($negated) {
+            $assembledText .= ' ' . $this->grammar->negationParticle();
+            $wordResults[]  = ['token' => '(negation)', 'result' => $this->grammar->negationParticle(), 'source' => 'grammar-rule', 'pos' => '', 'found' => true];
+            $negCitation = $this->grammar->negationCitation();
+            if ($negCitation !== null) $citations[] = $negCitation;
+        }
+
+        // Citations: one entry per distinct dictionary word actually used
+        // (capped to keep the "Sources" card readable on longer sentences).
+        foreach (array_slice(array_keys($citedWordIds), 0, 6) as $wid) {
+            $citations[] = ['type' => 'dictionary', 'table' => 'daily_words', 'id' => (int) $wid, 'label' => 'Tiv Dictionary'];
+        }
+
         return [
             'translated_text'  => $assembledText,
             'literal_meaning'  => $assembledText,
@@ -978,11 +1436,58 @@ class TranslationEngine
             'source_id'        => null,
             'category'         => 'sentence',
             'explanation'      => '',
+            'pronunciation'    => $this->joinPronunciationParts($pronunciationParts),
+            'citations'        => $citations,
             'word_results'     => $wordResults,
             'missing_tokens'   => $missingTokens,
             'match_type'       => 'word_by_word',
             'confidence_score' => $confidence,
         ];
+    }
+
+    /**
+     * Pre-scan a sentence for known multi-word phrases (6–20 words) and replace them
+     * with unique placeholders before tokenisation.
+     *
+     * This catches phrases the bigram/trigram loop would never reach, such as:
+     *   "thank you very much"  →  "Nande kpishi"
+     *   "have a nice day"      →  "Iyange i doo"
+     *   "I don't speak Tiv"    →  "M fa u lamen dzwa Tiv ga"
+     *
+     * Returns [prescanned_text, [placeholder => target_text]].
+     * Placeholders (KPHR0, KPHR1 …) are restored inside wordByWord after tokenisation.
+     */
+    private function preScanPhrases(string $text, string $sourceLang, string $targetLang): array
+    {
+        // Load 6–20 word phrases (bigrams/trigrams/4/5-grams handled in main loop)
+        $stmt = $this->db->prepare(
+            "SELECT source_text, target_text FROM translation_phrases
+             WHERE source_language = ? AND target_language = ?
+               AND status = 'active' AND context_tag != 'bible'
+               AND source_text LIKE '% % % % % %'
+               AND CHAR_LENGTH(source_text) <= 120
+             ORDER BY CHAR_LENGTH(source_text) DESC
+             LIMIT 400"
+        );
+        $stmt->execute([$sourceLang, $targetLang]);
+        $phrases = $stmt->fetchAll();
+
+        $phraseMap = [];
+        $counter   = 0;
+
+        foreach ($phrases as $p) {
+            $src = trim($p['source_text']);
+            if ($src === '') continue;
+            // Case-insensitive search in the text
+            if (stripos($text, $src) !== false) {
+                $ph = 'KPHR' . $counter++;
+                $phraseMap[$ph] = $this->primaryMeaning(trim($p['target_text']));
+                // Replace first occurrence only (greedy, longest-first due to ORDER BY)
+                $text = preg_replace('/' . preg_quote($src, '/') . '/iu', $ph, $text, 1);
+            }
+        }
+
+        return [$text, $phraseMap];
     }
 
     /**
@@ -1005,58 +1510,43 @@ class TranslationEngine
         return $row ? $this->primaryMeaning($row['target_text']) : null;
     }
 
-    private function lookupToken(string $token, string $sourceLang, string $targetLang): ?array
-    {
-        $prefix = $token . '%';
-        $toForm = 'to ' . $token;
+    private function lookupToken(
+        string  $token,
+        string  $sourceLang,
+        string  $targetLang,
+        ?string $prevToken = null,
+        ?string $nextToken = null
+    ): ?array {
+        // Fetch all POS variants and pick the contextually best one
+        $variants = $this->fetchAllPosVariants($token, $sourceLang);
 
-        // 1. Match in daily_words (also checks alternate_meaning and "to {word}" verb form)
-        if ($sourceLang === 'tiv') {
-            $stmt = $this->db->prepare(
-                "SELECT tiv_word, english_meaning FROM daily_words
-                 WHERE LOWER(tiv_word) = ? OR LOWER(tiv_word) LIKE ?
-                 ORDER BY CASE WHEN LOWER(tiv_word) = ? THEN 0 ELSE 1 END
-                 LIMIT 1"
-            );
-            $stmt->execute([$token, $prefix, $token]);
-            $row = $stmt->fetch();
-            if ($row) {
+        if (!empty($variants)) {
+            $row = $this->resolvePosByContext($variants, $prevToken, $nextToken, $sourceLang, $token);
+
+            $pronunciation = $this->wordPronunciation($row);
+
+            if ($sourceLang === 'tiv') {
                 $meaning = $this->primaryMeaning($row['english_meaning']);
                 // Strip "to " prefix from verb forms in sentence context (e.g. "to walk" → "walk")
                 if (strncasecmp($meaning, 'to ', 3) === 0) {
                     $meaning = substr($meaning, 3);
                 }
-                return ['text' => $meaning, 'source' => 'words'];
+                return [
+                    'text'          => $meaning,
+                    'source'        => 'words',
+                    'pos'           => $row['part_of_speech'] ?? '',
+                    'word_id'       => (int) $row['id'],
+                    'pronunciation' => $pronunciation,
+                ];
+            } else {
+                return [
+                    'text'          => $row['tiv_word'],
+                    'source'        => 'words',
+                    'pos'           => $row['part_of_speech'] ?? '',
+                    'word_id'       => (int) $row['id'],
+                    'pronunciation' => $pronunciation,
+                ];
             }
-        } else {
-            $stmt = $this->db->prepare(
-                "SELECT tiv_word, english_meaning, alternate_meaning FROM daily_words
-                 WHERE LOWER(english_meaning) = ?
-                    OR LOWER(alternate_meaning) = ?
-                    OR LOWER(english_meaning) = ?
-                    OR LOWER(alternate_meaning) = ?
-                    OR LOWER(english_meaning) LIKE ?
-                    OR LOWER(alternate_meaning) LIKE ?
-                 ORDER BY CASE
-                     WHEN LOWER(english_meaning) = ?     THEN 0
-                     WHEN LOWER(alternate_meaning) = ?   THEN 1
-                     WHEN LOWER(english_meaning) = ?     THEN 2
-                     WHEN LOWER(alternate_meaning) = ?   THEN 3
-                     WHEN LOWER(english_meaning) LIKE ?  THEN 4
-                     ELSE 5
-                 END
-                 LIMIT 1"
-            );
-            $stmt->execute([
-                $token, $token,
-                $toForm, $toForm,
-                $prefix, $prefix,
-                $token, $token,
-                $toForm, $toForm,
-                $prefix,
-            ]);
-            $row = $stmt->fetch();
-            if ($row) return ['text' => $row['tiv_word'], 'source' => 'words'];
         }
 
         // 2. Check translation_phrases for a curated single-word entry.
@@ -1399,7 +1889,193 @@ class TranslationEngine
             'missing_word_ids' => [],
             'pronunciation'    => '',
             'log_id'           => null,
+            'alternatives'     => [],
+            'why_explanation'  => '',
+            'citations'        => [],
         ];
+    }
+
+    // -------------------------------------------------------
+    // ALTERNATIVE SUGGESTIONS
+    // -------------------------------------------------------
+
+    /**
+     * Find alternative translations for the primary result.
+     * Called after translateSegment() completes.
+     */
+    /**
+     * Curated synonyms for a daily_words row via the knowledge_links graph
+     * (relation_type='synonym', either direction). Degrades gracefully to
+     * an empty list — this is enrichment, not a required data source.
+     */
+    private function fetchSynonymAlternatives(int $wordId, string $sourceLang, string $primaryLower): array
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT dw.tiv_word, dw.english_meaning, dw.part_of_speech
+                 FROM knowledge_links kl
+                 JOIN daily_words dw
+                   ON (kl.source_table = 'daily_words' AND kl.target_table = 'daily_words'
+                       AND ((kl.source_id = ? AND dw.id = kl.target_id)
+                         OR (kl.target_id = ? AND dw.id = kl.source_id)))
+                 WHERE kl.relation_type = 'synonym'
+                   AND dw.is_active = 1
+                 LIMIT 5"
+            );
+            $stmt->execute([$wordId, $wordId]);
+            $rows = $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            return [];
+        }
+
+        $out = [];
+        foreach ($rows as $row) {
+            $text = $sourceLang === 'tiv' ? $row['english_meaning'] : $row['tiv_word'];
+            if (mb_strtolower($text) === $primaryLower) continue;
+            $out[] = [
+                'text'   => $text,
+                'note'   => 'synonym' . (!empty($row['part_of_speech']) ? " [{$row['part_of_speech']}]" : ''),
+                'source' => 'synonym',
+                'pos'    => $row['part_of_speech'] ?? '',
+            ];
+        }
+        return $out;
+    }
+
+    public function findAlternatives(
+        string $input,
+        string $sourceLang,
+        string $targetLang,
+        string $primaryResult,
+        array  $posVariants = [],  // pre-fetched from matchWord()
+        ?int   $wordId = null      // daily_words.id of the matched word, when known
+    ): array {
+        $normalized   = $this->normalize($input);
+        $alternatives = [];
+        $primaryLower = mb_strtolower($primaryResult);
+
+        // 1.5. Curated synonyms (knowledge_links) for the matched word — real
+        // editorial data, so these come before the fuzzy LIKE-based tier below.
+        if ($wordId !== null) {
+            $alternatives = array_merge($alternatives, $this->fetchSynonymAlternatives($wordId, $sourceLang, $primaryLower));
+        }
+
+        // 1. OTHER POS VARIANTS of the same word (most important for disambiguation)
+        if (!empty($posVariants) && count($posVariants) > 1) {
+            foreach ($posVariants as $v) {
+                $altText = $sourceLang === 'tiv' ? $v['english_meaning'] : $v['tiv_word'];
+                if (mb_strtolower($altText) === $primaryLower) continue;
+                $pos = $v['part_of_speech'] ?? '';
+                $note = $pos ? "[{$pos}]" : '';
+                if (!empty($v['example_tiv'])) {
+                    $note .= ' — e.g. "' . mb_substr($v['example_tiv'], 0, 50) . '"';
+                }
+                $alternatives[] = [
+                    'text'   => $altText,
+                    'note'   => $note ?: 'alternate POS',
+                    'source' => 'dictionary',
+                    'pos'    => $pos,
+                ];
+            }
+        }
+
+        // 2. If no pre-fetched variants, query for same-word different POS
+        if (empty($alternatives)) {
+            $variantRows = $this->fetchAllPosVariants($normalized, $sourceLang);
+            foreach ($variantRows as $v) {
+                $altText = $sourceLang === 'tiv' ? $v['english_meaning'] : $v['tiv_word'];
+                if (mb_strtolower($altText) === $primaryLower) continue;
+                $pos  = $v['part_of_speech'] ?? '';
+                $alternatives[] = [
+                    'text'   => $altText,
+                    'note'   => $pos ? "[{$pos}]" : 'alternate meaning',
+                    'source' => 'dictionary',
+                    'pos'    => $pos,
+                ];
+            }
+        }
+
+        // 3. Other dictionary entries with similar meanings (different words, same concept)
+        if ($sourceLang === 'english') {
+            $like = '%' . $normalized . '%';
+            $stmt = $this->db->prepare(
+                "SELECT tiv_word, english_meaning, part_of_speech
+                 FROM daily_words
+                 WHERE (LOWER(english_meaning) LIKE ? OR LOWER(alternate_meaning) LIKE ?)
+                   AND LOWER(tiv_word) != ?
+                   AND is_active = 1
+                 LIMIT 3"
+            );
+            $stmt->execute([$like, $like, $primaryLower]);
+            foreach ($stmt->fetchAll() as $row) {
+                if (!in_array($row['tiv_word'], array_column($alternatives, 'text'))) {
+                    $pos = $row['part_of_speech'] ?? '';
+                    $alternatives[] = [
+                        'text'   => $row['tiv_word'],
+                        'note'   => ($pos ? "[{$pos}] " : '') . $row['english_meaning'],
+                        'source' => 'dictionary',
+                        'pos'    => $pos,
+                    ];
+                }
+            }
+        }
+
+        // 4. Related phrases
+        $stmt2 = $this->db->prepare(
+            "SELECT target_text, context_tag
+             FROM translation_phrases
+             WHERE source_language = ? AND target_language = ?
+               AND LOWER(source_text) LIKE ?
+               AND LOWER(target_text) != ?
+               AND status = 'active'
+             LIMIT 2"
+        );
+        $stmt2->execute([$sourceLang, $targetLang, '%' . $normalized . '%', $primaryLower]);
+        foreach ($stmt2->fetchAll() as $row) {
+            if (!in_array($row['target_text'], array_column($alternatives, 'text'))) {
+                $alternatives[] = [
+                    'text'   => $row['target_text'],
+                    'note'   => $row['context_tag'] ? 'phrase (' . $row['context_tag'] . ')' : 'phrase',
+                    'source' => 'phrases',
+                    'pos'    => '',
+                ];
+            }
+        }
+
+        return array_slice($alternatives, 0, 5);
+    }
+
+    /**
+     * Build a human-readable explanation of why this translation was chosen.
+     */
+    public function buildWhyExplanation(array $result): string
+    {
+        $matchType = $result['match_type'] ?? 'none';
+        $source    = $result['source_table'] ?? '';
+        $conf      = (int) ($result['confidence_score'] ?? 0);
+
+        return match(true) {
+            $matchType === 'proverb' =>
+                "This is an exact match from the Tiv Proverbs archive. Proverbs are preserved verbatim with their verified English translations.",
+            $matchType === 'phrase' && $source === 'translation_phrases' =>
+                "Matched a curated phrase in the translation database (confidence: {$conf}%). Curated phrases are reviewed and approved by the archive team.",
+            $matchType === 'word' && $source === 'daily_words' =>
+                "Found in the Tiv Dictionary with a direct word match (confidence: {$conf}%). The dictionary contains verified Tiv ↔ English vocabulary.",
+            $matchType === 'category' =>
+                "Matched a named entity in the Tiv culture archive (name, food, plant, festival, or animal). These have verified bilingual entries.",
+            $matchType === 'bible' =>
+                "Found in the Tiv Bible (Icighan Bibilo). The Bible is the largest verified bilingual Tiv text in the archive.",
+            $matchType === 'learned' =>
+                "This translation was learned from high-confidence past translations recorded in the archive (confidence: {$conf}%).",
+            $matchType === 'bible_refined' =>
+                "Initial word-by-word translation was refined using the Tiv Bible corpus to resolve unknown tokens.",
+            $matchType === 'word_by_word' =>
+                "Translated word-by-word using the dictionary and grammar rules. Some words may not have been found — see 'Words Not in Dictionary' below.",
+            $matchType === 'none' =>
+                "No match found in the archive. Consider contributing this translation to help improve the engine.",
+            default =>
+                "Matched via archive search (confidence: {$conf}%).",
+        };
     }
 
     private function noneResult(string $input): array

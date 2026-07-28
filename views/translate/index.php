@@ -3,7 +3,7 @@
 
         <div class="translate-hero">
             <h1 class="translate-title">Tiv Translation Engine <span class="badge-v1">v3</span></h1>
-            <p class="translate-subtitle">Powered by NLLB-200 AI, refined with our curated Tiv heritage database.</p>
+            <p class="translate-subtitle">Self-contained translation powered entirely by the Tiv Heritage Archive — dictionary, grammar rules, proverbs, and bilingual Bible.</p>
 
             <?php if (!empty($isAdmin)): ?>
                 <div class="translate-limit-notice">
@@ -127,17 +127,20 @@
                         <?php if (!empty($isAdmin)): ?>
                         <!-- Admin-only: confidence and match type info -->
                         <?php
-                            $confClass = $conf >= 80 ? 'conf-high' : ($conf >= 50 ? 'conf-medium' : 'conf-low');
-                            $confLabel = $conf >= 80 ? 'High' : ($conf >= 50 ? 'Medium' : 'Low');
+                            $conf = (int) ($result['confidence_score'] ?? 0);
+                            $mt   = $result['match_type'] ?? 'none';
+                            $confClass = $conf >= 80 ? 'conf-high' : ($conf >= 40 ? 'conf-medium' : 'conf-low');
+                            $confLabel = $conf >= 80 ? 'High' : ($conf >= 40 ? 'Medium' : 'Low');
                             $mtLabels = [
-                                'ai'          => 'AI (NLLB-200)',
-                                'ai_refined'  => 'AI + curated refinement',
-                                'proverb'     => 'Curated proverb',
-                                'phrase'      => 'Curated phrase',
-                                'word'        => 'Dictionary word',
-                                'word_by_word'=> 'Word-by-word',
-                                'category'    => 'Category match',
-                                'none'        => 'Not found',
+                                'proverb'      => 'Curated proverb',
+                                'phrase'       => 'Curated phrase',
+                                'word'         => 'Dictionary word',
+                                'word_by_word' => 'Word-by-word',
+                                'bible_refined'=> 'Bible-refined',
+                                'learned'      => 'Learned from history',
+                                'category'     => 'Category match',
+                                'bible'        => 'Bible match',
+                                'none'         => 'Not found',
                             ];
                             $mtLabel = $mtLabels[$mt] ?? ucfirst(str_replace('_', ' ', $mt));
                         ?>
@@ -145,7 +148,7 @@
                             <span class="confidence-badge <?= $confClass ?>">
                                 <?= $confLabel ?> confidence <?= $conf ?>%
                             </span>
-                            <span class="match-type-badge <?= in_array($mt, ['ai','ai_refined'], true) ? 'match-ai' : '' ?>">
+                            <span class="match-type-badge">
                                 <?= e($mtLabel) ?>
                             </span>
                         </div>
@@ -188,6 +191,13 @@
         <?php if ($result && !empty($result['translated_text'])): ?>
         <div class="translate-details">
 
+            <?php if (!empty($result['why_explanation'])): ?>
+            <div class="translate-detail-card">
+                <h3 class="detail-heading">Why this translation?</h3>
+                <p><?= e($result['why_explanation']) ?></p>
+            </div>
+            <?php endif; ?>
+
             <?php if (!empty($result['cultural_meaning']) || !empty($result['explanation'])): ?>
             <div class="translate-detail-card">
                 <h3 class="detail-heading">Explanation</h3>
@@ -197,6 +207,22 @@
                 <?php if (!empty($result['explanation']) && $result['explanation'] !== $result['cultural_meaning']): ?>
                     <p><?= e($result['explanation']) ?></p>
                 <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
+            <?php if (!empty($result['alternatives'])): ?>
+            <div class="translate-detail-card">
+                <h3 class="detail-heading">Alternative Expressions</h3>
+                <ul style="margin:.4rem 0 0;padding-left:1.2rem;list-style:disc;">
+                    <?php foreach ($result['alternatives'] as $alt): ?>
+                    <li>
+                        <strong><?= e($alt['text']) ?></strong>
+                        <?php if (!empty($alt['note'])): ?>
+                            <span style="color:#7a6a5a;font-size:.85rem;"> — <?= e($alt['note']) ?></span>
+                        <?php endif; ?>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
             <?php endif; ?>
 
@@ -211,6 +237,24 @@
             <div class="translate-detail-card">
                 <h3 class="detail-heading">Context</h3>
                 <p><?= e($result['usage_context']) ?></p>
+            </div>
+            <?php endif; ?>
+
+            <?php if (!empty($result['citations'])): ?>
+            <div class="translate-detail-card">
+                <h3 class="detail-heading">Sources</h3>
+                <p style="color:#7a6a5a;font-size:.82rem;margin:0 0 .5rem;">Linguistic records consulted to produce this translation.</p>
+                <ul style="margin:0;padding-left:1.2rem;list-style:disc;">
+                    <?php foreach ($result['citations'] as $cite): ?>
+                    <li>
+                        <span style="display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:#5C3A21;background:#fdf8f0;border:1px solid #e5d5b8;border-radius:10px;padding:.1rem .5rem;margin-right:.4rem;"><?= e($cite['type'] ?? 'source') ?></span>
+                        <?= e($cite['label'] ?? $cite['table'] ?? 'Archive record') ?>
+                        <?php if (!empty($cite['id'])): ?>
+                            <span style="color:#9a8a7a;font-size:.8rem;"> (#<?= e($cite['id']) ?>)</span>
+                        <?php endif; ?>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
             <?php endif; ?>
 
@@ -303,6 +347,42 @@
                     <?php endforeach; ?>
                 </div>
                 <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
+            <!-- Word-by-word breakdown (only for word_by_word match type) -->
+            <?php
+            $wordResults = $result['word_results'] ?? [];
+            $showBreakdown = !empty($wordResults) && count($wordResults) > 1
+                          && in_array($result['match_type'] ?? '', ['word_by_word','bible_refined','learned']);
+            ?>
+            <?php if ($showBreakdown): ?>
+            <div class="translate-detail-card">
+                <h3 class="detail-heading">Word-by-Word Breakdown</h3>
+                <table class="word-breakdown-table">
+                    <thead>
+                        <tr>
+                            <th><?= ($result['source_language'] ?? 'tiv') === 'tiv' ? 'Tiv' : 'English' ?> token</th>
+                            <th>Part of speech</th>
+                            <th>Translation</th>
+                            <th>Source</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($wordResults as $wr): ?>
+                        <tr style="<?= !$wr['found'] ? 'color:#b45309;' : '' ?>">
+                            <td><code><?= e($wr['token']) ?></code></td>
+                            <td style="color:#6b7280;font-size:.82rem;"><?= e($wr['pos'] ?? '') ?></td>
+                            <td><?= $wr['found'] ? e($wr['result'] ?? '') : '<em style="color:#b45309;">not found</em>' ?></td>
+                            <td style="color:#6b7280;font-size:.78rem;"><?= e($wr['source'] ?? '') ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <p style="font-size:.78rem;color:#9ca3af;margin:.5rem 0 0;">
+                    Tiv word order and grammar rules are applied after token lookup.
+                    Words marked in orange were not found in the archive.
+                </p>
             </div>
             <?php endif; ?>
 
