@@ -26,13 +26,20 @@ if (ENVIRONMENT === 'development') {
 define('SITE_NAME', 'Tiv Culture Archive');
 define('SITE_TAGLINE', 'Preserving Language, History & Identity');
 
+// AdSense: off until Google approves the account. Flip to true once approved.
+define('ADSENSE_ENABLED', false);
+
+// Content protection (disables right-click/copy/print on public pages):
+// off for now, per request. Flip to true to re-activate.
+define('CONTENT_PROTECTION_ENABLED', false);
+
 // Auto-detect site URL based on environment
 $_proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 $_host  = $_SERVER['HTTP_HOST'] ?? 'localhost';
 if (strpos($_host, 'localhost') !== false || $_host === '127.0.0.1') {
     $_sub = '/Tiv-Heritage-Archive'; // local LAMPP: localhost/Tiv-Heritage-Archive
 } else {
-    $_sub = ''; // Hostinger subdomain: tiv.teamodigitalsolutions.com is at root
+    $_sub = ''; // Production domain: www.tivheritage.com is at root
 }
 define('SITE_URL', $_proto . '://' . $_host . $_sub);
 unset($_proto, $_host, $_sub);
@@ -89,26 +96,27 @@ define('USER_ROLES', [
 ]);
 
 // ============================================
-// NLLB AI Translation (Hugging Face Inference API)
+// External AI APIs — disabled (self-hosted)
+// Translation and assistant now use Archive Intelligence (local RAG).
+// These constants are kept for backward compatibility only.
 // ============================================
-// Set NLLB_ENABLED to true and supply your HF API key to activate AI translation.
-// Model: facebook/nllb-200-distilled-600M  (supports tiv_Latn)
-// Get a free key at: https://huggingface.co/settings/tokens
-define('NLLB_ENABLED',   true);
-define('NLLB_API_KEY',   '***REMOVED-OLD-NLLB-KEY***');
-define('NLLB_ENDPOINT',  'https://api-inference.huggingface.co/models/facebook/nllb-200-distilled-600M');
-define('NLLB_TIMEOUT',   55);     // seconds — wait_for_model handles cold-start
+define('NLLB_ENABLED',   false);
+define('NLLB_API_KEY',   '');
+define('NLLB_ENDPOINT',  '');
+define('NLLB_TIMEOUT',   10);
+
+define('CHARYMELD_ENABLED',    true);  // always on — no API key needed
+define('ANTHROPIC_API_KEY',    '');    // unused — local RAG handles responses
+define('CHARYMELD_MODEL',      '');
+define('CHARYMELD_MAX_TOKENS', 0);
+define('CHARYMELD_TIMEOUT',    30);
 
 // ============================================
-// Charymeld AI Assistant (Anthropic Claude)
+// Archive Intelligence (local RAG engine)
 // ============================================
-// Get your API key at: https://console.anthropic.com/
-// Paste it below then set CHARYMELD_ENABLED to true
-define('CHARYMELD_ENABLED',   true);            // AI assistant is active
-define('ANTHROPIC_API_KEY',   '***REMOVED-OLD-ANTHROPIC-KEY***');             // ← paste your sk-ant-... key here
-define('CHARYMELD_MODEL',     'claude-haiku-4-5-20251001');
-define('CHARYMELD_MAX_TOKENS', 768);
-define('CHARYMELD_TIMEOUT',   30);             // seconds
+define('AI_SEARCH_LIMIT',      5);    // max results per table search
+define('AI_RESPONSE_MAX_ITEMS', 4);   // max items shown per response
+define('AI_INDEX_AUTO_REBUILD', false); // set true to rebuild index on every admin save (slow on large DBs)
 
 // Timezone
 date_default_timezone_set('Africa/Lagos');

@@ -158,7 +158,7 @@ cy += 7
 T(LM+5, cy, "3.  PRODUCT DESCRIPTION OR DETAIL DESCRIPTION OF THE PROJECT:",
   bold=True, size=9)
 cy += 6
-desc = ("Tiv Heritage Archive (https://tiv.teamodigitalsolutions.com) is a comprehensive digital "
+desc = ("Tiv Heritage Archive (https://www.tivheritage.com) is a comprehensive digital "
         "cultural preservation platform dedicated to documenting, safeguarding, and promoting the "
         "language, history, culture, and traditions of the Tiv people of North Central Nigeria. "
         "The platform provides free public access to Tiv vocabulary, proverbs, folklore, traditional "
@@ -380,7 +380,7 @@ cy += 8
 
 FIELD(LM+3, cy, "E-MAIL ADDRESS:", "charlesikyese@gmail.com"); cy += 8
 
-FIELD(LM+3, cy, "WEBSITE:", "https://tiv.teamodigitalsolutions.com"); cy += 8
+FIELD(LM+3, cy, "WEBSITE:", "https://www.tivheritage.com"); cy += 8
 
 # Incorporated?
 pdf.set_font("Helvetica","B",9)

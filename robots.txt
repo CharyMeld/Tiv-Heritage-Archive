@@ -1,0 +1,19 @@
+User-agent: *
+Disallow: /admin
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /profile/
+Disallow: /api/
+Disallow: /translate/history
+Disallow: /translate/suggest-word
+Disallow: /community/success
+Disallow: /contribute/success
+Disallow: /outreach/
+Disallow: /storage/
+Disallow: /uploads/
+
+Allow: /uploads/images/
+
+Sitemap: https://www.tivheritage.com/sitemap.xml

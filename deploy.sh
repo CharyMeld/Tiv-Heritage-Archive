@@ -1,5 +1,5 @@
 #!/bin/bash
-# Deploy to VPS: tiv.teamodigitalsolutions.com
+# Deploy to VPS: www.tivheritage.com
 # Usage: ./deploy.sh
 
 set -e
@@ -18,4 +18,4 @@ rsync -avz --progress \
   "$LOCAL" "$VPS:$REMOTE"
 
 echo ""
-echo "Deploy complete → https://tiv.teamodigitalsolutions.com"
+echo "Deploy complete → https://www.tivheritage.com"

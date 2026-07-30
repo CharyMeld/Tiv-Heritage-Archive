@@ -30,7 +30,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /Tiv-Heritage-Archive/index.php?url=$1 [QSA,L]
 
-# Production (tiv.teamodigitalsolutions.com) — subdomain root IS the app root
+# Production (www.tivheritage.com) — domain root IS the app root
 RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:[0-9]+)?$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

@@ -2,7 +2,7 @@
 class WikipediaService {
     private const API_BASE = 'https://en.wikipedia.org/w/api.php';
     private const TIMEOUT  = 8;
-    private const UA       = 'TivHeritageArchive/1.0 (https://tiv.teamodigitalsolutions.com; contact@tivarchive.com)';
+    private const UA       = 'TivHeritageArchive/1.0 (https://www.tivheritage.com; contact@tivarchive.com)';
 
     public function searchWithDetails(string $query, int $limit = 12): array {
         $raw = $this->fetch([
