@@ -159,6 +159,47 @@ class Security
     }
 
     /**
+     * Encrypt a secret for at-rest storage (e.g. a Facebook Page access
+     * token). AES-256-GCM: authenticated encryption, so decrypt() can
+     * detect tampering/corruption rather than silently returning garbage.
+     * Returns a single base64 string (IV + auth tag + ciphertext) suitable
+     * for one database column.
+     */
+    public static function encrypt(string $plaintext): string
+    {
+        $key = hex2bin(APP_ENCRYPTION_KEY);
+        $iv = random_bytes(12);
+        $ciphertext = openssl_encrypt($plaintext, 'aes-256-gcm', $key, OPENSSL_RAW_DATA, $iv, $tag);
+        return base64_encode($iv . $tag . $ciphertext);
+    }
+
+    /**
+     * Reverses encrypt(). Returns null (never throws) if the value is
+     * missing, malformed, or fails authentication — callers should treat
+     * null as "credentials unusable, re-enter them".
+     */
+    public static function decrypt(?string $encoded): ?string
+    {
+        if (empty($encoded)) {
+            return null;
+        }
+
+        $raw = base64_decode($encoded, true);
+        if ($raw === false || strlen($raw) < 12 + 16) {
+            return null;
+        }
+
+        $iv = substr($raw, 0, 12);
+        $tag = substr($raw, 12, 16);
+        $ciphertext = substr($raw, 28);
+
+        $key = hex2bin(APP_ENCRYPTION_KEY);
+        $plaintext = openssl_decrypt($ciphertext, 'aes-256-gcm', $key, OPENSSL_RAW_DATA, $iv, $tag);
+
+        return $plaintext === false ? null : $plaintext;
+    }
+
+    /**
      * Check login attempts and rate limiting
      */
     public static function checkLoginAttempts(string $email): array
@@ -361,6 +402,12 @@ function set_flash(string $key, string $message, string $type = 'info'): void
 function redirect(string $url): void
 {
     header('Location: ' . $url);
+    exit;
+}
+
+function redirect301(string $url): void
+{
+    header('Location: ' . $url, true, 301);
     exit;
 }
 

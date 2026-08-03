@@ -16,6 +16,7 @@
             <span class="detail-banner-badge">&#9201; <?= e($video['duration']) ?></span>
             <?php endif; ?>
             <span class="detail-banner-badge">&#128065; <?= number_format($video['view_count']) ?> views</span>
+            <span class="detail-banner-badge">&#128172; <?= number_format($commentCount) ?> comments</span>
         </div>
     </div>
 </div>
@@ -25,20 +26,241 @@
     <div class="container" style="max-width: 900px;">
 
         <!-- Embed -->
-        <div style="border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-md); margin-bottom: 2rem; aspect-ratio: 16/9; background: #000;">
-            <iframe
-                src="https://www.youtube.com/embed/<?= e($video['youtube_id']) ?>?rel=0"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="width: 100%; height: 100%; display: block;">
-            </iframe>
+        <?php
+            $hasFacebook  = !empty($video['facebook_url']);
+            $hasTiktok    = !empty($video['tiktok_id']);
+            $hasRumble    = !empty($video['rumble_id']);
+            $hasMultiple  = $hasFacebook || $hasTiktok || $hasRumble;
+
+            // YouTube is always the default
+            $defaultPanel = 'panel-yt';
+        ?>
+
+        <?php if ($hasMultiple): ?>
+        <div class="vplatform-tabs" role="tablist" aria-label="Video platform">
+            <?php if ($hasFacebook): ?>
+            <button class="vplatform-tab <?= $defaultPanel === 'panel-fb' ? 'vplatform-tab--active' : '' ?>"
+                    id="tab-fb" role="tab"
+                    aria-selected="<?= $defaultPanel === 'panel-fb' ? 'true' : 'false' ?>"
+                    aria-controls="panel-fb" data-panel="panel-fb">
+                <!-- Facebook icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+                Facebook
+            </button>
+            <?php endif; ?>
+
+            <?php if ($hasTiktok): ?>
+            <button class="vplatform-tab <?= $defaultPanel === 'panel-tiktok' ? 'vplatform-tab--active' : '' ?>"
+                    id="tab-tiktok" role="tab"
+                    aria-selected="<?= $defaultPanel === 'panel-tiktok' ? 'true' : 'false' ?>"
+                    aria-controls="panel-tiktok" data-panel="panel-tiktok">
+                <!-- TikTok icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.79 1.54V6.78a4.85 4.85 0 0 1-1.02-.09z"/></svg>
+                TikTok
+            </button>
+            <?php endif; ?>
+
+            <?php if ($hasRumble): ?>
+            <button class="vplatform-tab <?= $defaultPanel === 'panel-rumble' ? 'vplatform-tab--active' : '' ?>"
+                    id="tab-rumble" role="tab"
+                    aria-selected="<?= $defaultPanel === 'panel-rumble' ? 'true' : 'false' ?>"
+                    aria-controls="panel-rumble" data-panel="panel-rumble">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm9.5 2.5v11l7-5.5-7-5.5z"/></svg>
+                Rumble
+            </button>
+            <?php endif; ?>
+
+            <button class="vplatform-tab <?= $defaultPanel === 'panel-yt' ? 'vplatform-tab--active' : '' ?>"
+                    id="tab-yt" role="tab"
+                    aria-selected="<?= $defaultPanel === 'panel-yt' ? 'true' : 'false' ?>"
+                    aria-controls="panel-yt" data-panel="panel-yt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3.01 3.01 0 0 0-2.12-2.13C19.54 3.6 12 3.6 12 3.6s-7.54 0-9.38.47A3.01 3.01 0 0 0 .5 6.2C.04 8.05 0 12 0 12s.04 3.95.5 5.8a3.01 3.01 0 0 0 2.12 2.13C4.46 20.4 12 20.4 12 20.4s7.54 0 9.38-.47a3.01 3.01 0 0 0 2.12-2.13C23.96 15.95 24 12 24 12s-.04-3.95-.5-5.8zM9.6 15.6V8.4l6.4 3.6-6.4 3.6z"/></svg>
+                YouTube
+            </button>
         </div>
+        <?php endif; ?>
+
+        <!-- position:relative + aspect-ratio; panels are absolute so height is always correct -->
+        <div style="position:relative; border-radius:<?= $hasMultiple ? '0 16px 16px 16px' : '16px' ?>; overflow:hidden; box-shadow:var(--shadow-md); margin-bottom:2rem; aspect-ratio:16/9; background:#000;">
+
+            <?php if ($hasFacebook): ?>
+            <div id="panel-fb" role="tabpanel" aria-labelledby="tab-fb"
+                 style="position:absolute;inset:0;overflow:hidden;<?= $defaultPanel !== 'panel-fb' ? 'display:none;' : '' ?>">
+                <div class="fb-video"
+                     data-href="<?= e($video['facebook_url']) ?>"
+                     data-width="auto"
+                     data-show-text="false"
+                     data-allowfullscreen="true"
+                     style="width:100%;">
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($hasTiktok): ?>
+            <div id="panel-tiktok" role="tabpanel" aria-labelledby="tab-tiktok"
+                 style="position:absolute;inset:0;<?= $defaultPanel !== 'panel-tiktok' ? 'display:none;' : '' ?>">
+                <iframe
+                    src="https://www.tiktok.com/embed/v2/<?= e($video['tiktok_id']) ?>"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    style="width:100%;height:100%;display:block;">
+                </iframe>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($hasRumble): ?>
+            <div id="panel-rumble" role="tabpanel" aria-labelledby="tab-rumble"
+                 style="position:absolute;inset:0;<?= $defaultPanel !== 'panel-rumble' ? 'display:none;' : '' ?>">
+                <iframe
+                    src="https://rumble.com/embed/<?= e($video['rumble_id']) ?>/"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    style="width:100%;height:100%;display:block;">
+                </iframe>
+            </div>
+            <?php endif; ?>
+
+            <div id="panel-yt" role="tabpanel" aria-labelledby="tab-yt"
+                 style="position:absolute;inset:0;<?= $defaultPanel !== 'panel-yt' ? 'display:none;' : '' ?>">
+                <iframe
+                    id="ytPlayer"
+                    src="https://www.youtube.com/embed/<?= e($video['youtube_id']) ?>?rel=0&enablejsapi=1&origin=<?= urlencode(SITE_URL) ?>"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    style="width:100%;height:100%;display:block;">
+                </iframe>
+            </div>
+
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             INLINE ACTION BAR: Like · Comments · Watch on YouTube
+        ════════════════════════════════════════════ -->
+        <div class="vaction-bar">
+
+            <!-- Like -->
+            <button
+                id="vLikeBtn"
+                class="vaction-btn<?= $hasReacted ? ' vaction-btn--liked' : '' ?>"
+                data-url="<?= e(url('learn/' . $video['id'] . '/react')) ?>"
+                data-token="<?= csrf_token() ?>"
+                aria-pressed="<?= $hasReacted ? 'true' : 'false' ?>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                     fill="<?= $hasReacted ? 'currentColor' : 'none' ?>" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="vLikeIcon">
+                    <path d="M7 10v12M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>
+                </svg>
+                <span id="vLikeCount"><?= number_format($reactionCount) ?></span>
+                <span id="vLikeLabel"><?= $hasReacted ? 'Liked' : 'Like' ?></span>
+            </button>
+
+            <!-- Comment trigger -->
+            <button type="button"
+                    id="vCommentTrigger"
+                    class="vaction-btn"
+                    aria-expanded="false" aria-controls="vCommentForm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                Comments <span class="vaction-count" id="vCommentCountBadge"><?= $commentCount ?></span>
+            </button>
+
+        </div><!-- /.vaction-bar -->
+
+        <?php if (ADSENSE_ENABLED): ?>
+        <!-- Ad 1: below Like/Comments, above description -->
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7960622250292703"
+                 data-ad-slot="6111588136"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
+
+        <!-- Comment form + list — hidden until Comments button clicked -->
+        <div class="vcomments-section" id="vComments">
+
+            <form class="vcomments-form vcomments-form--hidden" id="vCommentForm"
+                  data-url="<?= e(url('learn/' . $video['id'] . '/comment')) ?>"
+                  data-token="<?= csrf_token() ?>">
+
+                <?php if (!$user): ?>
+                <input type="text" class="vcomments-name-input" id="vCommentName"
+                       name="name" placeholder="Your name (required)" maxlength="100" required>
+                <?php endif; ?>
+
+                <div class="vcomments-textarea-wrap">
+                    <textarea class="vcomments-textarea" id="vCommentBody" name="body"
+                              placeholder="Share your thoughts on this lesson…"
+                              rows="3" maxlength="2000" required></textarea>
+                    <div class="vcomments-form-actions">
+                        <span class="vcomments-charcount" id="vCharCount">0 / 2000</span>
+                        <div style="display:flex;gap:.5rem;align-items:center;">
+                            <button type="button" class="vcomments-cancel" id="vCommentCancel">Cancel</button>
+                            <button type="submit" class="vcomments-submit" id="vCommentSubmit">Post Comment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vcomments-yt-hint" id="vYtHint" style="display:none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    Comment posted! Want it on YouTube too?
+                    <button type="button" class="vcomments-yt-copy" id="vYtCopyBtn">Copy &amp; open YouTube</button>
+                </div>
+            </form>
+
+            <div class="vcomments-list" id="vCommentsList">
+                <?php if (empty($comments)): ?>
+                <p class="vcomments-empty" id="vCommentsEmpty">Be the first to comment on this lesson.</p>
+                <?php else: ?>
+                    <?php foreach ($comments as $c): ?>
+                    <div class="vcomment-item">
+                        <div class="vcomment-avatar vcomment-avatar--initials" aria-hidden="true">
+                            <?= strtoupper(mb_substr($c['user_name'] ?? $c['guest_name'] ?? '?', 0, 1)) ?>
+                        </div>
+                        <div class="vcomment-body">
+                            <div class="vcomment-meta">
+                                <strong class="vcomment-name">
+                                    <?= e($c['user_name'] ?? $c['guest_name'] ?? 'Anonymous') ?>
+                                </strong>
+                                <span class="vcomment-date">
+                                    <?= date('M j, Y', strtotime($c['created_at'])) ?>
+                                </span>
+                            </div>
+                            <p class="vcomment-text"><?= nl2br(e($c['body'])) ?></p>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+
+        </div><!-- /.vcomments-section -->
 
         <?php if (!empty($video['description'])): ?>
         <div class="detail-section-modern">
             <span class="detail-section-label">About This Lesson</span>
             <p class="detail-section-text"><?= nl2br(e($video['description'])) ?></p>
+        </div>
+        <?php endif; ?>
+
+        <?php if (ADSENSE_ENABLED): ?>
+        <!-- Ad 2: between description and share bar -->
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7960622250292703"
+                 data-ad-slot="6111588136"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
         </div>
         <?php endif; ?>
 
@@ -219,3 +441,228 @@
     }
 })();
 </script>
+
+<script>
+/* YouTube IFrame API — count a view only when the video actually starts playing */
+(function () {
+    var viewRecorded = false;
+    var recordUrl    = '<?= url('learn/' . $video['id'] . '/view') ?>';
+    var csrfToken    = '<?= csrf_token() ?>';
+
+    /* Load YouTube IFrame API asynchronously */
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    /* Called automatically by the API once the script loads */
+    window.onYouTubeIframeAPIReady = function () {
+        new YT.Player('ytPlayer', {
+            events: { onStateChange: onStateChange }
+        });
+    };
+
+    function onStateChange(event) {
+        /* YT.PlayerState.PLAYING === 1 */
+        if (!viewRecorded && event.data === 1) {
+            viewRecorded = true;
+            fetch(recordUrl, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ _token: csrfToken })
+            });
+        }
+    }
+}());
+</script>
+
+<script>
+/* ── Like button ── */
+(function () {
+    var btn       = document.getElementById('vLikeBtn');
+    var countEl   = document.getElementById('vLikeCount');
+    var labelEl   = document.getElementById('vLikeLabel');
+    var iconEl    = document.getElementById('vLikeIcon');
+    if (!btn) return;
+
+    btn.addEventListener('click', function () {
+        btn.disabled = true;
+        fetch(btn.dataset.url, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ _token: btn.dataset.token })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+            if (!d.ok) return;
+            btn.disabled = false;
+            countEl.textContent = d.count.toLocaleString();
+            if (d.liked) {
+                btn.classList.add('vaction-btn--liked');
+                btn.setAttribute('aria-pressed', 'true');
+                labelEl.textContent = 'Liked';
+                iconEl.setAttribute('fill', 'currentColor');
+            } else {
+                btn.classList.remove('vaction-btn--liked');
+                btn.setAttribute('aria-pressed', 'false');
+                labelEl.textContent = 'Like';
+                iconEl.setAttribute('fill', 'none');
+            }
+        })
+        .catch(function () { btn.disabled = false; });
+    });
+}());
+
+/* ── Comment form (expand on click, collapse on cancel) ── */
+(function () {
+    var trigger   = document.getElementById('vCommentTrigger');
+    var form      = document.getElementById('vCommentForm');
+    var cancelBtn = document.getElementById('vCommentCancel');
+    var textarea  = document.getElementById('vCommentBody');
+    var charCount = document.getElementById('vCharCount');
+    var list      = document.getElementById('vCommentsList');
+    var empty     = document.getElementById('vCommentsEmpty');
+    var badge     = document.getElementById('vCommentCountBadge');
+    var hint      = document.getElementById('vYtHint');
+    var copyBtn   = document.getElementById('vYtCopyBtn');
+    var ytUrl     = 'https://www.youtube.com/watch?v=<?= e($video['youtube_id']) ?>';
+    var lastComment = '';
+
+    if (!form) return;
+
+    function expand() {
+        form.classList.remove('vcomments-form--hidden');
+        trigger.setAttribute('aria-expanded', 'true');
+        trigger.classList.add('vaction-btn--open');
+        textarea.focus();
+    }
+
+    function collapse() {
+        form.classList.add('vcomments-form--hidden');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.classList.remove('vaction-btn--open');
+        textarea.value = '';
+        charCount.textContent = '0 / 2000';
+        var nameEl = document.getElementById('vCommentName');
+        if (nameEl) nameEl.value = '';
+        if (hint) hint.style.display = 'none';
+    }
+
+    trigger.addEventListener('click', expand);
+    cancelBtn.addEventListener('click', collapse);
+
+    textarea.addEventListener('input', function () {
+        charCount.textContent = textarea.value.length + ' / 2000';
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var submit = document.getElementById('vCommentSubmit');
+        var nameEl = document.getElementById('vCommentName');
+        var body   = textarea.value.trim();
+        var name   = nameEl ? nameEl.value.trim() : '';
+
+        if (body.length < 2) return;
+        submit.disabled = true;
+        submit.textContent = 'Posting…';
+
+        var payload = { _token: form.dataset.token, body: body };
+        if (nameEl) payload.name = name;
+
+        fetch(form.dataset.url, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(payload)
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+            submit.disabled = false;
+            submit.textContent = 'Post Comment';
+            if (!d.ok) {
+                alert(d.error || 'Could not post comment. Please try again.');
+                return;
+            }
+
+            lastComment = body;
+
+            if (empty) { empty.remove(); }
+            var c = d.comment;
+            var initial = (c.name || '?').charAt(0).toUpperCase();
+            var item = document.createElement('div');
+            item.className = 'vcomment-item vcomment-item--new';
+            item.innerHTML =
+                '<div class="vcomment-avatar vcomment-avatar--initials" aria-hidden="true">' + initial + '</div>' +
+                '<div class="vcomment-body">' +
+                  '<div class="vcomment-meta">' +
+                    '<strong class="vcomment-name">' + escHtml(c.name) + '</strong>' +
+                    '<span class="vcomment-date">Just now</span>' +
+                  '</div>' +
+                  '<p class="vcomment-text">' + escHtml(body).replace(/\n/g, '<br>') + '</p>' +
+                '</div>';
+            list.appendChild(item);
+
+            var cur = parseInt(badge.textContent, 10) || 0;
+            badge.textContent = cur + 1;
+
+            textarea.value = '';
+            if (nameEl) nameEl.value = '';
+            charCount.textContent = '0 / 2000';
+            collapse();
+
+            if (hint) hint.style.display = 'flex';
+        })
+        .catch(function () {
+            submit.disabled = false;
+            submit.textContent = 'Post Comment';
+            alert('Network error. Please try again.');
+        });
+    });
+
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+            if (navigator.clipboard && lastComment) {
+                navigator.clipboard.writeText(lastComment).then(function () {
+                    window.open(ytUrl, '_blank', 'noopener');
+                    hint.style.display = 'none';
+                });
+            } else {
+                window.open(ytUrl, '_blank', 'noopener');
+                hint.style.display = 'none';
+            }
+        });
+    }
+
+    function escHtml(str) {
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+}());
+</script>
+
+<?php if ($hasFacebook): ?>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0">
+</script>
+<?php endif; ?>
+
+<?php if ($hasMultiple): ?>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.vplatform-tab');
+    if (!tabs.length) return;
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            var panelId = tab.dataset.panel;
+
+            tabs.forEach(function (t) {
+                t.classList.toggle('vplatform-tab--active', t === tab);
+                t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+            });
+
+            document.querySelectorAll('[role="tabpanel"]').forEach(function (panel) {
+                panel.style.display = panel.id === panelId ? '' : 'none';
+            });
+        });
+    });
+}());
+</script>
+<?php endif; ?>

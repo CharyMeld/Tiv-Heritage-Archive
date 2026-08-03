@@ -7,7 +7,7 @@ class CommunityApplication extends Model
     protected string $table = 'community_applications';
 
     protected array $fillable = [
-        'full_name', 'email', 'phone', 'country', 'state_region',
+        'user_id', 'full_name', 'email', 'phone', 'country', 'state_region',
         'occupation', 'area_of_interest', 'member_type', 'short_bio',
         'skills', 'reason_for_joining', 'profile_photo', 'supporting_document',
         'status', 'admin_notes', 'reviewed_by', 'reviewed_at',

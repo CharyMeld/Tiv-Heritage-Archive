@@ -24,6 +24,8 @@ class KnowledgeLink extends Model
         'tiv_foods'    => ['label' => 'Foods',      'icon' => '&#127858;', 'url' => 'food',     'title' => 'tiv_name',  'sub' => 'english_name'],
         'daily_words'  => ['label' => 'Dictionary', 'icon' => '&#128172;', 'url' => 'word',     'title' => 'tiv_word',  'sub' => 'english_meaning'],
         'tiv_animals'  => ['label' => 'Animals',    'icon' => '&#128062;', 'url' => 'animal',   'title' => 'tiv_name',  'sub' => 'name'],
+        'historical_figures' => ['label' => 'Historical Figures', 'icon' => '&#129332;', 'url' => 'historical-figure', 'title' => 'english_name', 'sub' => 'title'],
+        'timeline_events' => ['label' => 'Timeline', 'icon' => '&#128197;', 'url' => 'timeline-event', 'title' => 'title', 'sub' => 'short_summary'],
     ];
 
     /**

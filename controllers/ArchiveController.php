@@ -11,6 +11,8 @@ require_once BASE_PATH . '/models/TivFood.php';
 require_once BASE_PATH . '/models/DailyWord.php';
 require_once BASE_PATH . '/models/TivAnimal.php';
 require_once BASE_PATH . '/models/BibleVerse.php';
+require_once BASE_PATH . '/models/ContentItem.php';
+require_once BASE_PATH . '/services/SeoHelper.php';
 
 class ArchiveController extends Controller
 {
@@ -34,20 +36,24 @@ class ArchiveController extends Controller
         $wordModel     = new DailyWord();
         $animalModel   = new TivAnimal();
         $bibleModel    = new BibleVerse();
+        $contentModel  = new ContentItem();
 
         // Cache counts for 1 hour — they change rarely
         $counts = Cache::remember('archive_counts', 3600, function () use (
-            $nameModel, $proverbModel, $plantModel, $festivalModel, $foodModel, $wordModel, $animalModel, $bibleModel
+            $nameModel, $proverbModel, $plantModel, $festivalModel, $foodModel, $wordModel, $animalModel, $bibleModel, $contentModel
         ) {
             return [
-                'names'     => $nameModel->count(),
-                'proverbs'  => $proverbModel->count(),
-                'plants'    => $plantModel->count(),
-                'festivals' => $festivalModel->count(),
-                'foods'     => $foodModel->count(),
-                'words'     => $wordModel->countActive(),
-                'animals'   => $animalModel->count(),
-                'bible'     => $bibleModel->count(),
+                'names'        => $nameModel->count(),
+                'proverbs'     => $proverbModel->count(),
+                'plants'       => $plantModel->count(),
+                'festivals'    => $festivalModel->count(),
+                'foods'        => $foodModel->count(),
+                'words'        => $wordModel->countActive(),
+                'animals'      => $animalModel->count(),
+                'bible'        => $bibleModel->count(),
+                'documents'    => $contentModel->countBySubcategory('archive', 'documents'),
+                'audio'        => $contentModel->countBySubcategory('archive', 'audio'),
+                'publications' => $contentModel->countBySubcategory('archive', 'publications'),
             ];
         });
 
@@ -108,21 +114,45 @@ class ArchiveController extends Controller
                 'count'       => $counts['bible'],
                 'url'         => url('bible'),
             ],
+            'documents' => [
+                'label'       => 'Documents',
+                'description' => 'Historical manuscripts and written records',
+                'icon'        => '&#128196;',
+                'count'       => $counts['documents'],
+                'url'         => url('archive/documents'),
+            ],
+            'audio' => [
+                'label'       => 'Audio',
+                'description' => 'Recordings of Tiv songs, speeches and oral traditions',
+                'icon'        => '&#127911;',
+                'count'       => $counts['audio'],
+                'url'         => url('archive/audio'),
+            ],
+            'publications' => [
+                'label'       => 'Publications',
+                'description' => 'Research publications about Tiv culture and history',
+                'icon'        => '&#128218;',
+                'count'       => $counts['publications'],
+                'url'         => url('archive/publications'),
+            ],
         ];
 
         // Cache recent items for 30 minutes
         $rows = Cache::remember('archive_rows', 1800, function () use (
-            $nameModel, $proverbModel, $plantModel, $festivalModel, $foodModel, $wordModel, $animalModel, $bibleModel, $categories
+            $nameModel, $proverbModel, $plantModel, $festivalModel, $foodModel, $wordModel, $animalModel, $bibleModel, $contentModel, $categories
         ) {
             return [
-                'names'     => ['meta' => $categories['names'],     'items' => $nameModel->recent(12)],
-                'proverbs'  => ['meta' => $categories['proverbs'],  'items' => $proverbModel->recent(12)],
-                'plants'    => ['meta' => $categories['plants'],    'items' => $plantModel->recent(12)],
-                'festivals' => ['meta' => $categories['festivals'], 'items' => $festivalModel->recentWithCover(12)],
-                'foods'     => ['meta' => $categories['foods'],     'items' => $foodModel->recent(12)],
-                'words'     => ['meta' => $categories['words'],     'items' => $wordModel->recent(12)],
-                'animals'   => ['meta' => $categories['animals'],   'items' => $animalModel->recent(12)],
-                'bible'     => ['meta' => $categories['bible'], 'items' => $bibleModel->getDailyWindow(12)],
+                'names'        => ['meta' => $categories['names'],        'items' => $nameModel->recent(12)],
+                'proverbs'     => ['meta' => $categories['proverbs'],     'items' => $proverbModel->recent(12)],
+                'plants'       => ['meta' => $categories['plants'],       'items' => $plantModel->recent(12)],
+                'festivals'    => ['meta' => $categories['festivals'],    'items' => $festivalModel->recentWithCover(12)],
+                'foods'        => ['meta' => $categories['foods'],        'items' => $foodModel->recent(12)],
+                'words'        => ['meta' => $categories['words'],        'items' => $wordModel->recent(12)],
+                'animals'      => ['meta' => $categories['animals'],      'items' => $animalModel->recent(12)],
+                'bible'        => ['meta' => $categories['bible'],        'items' => $bibleModel->getDailyWindow(12)],
+                'documents'    => ['meta' => $categories['documents'],    'items' => $contentModel->recentBySubcategory('archive', 'documents', 12)],
+                'audio'        => ['meta' => $categories['audio'],        'items' => $contentModel->recentBySubcategory('archive', 'audio', 12)],
+                'publications' => ['meta' => $categories['publications'], 'items' => $contentModel->recentBySubcategory('archive', 'publications', 12)],
             ];
         });
 
@@ -169,28 +199,13 @@ class ArchiveController extends Controller
                 $this->browseAnimals($search, $this->get('type'));
                 break;
             case 'documents':
-                $this->archivePlaceholder(
-                    'documents',
-                    'Documents',
-                    'Historical manuscripts, written records, and official documents from the Tiv people.',
-                    '&#128196;'
-                );
+                $this->browseDocuments($search);
                 break;
             case 'audio':
-                $this->archivePlaceholder(
-                    'audio',
-                    'Audio Recordings',
-                    'Recordings of Tiv songs, speeches, oral traditions, and language samples.',
-                    '&#127911;'
-                );
+                $this->browseAudio($search);
                 break;
             case 'publications':
-                $this->archivePlaceholder(
-                    'publications',
-                    'Research Publications',
-                    'Academic and community research publications about Tiv language, culture, and history.',
-                    '&#128214;'
-                );
+                $this->browsePublications($search);
                 break;
             case 'videos':
                 $this->redirect(url('learn'));
@@ -198,6 +213,69 @@ class ArchiveController extends Controller
             default:
                 $this->redirect(url('archive'));
         }
+    }
+
+    private function browseDocuments(?string $search): void
+    {
+        $model = new ContentItem();
+        $total = $model->countBySubcategory('archive', 'documents');
+        $pagination = $this->paginate($total);
+
+        $items = $search
+            ? $model->searchInSubcategory('archive', 'documents', $search)
+            : $model->getBySubcategory('archive', 'documents', $pagination['per_page'], $pagination['offset']);
+
+        $this->render('archive/documents', [
+            'title'           => 'Documents | Tiv Archive',
+            'description'     => 'Historical manuscripts, written records, and official documents from the Tiv people.',
+            'items'           => $items,
+            'pagination'      => $pagination,
+            'search'          => $search,
+            'currentPage'     => 'archive',
+            'currentCategory' => 'documents',
+        ]);
+    }
+
+    private function browseAudio(?string $search): void
+    {
+        $model = new ContentItem();
+        $total = $model->countBySubcategory('archive', 'audio');
+        $pagination = $this->paginate($total);
+
+        $items = $search
+            ? $model->searchInSubcategory('archive', 'audio', $search)
+            : $model->getBySubcategory('archive', 'audio', $pagination['per_page'], $pagination['offset']);
+
+        $this->render('archive/audio', [
+            'title'           => 'Audio Recordings | Tiv Archive',
+            'description'     => 'Recordings of Tiv songs, speeches, oral traditions, and language samples.',
+            'items'           => $items,
+            'pagination'      => $pagination,
+            'search'          => $search,
+            'currentPage'     => 'archive',
+            'currentCategory' => 'audio',
+        ]);
+    }
+
+    private function browsePublications(?string $search): void
+    {
+        $model = new ContentItem();
+        $total = $model->countBySubcategory('archive', 'publications');
+        $pagination = $this->paginate($total);
+
+        $items = $search
+            ? $model->searchInSubcategory('archive', 'publications', $search)
+            : $model->getBySubcategory('archive', 'publications', $pagination['per_page'], $pagination['offset']);
+
+        $this->render('archive/publications', [
+            'title'           => 'Research Publications | Tiv Archive',
+            'description'     => 'Academic and community research publications about Tiv language, culture, and history.',
+            'items'           => $items,
+            'pagination'      => $pagination,
+            'search'          => $search,
+            'currentPage'     => 'archive',
+            'currentCategory' => 'publications',
+        ]);
     }
 
     private function archivePlaceholder(string $category, string $title, string $description, string $icon): void
@@ -235,6 +313,7 @@ class ArchiveController extends Controller
 
         $this->render('archive/names', [
             'title' => 'Tiv Names',
+            'description' => 'Browse Tiv names with their meanings, origin stories, and cultural usage context.',
             'items' => $items,
             'pagination' => $pagination,
             'search' => $search,
@@ -265,6 +344,7 @@ class ArchiveController extends Controller
 
         $this->render('archive/proverbs', [
             'title' => 'Tiv Proverbs',
+            'description' => 'Explore traditional Tiv proverbs with their English translations, deeper meanings, and cultural context.',
             'items' => $items,
             'pagination' => $pagination,
             'search' => $search,
@@ -298,6 +378,7 @@ class ArchiveController extends Controller
 
         $this->render('archive/plants', [
             'title' => 'Tiv Plants',
+            'description' => 'Discover Tiv plants and their medicinal, food, and ritual uses in traditional Tiv life.',
             'items' => $items,
             'pagination' => $pagination,
             'search' => $search,
@@ -324,6 +405,7 @@ class ArchiveController extends Controller
 
         $this->render('archive/festivals', [
             'title' => 'Tiv Festivals',
+            'description' => 'Explore Tiv festivals — their significance, timing, and traditional activities.',
             'items' => $items,
             'pagination' => $pagination,
             'search' => $search,
@@ -349,6 +431,7 @@ class ArchiveController extends Controller
 
         $this->render('archive/foods', [
             'title' => 'Tiv Foods',
+            'description' => 'Browse traditional Tiv foods, ingredients, preparation methods, and cultural significance.',
             'items' => $items,
             'pagination' => $pagination,
             'search' => $search,
@@ -376,6 +459,7 @@ class ArchiveController extends Controller
 
         $this->render('archive/words', [
             'title' => 'Tiv Dictionary',
+            'description' => 'Search the Tiv dictionary for word meanings, pronunciation, IPA, tone, and usage examples.',
             'items' => $items,
             'pagination' => $pagination,
             'search' => $search,
@@ -413,6 +497,7 @@ class ArchiveController extends Controller
 
         $this->render('archive/animals', [
             'title' => 'Tiv Animals',
+            'description' => 'Discover animals in Tiv culture, their Tiv names, and their significance.',
             'items' => $items,
             'pagination' => $pagination,
             'search' => $search,

@@ -3,20 +3,36 @@
 class OutreachMailer {
 
     public static function send(string $toEmail, string $toName, string $subject, string $htmlBody): bool {
-        $fromEmail = defined('SITE_EMAIL') ? SITE_EMAIL : 'noreply@tivarchive.com';
+        $fromEmail = defined('SITE_EMAIL') ? SITE_EMAIL : 'noreply@tivheritage.com';
         $fromName  = defined('SITE_NAME')  ? SITE_NAME  : 'Tiv Heritage Archive';
 
         $headers = implode("\r\n", [
             'MIME-Version: 1.0',
             'Content-Type: text/html; charset=UTF-8',
-            'From: ' . self::encodeHeader($fromName) . ' <' . $fromEmail . '>',
+            'From: ' . self::formatAddress($fromName, $fromEmail),
             'Reply-To: ' . $fromEmail,
+            'Bcc: ' . $fromEmail,
             'X-Mailer: TivArchive-Outreach/1.0',
         ]);
 
-        $toHeader = self::encodeHeader($toName) . ' <' . $toEmail . '>';
+        $toHeader = self::formatAddress($toName, $toEmail);
 
         return @mail($toHeader, self::encodeHeader($subject), $htmlBody, $headers);
+    }
+
+    /**
+     * Format a "Display Name <email>" header value, RFC 5322-quoted when the
+     * display name contains characters (comma, parens, etc.) that would
+     * otherwise be parsed as address-list syntax by mail transfer agents.
+     */
+    private static function formatAddress(string $name, string $email): string {
+        $encoded = self::encodeHeader($name);
+
+        if (preg_match('/[,()<>";:\\\\]/', $encoded)) {
+            $encoded = '"' . str_replace(['\\', '"'], ['\\\\', '\\"'], $encoded) . '"';
+        }
+
+        return $encoded . ' <' . $email . '>';
     }
 
     public static function buildBody(string $templateHtml, array $vars): string {

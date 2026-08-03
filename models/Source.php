@@ -10,9 +10,41 @@ class Source extends Model
     protected string $table = 'sources';
 
     protected array $fillable = [
-        'source_type', 'title', 'author', 'contributor_name',
-        'location', 'year_recorded', 'notes'
+        'source_type', 'title', 'author', 'publisher', 'isbn', 'doi', 'url', 'access_date',
+        'contributor_name', 'location', 'year_recorded', 'notes', 'verification_status'
     ];
+
+    /**
+     * Public-facing verification status: badge + short, professional
+     * explanation. Deliberately separate from the internal `notes`
+     * field, which may contain researcher-facing caveats and is never
+     * shown to public users.
+     */
+    public static array $verificationInfo = [
+        'verified' => [
+            'label' => 'Verified',
+            'icon' => '&#128994;', // 🟢
+            'class' => 'is-verified',
+            'description' => 'This reference has been corroborated by multiple independent sources.',
+        ],
+        'needs_corroboration' => [
+            'label' => 'Needs Corroboration',
+            'icon' => '&#128993;', // 🟡
+            'class' => 'is-needs-corroboration',
+            'description' => 'This reference is currently supported by a single source. Additional corroboration is being sought.',
+        ],
+        'disputed' => [
+            'label' => 'Disputed',
+            'icon' => '&#128308;', // 🔴
+            'class' => 'is-disputed',
+            'description' => 'Sources consulted for this reference present conflicting information. Further research is underway to resolve the discrepancy.',
+        ],
+    ];
+
+    public static function verificationInfo(?string $status): array
+    {
+        return self::$verificationInfo[$status] ?? self::$verificationInfo['needs_corroboration'];
+    }
 
     /**
      * Source type labels

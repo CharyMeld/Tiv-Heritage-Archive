@@ -18,7 +18,7 @@ class PublicContentSubmitController extends Controller
         'language'   => ['alphabet'],
         'literature' => ['folktales', 'stories', 'poems'],
         'culture'    => ['traditions', 'attire', 'marriage-customs'],
-        'history'    => ['origins', 'migration', 'historical-figures', 'timeline'],
+        'history'    => ['origins', 'migration', 'timeline'],
         'archive'    => ['documents', 'audio', 'publications'],
     ];
 

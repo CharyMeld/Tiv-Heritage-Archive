@@ -97,6 +97,7 @@ $engSmall  = $engParts[1] ?? '';
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <!-- ══ PHONOLOGICAL FORM (vowel / consonant / digraph / tonal) ═ -->
@@ -145,32 +146,54 @@ $engSmall  = $engParts[1] ?? '';
                         </div>
                     </div>
 
-                    <!-- AUDIO UPLOAD -->
-                    <div class="admin-card" style="margin-bottom:1.2rem;">
-                        <div class="admin-card-header" style="padding:.7rem 1rem;">
-                            <h3 class="admin-card-title" style="font-size:.95rem;">&#127911; Pronunciation Audio</h3>
-                            <?php if (!empty($entry['audio_file'])): ?>
-                                <span style="font-size:.78rem;color:#4a7c59;font-weight:600;">&#10003; Audio uploaded</span>
-                            <?php endif; ?>
-                        </div>
-                        <div class="admin-card-body" style="padding:1rem;">
-                            <?php if (!empty($entry['audio_file'])): ?>
-                                <div style="margin-bottom:.9rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-                                    <audio controls style="height:36px;">
-                                        <source src="<?= UPLOADS_URL . '/' . htmlspecialchars($entry['audio_file']) ?>">
-                                    </audio>
-                                    <label style="display:flex;align-items:center;gap:.4rem;font-size:.83rem;cursor:pointer;color:#c0392b;">
-                                        <input type="checkbox" name="remove_audio" value="1">
-                                        Remove audio
-                                    </label>
-                                </div>
-                            <?php endif; ?>
-                            <input type="file" name="audio_file" class="form-input" accept="audio/mp3,audio/mpeg,audio/ogg,audio/wav,audio/webm,.mp3,.ogg,.wav,.m4a,.webm">
-                            <p class="form-hint">MP3, OGG, WAV, M4A or WebM — max 5 MB.<?= !empty($entry['audio_file']) ? ' Upload a new file to replace the current one.' : '' ?></p>
+                </div><!-- /phonoSection -->
+
+                <!-- ══ PRONUNCIATION AUDIO — shared for all types ══════════ -->
+                <div class="form-group" style="margin-bottom:1.4rem;">
+                    <label class="form-label" style="color:#4a7c59;">
+                        &#127911; Pronunciation Audio
+                        <span style="font-weight:400;color:#9a8a7a;font-size:.78rem;">— record how this letter or sound is spoken</span>
+                    </label>
+
+                    <?php if (!empty($entry['audio_file'])): ?>
+                    <div style="margin-bottom:.75rem;padding:.75rem 1rem;background:#edf7f0;border-radius:8px;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                        <span style="font-size:.8rem;color:#4a7c59;font-weight:600;">&#10003; Current recording:</span>
+                        <audio controls style="height:32px;">
+                            <source src="<?= UPLOADS_URL . '/' . htmlspecialchars($entry['audio_file']) ?>">
+                        </audio>
+                        <label style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;cursor:pointer;color:#c0392b;">
+                            <input type="checkbox" name="remove_audio" value="1"> Remove
+                        </label>
+                    </div>
+                    <?php endif; ?>
+
+                    <div class="recording-controls">
+                        <button type="button" class="record-btn" id="recordBtn" onclick="toggleAlphaRecording()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" x2="12" y1="19" y2="22"/>
+                            </svg>
+                            <span id="recordText"><?= !empty($entry['audio_file']) ? 'Record New' : 'Record Pronunciation' ?></span>
+                        </button>
+                        <div id="audioPreview" class="audio-preview" style="display:none;">
+                            <button type="button" class="play-btn" id="playBtn" onclick="playAlphaPreview()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="playIcon">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                            </button>
+                            <span class="audio-status">Recording saved — ready to submit</span>
+                            <button type="button" class="delete-btn" onclick="deleteAlphaRecording()" title="Delete recording">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
-
-                </div><!-- /phonoSection -->
+                    <input type="hidden" name="audio_data" id="audioData">
+                    <audio id="previewAudio" style="display:none;"></audio>
+                    <p class="form-hint">Click the mic to record. Click again to stop. Preview before saving.</p>
+                </div>
 
                 <!-- SORT ORDER (shared) -->
                 <div class="form-group" style="max-width:160px;">
@@ -192,19 +215,90 @@ $engSmall  = $engParts[1] ?? '';
 
 <script>
 function switchType(type) {
-    var plain  = document.getElementById('plainSection');
-    var phono  = document.getElementById('phonoSection');
+    var plain   = document.getElementById('plainSection');
+    var phono   = document.getElementById('phonoSection');
     var pLetter = document.getElementById('phonoLetter');
 
     if (type === 'plain') {
-        plain.style.display  = '';
-        phono.style.display  = 'none';
-        pLetter.required     = false;
+        plain.style.display = '';
+        phono.style.display = 'none';
+        pLetter.required    = false;
     } else {
-        plain.style.display  = 'none';
-        phono.style.display  = '';
-        pLetter.required     = true;
+        plain.style.display = 'none';
+        phono.style.display = '';
+        pLetter.required    = true;
     }
 }
 switchType(document.getElementById('entryType').value);
+
+/* ── In-browser recorder (same method as Tiv names / words) ── */
+var _alphaRecorder  = null;
+var _alphaChunks    = [];
+var _alphaBlob      = null;
+var _alphaRecording = false;
+
+function toggleAlphaRecording() {
+    var btn     = document.getElementById('recordBtn');
+    var text    = document.getElementById('recordText');
+    var preview = document.getElementById('audioPreview');
+
+    if (!_alphaRecording) {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                _alphaRecorder = new MediaRecorder(stream);
+                _alphaChunks   = [];
+
+                _alphaRecorder.ondataavailable = function(e) { _alphaChunks.push(e.data); };
+                _alphaRecorder.onstop = function() {
+                    _alphaBlob = new Blob(_alphaChunks, { type: 'audio/webm' });
+                    var reader = new FileReader();
+                    reader.onloadend = function() {
+                        document.getElementById('audioData').value  = reader.result;
+                        document.getElementById('previewAudio').src = reader.result;
+                        preview.style.display = 'flex';
+                    };
+                    reader.readAsDataURL(_alphaBlob);
+                };
+
+                _alphaRecorder.start();
+                _alphaRecording = true;
+                btn.classList.add('recording');
+                text.textContent = 'Stop Recording';
+                preview.style.display = 'none';
+            })
+            .catch(function() {
+                alert('Could not access microphone. Please allow microphone access in your browser.');
+            });
+    } else {
+        _alphaRecorder.stop();
+        _alphaRecorder.stream.getTracks().forEach(function(t){ t.stop(); });
+        _alphaRecording = false;
+        btn.classList.remove('recording');
+        text.textContent = 'Re-record';
+    }
+}
+
+function playAlphaPreview() {
+    var audio    = document.getElementById('previewAudio');
+    var playIcon = document.getElementById('playIcon');
+    if (!audio.paused) {
+        audio.pause(); audio.currentTime = 0;
+        playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+        return;
+    }
+    audio.play().then(function() {
+        playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+    });
+    audio.onended = function() {
+        playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+    };
+}
+
+function deleteAlphaRecording() {
+    document.getElementById('audioData').value  = '';
+    document.getElementById('previewAudio').src = '';
+    document.getElementById('audioPreview').style.display = 'none';
+    document.getElementById('recordText').textContent = 'Record Pronunciation';
+    _alphaBlob = null;
+}
 </script>

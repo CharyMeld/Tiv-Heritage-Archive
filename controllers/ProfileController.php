@@ -5,6 +5,8 @@
 
 require_once BASE_PATH . '/models/User.php';
 require_once BASE_PATH . '/models/Submission.php';
+require_once BASE_PATH . '/models/SavedItem.php';
+require_once BASE_PATH . '/models/Source.php';
 
 class ProfileController extends Controller
 {
@@ -192,5 +194,19 @@ class ProfileController extends Controller
 
         $this->flash('Password updated successfully.', 'success');
         $this->redirect(url('profile'));
+    }
+
+    /** GET profile/collection — references the user has saved via "Save to Collection" */
+    public function collection(): void
+    {
+        $this->requireAuth();
+
+        $savedModel = new SavedItem();
+        $sources = $savedModel->getForUserByTable((int) $this->user['id'], 'sources');
+
+        $this->render('profile/collection', [
+            'title'   => 'My Collection',
+            'sources' => $sources,
+        ]);
     }
 }

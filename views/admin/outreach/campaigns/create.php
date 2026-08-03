@@ -13,15 +13,16 @@
 
                 <div class="form-group">
                     <label class="form-label required">Campaign Name</label>
-                    <input type="text" name="name" class="form-input" value="<?= e(old('name')) ?>" required placeholder="e.g. Quarterly Update — June 2026">
+                    <input type="text" name="name" class="form-input" value="<?= old('name') ?>" required placeholder="e.g. Quarterly Update — June 2026">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label required">Email Template</label>
                     <select name="template_id" class="form-select" required>
                         <option value="">— Select a template —</option>
+                        <?php $preselected = (int) old('template_id', $preselectTemplate ?? 0); ?>
                         <?php foreach ($templates as $t): ?>
-                            <option value="<?= $t['id'] ?>" <?= (int)(old('template_id')) === (int)$t['id'] ? 'selected' : '' ?>>
+                            <option value="<?= $t['id'] ?>" <?= $preselected === (int) $t['id'] ? 'selected' : '' ?>>
                                 <?= e($t['name']) ?> — <?= e(mb_strimwidth($t['subject'], 0, 50, '…')) ?>
                             </option>
                         <?php endforeach; ?>

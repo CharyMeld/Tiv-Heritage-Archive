@@ -94,7 +94,7 @@
                         <a href="<?= url('admin/content-items/culture/marriage-customs') ?>">&#128149; Marriage Customs</a>
                         <a href="<?= url('admin/content-items/history/origins') ?>">&#127758; Origins</a>
                         <a href="<?= url('admin/content-items/history/migration') ?>">&#128667; Migration</a>
-                        <a href="<?= url('admin/content-items/history/historical-figures') ?>">&#129332; Historical Figures</a>
+                        <a href="<?= url('admin/historical-figures') ?>">&#129332; Historical Figures</a>
                         <a href="<?= url('admin/content-items/history/timeline') ?>">&#128337; Timeline</a>
                         <a href="<?= url('admin/content-items/archive/documents') ?>">&#128196; Documents</a>
                         <a href="<?= url('admin/content-items/archive/audio') ?>">&#127911; Audio Recordings</a>
@@ -110,7 +110,47 @@
                     <div class="admin-dropdown-menu">
                         <a href="<?= url('admin/community/applications') ?>" class="<?= str_starts_with($currentPage ?? '', 'community_applications') ? 'active' : '' ?>">&#128196; Applications</a>
                         <a href="<?= url('admin/community/members') ?>" class="<?= str_starts_with($currentPage ?? '', 'community_members') ? 'active' : '' ?>">&#128101; Members Directory</a>
+                        <a href="<?= url('admin/contributors') ?>" class="<?= str_starts_with($currentPage ?? '', 'contributors') ? 'active' : '' ?>">&#128176; Contributors &amp; Payments</a>
                         <a href="<?= url('community') ?>" target="_blank">&#127760; View Public Page</a>
+                    </div>
+                </div>
+                <div class="admin-topnav-dropdown">
+                    <button class="admin-topnav-link admin-dropdown-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <span>Outreach</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="admin-dropdown-menu">
+                        <a href="<?= url('admin/outreach') ?>" class="<?= ($currentPage ?? '') === 'outreach' ? 'active' : '' ?>">&#127757; Dashboard</a>
+                        <a href="<?= url('admin/outreach/people') ?>">&#128101; Influential People</a>
+                        <a href="<?= url('admin/outreach/nominations') ?>">&#128203; Nominations</a>
+                        <a href="<?= url('admin/outreach/templates') ?>">&#128196; Email Templates</a>
+                        <a href="<?= url('admin/outreach/campaigns') ?>">&#128231; Campaigns</a>
+                        <a href="<?= url('admin/outreach/discovery') ?>">&#128269; Discovery</a>
+                        <hr style="border:none;border-top:1px solid rgba(255,255,255,.1);margin:.3rem 0;">
+                        <a href="<?= url('nominate-influential') ?>" target="_blank">&#128279; Public Nominate Page</a>
+                    </div>
+                </div>
+                <div class="admin-topnav-dropdown">
+                    <button class="admin-topnav-link admin-dropdown-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        <span>Marketing</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="admin-dropdown-menu">
+                        <a href="<?= url('admin/marketing') ?>" class="<?= ($currentPage ?? '') === 'marketing_dashboard' ? 'active' : '' ?>">&#128202; Dashboard</a>
+                        <a href="<?= url('admin/marketing/activity') ?>" class="<?= ($currentPage ?? '') === 'marketing_activity' ? 'active' : '' ?>">&#128225; Activity Log</a>
+                        <a href="<?= url('admin/marketing/generator') ?>" class="<?= ($currentPage ?? '') === 'marketing_generator' ? 'active' : '' ?>">&#129302; Content Generator</a>
+                        <a href="<?= url('admin/marketing/templates') ?>" class="<?= ($currentPage ?? '') === 'marketing_templates' ? 'active' : '' ?>">&#128196; Prompt Templates</a>
+                        <a href="<?= url('admin/marketing/social') ?>" class="<?= ($currentPage ?? '') === 'marketing_social' ? 'active' : '' ?>">&#128241; Social Media</a>
+                        <a href="<?= url('admin/marketing/images') ?>" class="<?= ($currentPage ?? '') === 'marketing_images' ? 'active' : '' ?>">&#128444; Image Generator</a>
+                        <a href="<?= url('admin/marketing/calendar') ?>" class="<?= ($currentPage ?? '') === 'marketing_scheduled' ? 'active' : '' ?>">&#128197; Scheduled Posts</a>
+                        <a href="<?= url('admin/marketing/facebook/queue') ?>" class="<?= ($currentPage ?? '') === 'marketing_queue' ? 'active' : '' ?>">&#128257; Publishing Queue</a>
+                        <a href="<?= url('admin/marketing/campaigns') ?>" class="<?= ($currentPage ?? '') === 'marketing_campaigns' ? 'active' : '' ?>">&#128231; Email Campaigns</a>
+                        <a href="<?= url('admin/marketing/newsletter') ?>" class="<?= ($currentPage ?? '') === 'marketing_newsletter' ? 'active' : '' ?>">&#128240; Newsletter</a>
+                        <a href="<?= url('admin/marketing/analytics') ?>" class="<?= ($currentPage ?? '') === 'marketing_analytics' ? 'active' : '' ?>">&#128200; Analytics</a>
+                        <a href="<?= url('admin/marketing/traffic') ?>" class="<?= ($currentPage ?? '') === 'marketing_traffic' ? 'active' : '' ?>">&#128279; Traffic Reports</a>
+                        <a href="<?= url('admin/marketing/facebook/settings') ?>" class="<?= ($currentPage ?? '') === 'marketing_settings' ? 'active' : '' ?>">&#9881; Settings</a>
                     </div>
                 </div>
                 <a href="<?= url('admin/suggestions') ?>" class="admin-topnav-link <?= str_starts_with($currentPage ?? '', 'suggestions') ? 'active' : '' ?>" title="Suggestions">
@@ -188,7 +228,7 @@
                         <li><a href="<?= url('admin/content-items/culture/marriage-customs') ?>">&#128149; Marriage Customs</a></li>
                         <li><a href="<?= url('admin/content-items/history/origins') ?>">&#127758; Origins</a></li>
                         <li><a href="<?= url('admin/content-items/history/migration') ?>">&#128667; Migration</a></li>
-                        <li><a href="<?= url('admin/content-items/history/historical-figures') ?>">&#129332; Historical Figures</a></li>
+                        <li><a href="<?= url('admin/historical-figures') ?>">&#129332; Historical Figures</a></li>
                         <li><a href="<?= url('admin/content-items/history/timeline') ?>">&#128337; Timeline</a></li>
                         <li><a href="<?= url('admin/content-items/archive/documents') ?>">&#128196; Documents</a></li>
                         <li><a href="<?= url('admin/content-items/archive/audio') ?>">&#127911; Audio Recordings</a></li>
@@ -228,6 +268,44 @@
                     <ul class="adnav-sub" id="adn-community">
                         <li><a href="<?= url('admin/community/applications') ?>">&#128196; Applications</a></li>
                         <li><a href="<?= url('admin/community/members') ?>">&#128101; Members Directory</a></li>
+                        <li><a href="<?= url('admin/contributors') ?>">&#128176; Contributors &amp; Payments</a></li>
+                    </ul>
+                </li>
+
+                <!-- Outreach -->
+                <li>
+                    <button class="adnav-btn" aria-expanded="false" aria-controls="adn-outreach">
+                        <span>&#128231; Outreach</span><span class="adnav-arr">&#9660;</span>
+                    </button>
+                    <ul class="adnav-sub" id="adn-outreach">
+                        <li><a href="<?= url('admin/outreach') ?>">&#127757; Dashboard</a></li>
+                        <li><a href="<?= url('admin/outreach/people') ?>">&#128101; Influential People</a></li>
+                        <li><a href="<?= url('admin/outreach/nominations') ?>">&#128203; Nominations</a></li>
+                        <li><a href="<?= url('admin/outreach/templates') ?>">&#128196; Email Templates</a></li>
+                        <li><a href="<?= url('admin/outreach/campaigns') ?>">&#128231; Campaigns</a></li>
+                        <li><a href="<?= url('admin/outreach/discovery') ?>">&#128269; Discovery</a></li>
+                    </ul>
+                </li>
+
+                <!-- Marketing -->
+                <li>
+                    <button class="adnav-btn" aria-expanded="false" aria-controls="adn-marketing">
+                        <span>&#129302; Marketing</span><span class="adnav-arr">&#9660;</span>
+                    </button>
+                    <ul class="adnav-sub" id="adn-marketing">
+                        <li><a href="<?= url('admin/marketing') ?>">&#128202; Dashboard</a></li>
+                        <li><a href="<?= url('admin/marketing/activity') ?>">&#128225; Activity Log</a></li>
+                        <li><a href="<?= url('admin/marketing/generator') ?>">&#129302; Content Generator</a></li>
+                        <li><a href="<?= url('admin/marketing/templates') ?>">&#128196; Prompt Templates</a></li>
+                        <li><a href="<?= url('admin/marketing/social') ?>">&#128241; Social Media</a></li>
+                        <li><a href="<?= url('admin/marketing/images') ?>">&#128444; Image Generator</a></li>
+                        <li><a href="<?= url('admin/marketing/calendar') ?>">&#128197; Scheduled Posts</a></li>
+                        <li><a href="<?= url('admin/marketing/facebook/queue') ?>">&#128257; Publishing Queue</a></li>
+                        <li><a href="<?= url('admin/marketing/campaigns') ?>">&#128231; Email Campaigns</a></li>
+                        <li><a href="<?= url('admin/marketing/newsletter') ?>">&#128240; Newsletter</a></li>
+                        <li><a href="<?= url('admin/marketing/analytics') ?>">&#128200; Analytics</a></li>
+                        <li><a href="<?= url('admin/marketing/traffic') ?>">&#128279; Traffic Reports</a></li>
+                        <li><a href="<?= url('admin/marketing/facebook/settings') ?>">&#9881; Settings</a></li>
                     </ul>
                 </li>
 

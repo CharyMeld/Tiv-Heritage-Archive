@@ -439,6 +439,21 @@
                 <p class="form-hint">Paste the full YouTube URL or just the video ID — the ID will be extracted automatically.</p>
             </div>
             <div class="form-group">
+                <label for="rumble_id" class="form-label">Rumble Video ID <span style="font-weight:400;color:var(--text-muted);">(optional)</span></label>
+                <input type="text" id="rumble_id" name="rumble_id" class="form-input" value="<?= e($item['rumble_id'] ?? '') ?>" placeholder="e.g., v79a9o4 or full Rumble URL">
+                <p class="form-hint">Paste the Rumble video URL or just the video ID.</p>
+            </div>
+            <div class="form-group">
+                <label for="facebook_url" class="form-label">Facebook Video URL <span style="font-weight:400;color:var(--text-muted);">(optional)</span></label>
+                <input type="text" id="facebook_url" name="facebook_url" class="form-input" value="<?= e($item['facebook_url'] ?? '') ?>" placeholder="e.g., https://www.facebook.com/watch/?v=123456 or Reel URL">
+                <p class="form-hint">Paste the Facebook video or Reel share URL. The video must be set to <strong>Public</strong> on Facebook.</p>
+            </div>
+            <div class="form-group">
+                <label for="tiktok_id" class="form-label">TikTok Video URL <span style="font-weight:400;color:var(--text-muted);">(optional)</span></label>
+                <input type="text" id="tiktok_id" name="tiktok_id" class="form-input" value="<?= e($item['tiktok_id'] ?? '') ?>" placeholder="e.g., https://www.tiktok.com/@user/video/1234567890">
+                <p class="form-hint">Paste the full TikTok video link. The video ID will be extracted automatically.</p>
+            </div>
+            <div class="form-group">
                 <label>Preview</label>
                 <div style="max-width: 320px;">
                     <img src="https://img.youtube.com/vi/<?= e($item['youtube_id']) ?>/mqdefault.jpg" alt="Video thumbnail" style="width: 100%; border-radius: 4px;">

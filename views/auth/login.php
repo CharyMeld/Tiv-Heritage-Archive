@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label class="form-label required" for="email">Email</label>
                 <input type="email" id="email" name="email" class="form-input"
-                       value="<?= e(old('email')) ?>" required autocomplete="email" autofocus>
+                       value="<?= old('email') ?>" required autocomplete="email" autofocus>
                 <?php if (!empty($errors['email'] ?? '')): ?><p class="form-error"><?= e($errors['email']) ?></p><?php endif; ?>
             </div>
             <div class="form-group">
@@ -33,7 +33,7 @@
             <button type="submit" class="btn btn-primary btn-block" style="border-radius:50px;margin-top:0.5rem;">Sign In</button>
         </form>
         <div class="auth-glass-footer">
-            Don&rsquo;t have an account? <a href="<?= url('register') ?>">Create one</a>
+            Don&rsquo;t have an account? <a href="<?= url('community/join') ?>">Create one</a>
         </div>
     </div>
 </div>

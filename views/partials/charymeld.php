@@ -1,7 +1,10 @@
 <?php
 // Only render widget if Charymeld is enabled
 if (!defined('CHARYMELD_ENABLED') || !CHARYMELD_ENABLED) return;
-$cymCsrf = Security::generateCSRFToken();
+// Dedicated Charymeld CSRF token — created in Controller::render() before
+// session_write_close() so it is always persisted to the session file.
+// The partial only reads it; Controller.php is the authoritative writer.
+$cymCsrf = $_SESSION['charymeld_csrf'] ?? '';
 ?>
 
 <!-- ════════════════════════════════════════════════════════
@@ -67,14 +70,7 @@ $cymCsrf = Security::generateCSRFToken();
             </div>
             <div class="cym-msg-bubble">
                 <p><strong>Msugh u za van! I'm Tiv AI</strong> 👋</p>
-                <p>I'm your AI assistant for the Tiv Heritage Archive. I can help you with:</p>
-                <ul>
-                    <li>🔤 Tiv words &amp; their English meanings</li>
-                    <li>🏷️ Tiv names &amp; their significance</li>
-                    <li>📜 Tiv proverbs &amp; wisdom</li>
-                    <li>🎉 Festivals, foods, plants &amp; more</li>
-                </ul>
-                <p class="cym-hint">Try: <em>"What does 'Aôndo' mean?"</em> or <em>"Tell me about the Kwagh-hir festival"</em></p>
+                <p>I search the Tiv Heritage Archive and answer directly from it. Ask me about words, names, proverbs, festivals, foods, plants, animals — anything in the archive.</p>
             </div>
         </div>
     </div>
@@ -101,7 +97,7 @@ $cymCsrf = Security::generateCSRFToken();
                 </svg>
             </button>
         </div>
-        <p class="cym-footer-note">Powered by Claude AI &bull; Searches the live Tiv archive</p>
+        <p class="cym-footer-note">Tiv Archive Intelligence &bull; All answers from the live archive</p>
     </div>
 
 </div>
@@ -193,23 +189,45 @@ $cymCsrf = Security::generateCSRFToken();
         body.append('message',    text);
         body.append('history',    JSON.stringify(history.slice(-6)));
 
-        fetch(ENDPOINT, { method: 'POST', body: body })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                typingEl.remove();
-                if (data.error) {
-                    appendMsg('ai', '⚠️ ' + data.error);
-                } else {
-                    appendMsg('ai', data.reply);
-                    history.push({ role: 'assistant', content: data.reply });
-                    if (!isOpen) showBadge();
-                }
-            })
-            .catch(function () {
-                typingEl.remove();
-                appendMsg('ai', '⚠️ Network error. Please check your connection and try again.');
-            })
-            .finally(function () { isBusy = false; });
+        doRequest(body, false);
+
+        function doRequest(requestBody, isRetry) {
+            fetch(ENDPOINT, { method: 'POST', body: requestBody })
+                .then(function (r) {
+                    // On 403 (session expired / token stale), silently refresh token and retry once
+                    if (r.status === 403 && !isRetry) {
+                        return fetch('<?= url('charymeld/token') ?>', { method: 'GET' })
+                            .then(function (tr) { return tr.json(); })
+                            .then(function (td) {
+                                if (td.csrf_token) {
+                                    CSRF = td.csrf_token;
+                                    var retryBody = new FormData();
+                                    retryBody.append('csrf_token', CSRF);
+                                    retryBody.append('message',    text);
+                                    retryBody.append('history',    JSON.stringify(history.slice(-6)));
+                                    doRequest(retryBody, true);
+                                }
+                            });
+                    }
+                    return r.json().then(function (data) {
+                        typingEl.remove();
+                        if (data.error) {
+                            appendMsg('ai', '⚠️ ' + data.error);
+                        } else {
+                            if (data.csrf_token) { CSRF = data.csrf_token; }
+                            appendMsg('ai', data.reply);
+                            history.push({ role: 'assistant', content: data.reply });
+                            if (!isOpen) showBadge();
+                        }
+                        isBusy = false;
+                    });
+                })
+                .catch(function () {
+                    typingEl.remove();
+                    appendMsg('ai', '⚠️ Network error. Please check your connection and try again.');
+                    isBusy = false;
+                });
+        }
     }
 
     /* ── Append a chat bubble ───────────────────── */
@@ -245,20 +263,38 @@ $cymCsrf = Security::generateCSRFToken();
         return div;
     }
 
-    /* ── Basic markdown-like formatting ─────────── */
+    /* ── Markdown-to-HTML renderer ─────────────── */
     function formatText(text) {
-        // Escape HTML first
+        // 1. HTML-escape angle brackets and ampersands.
+        //    Note: [, ], (, ), / are NOT escaped — so markdown links survive intact.
         text = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        // Bold **text**
+
+        // 2. Markdown links  [label](https://…)  →  <a href="…">label</a>
+        //    Safe to do after escaping because archive URLs contain no <>&" chars.
+        text = text.replace(
+            /\[([^\]\n]+)\]\((https?:\/\/[^\)\n]+)\)/g,
+            '<a href="$2" target="_blank" rel="noopener noreferrer" ' +
+            'style="color:#5C3A21;font-weight:600;text-decoration:underline;">$1</a>'
+        );
+
+        // 3. Bold **text** and italic *text*
         text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        // Italic *text*
-        text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-        // Bullet lists (lines starting with •, -, *)
-        text = text.replace(/^[•\-]\s+(.+)$/gm, '<li>$1</li>');
-        text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-        // Newlines
-        text = text.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
-        return '<p>' + text + '</p>';
+        text = text.replace(/\*([^*\n]+)\*/g,  '<em>$1</em>');
+
+        // 4. Horizontal rule ---
+        text = text.replace(/^---$/gm, '<hr style="border:none;border-top:1px solid #e5e0d5;margin:.6em 0;">');
+
+        // 5. Numbered lists  1. item
+        text = text.replace(/^\d+\.\s+(.+)$/gm, '<li style="margin:.3em 0 .3em 1.2em;list-style:decimal;">$1</li>');
+
+        // 6. Bullet lists  • or -
+        text = text.replace(/^[•\-]\s+(.+)$/gm, '<li style="margin:.25em 0 .25em 1.2em;list-style:disc;">$1</li>');
+
+        // 7. Newlines → paragraph breaks / line breaks
+        text = text.replace(/\n{2,}/g, '</p><p style="margin:.5em 0;">');
+        text = text.replace(/\n/g, '<br>');
+
+        return '<p style="margin:0;line-height:1.6;">' + text + '</p>';
     }
 
     /* ── Voice Input (Web Speech API) ───────────── */

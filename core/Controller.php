@@ -31,6 +31,13 @@ abstract class Controller
             // so without this the token would only be in memory and never persisted.
             Security::generateCSRFToken();
 
+            // Ensure the Charymeld-specific CSRF token is also persisted before
+            // session close. The charymeld partial reads this during rendering
+            // (after session_write_close), so it must already exist on disk.
+            if (empty($_SESSION['charymeld_csrf'])) {
+                $_SESSION['charymeld_csrf'] = bin2hex(random_bytes(32));
+            }
+
             // Preload flash messages so flash() still works after session closes
             $GLOBALS['_flash_store'] = $_SESSION['flash'] ?? [];
             unset($_SESSION['flash']);

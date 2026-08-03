@@ -13,6 +13,7 @@ require_once BASE_PATH . '/models/TivFood.php';
 require_once BASE_PATH . '/models/LearningVideo.php';
 require_once BASE_PATH . '/models/TivAnimal.php';
 require_once BASE_PATH . '/models/TeamMember.php';
+require_once BASE_PATH . '/services/SeoHelper.php';
 
 class HomeController extends Controller
 {
@@ -62,6 +63,32 @@ class HomeController extends Controller
         // The JS picks up from localStorage so returning visitors resume where they left off.
         $verseBatch  = $bibleModel->getVersesBatch(0, 20);
 
+        $jsonLd = SeoHelper::jsonLd([
+            [
+                '@context'        => 'https://schema.org',
+                '@type'           => 'WebSite',
+                'name'            => SITE_NAME,
+                'url'             => SITE_URL,
+                'description'     => SITE_TAGLINE,
+                'potentialAction' => [
+                    '@type'       => 'SearchAction',
+                    'target'      => [
+                        '@type'       => 'EntryPoint',
+                        'urlTemplate' => SITE_URL . '/archive?q={search_term_string}',
+                    ],
+                    'query-input' => 'required name=search_term_string',
+                ],
+            ],
+            [
+                '@context' => 'https://schema.org',
+                '@type'    => 'Organization',
+                'name'     => SITE_NAME,
+                'url'      => SITE_URL,
+                'logo'     => SITE_URL . '/favicon.png',
+                'sameAs'   => [],
+            ],
+        ]);
+
         $this->render('home/index', array_merge($featured, [
             'title'       => SITE_NAME . ' - ' . SITE_TAGLINE,
             'dailyWord'   => $dailyWord,
@@ -69,7 +96,9 @@ class HomeController extends Controller
             'verseBatch'  => $verseBatch,
             'verseTotal'  => $verseTotal,
             'teamMembers' => $teamModel->getActive(),
+            'jsonLd'      => $jsonLd,
             'currentPage' => 'home',
+            'showWelcomePopup' => true,
         ]));
     }
 
@@ -81,6 +110,7 @@ class HomeController extends Controller
         $teamModel = new TeamMember();
         $this->render('home/about', [
             'title'       => 'About Us',
+            'description' => 'Learn about the mission behind the Tiv Heritage Archive — preserving Tiv language, history, and identity for future generations.',
             'teamMembers' => $teamModel->getActive(),
             'currentPage' => 'about',
         ]);
@@ -93,6 +123,7 @@ class HomeController extends Controller
     {
         $this->render('home/contact', [
             'title' => 'Contact Us',
+            'description' => 'Get in touch with the Tiv Heritage Archive team — questions, corrections, and contributions welcome.',
             'currentPage' => 'contact'
         ]);
     }

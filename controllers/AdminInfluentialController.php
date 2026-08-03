@@ -3,6 +3,7 @@ require_once BASE_PATH . '/models/InfluentialPerson.php';
 require_once BASE_PATH . '/models/OutreachNomination.php';
 require_once BASE_PATH . '/models/EmailTemplate.php';
 require_once BASE_PATH . '/models/EmailCampaign.php';
+require_once BASE_PATH . '/models/DirectSend.php';
 require_once BASE_PATH . '/services/OutreachMailer.php';
 
 class AdminInfluentialController extends Controller {
@@ -11,6 +12,7 @@ class AdminInfluentialController extends Controller {
     private OutreachNomination $nominations;
     private EmailTemplate      $templates;
     private EmailCampaign      $campaigns;
+    private DirectSend         $directSends;
 
     public function __construct() {
         parent::__construct();
@@ -18,6 +20,7 @@ class AdminInfluentialController extends Controller {
         $this->nominations = new OutreachNomination();
         $this->templates   = new EmailTemplate();
         $this->campaigns   = new EmailCampaign();
+        $this->directSends = new DirectSend();
     }
 
     // ── Dashboard ─────────────────────────────────────────────────────────────
@@ -313,6 +316,115 @@ class AdminInfluentialController extends Controller {
         $this->redirect(url('admin/outreach/people'));
     }
 
+    // ── One-off direct send to a single contact ─────────────────────────────────
+
+    public function sendPersonForm(string $id): void {
+        $this->requireAdmin();
+
+        $person = $this->people->find((int) $id);
+        if (!$person) {
+            $this->flash('Person not found.', 'error');
+            $this->redirect(url('admin/outreach/people'));
+            return;
+        }
+
+        $allTemplates = $this->templates->getAll();
+        if (empty($allTemplates)) {
+            $this->flash('Please create at least one email template before sending.', 'error');
+            $this->redirect(url('admin/outreach/templates/create'));
+            return;
+        }
+
+        if (empty($person['email'])) {
+            $this->flash($person['name'] . ' has no email address on file.', 'error');
+            $this->redirect(url('admin/outreach/people'));
+            return;
+        }
+        if ($person['is_unsubscribed'] || $person['consent_status'] === 'opted_out') {
+            $this->flash($person['name'] . ' has opted out / unsubscribed and cannot be emailed.', 'error');
+            $this->redirect(url('admin/outreach/people'));
+            return;
+        }
+
+        $selectedId = (int) $this->get('template_id', $allTemplates[0]['id']);
+        $selected   = $this->templates->find($selectedId) ?: $allTemplates[0];
+
+        $siteUrl  = defined('SITE_URL') ? SITE_URL : '';
+        $unsubUrl = $person['unsubscribe_token'] ? $siteUrl . '/outreach/unsubscribe/' . $person['unsubscribe_token'] : '';
+        $previewBody = OutreachMailer::buildBody($selected['body_html'], [
+            'name'            => $person['name'],
+            'title'           => $person['title'] ?? '',
+            'unsubscribe_url' => $unsubUrl,
+        ]);
+
+        $this->render('admin/outreach/people/send', [
+            'title'       => 'Send Email to ' . $person['name'],
+            'currentPage' => 'outreach',
+            'person'      => $person,
+            'templates'   => $allTemplates,
+            'selected'    => $selected,
+            'previewBody' => $previewBody,
+            'history'     => $this->directSends->getForPerson((int) $id),
+        ], 'admin');
+    }
+
+    public function sendToPerson(string $id): void {
+        $this->requireAdmin();
+
+        if (!$this->validateCSRF()) {
+            $this->back();
+            return;
+        }
+
+        $person = $this->people->find((int) $id);
+        if (!$person) {
+            $this->flash('Person not found.', 'error');
+            $this->redirect(url('admin/outreach/people'));
+            return;
+        }
+        if (empty($person['email']) || $person['is_unsubscribed'] || $person['consent_status'] === 'opted_out') {
+            $this->flash('This contact cannot be emailed (no address, unsubscribed, or opted out).', 'error');
+            $this->redirect(url('admin/outreach/people'));
+            return;
+        }
+
+        $templateId = (int) $this->post('template_id', 0);
+        $template   = $this->templates->find($templateId);
+        if (!$template) {
+            $this->flash('Invalid template selected.', 'error');
+            $this->redirect(url('admin/outreach/people/' . $id . '/send'));
+            return;
+        }
+
+        $siteUrl  = defined('SITE_URL') ? SITE_URL : '';
+        $unsubUrl = $person['unsubscribe_token'] ? $siteUrl . '/outreach/unsubscribe/' . $person['unsubscribe_token'] : '';
+        $body = OutreachMailer::buildBody($template['body_html'], [
+            'name'            => $person['name'],
+            'title'           => $person['title'] ?? '',
+            'unsubscribe_url' => $unsubUrl,
+        ]);
+
+        $ok = OutreachMailer::send($person['email'], $person['name'], $template['subject'], $body);
+
+        $this->directSends->create([
+            'person_id'   => (int) $id,
+            'template_id' => $templateId,
+            'email'       => $person['email'],
+            'status'      => $ok ? 'sent' : 'failed',
+            'sent_by'     => $this->user['id'],
+        ]);
+
+        if ($ok) {
+            $this->people->markContacted((int) $id);
+            Security::logActivity($this->user['id'], 'direct_email_sent', 'influential_people', (int) $id, null, ['template_id' => $templateId]);
+            $this->flash('Email sent to ' . $person['name'] . '.', 'success');
+        } else {
+            $this->flash('Failed to send email to ' . $person['name'] . '.', 'error');
+        }
+
+        $this->redirect(url('admin/outreach/people'));
+    }
+
     // ── Nominations ───────────────────────────────────────────────────────────
 
     public function nominations(): void {
@@ -569,6 +681,12 @@ class AdminInfluentialController extends Controller {
         $pagination = $this->paginate($total, 20);
         $items      = $this->campaigns->getAll($pagination['per_page'], $pagination['offset']);
 
+        foreach ($items as &$item) {
+            $cats = $item['target_categories'] ? json_decode($item['target_categories'], true) : [];
+            $item['recipient_count'] = $this->people->countForCampaign(is_array($cats) ? $cats : []);
+        }
+        unset($item);
+
         $this->render('admin/outreach/campaigns/index', [
             'title'       => 'Email Campaigns',
             'currentPage' => 'outreach',
@@ -588,10 +706,11 @@ class AdminInfluentialController extends Controller {
         }
 
         $this->render('admin/outreach/campaigns/create', [
-            'title'       => 'New Campaign',
-            'currentPage' => 'outreach',
-            'templates'   => $allTemplates,
-            'categories'  => InfluentialPerson::CATEGORIES,
+            'title'             => 'New Campaign',
+            'currentPage'       => 'outreach',
+            'templates'         => $allTemplates,
+            'categories'        => InfluentialPerson::CATEGORIES,
+            'preselectTemplate' => (int) $this->get('template_id', 0),
         ], 'admin');
     }
 

@@ -357,6 +357,49 @@ class BibleTranslationMiner
         }
     }
 
+    /**
+     * Look up a single word in the Bible bilingual corpus.
+     * Returns the most likely translation for the word, or null.
+     * Used by TranslationEngine::refineLocally() to resolve missing tokens.
+     */
+    public function lookupWordInBible(string $word, string $sourceLang): ?string
+    {
+        $col    = $sourceLang === 'tiv' ? 'tiv' : 'english_web';
+        $retCol = $sourceLang === 'tiv' ? 'english_web' : 'tiv';
+        $like   = '% ' . mb_strtolower($word) . ' %';
+
+        // Find short bilingual verses where the word appears in isolation
+        $stmt = $this->db->prepare(
+            "SELECT {$retCol} AS translated, CHAR_LENGTH({$col}) AS src_len
+             FROM bible_verses
+             WHERE LOWER({$col}) LIKE ?
+               AND {$retCol} IS NOT NULL AND {$retCol} != ''
+               AND CHAR_LENGTH({$col}) < 60
+             ORDER BY src_len ASC
+             LIMIT 3"
+        );
+        $stmt->execute([$like]);
+        $rows = $stmt->fetchAll();
+
+        if (empty($rows)) return null;
+
+        // Pick the shortest matching verse translation (most likely a clean word pair)
+        $best = $rows[0]['translated'] ?? '';
+        $bestLen = mb_strlen($best);
+        foreach ($rows as $r) {
+            $len = mb_strlen($r['translated']);
+            if ($len < $bestLen) {
+                $best    = $r['translated'];
+                $bestLen = $len;
+            }
+        }
+
+        // Only return if the result is short enough to be a meaningful word/phrase
+        if ($bestLen > 80) return null;
+
+        return trim($best);
+    }
+
     // ═══════════════════════════════════════════════════════════════════
     // HELPERS
     // ═══════════════════════════════════════════════════════════════════

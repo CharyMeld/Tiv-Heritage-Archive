@@ -47,13 +47,39 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email" class="form-label required">Email Address</label>
+                    <label for="email" class="form-label required">Email Address <span style="font-weight:400;color:#8a7a6a;">(used as your login username)</span></label>
                     <input type="email" id="email" name="email" class="form-input"
-                           value="<?= htmlspecialchars($old['email'] ?? '') ?>" required autocomplete="email">
+                           value="<?= htmlspecialchars(!empty($user) ? $user['email'] : ($old['email'] ?? '')) ?>"
+                           <?= !empty($user) ? 'readonly' : '' ?> required autocomplete="email">
                     <?php if (isset($errors['email'])): ?>
                         <div class="form-error"><?= htmlspecialchars($errors['email']) ?></div>
                     <?php endif; ?>
                 </div>
+
+                <?php if (!empty($user)): ?>
+                <div class="form-group">
+                    <p style="background:#f0f7f3;border:1px solid #4a7c59;border-radius:8px;padding:.75rem 1rem;font-size:.85rem;color:#3a5a4a;margin:0;">
+                        &#9989; You're logged in as <strong><?= htmlspecialchars($user['email']) ?></strong> — this application will be linked to your existing account.
+                    </p>
+                </div>
+                <?php else: ?>
+                <div class="form-group">
+                    <label for="password" class="form-label required">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" required autocomplete="new-password" minlength="8">
+                    <p class="form-hint">At least 8 characters. If this email is already registered, enter <em>that account's</em> password instead — your application will be linked to it rather than creating a duplicate.</p>
+                    <?php if (isset($errors['password'])): ?>
+                        <div class="form-error"><?= htmlspecialchars($errors['password']) ?></div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group">
+                    <label for="password_confirm" class="form-label required">Confirm Password</label>
+                    <input type="password" id="password_confirm" name="password_confirm" class="form-input" required autocomplete="new-password" minlength="8">
+                    <?php if (isset($errors['password_confirm'])): ?>
+                        <div class="form-error"><?= htmlspecialchars($errors['password_confirm']) ?></div>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
 
                 <div class="form-group">
                     <label for="phone" class="form-label">Phone Number <span style="font-weight:400;color:#8a7a6a;">(Optional)</span></label>

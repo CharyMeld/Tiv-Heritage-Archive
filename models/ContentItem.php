@@ -85,6 +85,18 @@ class ContentItem extends Model
         return (int) $stmt->fetchColumn();
     }
 
+    public function recentBySubcategory(string $section, string $sub, int $limit = 12): array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table}
+             WHERE section = ? AND subcategory = ? AND status = 'published'
+             ORDER BY is_featured DESC, created_at DESC
+             LIMIT ?"
+        );
+        $stmt->execute([$section, $sub, $limit]);
+        return $stmt->fetchAll();
+    }
+
     /** Label shown in admin/UI for a subcategory key */
     public static function subcategoryLabel(string $sub): string
     {

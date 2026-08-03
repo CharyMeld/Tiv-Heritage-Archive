@@ -5,7 +5,6 @@
     <div class="home-hero-inner">
         <div class="container">
             <div class="home-hero-content" style="text-align:center;margin:0 auto;">
-<p class="home-eyebrow">&#128218; Tiv Culture Archive</p>
                 <h1 class="home-hero-title">Wisdom of the<br>Tiv People</h1>
                 <p class="home-hero-sub">Preserving Language &bull; Culture &bull; Heritage</p>
                 <div class="home-hero-actions" style="justify-content:center;">
@@ -40,7 +39,7 @@
         <div class="home-dw-card">
             <div class="home-dw-left">
                 <span class="home-dw-eyebrow">&#128172; Today&rsquo;s Tiv Word &mdash; <?= date('M j, Y') ?></span>
-                <a href="<?= url('word/' . $dailyWord['id']) ?>" class="home-dw-tiv">
+                <a href="<?= url(SeoHelper::canonicalSlugPath('word', $dailyWord['id'], $dailyWord['tiv_word'])) ?>" class="home-dw-tiv">
                     <?= e($dailyWord['tiv_word']) ?>
                 </a>
                 <p class="home-dw-eng"><?= e($dailyWord['english_meaning']) ?></p>
@@ -65,7 +64,7 @@
                 </button>
                 <audio id="dailyWordAudio" style="display:none;"></audio>
                 <?php else: ?>
-                <a href="<?= url('word/' . $dailyWord['id']) ?>" class="home-dw-listen">
+                <a href="<?= url(SeoHelper::canonicalSlugPath('word', $dailyWord['id'], $dailyWord['tiv_word'])) ?>" class="home-dw-listen">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                          fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round">
@@ -124,6 +123,20 @@
 
 
 
+<?php if (ADSENSE_ENABLED): ?>
+<!-- Ad 3: between Category Grid and Learning Videos -->
+<div class="container">
+    <div class="adsense-wrap">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7960622250292703"
+             data-ad-slot="6111588136"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+    </div>
+</div>
+<?php endif; ?>
+
 <!-- ═══════════════════════════════════════════
      LEARNING VIDEOS ROW
 ════════════════════════════════════════════ -->
@@ -149,7 +162,7 @@
             </button>
             <div class="explore-track home-video-track">
                 <?php foreach ($learningVideos as $video): ?>
-                <div class="home-video-card" onclick="playVideo('<?= e($video['youtube_id']) ?>', this)">
+                <a href="<?= url('learn/' . $video['id']) ?>" class="home-video-card">
                     <div class="home-video-thumb">
                         <img src="https://img.youtube.com/vi/<?= e($video['youtube_id']) ?>/mqdefault.jpg"
                              alt="<?= e($video['title']) ?>" loading="lazy">
@@ -173,7 +186,7 @@
                         <p class="home-video-desc"><?= e(mb_substr($video['description'],0,70)) ?>…</p>
                         <?php endif; ?>
                     </div>
-                </div>
+                </a>
                 <?php endforeach; ?>
             </div>
             <button class="explore-arrow explore-arrow-right" aria-label="Scroll right" onclick="slideRow(this,1)">
@@ -201,7 +214,7 @@ if (!empty($festivalGalleryPhotos)) {
             'src'     => UPLOADS_URL . '/images/' . $p['image_path'],
             'label'   => $p['festival_name'] ?? '',
             'sub'     => $p['english_name'] ?? '',
-            'link'    => url('festival/' . $p['festival_id']),
+            'link'    => url(SeoHelper::canonicalSlugPath('festival', $p['festival_id'], $p['festival_name'] ?? '')),
             'caption' => $p['caption'] ?? '',
         ];
     }
@@ -214,7 +227,7 @@ if (!empty($featuredFoods)) {
             'type'  => 'food',
             'label' => $fo['tiv_name'] ?? '',
             'sub'   => $fo['english_name'] ?? '',
-            'link'  => url('food/' . $fo['id']),
+            'link'  => url(SeoHelper::canonicalSlugPath('food', $fo['id'], $fo['tiv_name'] ?? '')),
             'src'   => !empty($fo['image']) ? UPLOADS_URL . '/images/' . $fo['image'] : '',
         ];
     }
@@ -779,24 +792,6 @@ document.querySelectorAll('.explore-track').forEach(function(track) {
     track.addEventListener('scroll', update, { passive: true });
     update();
 });
-
-/* ── YouTube embed ── */
-function playVideo(youtubeId, element) {
-    var iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0';
-    iframe.setAttribute('frameborder','0');
-    iframe.setAttribute('allowfullscreen','true');
-    iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-    var thumb = element.querySelector('.home-video-thumb');
-    if (!thumb) return;
-    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
-    thumb.innerHTML = '';
-    thumb.style.position = 'relative';
-    thumb.style.paddingTop = '56.25%';
-    thumb.appendChild(iframe);
-    element.style.cursor = 'default';
-    element.onclick = null;
-}
 
 /* ── Daily word audio ── */
 function playDailyWord(button) {

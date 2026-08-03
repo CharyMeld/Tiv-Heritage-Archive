@@ -1,5 +1,7 @@
+/* Production serves script.min.js (see views/layouts/main.php). After
+   editing this file, regenerate it: npx terser script.js -o script.min.js -c -m */
 /* ============================================
-   TIVI CULTURE ARCHIVE - JAVASCRIPT
+   TIV CULTURE ARCHIVE - JAVASCRIPT
    Interactive Functionality
    ============================================ */
 
@@ -15,7 +17,164 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAjaxSearch();
     initializeFormValidation();
     initializeDailyWordFetch();
+    initializeWelcomePopup();
 });
+
+/**
+ * Homepage welcome popup — newsletter subscription modal shown to
+ * first-time visitors who haven't subscribed. Skipped entirely (including
+ * the dismissal-storage checks) if the overlay markup isn't on the page,
+ * since the layout only includes it on the homepage.
+ */
+function initializeWelcomePopup() {
+    var overlay = document.getElementById('welcomePopupOverlay');
+    if (!overlay) return;
+
+    var DISMISS_DAYS = 7;
+    var DISMISS_KEY = 'tiv_newsletter_popup_dismissed_until';
+    var SUBSCRIBED_KEY = 'tiv_newsletter_subscribed';
+
+    function isDismissed() {
+        if (localStorage.getItem(SUBSCRIBED_KEY) === '1') return true;
+        var until = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
+        return Date.now() < until;
+    }
+
+    if (isDismissed()) return;
+
+    var modal = overlay.querySelector('.welcome-popup');
+    var closeBtn = document.getElementById('welcomePopupClose');
+    var skipBtn = document.getElementById('welcomePopupSkip');
+    var form = document.getElementById('welcomePopupForm');
+    var submitBtn = document.getElementById('welcomePopupSubmit');
+    var statusBox = document.getElementById('welcomePopupStatus');
+    var emailInput = document.getElementById('welcomePopupEmail');
+    var lastFocused = null;
+
+    function showStatus(message, type) {
+        statusBox.textContent = message;
+        statusBox.hidden = false;
+        statusBox.className = 'welcome-popup-status ' + (type === 'error' ? 'is-error' : 'is-success');
+    }
+
+    function rememberDismissal() {
+        localStorage.setItem(DISMISS_KEY, String(Date.now() + DISMISS_DAYS * 24 * 60 * 60 * 1000));
+    }
+
+    function open() {
+        lastFocused = document.activeElement;
+        overlay.hidden = false;
+        // Next frame, so the hidden->block change doesn't eat the transition.
+        requestAnimationFrame(function () {
+            overlay.classList.add('is-visible');
+            emailInput.focus();
+        });
+        document.addEventListener('keydown', onKeydown);
+    }
+
+    function close() {
+        overlay.classList.remove('is-visible');
+        document.removeEventListener('keydown', onKeydown);
+        setTimeout(function () {
+            overlay.hidden = true;
+            if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+        }, 280);
+    }
+
+    function onKeydown(e) {
+        if (e.key === 'Escape') {
+            rememberDismissal();
+            close();
+            return;
+        }
+        if (e.key !== 'Tab') return;
+        // Simple focus trap: cycle Tab/Shift+Tab within the modal's focusable elements.
+        var focusable = modal.querySelectorAll('input, button');
+        if (!focusable.length) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    }
+
+    closeBtn.addEventListener('click', function () {
+        rememberDismissal();
+        close();
+    });
+
+    skipBtn.addEventListener('click', function () {
+        rememberDismissal();
+        close();
+    });
+
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) {
+            rememberDismissal();
+            close();
+        }
+    });
+
+    // "Follow us elsewhere" channels (Facebook, YouTube, …) are plain links
+    // that open in a new tab — neither platform lets a site subscribe/follow
+    // on a visitor's behalf. Clicking one still counts as engagement, so it
+    // dismisses the popup the same way skipping does rather than leaving it
+    // sitting open behind the new tab.
+    overlay.querySelectorAll('.welcome-popup-channel-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            rememberDismissal();
+            setTimeout(close, 300);
+        });
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var email = emailInput.value.trim();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            emailInput.classList.add('is-invalid');
+            showStatus('Please enter a valid email address.', 'error');
+            emailInput.focus();
+            return;
+        }
+        emailInput.classList.remove('is-invalid');
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Subscribing…';
+
+        fetch(getSiteUrl() + '/newsletter/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(form))
+        })
+        .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+        .then(function (res) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Subscribe & Continue';
+
+            if (!res.data.success) {
+                showStatus(res.data.message || 'Something went wrong — please try again.', 'error');
+                return;
+            }
+
+            showStatus(res.data.message, 'success');
+            localStorage.setItem(SUBSCRIBED_KEY, '1');
+            form.querySelectorAll('input, button').forEach(function (el) { el.disabled = true; });
+            setTimeout(close, 2000);
+        })
+        .catch(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Subscribe & Continue';
+            showStatus('Network error — please try again.', 'error');
+        });
+    });
+
+    open();
+}
 
 /**
  * Mobile tap support for explore cards (hover overlay on first tap, navigate on second)
@@ -516,13 +675,11 @@ async function shareContent(title, text, url) {
     }
 }
 
-// PWA Service Worker Registration
+// Unregister any previously installed service worker (it served no purpose
+// and clients.claim() caused "Unsafe attempt to load URL" errors on Chrome error pages)
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    var base = (document.querySelector('meta[name="site-url"]') || {}).content || '';
-    var swPath = base.replace(/\/$/, '') + '/service-worker.js';
-    navigator.serviceWorker.register(swPath)
-      .catch(() => {});
+  navigator.serviceWorker.getRegistrations().then(function(regs) {
+    regs.forEach(function(r) { r.unregister(); });
   });
 }
 
@@ -532,6 +689,10 @@ if ('serviceWorker' in navigator) {
 //  on all public content (not admin forms)
 // ============================================
 (function () {
+  // Site-wide kill switch (config/config.php: CONTENT_PROTECTION_ENABLED).
+  // Pages without the attribute at all (e.g. admin layout) are left alone too.
+  if (document.body.getAttribute('data-protection') !== '1') return;
+
   var role    = document.body.getAttribute('data-role') || '';
   var isAdmin = document.body.classList.contains('admin-body') ||
                 window.location.pathname.indexOf('/admin') !== -1 ||
@@ -588,4 +749,191 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('beforeprint', function (e) {
     e.stopImmediatePropagation();
   });
+})();
+
+// ============================================
+//  TOAST NOTIFICATIONS
+//  Shared success/error/info toast, used by the
+//  Reference Details action toolbar (and reusable
+//  anywhere else that needs a non-blocking confirmation).
+// ============================================
+function showToast(message, type) {
+  type = type || 'info';
+  var stack = document.querySelector('.toast-stack');
+  if (!stack) {
+    stack = document.createElement('div');
+    stack.className = 'toast-stack';
+    stack.setAttribute('role', 'status');
+    stack.setAttribute('aria-live', 'polite');
+    document.body.appendChild(stack);
+  }
+
+  var toast = document.createElement('div');
+  toast.className = 'toast toast-' + type;
+  toast.textContent = message;
+  stack.appendChild(toast);
+
+  // Force layout before adding the visible class so the transition runs.
+  requestAnimationFrame(function () {
+    toast.classList.add('is-visible');
+  });
+
+  setTimeout(function () {
+    toast.classList.remove('is-visible');
+    setTimeout(function () { toast.remove(); }, 250);
+  }, 3200);
+}
+
+// ============================================
+//  REFERENCE DETAILS — ACTION TOOLBAR
+// ============================================
+(function () {
+  var toolbar = document.querySelector('.ref-toolbar');
+  if (!toolbar) return;
+
+  /* ── Generic dropdown handling (Export / Share fallback) ── */
+  var dropdownItems = toolbar.querySelectorAll('.ref-toolbar-item[data-dropdown]');
+
+  function closeAllDropdowns(except) {
+    dropdownItems.forEach(function (item) {
+      if (item === except) return;
+      item.classList.remove('is-open');
+      var btn = item.querySelector('.ref-toolbar-btn');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  dropdownItems.forEach(function (item) {
+    var btn  = item.querySelector('.ref-toolbar-btn');
+    var menu = item.querySelector('.ref-toolbar-menu');
+    if (!btn || !menu) return;
+
+    btn.setAttribute('aria-haspopup', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = item.classList.contains('is-open');
+      closeAllDropdowns();
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+        var firstLink = menu.querySelector('a, button');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  });
+
+  document.addEventListener('click', function () { closeAllDropdowns(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeAllDropdowns();
+      var openBtn = toolbar.querySelector('.ref-toolbar-btn[aria-expanded="true"]');
+      if (openBtn) openBtn.focus();
+    }
+  });
+
+  /* ── Copy Citation ── */
+  var copyCitationBtn = toolbar.querySelector('[data-action="copy-citation"]');
+  if (copyCitationBtn) {
+    copyCitationBtn.addEventListener('click', function () {
+      copyToClipboard(copyCitationBtn.dataset.citation).then(function (ok) {
+        showToast(ok ? 'Citation copied to clipboard' : 'Could not copy citation', ok ? 'success' : 'error');
+      });
+    });
+  }
+
+  /* ── Copy Permanent Link ── */
+  var copyLinkBtn = toolbar.querySelector('[data-action="copy-link"]');
+  if (copyLinkBtn) {
+    copyLinkBtn.addEventListener('click', function () {
+      copyToClipboard(copyLinkBtn.dataset.url).then(function (ok) {
+        showToast(ok ? 'Permanent link copied' : 'Could not copy link', ok ? 'success' : 'error');
+      });
+    });
+  }
+
+  /* ── Export Citation (dropdown links download themselves — just confirm) ── */
+  toolbar.querySelectorAll('[data-action="export-format"]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      showToast('Downloading ' + link.dataset.formatLabel + ' citation…', 'info');
+      closeAllDropdowns();
+    });
+  });
+
+  /* ── Share ── */
+  var shareBtn = toolbar.querySelector('[data-action="share"]');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function (e) {
+      var title = shareBtn.dataset.shareTitle;
+      var url   = shareBtn.dataset.shareUrl;
+
+      if (navigator.share) {
+        e.stopPropagation(); // don't also open the fallback dropdown
+        navigator.share({ title: title, url: url }).then(function () {
+          showToast('Shared', 'success');
+        }).catch(function (err) {
+          if (err && err.name !== 'AbortError') showToast('Could not share', 'error');
+        });
+      }
+      // If navigator.share is unsupported, the click falls through to the
+      // generic dropdown handler above, which opens the fallback menu.
+    });
+  }
+  toolbar.querySelectorAll('[data-action="share-fallback-link"]').forEach(function (link) {
+    link.addEventListener('click', function () { closeAllDropdowns(); });
+  });
+
+  /* ── Save to Collection ── */
+  var saveBtn = toolbar.querySelector('[data-action="save"]');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', function () {
+      if (saveBtn.dataset.authRequired === '1') {
+        showToast('Log in to save references to your collection', 'info');
+        setTimeout(function () { window.location.href = saveBtn.dataset.loginUrl; }, 900);
+        return;
+      }
+
+      saveBtn.disabled = true;
+      fetch(saveBtn.dataset.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _token: saveBtn.dataset.token })
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        saveBtn.disabled = false;
+        if (!data.ok) {
+          if (data.error === 'auth_required') {
+            showToast('Log in to save references to your collection', 'info');
+            if (data.loginUrl) setTimeout(function () { window.location.href = data.loginUrl; }, 900);
+          } else {
+            showToast('Could not update your collection', 'error');
+          }
+          return;
+        }
+        saveBtn.classList.toggle('is-active', data.saved);
+        saveBtn.setAttribute('aria-pressed', data.saved ? 'true' : 'false');
+        var icon = saveBtn.querySelector('.ref-toolbar-icon');
+        if (icon) icon.textContent = data.saved ? '⭐' : '☆';
+        var label = saveBtn.querySelector('.ref-toolbar-label');
+        if (label) label.textContent = data.saved ? 'Saved' : 'Save to Collection';
+        showToast(data.saved ? 'Saved to your collection' : 'Removed from your collection', 'success');
+      })
+      .catch(function () {
+        saveBtn.disabled = false;
+        showToast('Network error — please try again', 'error');
+      });
+    });
+  }
+
+  /* ── Print ── opens the layout-free print route in a new tab; no JS needed
+     beyond letting the link's default behavior (target="_blank") happen.
+     Confirm with a toast for consistency with the other actions. */
+  var printBtn = toolbar.querySelector('[data-action="print"]');
+  if (printBtn) {
+    printBtn.addEventListener('click', function () {
+      showToast('Opening print view…', 'info');
+    });
+  }
 })();

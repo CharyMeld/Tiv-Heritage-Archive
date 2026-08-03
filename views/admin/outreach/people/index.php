@@ -50,36 +50,36 @@
                     <p>No people found. <?php if (!array_filter($filters)): ?><a href="<?= url('admin/outreach/people/create') ?>">Add the first one.</a><?php endif; ?></p>
                 </div>
             <?php else: ?>
-                <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:.87rem;">
+                <div class="op-table-wrap">
+                    <table class="op-table">
                         <thead>
-                            <tr style="background:#f7f4ee;border-bottom:2px solid #e5e0d5;">
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Name</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Category</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Email</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Contact</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Consent</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Last Contacted</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Sent</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Actions</th>
+                            <tr>
+                                <th style="width:16%;">Name</th>
+                                <th style="width:9%;">Category</th>
+                                <th style="width:16%;">Email</th>
+                                <th style="width:12%;">Contact</th>
+                                <th style="width:11%;">Consent</th>
+                                <th style="width:11%;">Last Contacted</th>
+                                <th class="op-center-cell" style="width:6%;">Sent</th>
+                                <th style="width:9%;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($items as $p): ?>
-                            <tr style="border-bottom:1px solid #f0ede8;" <?= $p['is_unsubscribed'] ? 'style="opacity:.55;border-bottom:1px solid #f0ede8;"' : '' ?>>
-                                <td style="padding:.7rem 1rem;">
-                                    <div style="font-weight:500;color:#2d1b0e;"><?= e($p['name']) ?><?= $p['is_unsubscribed'] ? ' <span style="font-size:.7rem;background:#fee2e2;color:#991b1b;padding:.1rem .4rem;border-radius:8px;">unsub</span>' : '' ?></div>
-                                    <div style="font-size:.78rem;color:#7a6a5a;"><?= e($p['title'] ? $p['title'] . ($p['organization'] ? ' · ' . $p['organization'] : '') : ($p['organization'] ?? '')) ?></div>
+                            <tr class="<?= $p['is_unsubscribed'] ? 'op-row--muted' : '' ?>">
+                                <td data-label="Name" class="op-truncate">
+                                    <div class="op-truncate" title="<?= e($p['name']) ?>"><?= e($p['name']) ?><?= $p['is_unsubscribed'] ? ' <span class="op-badge" style="background:#fee2e2;color:#991b1b;">unsub</span>' : '' ?></div>
+                                    <div class="op-truncate" style="font-size:.9em;color:#7a6a5a;" title="<?= e($p['title'] ? $p['title'] . ($p['organization'] ? ' · ' . $p['organization'] : '') : ($p['organization'] ?? '')) ?>"><?= e($p['title'] ? $p['title'] . ($p['organization'] ? ' · ' . $p['organization'] : '') : ($p['organization'] ?? '')) ?></div>
                                 </td>
-                                <td style="padding:.7rem 1rem;color:#5a4a3a;white-space:nowrap;"><?= e($categories[$p['category']] ?? $p['category']) ?></td>
-                                <td style="padding:.7rem 1rem;color:#5a4a3a;">
+                                <td data-label="Category" class="op-truncate"><?= e($categories[$p['category']] ?? $p['category']) ?></td>
+                                <td data-label="Email" class="op-truncate">
                                     <?php if ($p['email']): ?>
-                                        <a href="mailto:<?= e($p['email']) ?>" style="color:#5C3A21;"><?= e($p['email']) ?></a>
+                                        <a href="mailto:<?= e($p['email']) ?>" class="op-truncate" style="color:#5C3A21;display:block;" title="<?= e($p['email']) ?>"><?= e($p['email']) ?></a>
                                     <?php else: ?>
                                         <span style="color:#bbb;">—</span>
                                     <?php endif; ?>
                                 </td>
-                                <td style="padding:.7rem 1rem;">
+                                <td data-label="Contact">
                                     <?php
                                     $csBg = match($p['contact_status']) {
                                         'responded'    => 'background:#d1fae5;color:#065f46;',
@@ -89,11 +89,11 @@
                                         default        => 'background:#f3f4f6;color:#374151;',
                                     };
                                     ?>
-                                    <span style="<?= $csBg ?>padding:.15rem .45rem;border-radius:10px;font-size:.74rem;font-weight:600;white-space:nowrap;">
+                                    <span class="op-badge" style="<?= $csBg ?>">
                                         <?= e($contactStatuses[$p['contact_status']] ?? $p['contact_status']) ?>
                                     </span>
                                 </td>
-                                <td style="padding:.7rem 1rem;">
+                                <td data-label="Consent">
                                     <?php
                                     $cnBg = match($p['consent_status']) {
                                         'opted_in'  => 'background:#d1fae5;color:#065f46;',
@@ -101,22 +101,28 @@
                                         default     => 'background:#f3f4f6;color:#374151;',
                                     };
                                     ?>
-                                    <span style="<?= $cnBg ?>padding:.15rem .45rem;border-radius:10px;font-size:.74rem;font-weight:600;">
+                                    <span class="op-badge" style="<?= $cnBg ?>">
                                         <?= e($consentStatuses[$p['consent_status']] ?? $p['consent_status']) ?>
                                     </span>
                                 </td>
-                                <td style="padding:.7rem 1rem;color:#7a6a5a;font-size:.82rem;white-space:nowrap;">
+                                <td data-label="Last Contacted" style="color:#7a6a5a;">
                                     <?= $p['last_contact_date'] ? date('M j, Y', strtotime($p['last_contact_date'])) : '—' ?>
                                 </td>
-                                <td style="padding:.7rem 1rem;text-align:center;font-size:.85rem;color:#5C3A21;font-weight:600;">
+                                <td data-label="Sent" class="op-center-cell" style="color:#5C3A21;font-weight:600;">
                                     <?= $p['emails_sent'] ?>
                                 </td>
-                                <td style="padding:.7rem 1rem;">
-                                    <div style="display:flex;gap:.4rem;align-items:center;">
-                                        <a href="<?= url('admin/outreach/people/' . $p['id'] . '/edit') ?>" class="btn btn-secondary" style="font-size:.78rem;padding:.25rem .6rem;">Edit</a>
-                                        <form method="POST" action="<?= url('admin/outreach/people/' . $p['id'] . '/delete') ?>" style="display:inline;">
+                                <td data-label="Actions" class="op-actions-cell">
+                                    <button type="button" class="btn btn-secondary op-actions-toggle" onclick="opToggleActions('ppl-<?= (int) $p['id'] ?>')">
+                                        Actions &#9662;
+                                    </button>
+                                    <div id="op-actions-ppl-<?= (int) $p['id'] ?>" class="op-actions-menu">
+                                        <?php if ($p['email'] && !$p['is_unsubscribed'] && $p['consent_status'] !== 'opted_out'): ?>
+                                            <a href="<?= url('admin/outreach/people/' . $p['id'] . '/send') ?>" class="btn btn-primary">&#128231; Send</a>
+                                        <?php endif; ?>
+                                        <a href="<?= url('admin/outreach/people/' . $p['id'] . '/edit') ?>" class="btn btn-secondary">Edit</a>
+                                        <form method="POST" action="<?= url('admin/outreach/people/' . $p['id'] . '/delete') ?>">
                                             <?= csrf_field() ?>
-                                            <button type="submit" class="btn btn-danger" style="font-size:.78rem;padding:.25rem .6rem;" data-confirm="Remove <?= e(addslashes($p['name'])) ?> permanently?">Del</button>
+                                            <button type="submit" class="btn btn-danger" style="width:100%;" data-confirm="Remove <?= e(addslashes($p['name'])) ?> permanently?">Delete</button>
                                         </form>
                                     </div>
                                 </td>
@@ -146,3 +152,5 @@
 
 </div>
 </div>
+
+<?php include BASE_PATH . '/views/admin/outreach/_responsive_table.php'; ?>

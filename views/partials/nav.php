@@ -267,7 +267,7 @@
             <ul class="mnav-sub" id="ms-hist">
                 <li><a href="<?= url('history/origins') ?>"><i class="mni">&#127758;</i>Origins</a></li>
                 <li><a href="<?= url('history/migration') ?>"><i class="mni">&#128667;</i>Migration</a></li>
-                <li><a href="<?= url('history/historical-figures') ?>"><i class="mni">&#129332;</i>Historical Figures</a></li>
+                <li><a href="<?= url('historical-figures') ?>"><i class="mni">&#129332;</i>Historical Figures</a></li>
                 <li><a href="<?= url('history/timeline') ?>"><i class="mni">&#128337;</i>Timeline</a></li>
             </ul>
         </li>
@@ -501,7 +501,7 @@
                                     <p class="mega-item-desc">Historical movements across the Benue Valley</p>
                                 </div>
                             </a>
-                            <a href="<?= url('history/historical-figures') ?>" class="mega-item">
+                            <a href="<?= url('historical-figures') ?>" class="mega-item">
                                 <span class="mega-item-icon">&#129332;</span>
                                 <div class="mega-item-body">
                                     <p class="mega-item-label">Historical Figures</p>

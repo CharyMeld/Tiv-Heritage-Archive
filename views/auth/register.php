@@ -9,13 +9,13 @@
             <div class="form-group">
                 <label class="form-label required" for="name">Full Name</label>
                 <input type="text" id="name" name="name" class="form-input"
-                       value="<?= e(old('name')) ?>" required autocomplete="name" autofocus>
+                       value="<?= old('name') ?>" required autocomplete="name" autofocus>
                 <?php if (!empty($errors['name'] ?? '')): ?><p class="form-error"><?= e($errors['name']) ?></p><?php endif; ?>
             </div>
             <div class="form-group">
                 <label class="form-label required" for="email">Email</label>
                 <input type="email" id="email" name="email" class="form-input"
-                       value="<?= e(old('email')) ?>" required autocomplete="email">
+                       value="<?= old('email') ?>" required autocomplete="email">
                 <?php if (!empty($errors['email'] ?? '')): ?><p class="form-error"><?= e($errors['email']) ?></p><?php endif; ?>
             </div>
             <div class="form-group">

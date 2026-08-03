@@ -7,7 +7,7 @@ class CommunityMember extends Model
     protected string $table = 'community_members';
 
     protected array $fillable = [
-        'application_id', 'full_name', 'email', 'member_type',
+        'user_id', 'application_id', 'full_name', 'email', 'member_type',
         'short_bio', 'area_of_interest', 'location', 'profile_photo',
         'is_featured', 'is_active', 'contributions_count', 'research_count',
         'suggestions_count', 'date_joined',
@@ -87,11 +87,12 @@ class CommunityMember extends Model
 
         $stmt = $this->db->prepare(
             "INSERT INTO {$this->table}
-             (application_id, full_name, email, member_type, short_bio, area_of_interest,
+             (user_id, application_id, full_name, email, member_type, short_bio, area_of_interest,
               location, profile_photo, is_featured, is_active, date_joined)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, 1, CURDATE())"
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, CURDATE())"
         );
         $stmt->execute([
+            $app['user_id'] ?? null,
             $app['id'],
             $app['full_name'],
             $app['email'],
@@ -110,5 +111,28 @@ class CommunityMember extends Model
         $stmt->execute([$appId]);
         $row = $stmt->fetch();
         return $row ?: null;
+    }
+
+    public function getByUserId(int $userId): ?array
+    {
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE user_id = ? LIMIT 1");
+        $stmt->execute([$userId]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
+    /** Roster for the admin Contributors module, joined with live earnings from `submissions`. */
+    public function getContributorRoster(int $limit = 50, int $offset = 0): array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT cm.*, u.email AS user_email, u.role AS user_role
+             FROM {$this->table} cm
+             LEFT JOIN users u ON u.id = cm.user_id
+             WHERE cm.is_active = 1
+             ORDER BY cm.date_joined DESC
+             LIMIT ? OFFSET ?"
+        );
+        $stmt->execute([$limit, $offset]);
+        return $stmt->fetchAll();
     }
 }

@@ -44,7 +44,7 @@
 
             <div class="ref-cards">
                 <?php foreach ($sources as $source): ?>
-                <div class="ref-card ref-card-<?= $typeKey ?>">
+                <a href="<?= url('references/' . $source['id']) ?>" class="ref-card ref-card-<?= $typeKey ?>" style="display:block;text-decoration:none;color:inherit;">
                     <div class="ref-card-top">
                         <div class="ref-card-avatar">
                             <?php
@@ -74,10 +74,12 @@
                         <?php endif; ?>
                     </div>
 
-                    <?php if (!empty($source['notes'])): ?>
-                    <p class="ref-card-notes"><?= e($source['notes']) ?></p>
-                    <?php endif; ?>
-                </div>
+                    <?php $verification = Source::verificationInfo($source['verification_status'] ?? null); ?>
+                    <div class="ref-verification-badge ref-verification-badge--sm <?= e($verification['class']) ?>">
+                        <span class="ref-verification-icon" aria-hidden="true"><?= $verification['icon'] ?></span>
+                        <span class="ref-verification-label"><?= e($verification['label']) ?></span>
+                    </div>
+                </a>
                 <?php endforeach; ?>
             </div>
         </div>

@@ -16,7 +16,8 @@ class TivProverb extends Model
         'usage_context',
         'category',
         'is_featured',
-        'created_by'
+        'created_by',
+        'source_id'
     ];
 
  	/**
@@ -36,7 +37,7 @@ class TivProverb extends Model
     /**
      * Get random proverb
      */
-    public function getRandom(): ?array
+    public function getRandom(string $where = '', array $params = []): ?array
     {
         $count = $this->count();
         if ($count === 0) return null;

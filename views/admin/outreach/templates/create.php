@@ -15,12 +15,12 @@
 
                     <div class="form-group">
                         <label class="form-label required">Template Name <span style="font-weight:400;color:#8a7a6a;">(internal label)</span></label>
-                        <input type="text" name="name" class="form-input" value="<?= e(old('name')) ?>" required placeholder="e.g. Quarterly Outreach — Q1 2026">
+                        <input type="text" name="name" class="form-input" value="<?= old('name') ?>" required placeholder="e.g. Quarterly Outreach — Q1 2026">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label required">Email Subject</label>
-                        <input type="text" name="subject" class="form-input" value="<?= e(old('subject')) ?>" required placeholder="e.g. Invitation to Join the Tiv Heritage Archive">
+                        <input type="text" name="subject" class="form-input" value="<?= old('subject') ?>" required placeholder="e.g. Invitation to Join the Tiv Heritage Archive">
                     </div>
 
                     <div class="form-group">
@@ -29,7 +29,7 @@
                         </label>
                         <textarea name="body_html" id="bodyHtml" class="form-textarea" rows="18"
                                   required style="font-family:monospace;font-size:.85rem;"
-                                  placeholder="<p>Dear {{name}},</p>&#10;<p>We are reaching out …</p>"><?= e(old('body_html')) ?></textarea>
+                                  placeholder="<p>Dear {{name}},</p>&#10;<p>We are reaching out …</p>"><?= old('body_html') ?></textarea>
                         <p class="form-hint">
                             Variables: <code>{{name}}</code> <code>{{title}}</code> <code>{{site_name}}</code> <code>{{site_url}}</code>
                             &mdash; An unsubscribe link footer is appended automatically.
@@ -63,8 +63,8 @@
 <script>
 function updatePreview() {
     var body = document.getElementById('bodyHtml').value
-        .replace(/\{\{name\}\}/g, 'Honorable Person')
-        .replace(/\{\{title\}\}/g, 'Professor')
+        .replace(/\{\{name\}\}/g, '[Name]')
+        .replace(/\{\{title\}\}/g, '[Title]')
         .replace(/\{\{site_name\}\}/g, '<?= addslashes(SITE_NAME) ?>')
         .replace(/\{\{site_url\}\}/g, '<?= addslashes(SITE_URL) ?>');
 

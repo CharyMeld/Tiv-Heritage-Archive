@@ -3,11 +3,13 @@
 require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/CommunityApplication.php';
 require_once BASE_PATH . '/models/CommunityMember.php';
+require_once BASE_PATH . '/models/User.php';
 
 class AdminCommunityController extends Controller
 {
     private CommunityApplication $appModel;
     private CommunityMember $memberModel;
+    private User $userModel;
 
     public function __construct()
     {
@@ -15,6 +17,7 @@ class AdminCommunityController extends Controller
         $this->requireModerator();
         $this->appModel    = new CommunityApplication();
         $this->memberModel = new CommunityMember();
+        $this->userModel   = new User();
     }
 
     public function applications(): void
@@ -93,6 +96,16 @@ class AdminCommunityController extends Controller
             $this->memberModel->createFromApplication($app);
         } else {
             $this->memberModel->update($existing['id'], ['is_active' => 1]);
+        }
+
+        // Approval is the point where "applied" becomes real contributor
+        // portal access — only ever raises role from the base 'user'
+        // level, never touches moderator/admin accounts.
+        if (!empty($app['user_id'])) {
+            $linkedUser = $this->userModel->find((int) $app['user_id']);
+            if ($linkedUser && $linkedUser['role'] === 'user') {
+                $this->userModel->updateRole((int) $app['user_id'], 'contributor');
+            }
         }
 
         $this->flash('Application approved and member added to the directory.', 'success');

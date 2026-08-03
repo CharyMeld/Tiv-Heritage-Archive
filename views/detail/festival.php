@@ -1,6 +1,9 @@
 <!-- Cinematic Detail Banner -->
 <div class="detail-banner">
     <div class="container">
+        <div class="hf-breadcrumb-dark">
+            <?php $this->partial('breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
+        </div>
         <a href="<?= url('archive/festivals') ?>" class="detail-banner-back">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             All Festivals
@@ -209,12 +212,18 @@
         </script>
         <?php endif; ?>
 
+        <?php if (ADSENSE_ENABLED): ?>
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
+
         <?php if (!empty($related)): ?>
         <div style="margin-top: 2.5rem;">
             <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-primary); margin-bottom: 1rem;">Other Festivals</h3>
             <div class="archive-grid-modern">
                 <?php foreach ($related as $relItem): ?>
-                <a href="<?= url('festival/' . $relItem['id']) ?>" class="archive-card-modern archive-card-festivals">
+                <a href="<?= url(SeoHelper::canonicalSlugPath('festival', $relItem['id'], $relItem['tiv_name'])) ?>" class="archive-card-modern archive-card-festivals">
                     <span class="archive-card-modern-icon">&#127881;</span>
                     <h4 class="archive-card-modern-title"><?= e($relItem['tiv_name']) ?></h4>
                     <p class="archive-card-modern-sub"><?= e($relItem['english_name'] ?? '') ?></p>

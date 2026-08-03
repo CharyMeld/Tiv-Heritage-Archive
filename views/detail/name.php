@@ -1,6 +1,9 @@
 <!-- Cinematic Detail Banner -->
 <div class="detail-banner">
     <div class="container">
+        <div class="hf-breadcrumb-dark">
+            <?php $this->partial('breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
+        </div>
         <a href="<?= url('archive/names') ?>" class="detail-banner-back">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             All Names
@@ -58,12 +61,18 @@
 
         <?php include BASE_PATH . '/views/partials/source-and-links.php'; ?>
 
+        <?php if (ADSENSE_ENABLED): ?>
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
+
         <?php if (!empty($related)): ?>
         <div style="margin-top: 2.5rem;">
             <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-primary); margin-bottom: 1rem;">Related Names</h3>
             <div class="archive-grid-modern">
                 <?php foreach ($related as $relItem): ?>
-                <a href="<?= url('name/' . $relItem['id']) ?>" class="archive-card-modern archive-card-names">
+                <a href="<?= url(SeoHelper::canonicalSlugPath('name', $relItem['id'], $relItem['tiv_name'])) ?>" class="archive-card-modern archive-card-names">
                     <span class="archive-card-modern-icon">&#128100;</span>
                     <h4 class="archive-card-modern-title"><?= e($relItem['tiv_name']) ?></h4>
                     <p class="archive-card-modern-sub"><?= e($relItem['english_meaning']) ?></p>

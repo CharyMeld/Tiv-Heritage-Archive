@@ -236,7 +236,7 @@ $activeCat   = $category   ?? '';
         <div id="lchContent" style="display:none">
 
             <div class="lch-video-grid" id="learnGrid">
-                <?php foreach ($videos as $v): ?>
+                <?php $lchAdShown = false; $lchIdx = 0; foreach ($videos as $v): $lchIdx++; ?>
                 <div class="lch-vcard"
                      data-title="<?= strtolower(htmlspecialchars($v['title'], ENT_QUOTES)) ?>"
                      data-category="<?= strtolower(htmlspecialchars($v['category'] ?? '', ENT_QUOTES)) ?>"
@@ -286,6 +286,18 @@ $activeCat   = $category   ?? '';
                     </div>
 
                 </div>
+                <?php if (ADSENSE_ENABLED && $lchIdx === 4 && !$lchAdShown): $lchAdShown = true; ?>
+                <div style="grid-column: 1 / -1;">
+                    <div class="adsense-wrap">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-7960622250292703"
+                             data-ad-slot="6111588136"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                    </div>
+                </div>
+                <?php endif; ?>
                 <?php endforeach; ?>
             </div>
 

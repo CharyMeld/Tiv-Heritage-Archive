@@ -56,11 +56,15 @@ $router = new Router();
 // DEFINE ROUTES
 // ============================================
 
+// Sitemap
+$router->get('sitemap.xml', 'SitemapController', 'index');
+
 // Public Routes
 $router->get('', 'HomeController', 'index');
 $router->get('about', 'HomeController', 'about');
 $router->get('contact', 'HomeController', 'contact');
 $router->post('contact', 'HomeController', 'sendContact');
+$router->post('newsletter/subscribe', 'NewsletterSubscribeController', 'subscribe');
 
 // Archive Routes
 $router->get('archive', 'ArchiveController', 'index');
@@ -75,6 +79,16 @@ $router->get('food/{id}', 'DetailController', 'food');
 $router->get('word/{id}', 'DetailController', 'word');
 $router->get('animal/{id}', 'DetailController', 'animal');
 
+// Historical Figures Routes
+$router->get('historical-figures', 'HistoricalFigureController', 'index');
+$router->get('historical-figures/{category}', 'HistoricalFigureController', 'category');
+$router->get('historical-figures/{category}/{subcategory}', 'HistoricalFigureController', 'subcategory');
+$router->get('historical-figure/{id}', 'HistoricalFigureController', 'show');
+
+// Timeline Routes
+$router->get('timeline', 'TimelineController', 'index');
+$router->get('timeline-event/{id}', 'TimelineController', 'show');
+
 // Contribute Routes
 $router->get('contribute', 'ContributeController', 'index');
 $router->post('contribute', 'ContributeController', 'submit');
@@ -83,6 +97,9 @@ $router->get('contribute/success', 'ContributeController', 'success');
 // Learn Routes
 $router->get('learn', 'LearnController', 'index');
 $router->get('learn/{id}', 'LearnController', 'show');
+$router->post('learn/{id}/view',    'LearnController', 'recordView');
+$router->post('learn/{id}/comment', 'LearnController', 'postComment');
+$router->post('learn/{id}/react',   'LearnController', 'postReaction');
 
 // Bible reader
 $router->get('bible', 'BibleReaderController', 'index');
@@ -104,6 +121,8 @@ $router->get('profile', 'ProfileController', 'index');
 $router->get('profile/edit', 'ProfileController', 'edit');
 $router->post('profile/edit', 'ProfileController', 'update');
 $router->get('profile/submissions', 'ProfileController', 'submissions');
+$router->get('profile/collection', 'ProfileController', 'collection');
+$router->get('contributor', 'ContributorController', 'dashboard');
 $router->get('profile/password', 'ProfileController', 'passwordForm');
 $router->post('profile/password', 'ProfileController', 'updatePassword');
 
@@ -113,6 +132,7 @@ $router->get('admin/search', 'AdminController', 'search');
 $router->get('admin/pending', 'AdminController', 'pending');
 $router->post('admin/pending/{id}/approve', 'AdminController', 'approve');
 $router->post('admin/pending/{id}/reject', 'AdminController', 'reject');
+$router->post('admin/pending/{id}/needs-revision', 'AdminController', 'needsRevision');
 $router->get('admin/content/{category}', 'AdminController', 'content');
 $router->get('admin/content/{category}/create', 'AdminController', 'create');
 $router->post('admin/content/{category}/create', 'AdminController', 'store');
@@ -136,6 +156,7 @@ $router->get('admin/settings', 'AdminController', 'settings');
 $router->post('admin/settings', 'AdminController', 'updateSettings');
 $router->get('admin/duplicates', 'AdminController', 'duplicates');
 $router->post('admin/duplicates/delete', 'AdminController', 'deleteDuplicate');
+$router->post('admin/duplicates/delete-bulk', 'AdminController', 'deleteDuplicatesBulk');
 $router->get('admin/content/words/bulk-upload', 'AdminController', 'bulkUploadWordsForm');
 $router->post('admin/content/words/bulk-upload', 'AdminController', 'bulkUploadWords');
 
@@ -149,6 +170,10 @@ $router->post('admin/team/{id}/delete', 'TeamController', 'delete');
 
 // References & Contributors
 $router->get('references', 'ReferencesController', 'index');
+$router->get('references/{id}', 'ReferencesController', 'show');
+$router->get('references/{id}/export/{format}', 'ReferencesController', 'export');
+$router->get('references/{id}/print', 'ReferencesController', 'print');
+$router->post('references/{id}/save', 'ReferencesController', 'save');
 
 // Admin — Knowledge Graph (Sources & Links)
 $router->get('admin/sources',                      'KnowledgeController', 'sources');
@@ -216,7 +241,8 @@ $router->post('admin/api-keys/{id}/restore', 'AdminApiKeyController', 'restore')
 $router->post('admin/api-keys/{id}/limit', 'AdminApiKeyController', 'updateLimit');
 
 // Charymeld AI Assistant
-$router->post('charymeld/chat', 'CharymeldController', 'chat');
+$router->post('charymeld/chat',  'CharymeldController', 'chat');
+$router->get('charymeld/token', 'CharymeldController', 'token');
 
 // Content Structure Routes (Language, Literature, Culture, History)
 $router->get('{section:language|literature|culture|history}', 'ContentCategoryController', 'section');
@@ -246,6 +272,20 @@ $router->get('admin/grammar/{id}/edit',        'AdminGrammarController', 'edit')
 $router->post('admin/grammar/{id}/edit',       'AdminGrammarController', 'update');
 $router->post('admin/grammar/{id}/delete',     'AdminGrammarController', 'delete');
 
+// Admin Historical Figures CRUD
+$router->get('admin/historical-figures',                                 'AdminHistoricalFigureController', 'index');
+$router->get('admin/historical-figures/create',                         'AdminHistoricalFigureController', 'create');
+$router->post('admin/historical-figures/create',                        'AdminHistoricalFigureController', 'store');
+$router->get('admin/historical-figures/{id}/edit',                      'AdminHistoricalFigureController', 'edit');
+$router->post('admin/historical-figures/{id}/edit',                     'AdminHistoricalFigureController', 'update');
+$router->post('admin/historical-figures/{id}/delete',                   'AdminHistoricalFigureController', 'delete');
+$router->post('admin/historical-figures/{id}/gallery/upload',           'AdminHistoricalFigureController', 'uploadGalleryPhoto');
+$router->post('admin/historical-figures/{id}/gallery/{photoId}/delete', 'AdminHistoricalFigureController', 'deleteGalleryPhoto');
+
+// Admin — Archive Intelligence (search index rebuild)
+$router->get('admin/intelligence',         'ArchiveIntelligenceController', 'index');
+$router->post('admin/intelligence/reindex', 'ArchiveIntelligenceController', 'reindex');
+
 // Admin Content Items CRUD
 $router->get('admin/content-items/{section}/{sub}', 'AdminContentItemController', 'index');
 $router->get('admin/content-items/{section}/{sub}/create', 'AdminContentItemController', 'create');
@@ -264,6 +304,7 @@ $router->get('community', 'CommunityController', 'index');
 $router->get('community/join', 'CommunityController', 'joinForm');
 $router->post('community/join', 'CommunityController', 'submitApplication');
 $router->get('community/join/success', 'CommunityController', 'joinSuccess');
+$router->get('community/member/{id}', 'CommunityController', 'show');
 
 // Suggestions & Feedback Routes
 $router->get('suggestions', 'SuggestionsController', 'index');
@@ -284,11 +325,144 @@ $router->post('admin/community/members/{id}/feature', 'AdminCommunityController'
 $router->post('admin/community/members/{id}/toggle', 'AdminCommunityController', 'toggleMember');
 $router->post('admin/community/members/{id}/remove', 'AdminCommunityController', 'removeMember');
 
+// Admin Contributors Routes
+$router->get('admin/contributors', 'AdminContributorController', 'index');
+$router->get('admin/contributors/{id}', 'AdminContributorController', 'show');
+$router->post('admin/contributors/{id}/pay', 'AdminContributorController', 'generatePayment');
+
 // Admin Suggestions Routes
 $router->get('admin/suggestions', 'AdminSuggestionsController', 'index');
 $router->get('admin/suggestions/export', 'AdminSuggestionsController', 'export');
 $router->get('admin/suggestions/{id}', 'AdminSuggestionsController', 'view');
 $router->post('admin/suggestions/{id}/status', 'AdminSuggestionsController', 'updateStatus');
+
+// ── Influential People & Outreach Module ──────────────────────────────────────
+
+// Public: nominate an influential person
+$router->get('nominate-influential', 'NominateController', 'index');
+$router->post('nominate-influential', 'NominateController', 'submit');
+$router->get('nominate-influential/success', 'NominateController', 'success');
+
+// Public: unsubscribe from outreach emails
+$router->get('outreach/unsubscribe/{token}', 'OutreachUnsubscribeController', 'unsubscribe');
+
+// Admin: Outreach Dashboard
+$router->get('admin/outreach', 'AdminInfluentialController', 'index');
+
+// Admin: Influential People CRUD
+$router->get('admin/outreach/people', 'AdminInfluentialController', 'people');
+$router->get('admin/outreach/people/create', 'AdminInfluentialController', 'createPerson');
+$router->post('admin/outreach/people/create', 'AdminInfluentialController', 'storePerson');
+$router->get('admin/outreach/people/{id}/edit', 'AdminInfluentialController', 'editPerson');
+$router->post('admin/outreach/people/{id}/edit', 'AdminInfluentialController', 'updatePerson');
+$router->post('admin/outreach/people/{id}/delete', 'AdminInfluentialController', 'deletePerson');
+$router->get('admin/outreach/people/{id}/send', 'AdminInfluentialController', 'sendPersonForm');
+$router->post('admin/outreach/people/{id}/send', 'AdminInfluentialController', 'sendToPerson');
+
+// Admin: Nominations
+$router->get('admin/outreach/nominations', 'AdminInfluentialController', 'nominations');
+$router->get('admin/outreach/nominations/{id}', 'AdminInfluentialController', 'viewNomination');
+$router->post('admin/outreach/nominations/{id}/approve', 'AdminInfluentialController', 'approveNomination');
+$router->post('admin/outreach/nominations/{id}/reject', 'AdminInfluentialController', 'rejectNomination');
+
+// Admin: Email Templates
+$router->get('admin/outreach/templates', 'AdminInfluentialController', 'templates');
+$router->get('admin/outreach/templates/create', 'AdminInfluentialController', 'createTemplate');
+$router->post('admin/outreach/templates/create', 'AdminInfluentialController', 'storeTemplate');
+$router->get('admin/outreach/templates/{id}/edit', 'AdminInfluentialController', 'editTemplate');
+$router->post('admin/outreach/templates/{id}/edit', 'AdminInfluentialController', 'updateTemplate');
+$router->post('admin/outreach/templates/{id}/delete', 'AdminInfluentialController', 'deleteTemplate');
+
+// Admin: Email Campaigns
+$router->get('admin/outreach/campaigns', 'AdminInfluentialController', 'campaigns');
+$router->get('admin/outreach/campaigns/create', 'AdminInfluentialController', 'createCampaign');
+$router->post('admin/outreach/campaigns/create', 'AdminInfluentialController', 'storeCampaign');
+$router->get('admin/outreach/campaigns/{id}', 'AdminInfluentialController', 'viewCampaign');
+$router->post('admin/outreach/campaigns/{id}/send', 'AdminInfluentialController', 'sendCampaign');
+
+// Admin: Discovery Assistant
+$router->get('admin/outreach/discovery/search', 'AdminInfluentialController', 'discoverySearch');
+$router->get('admin/outreach/discovery', 'AdminInfluentialController', 'discovery');
+
+// ── AI Content Marketing Engine ─────────────────────────────────────────────
+
+// Admin: Dashboard
+$router->get('admin/marketing', 'AdminMarketingController', 'index');
+$router->get('admin/marketing/activity', 'AdminMarketingController', 'activity');
+
+// Admin: Content Generator
+$router->get('admin/marketing/generator', 'AdminMarketingController', 'generator');
+$router->post('admin/marketing/generate', 'AdminMarketingController', 'generate');
+$router->get('admin/marketing/posts', 'AdminMarketingController', 'posts');
+$router->get('admin/marketing/posts/{id}', 'AdminMarketingController', 'preview');
+$router->post('admin/marketing/posts/{id}/approve', 'AdminMarketingController', 'approve');
+$router->post('admin/marketing/posts/{id}/reject', 'AdminMarketingController', 'reject');
+$router->post('admin/marketing/posts/{id}/delete', 'AdminMarketingController', 'deletePost');
+
+// Admin: Prompt Templates
+$router->get('admin/marketing/templates', 'AdminMarketingController', 'templates');
+$router->get('admin/marketing/templates/create', 'AdminMarketingController', 'createTemplate');
+$router->post('admin/marketing/templates/create', 'AdminMarketingController', 'storeTemplate');
+$router->get('admin/marketing/templates/{id}/edit', 'AdminMarketingController', 'editTemplate');
+$router->post('admin/marketing/templates/{id}/edit', 'AdminMarketingController', 'updateTemplate');
+$router->post('admin/marketing/templates/{id}/delete', 'AdminMarketingController', 'deleteTemplate');
+$router->post('admin/marketing/templates/{id}/default', 'AdminMarketingController', 'setDefaultTemplate');
+
+// Admin: Image Generator
+$router->get('admin/marketing/images', 'AdminMarketingController', 'images');
+$router->get('admin/marketing/posts/{postId}/images', 'AdminMarketingController', 'imagePicker');
+$router->post('admin/marketing/images/generate', 'AdminMarketingController', 'generateImage');
+$router->post('admin/marketing/images/{id}/delete', 'AdminMarketingController', 'deleteImage');
+
+// Admin: Content Calendar / Scheduled Posts
+$router->get('admin/marketing/calendar', 'AdminMarketingScheduleController', 'calendar');
+$router->get('admin/marketing/scheduled', 'AdminMarketingScheduleController', 'scheduled');
+$router->get('admin/marketing/posts/{postId}/schedule', 'AdminMarketingScheduleController', 'createSchedule');
+$router->post('admin/marketing/schedule/create', 'AdminMarketingScheduleController', 'storeSchedule');
+$router->get('admin/marketing/schedule/{id}/edit', 'AdminMarketingScheduleController', 'editSchedule');
+$router->post('admin/marketing/schedule/{id}/edit', 'AdminMarketingScheduleController', 'updateSchedule');
+$router->post('admin/marketing/schedule/{id}/cancel', 'AdminMarketingScheduleController', 'cancelSchedule');
+
+// Public: UTM click-tracking redirect
+$router->get('go/{code}', 'MarketingRedirectController', 'redirect');
+
+// Admin: Analytics / Traffic Reports / UTM Links
+$router->get('admin/marketing/analytics', 'AdminMarketingAnalyticsController', 'index');
+$router->get('admin/marketing/traffic', 'AdminMarketingAnalyticsController', 'traffic');
+$router->get('admin/marketing/links', 'AdminMarketingAnalyticsController', 'links');
+$router->get('admin/marketing/links/create', 'AdminMarketingAnalyticsController', 'createLink');
+$router->post('admin/marketing/links/create', 'AdminMarketingAnalyticsController', 'storeLink');
+$router->post('admin/marketing/links/{id}/delete', 'AdminMarketingAnalyticsController', 'deleteLink');
+
+// Admin: Newsletter
+$router->get('admin/marketing/newsletter', 'AdminMarketingScheduleController', 'newsletter');
+$router->post('admin/marketing/newsletter/generate', 'AdminMarketingScheduleController', 'generateNewsletter');
+$router->get('admin/marketing/newsletter/subscribers', 'AdminMarketingScheduleController', 'subscribers');
+$router->get('admin/marketing/newsletter/{id}', 'AdminMarketingScheduleController', 'viewNewsletter');
+$router->post('admin/marketing/newsletter/{id}/approve', 'AdminMarketingScheduleController', 'approveNewsletter');
+$router->get('admin/marketing/newsletter/{id}/html', 'AdminMarketingScheduleController', 'downloadNewsletterHtml');
+$router->get('admin/marketing/newsletter/{id}/text', 'AdminMarketingScheduleController', 'downloadNewsletterText');
+
+// Admin: Facebook Settings / Connection / Preview / Queue
+$router->get('admin/marketing/facebook/settings', 'AdminMarketingFacebookController', 'settings');
+$router->post('admin/marketing/facebook/settings', 'AdminMarketingFacebookController', 'saveSettings');
+$router->post('admin/marketing/facebook/test', 'AdminMarketingFacebookController', 'testConnection');
+$router->post('admin/marketing/instagram/test', 'AdminMarketingFacebookController', 'testInstagramConnection');
+$router->get('admin/marketing/facebook/preview/{postId}', 'AdminMarketingFacebookController', 'postPreview');
+$router->get('admin/marketing/facebook/queue', 'AdminMarketingFacebookController', 'queue');
+$router->post('admin/marketing/facebook/retry/{scheduleId}', 'AdminMarketingFacebookController', 'retry');
+
+// Admin: Email Campaigns (stub)
+$router->get('admin/marketing/campaigns', 'AdminMarketingController', 'emailCampaignsStub');
+
+// Admin: Social Media Captions
+$router->get('admin/marketing/social', 'AdminMarketingSocialController', 'index');
+$router->get('admin/marketing/social/{postId}', 'AdminMarketingSocialController', 'view');
+$router->post('admin/marketing/social/{postId}/generate', 'AdminMarketingSocialController', 'generateCaption');
+$router->post('admin/marketing/social/caption/{id}/update', 'AdminMarketingSocialController', 'updateCaption');
+$router->post('admin/marketing/social/caption/{id}/regenerate', 'AdminMarketingSocialController', 'regenerateCaption');
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 // ============================================
 // DISPATCH REQUEST
@@ -299,7 +473,7 @@ $url = $_GET['url'] ?? '';
 $url = trim($url, '/');
 
 // Bot / scraper protection on archive content routes
-$_protectedPrefixes = ['archive', 'name/', 'proverb/', 'plant/', 'festival/', 'food/', 'word/', 'animal/', 'learn'];
+$_protectedPrefixes = ['archive', 'name/', 'proverb/', 'plant/', 'festival/', 'food/', 'word/', 'animal/', 'learn', 'historical-figures', 'historical-figure/', 'timeline', 'timeline-event/', 'references'];
 foreach ($_protectedPrefixes as $_prefix) {
     if ($url === rtrim($_prefix, '/') || strpos($url, $_prefix) === 0) {
         ApiAuth::protectPage();

@@ -27,30 +27,34 @@
     <?php else: ?>
         <div class="admin-card">
             <div class="admin-card-body" style="padding:0;">
-                <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:.87rem;">
+                <div class="op-table-wrap">
+                    <table class="op-table">
                         <thead>
-                            <tr style="background:#f7f4ee;border-bottom:2px solid #e5e0d5;">
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Template Name</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Subject</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Created By</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Date</th>
-                                <th style="padding:.7rem 1rem;text-align:left;color:#5C3A21;font-weight:600;">Actions</th>
+                            <tr>
+                                <th style="width:20%;">Template Name</th>
+                                <th style="width:34%;">Subject</th>
+                                <th style="width:16%;">Created By</th>
+                                <th style="width:14%;">Date</th>
+                                <th style="width:16%;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($items as $t): ?>
-                            <tr style="border-bottom:1px solid #f0ede8;">
-                                <td style="padding:.7rem 1rem;font-weight:500;color:#2d1b0e;"><?= e($t['name']) ?></td>
-                                <td style="padding:.7rem 1rem;color:#5a4a3a;"><?= e($t['subject']) ?></td>
-                                <td style="padding:.7rem 1rem;color:#7a6a5a;font-size:.83rem;"><?= e($t['creator_name'] ?? '—') ?></td>
-                                <td style="padding:.7rem 1rem;color:#7a6a5a;font-size:.83rem;"><?= date('M j, Y', strtotime($t['created_at'])) ?></td>
-                                <td style="padding:.7rem 1rem;">
-                                    <div style="display:flex;gap:.4rem;">
-                                        <a href="<?= url('admin/outreach/templates/' . $t['id'] . '/edit') ?>" class="btn btn-secondary" style="font-size:.78rem;padding:.25rem .6rem;">Edit</a>
-                                        <form method="POST" action="<?= url('admin/outreach/templates/' . $t['id'] . '/delete') ?>" style="display:inline;">
+                            <tr>
+                                <td data-label="Template Name" class="op-truncate" style="font-weight:500;color:#2d1b0e;" title="<?= e($t['name']) ?>"><?= e($t['name']) ?></td>
+                                <td data-label="Subject" class="op-truncate" style="color:#5a4a3a;" title="<?= e($t['subject']) ?>"><?= e($t['subject']) ?></td>
+                                <td data-label="Created By" style="color:#7a6a5a;"><?= e($t['creator_name'] ?? '—') ?></td>
+                                <td data-label="Date" style="color:#7a6a5a;"><?= date('M j, Y', strtotime($t['created_at'])) ?></td>
+                                <td data-label="Actions" class="op-actions-cell">
+                                    <button type="button" class="btn btn-secondary op-actions-toggle" onclick="opToggleActions('tpl-<?= (int) $t['id'] ?>')">
+                                        Actions &#9662;
+                                    </button>
+                                    <div id="op-actions-tpl-<?= (int) $t['id'] ?>" class="op-actions-menu">
+                                        <a href="<?= url('admin/outreach/campaigns/create?template_id=' . $t['id']) ?>" class="btn btn-primary">&#128231; Send</a>
+                                        <a href="<?= url('admin/outreach/templates/' . $t['id'] . '/edit') ?>" class="btn btn-secondary">Edit</a>
+                                        <form method="POST" action="<?= url('admin/outreach/templates/' . $t['id'] . '/delete') ?>">
                                             <?= csrf_field() ?>
-                                            <button type="submit" class="btn btn-danger" style="font-size:.78rem;padding:.25rem .6rem;" data-confirm="Delete this template? Campaigns using it will also be removed.">Delete</button>
+                                            <button type="submit" class="btn btn-danger" style="width:100%;" data-confirm="Delete this template? Campaigns using it will also be removed.">Delete</button>
                                         </form>
                                     </div>
                                 </td>
@@ -65,3 +69,5 @@
 
 </div>
 </div>
+
+<?php include BASE_PATH . '/views/admin/outreach/_responsive_table.php'; ?>

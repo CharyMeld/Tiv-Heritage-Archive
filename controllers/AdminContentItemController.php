@@ -3,6 +3,8 @@
 require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/ContentItem.php';
 require_once BASE_PATH . '/models/ContentSubmission.php';
+require_once BASE_PATH . '/services/ContentIndexer.php';
+require_once BASE_PATH . '/services/FileIndexer.php';
 
 class AdminContentItemController extends Controller
 {
@@ -14,7 +16,7 @@ class AdminContentItemController extends Controller
         'language'   => ['alphabet'],
         'literature' => ['folktales', 'stories', 'poems'],
         'culture'    => ['traditions', 'attire', 'marriage-customs'],
-        'history'    => ['origins', 'migration', 'historical-figures', 'timeline'],
+        'history'    => ['origins', 'migration', 'timeline'],
         'archive'    => ['documents', 'audio', 'publications'],
     ];
 
@@ -89,7 +91,7 @@ class AdminContentItemController extends Controller
             }
         }
 
-        $this->model->create([
+        $newId = $this->model->create([
             'section'      => $section,
             'subcategory'  => $sub,
             'title'        => $title,
@@ -104,6 +106,9 @@ class AdminContentItemController extends Controller
             'status'       => $_POST['status'] ?? 'published',
             'created_by'   => $this->user['id'],
         ]);
+
+        // Auto-index immediately; extract file text if a document/image was uploaded
+        $this->autoIndex('content_items', $newId, $mediaFile, $mediaType);
 
         $this->flash(ContentItem::subcategoryLabel($sub) . ' item added successfully.', 'success');
         $this->redirect(url("admin/content-items/{$section}/{$sub}"));
@@ -164,6 +169,10 @@ class AdminContentItemController extends Controller
             'status'      => $_POST['status'] ?? 'published',
         ]);
 
+        // Re-index immediately; extract new file text if file changed
+        $newFile = ($mediaFile !== $item['media_file']) ? $mediaFile : null;
+        $this->autoIndex('content_items', (int) $id, $newFile, $mediaType);
+
         $this->flash('Item updated successfully.', 'success');
         $this->redirect(url("admin/content-items/{$section}/{$sub}"));
     }
@@ -176,6 +185,7 @@ class AdminContentItemController extends Controller
         }
 
         $this->model->delete((int) $id);
+        $this->silentRemoveIndex('content_items', (int) $id);
         $this->flash('Item deleted.', 'info');
         $this->redirect(url("admin/content-items/{$section}/{$sub}"));
     }
@@ -220,7 +230,7 @@ class AdminContentItemController extends Controller
         }
 
         // Publish to content_items
-        $this->model->create([
+        $newId = $this->model->create([
             'section'     => $sub_item['section'],
             'subcategory' => $sub_item['subcategory'],
             'title'       => $sub_item['title'],
@@ -235,6 +245,9 @@ class AdminContentItemController extends Controller
             'status'      => 'published',
             'created_by'  => $this->user['id'],
         ]);
+
+        // Auto-index approved submission immediately
+        $this->autoIndex('content_items', $newId, $sub_item['media_file'], $sub_item['media_type']);
 
         $subModel->update((int) $id, [
             'status'      => 'approved',
@@ -266,6 +279,38 @@ class AdminContentItemController extends Controller
     private function validSub(string $section, string $sub): bool
     {
         return isset($this->validSubs[$section]) && in_array($sub, $this->validSubs[$section]);
+    }
+
+    /**
+     * Index a record immediately after save and extract file text if applicable.
+     * Runs silently — never breaks the admin workflow if it fails.
+     */
+    private function autoIndex(string $table, int $id, ?string $mediaFile, string $mediaType): void
+    {
+        try {
+            $db      = Database::getInstance();
+            $indexer = new ContentIndexer($db);
+            $indexer->indexRecord($table, $id);
+
+            // Extract and store text from uploaded files (PDF, docx, images)
+            if ($mediaFile && in_array($mediaType, ['document', 'image'])) {
+                $fileIndexer = new FileIndexer($db);
+                $fileIndexer->extractAndStore($id);
+                // Re-index now that extracted_text is populated
+                $indexer->indexRecord($table, $id);
+            }
+        } catch (\Throwable $e) {
+            error_log('AutoIndex error [' . $table . '#' . $id . ']: ' . $e->getMessage());
+        }
+    }
+
+    private function silentRemoveIndex(string $table, int $id): void
+    {
+        try {
+            (new ContentIndexer(Database::getInstance()))->removeRecord($table, $id);
+        } catch (\Throwable $e) {
+            error_log('RemoveIndex error: ' . $e->getMessage());
+        }
     }
 
     private function handleUpload(string $field, string $subDir): ?array

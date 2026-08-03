@@ -20,6 +20,8 @@ RewriteRule ^favicon\.png$ - [L]
 RewriteRule ^manifest\.json$ - [L]
 RewriteRule ^service-worker\.js$ - [L]
 RewriteRule ^logo\.png$ - [L]
+RewriteRule ^ads\.txt$ - [L]
+RewriteRule ^google[a-z0-9]+\.html$ - [L]
 
 # Route everything else through index.php
 # Both rules use absolute URL paths so they are unaffected by RewriteBase.

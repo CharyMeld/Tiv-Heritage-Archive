@@ -197,10 +197,20 @@ abstract class Model
     }
 
     /**
-     * Full text search with LIKE fallback when no FULLTEXT index exists
+     * Full text search with LIKE fallback.
+     *
+     * MySQL FULLTEXT has a minimum token length (innodb_ft_min_token_size = 3 by default).
+     * Queries shorter than that threshold return 0 results silently — no error is thrown.
+     * We detect this and fall through to LIKE so single-character Tiv words (e.g. "i", "a")
+     * are always found.
      */
     public function search(string $query, array $fields, int $limit = 50): array
     {
+        // Skip FULLTEXT for short queries — MySQL won't index them
+        if (mb_strlen(trim($query), 'UTF-8') < 3) {
+            return $this->searchLike($query, $fields, $limit);
+        }
+
         $fieldList = implode(', ', $fields);
         try {
             $stmt = $this->db->prepare(
@@ -211,7 +221,13 @@ abstract class Model
                 LIMIT ?"
             );
             $stmt->execute([$query, $query, $limit]);
-            return $stmt->fetchAll();
+            $rows = $stmt->fetchAll();
+
+            // FULLTEXT found nothing — could be below ft_min_word_len threshold or just not indexed
+            if (empty($rows)) {
+                return $this->searchLike($query, $fields, $limit);
+            }
+            return $rows;
         } catch (PDOException $e) {
             // FULLTEXT index missing — fall back to LIKE search
             if (str_contains($e->getMessage(), '1191') || str_contains($e->getMessage(), 'FULLTEXT')) {
@@ -222,19 +238,48 @@ abstract class Model
     }
 
     /**
-     * Simple LIKE search
+     * LIKE search with relevance ordering:
+     *   1. Exact match on first field
+     *   2. First field starts with query
+     *   3. Any field contains query
+     *
+     * This ensures searching for "i" returns the word "i" at the top,
+     * not an arbitrary selection of 200 words that happen to contain 'i'.
      */
     public function searchLike(string $query, array $fields, int $limit = 50): array
     {
-        $conditions = array_map(fn($field) => "{$field} LIKE ?", $fields);
+        if (empty($fields)) return [];
+
+        $like       = '%' . $query . '%';
+        $prefix     = $query . '%';
+        $lower      = mb_strtolower($query, 'UTF-8');
+        $firstField = $fields[0];
+
+        $conditions = array_map(fn($f) => "{$f} LIKE ?", $fields);
+        $whereClause = implode(' OR ', $conditions);
+
+        // ORDER BY prioritises: exact first-field match → prefix match → any contains
         $sql = sprintf(
-            "SELECT * FROM %s WHERE %s LIMIT ?",
+            "SELECT * FROM %s
+             WHERE %s
+             ORDER BY
+               CASE WHEN LOWER(%s) = ? THEN 0
+                    WHEN LOWER(%s) LIKE ? THEN 1
+                    ELSE 2
+               END,
+               %s ASC
+             LIMIT ?",
             $this->table,
-            implode(' OR ', $conditions)
+            $whereClause,
+            $firstField,
+            $firstField,
+            $firstField
         );
 
-        $searchTerm = "%{$query}%";
-        $params = array_fill(0, count($fields), $searchTerm);
+        // WHERE params (one per field), ORDER BY exact + prefix params, LIMIT
+        $params = array_fill(0, count($fields), $like);
+        $params[] = $lower;    // exact match case
+        $params[] = $prefix;   // prefix match case
         $params[] = $limit;
 
         $stmt = $this->db->prepare($sql);
@@ -266,6 +311,20 @@ abstract class Model
     }
 
     /**
+     * Same as mostViewed(), but for tables whose popularity column isn't
+     * named "view_count" (e.g. tiv_animals uses "views"). $column is never
+     * user input — callers must pass a known-safe column name.
+     */
+    public function mostViewedBy(string $column, int $limit = 10): array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table} ORDER BY `{$column}` DESC LIMIT ?"
+        );
+        $stmt->execute([$limit]);
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Get recent records
      */
     public function recent(int $limit = 10): array
@@ -275,6 +334,28 @@ abstract class Model
         );
         $stmt->execute([$limit]);
         return $stmt->fetchAll();
+    }
+
+    /**
+     * Get one random record, optionally scoped by a raw WHERE clause.
+     * Uses count-then-offset rather than ORDER BY RAND() to avoid a full
+     * table scan on large tables.
+     */
+    public function getRandom(string $where = '', array $params = []): ?array
+    {
+        $whereSql = $where !== '' ? "WHERE {$where}" : '';
+
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM {$this->table} {$whereSql}");
+        $countStmt->execute($params);
+        $count = (int) $countStmt->fetchColumn();
+        if ($count === 0) return null;
+
+        $offset = rand(0, $count - 1);
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table} {$whereSql} LIMIT 1 OFFSET ?"
+        );
+        $stmt->execute([...$params, $offset]);
+        return $stmt->fetch() ?: null;
     }
 
     /**

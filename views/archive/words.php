@@ -33,7 +33,7 @@
         <?php else: ?>
         <div>
             <?php foreach ($items as $item): ?>
-            <a href="<?= url('word/' . $item['id']) ?>" class="archive-item-modern">
+            <a href="<?= url(SeoHelper::canonicalSlugPath('word', $item['id'], $item['tiv_word'])) ?>" class="archive-item-modern">
                 <div class="archive-item-modern-icon" style="background:rgba(26,82,118,0.12);">&#128172;</div>
                 <div class="archive-item-modern-body">
                     <div class="archive-item-modern-title">
@@ -49,6 +49,11 @@
             </a>
             <?php endforeach; ?>
         </div>
+        <?php if (ADSENSE_ENABLED): ?>
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
         <?= pagination($pagination, url('archive/words').($filter ? '?filter='.$filter : '')) ?>
         <?php endif; ?>
     </div>

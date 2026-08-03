@@ -85,7 +85,7 @@ function include_member_card(array $m): string {
 
     ob_start();
     ?>
-    <div class="community-card<?= $m['is_featured'] ? ' community-card--featured' : '' ?>">
+    <a class="community-card<?= $m['is_featured'] ? ' community-card--featured' : '' ?>" href="<?= url('community/member/' . $m['id']) ?>">
         <div class="community-card-photo">
             <?php if ($photo): ?>
                 <img src="<?= $photo ?>" alt="<?= htmlspecialchars($m['full_name']) ?>" loading="lazy">
@@ -114,7 +114,7 @@ function include_member_card(array $m): string {
                 <?php endif; ?>
             </div>
         </div>
-    </div>
+    </a>
     <?php
     return ob_get_clean();
 }
@@ -127,11 +127,14 @@ function include_member_card(array $m): string {
     gap: 1.5rem;
 }
 .community-card {
+    display: block;
     background: #fff;
     border: 1px solid #e5e0d5;
     border-radius: 12px;
     overflow: hidden;
     transition: box-shadow .2s, transform .2s;
+    color: inherit;
+    text-decoration: none;
 }
 .community-card:hover {
     box-shadow: 0 4px 20px rgba(92,58,33,.12);

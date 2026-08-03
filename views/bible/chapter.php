@@ -96,6 +96,12 @@
             <?php endforeach; ?>
         </div>
 
+        <?php if (ADSENSE_ENABLED): ?>
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
+
         <!-- ── Bottom navigation ── -->
         <div class="bible-ch-nav" style="margin-top:2rem;">
             <?php if ($chapter > 1): ?>

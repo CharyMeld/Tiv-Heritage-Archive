@@ -33,7 +33,7 @@
         <?php else: ?>
         <div class="archive-grid-modern">
             <?php foreach ($items as $item): ?>
-            <a href="<?= url('plant/' . $item['id']) ?>" class="archive-card-modern">
+            <a href="<?= url(SeoHelper::canonicalSlugPath('plant', $item['id'], $item['tiv_name'])) ?>" class="archive-card-modern">
                 <?php if (!empty($item['image'])): ?>
                 <div class="archive-card-modern-img">
                     <img src="<?= e(UPLOADS_URL . '/images/' . $item['image']) ?>" alt="<?= e($item['tiv_name']) ?>" loading="lazy">
@@ -47,6 +47,11 @@
             </a>
             <?php endforeach; ?>
         </div>
+        <?php if (ADSENSE_ENABLED): ?>
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
         <?= pagination($pagination, url('archive/plants').($filter ? '?filter='.$filter : '')) ?>
         <?php endif; ?>
     </div>

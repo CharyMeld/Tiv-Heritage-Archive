@@ -1,6 +1,9 @@
 <!-- Cinematic Detail Banner -->
 <div class="detail-banner">
     <div class="container">
+        <div class="hf-breadcrumb-dark">
+            <?php $this->partial('breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
+        </div>
         <a href="<?= url('archive/plants') ?>" class="detail-banner-back">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             All Plants
@@ -26,9 +29,7 @@
 
         <?php if (!empty($item['image'])): ?>
         <div style="margin-bottom: 1.5rem; border-radius: 16px; overflow: hidden; max-height: 320px;">
-            <img src="<?= e(UPLOADS_URL . '/images/' . $item['image']) ?>"
-                 alt="<?= e($item['tiv_name']) ?>"
-                 style="width: 100%; height: 320px; object-fit: cover;">
+            <?= SeoHelper::heroPicture($item['image'], $item['tiv_name'], 'width: 100%; height: 320px; object-fit: cover;', 'fetchpriority="high"') ?>
         </div>
         <?php endif; ?>
 
@@ -69,12 +70,18 @@
 
         <?php include BASE_PATH . '/views/partials/source-and-links.php'; ?>
 
+        <?php if (ADSENSE_ENABLED): ?>
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
+
         <?php if (!empty($related)): ?>
         <div style="margin-top: 2.5rem;">
             <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-primary); margin-bottom: 1rem;">Other Plants</h3>
             <div class="archive-grid-modern">
                 <?php foreach ($related as $relItem): ?>
-                <a href="<?= url('plant/' . $relItem['id']) ?>" class="archive-card-modern archive-card-plants">
+                <a href="<?= url(SeoHelper::canonicalSlugPath('plant', $relItem['id'], $relItem['tiv_name'])) ?>" class="archive-card-modern archive-card-plants">
                     <?php if (!empty($relItem['image'])): ?>
                     <div style="height: 80px; border-radius: 8px; overflow: hidden; margin-bottom: 0.5rem;">
                         <img src="<?= e(UPLOADS_URL . '/images/' . $relItem['image']) ?>" alt="<?= e($relItem['tiv_name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">

@@ -17,6 +17,8 @@ require_once BASE_PATH . '/models/Source.php';
 require_once BASE_PATH . '/models/CommunityApplication.php';
 require_once BASE_PATH . '/models/CommunityMember.php';
 require_once BASE_PATH . '/models/Suggestion.php';
+require_once BASE_PATH . '/services/ContentIndexer.php';
+require_once BASE_PATH . '/services/ImageVariantGenerator.php';
 
 class AdminController extends Controller
 {
@@ -113,8 +115,12 @@ class AdminController extends Controller
             return;
         }
 
-        // Approve and optionally add to main content
-        $this->submissionModel->approve((int) $id, $this->user['id'], $this->post('notes'));
+        // Approve, recording the amount earned for this specific
+        // contribution (no fixed rate table — the admin sets it per
+        // submission at approval time).
+        $amountRaw = $this->post('amount');
+        $amount = ($amountRaw !== null && $amountRaw !== '') ? (float) $amountRaw : null;
+        $this->submissionModel->approve((int) $id, $this->user['id'], $this->post('notes'), $amount);
 
         // Add to main content table if requested
         if ($this->post('add_to_content')) {
@@ -148,6 +154,26 @@ class AdminController extends Controller
     }
 
     /**
+     * Mark submission as needing revision (distinct from outright rejection)
+     */
+    public function needsRevision(string $id): void
+    {
+        $this->requireModerator();
+
+        if (!$this->validateCSRF()) {
+            $this->back();
+            return;
+        }
+
+        $this->submissionModel->needsRevision((int) $id, $this->user['id'], $this->post('notes'));
+
+        Security::logActivity($this->user['id'], 'submission_needs_revision', 'submission', (int) $id);
+
+        $this->flash('Submission marked as needing revision.', 'info');
+        $this->redirect(url('admin/pending'));
+    }
+
+    /**
      * Global search across all content categories
      */
     public function search(): void
@@ -164,7 +190,7 @@ class AdminController extends Controller
                 'plants'    => ['model' => new TivPlant(),      'fields' => ['tiv_name', 'english_name'],       'label' => 'Plants'],
                 'festivals' => ['model' => new TivFestival(),   'fields' => ['tiv_name', 'english_name'],       'label' => 'Festivals'],
                 'foods'     => ['model' => new TivFood(),       'fields' => ['tiv_name', 'english_name'],       'label' => 'Foods'],
-                'words'     => ['model' => new DailyWord(),     'fields' => ['tiv_word', 'english_meaning'],    'label' => 'Dictionary'],
+                'words'     => ['model' => new DailyWord(),     'fields' => ['tiv_word', 'english_meaning', 'alternate_meaning'], 'label' => 'Dictionary'],
                 'animals'   => ['model' => new TivAnimal(),     'fields' => ['tiv_name', 'name'],               'label' => 'Animals'],
                 'videos'    => ['model' => new LearningVideo(), 'fields' => ['title', 'description'],           'label' => 'Videos'],
             ];
@@ -304,6 +330,7 @@ class AdminController extends Controller
             Cache::forget('archive_counts');
             Cache::forget('archive_rows');
             if (in_array($category, ['plants', 'animals', 'foods', 'festivals'])) Cache::forget('home_featured');
+            $this->silentAutoIndex($category, $id);
             $this->clearOldInput();
             $this->flash('Content created successfully.', 'success');
             $this->redirect(url('admin/content/' . $category));
@@ -418,6 +445,7 @@ class AdminController extends Controller
             Cache::forget('archive_counts');
             Cache::forget('archive_rows');
             if (in_array($category, ['plants', 'animals', 'foods', 'festivals'])) Cache::forget('home_featured');
+            $this->silentAutoIndex($category, (int) $id);
             $this->clearOldInput();
             $this->flash('Content updated successfully.', 'success');
             $this->redirect(url('admin/content/' . $category));
@@ -449,6 +477,7 @@ class AdminController extends Controller
 
         $model->delete((int) $id);
         Security::logActivity($this->user['id'], 'content_deleted', $category, (int) $id);
+        $this->silentRemoveFromIndex($category, (int) $id);
 
         Cache::forget('archive_counts');
         Cache::forget('archive_rows');
@@ -886,6 +915,8 @@ class AdminController extends Controller
             return false;
         }
 
+        ImageVariantGenerator::generate($destination);
+
         return $filename;
     }
 
@@ -941,6 +972,43 @@ class AdminController extends Controller
     /**
      * Get model for category
      */
+    // ─────────────────────────────────────────────────────────────
+    // Search index auto-maintenance
+    // ─────────────────────────────────────────────────────────────
+
+    private static array $categoryTableMap = [
+        'names'     => 'tiv_names',
+        'proverbs'  => 'tiv_proverbs',
+        'plants'    => 'tiv_plants',
+        'festivals' => 'tiv_festivals',
+        'foods'     => 'tiv_foods',
+        'words'     => 'daily_words',
+        'animals'   => 'tiv_animals',
+        'videos'    => 'learning_videos',
+    ];
+
+    private function silentAutoIndex(string $category, int $id): void
+    {
+        $table = self::$categoryTableMap[$category] ?? null;
+        if (!$table) return;
+        try {
+            (new ContentIndexer(Database::getInstance()))->indexRecord($table, $id);
+        } catch (\Throwable $e) {
+            error_log('AutoIndex error [' . $table . '#' . $id . ']: ' . $e->getMessage());
+        }
+    }
+
+    private function silentRemoveFromIndex(string $category, int $id): void
+    {
+        $table = self::$categoryTableMap[$category] ?? null;
+        if (!$table) return;
+        try {
+            (new ContentIndexer(Database::getInstance()))->removeRecord($table, $id);
+        } catch (\Throwable $e) {
+            error_log('RemoveIndex error: ' . $e->getMessage());
+        }
+    }
+
     private function getModelForCategory(string $category): ?Model
     {
         $models = [
@@ -1074,10 +1142,16 @@ class AdminController extends Controller
                 ];
 
             case 'videos':
+                $rumbleRaw   = trim($this->post('rumble_id', ''));
+                $facebookRaw = trim($this->post('facebook_url', ''));
+                $tiktokRaw   = trim($this->post('tiktok_id', ''));
                 return [
-                    'title' => $this->post('title'),
-                    'description' => $this->post('description'),
-                    'youtube_id' => $this->extractYoutubeId($this->post('youtube_id')),
+                    'title'        => $this->post('title'),
+                    'description'  => $this->post('description'),
+                    'youtube_id'   => $this->extractYoutubeId($this->post('youtube_id')),
+                    'rumble_id'    => $rumbleRaw   !== '' ? $this->extractRumbleId($rumbleRaw)     : null,
+                    'facebook_url' => $facebookRaw !== '' ? $this->extractFacebookUrl($facebookRaw) : null,
+                    'tiktok_id'    => $tiktokRaw   !== '' ? $this->extractTiktokId($tiktokRaw)     : null,
                     'category' => $this->post('category'),
                     'difficulty' => $this->post('difficulty', 'beginner'),
                     'duration' => $this->post('duration'),
@@ -1107,6 +1181,50 @@ class AdminController extends Controller
             return $m[1];
         }
         // Already just an ID
+        return $input;
+    }
+
+    private function extractFacebookUrl(string $input): string
+    {
+        // Store the URL as-is so the FB SDK can handle any format
+        // (watch, reel, share, fb.watch shortened links, etc.)
+        return trim($input);
+    }
+
+    private function extractTiktokId(string $input): string
+    {
+        $input = trim($input);
+        // https://www.tiktok.com/@user/video/1234567890123456789
+        if (preg_match('#tiktok\.com/@[^/]+/video/(\d+)#', $input, $m)) {
+            return $m[1];
+        }
+        // Already just a numeric ID
+        if (preg_match('#^\d+$#', $input)) {
+            return $input;
+        }
+        return $input;
+    }
+
+    private function extractRumbleId(string $input): string
+    {
+        $input = trim($input);
+        // Rumble("play", {"video":"vXXXXXX",...}) — from pasting the embed code snippet
+        if (preg_match('#"video"\s*:\s*"([A-Za-z0-9]+)"#', $input, $m)) {
+            return $m[1];
+        }
+        // <div id="rumble_vXXXXXX"> — from pasting the embed div
+        if (preg_match('#id="rumble_([A-Za-z0-9]+)"#', $input, $m)) {
+            return $m[1];
+        }
+        // rumble.com/embed/vXXXXXX/ or rumble.com/embed/vXXXXXX
+        if (preg_match('#rumble\.com/embed/([A-Za-z0-9]+)#', $input, $m)) {
+            return $m[1];
+        }
+        // rumble.com/vXXXXXX-title.html
+        if (preg_match('#rumble\.com/(v[A-Za-z0-9]+)[-.]#', $input, $m)) {
+            return $m[1];
+        }
+        // Already just an ID (e.g. v79a9o4)
         return $input;
     }
 
@@ -1599,6 +1717,62 @@ class AdminController extends Controller
     }
 
     /**
+     * Bulk-delete multiple duplicate records across any number of categories.
+     * Expects JSON body: { items: ["category:id", ...], csrf_token: "..." }
+     * Returns JSON response.
+     */
+    public function deleteDuplicatesBulk(): void
+    {
+        $this->requireModerator();
+
+        header('Content-Type: application/json');
+
+        $body     = json_decode(file_get_contents('php://input'), true) ?? [];
+        $token    = $body['csrf_token'] ?? '';
+        $rawItems = $body['items'] ?? [];
+
+        if (!Security::validateCSRFToken($token)) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Invalid security token.']);
+            return;
+        }
+        Security::regenerateCSRFToken();
+
+        if (empty($rawItems) || !is_array($rawItems)) {
+            echo json_encode(['success' => false, 'error' => 'No entries selected.']);
+            return;
+        }
+
+        $deleted    = 0;
+        $deletedIds = [];
+        foreach ($rawItems as $item) {
+            $parts = explode(':', (string) $item, 2);
+            if (count($parts) !== 2) continue;
+
+            [$category, $id] = $parts;
+            $id    = (int) $id;
+            $model = $this->getModelForCategory($category);
+
+            if (!$model || !$id) continue;
+
+            $model->delete($id);
+            Security::logActivity($this->user['id'], 'duplicate_deleted', $category, $id);
+            $deletedIds[] = $item;
+            $deleted++;
+        }
+
+        Cache::forget('archive_counts');
+        Cache::forget('archive_rows');
+
+        echo json_encode([
+            'success' => true,
+            'deleted' => $deleted,
+            'items'   => $deletedIds,
+            'token'   => Security::generateCSRFToken(),
+        ]);
+    }
+
+    /**
      * Returns the fields to search by LIKE for a given category.
      */
     private function getSearchFields(string $category): array
@@ -1609,7 +1783,7 @@ class AdminController extends Controller
             'plants'    => ['tiv_name', 'english_name'],
             'festivals' => ['tiv_name', 'english_name'],
             'foods'     => ['tiv_name', 'english_name'],
-            'words'     => ['tiv_word', 'english_meaning'],
+            'words'     => ['tiv_word', 'english_meaning', 'alternate_meaning'],
             'animals'   => ['tiv_name', 'name'],
             'videos'    => ['title', 'description'],
         ];

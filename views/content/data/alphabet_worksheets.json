@@ -1,0 +1,1929 @@
+{
+  "introduction": [
+    {
+      "Section": "Title",
+      "Description": "Sounds, Symbols, and Spellings of Tiv Words"
+    },
+    {
+      "Section": "Overview",
+      "Description": "Tiv sounds in general have nasal sounds. However, there are flat sounds: consonant sounds, vowel sounds, and consonant-vowel sounds."
+    },
+    {
+      "Section": "Vowel Sounds",
+      "Description": "Vowel sounds are made by allowing the breath to come out freely as the lips are pursed."
+    },
+    {
+      "Section": "Consonant Sounds",
+      "Description": "To make a consonant, the breath stream is partly blocked, and the sound lowered or raised."
+    },
+    {
+      "Section": "Note",
+      "Description": "A word as it is spelled may have different meanings depending on the way it is pronounced."
+    }
+  ],
+  "vowel_worksheets": [
+    {
+      "num": "2",
+      "title": "Worksheet 2: Vowel Sound /a/",
+      "sound_label": "/a/",
+      "columns": [
+        "Sound",
+        "English Equivalent",
+        "Length",
+        "Tiv Word",
+        "English Meaning",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun (not a in cat)",
+          "Length": "Short",
+          "Tiv Word": "va",
+          "English Meaning": "come",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Long",
+          "Tiv Word": "vaa",
+          "English Meaning": "cry, weep",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Short",
+          "Tiv Word": "za",
+          "English Meaning": "go",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Long",
+          "Tiv Word": "zaar",
+          "English Meaning": "storage shelf on posts",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Short",
+          "Tiv Word": "ma",
+          "English Meaning": "drink",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Long",
+          "Tiv Word": "maa",
+          "English Meaning": "build",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Short",
+          "Tiv Word": "ka",
+          "English Meaning": "it is",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Long",
+          "Tiv Word": "kaa",
+          "English Meaning": "say, said",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Short",
+          "Tiv Word": "na",
+          "English Meaning": "give",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Short",
+          "Tiv Word": "man",
+          "English Meaning": "and",
+          "Notes": ""
+        },
+        {
+          "Sound": "/a/",
+          "English Equivalent": "u in sun",
+          "Length": "Short",
+          "Tiv Word": "vange",
+          "English Meaning": "lizard",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "num": "3",
+      "title": "Worksheet 3: Vowel Sound /o/ (Orbit/Story)",
+      "sound_label": "/o/ (Orbit/Story)",
+      "columns": [
+        "Sound",
+        "English Equivalent",
+        "Length",
+        "Tiv Word",
+        "English Meaning",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Sound": "/o/",
+          "English Equivalent": "orbit, story",
+          "Length": "Short",
+          "Tiv Word": "or",
+          "English Meaning": "person",
+          "Notes": ""
+        },
+        {
+          "Sound": "/o/",
+          "English Equivalent": "orbit, story",
+          "Length": "Long",
+          "Tiv Word": "too",
+          "English Meaning": "measure, pour out",
+          "Notes": ""
+        },
+        {
+          "Sound": "/o/",
+          "English Equivalent": "orbit, story",
+          "Length": "Short",
+          "Tiv Word": "tor",
+          "English Meaning": "chief, king",
+          "Notes": ""
+        },
+        {
+          "Sound": "/o/",
+          "English Equivalent": "orbit, story",
+          "Length": "Long",
+          "Tiv Word": "doo",
+          "English Meaning": "good",
+          "Notes": "Long o, not oo as in book"
+        },
+        {
+          "Sound": "/o/",
+          "English Equivalent": "orbit, story",
+          "Length": "Short",
+          "Tiv Word": "mor",
+          "English Meaning": "soaked up",
+          "Notes": ""
+        },
+        {
+          "Sound": "/o/",
+          "English Equivalent": "orbit, story",
+          "Length": "Long",
+          "Tiv Word": "soo",
+          "English Meaning": "like",
+          "Notes": ""
+        },
+        {
+          "Sound": "/o/",
+          "English Equivalent": "orbit, story",
+          "Length": "Short",
+          "Tiv Word": "nor",
+          "English Meaning": "elephant",
+          "Notes": ""
+        },
+        {
+          "Sound": "/o/",
+          "English Equivalent": "orbit, story",
+          "Length": "Short",
+          "Tiv Word": "bol",
+          "English Meaning": "ball",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "num": "4",
+      "title": "Worksheet 4: Vowel Sound /ɔ/ (Pot/Dot)",
+      "sound_label": "/ɔ/ (Pot/Dot)",
+      "columns": [
+        "Sound",
+        "English Equivalent",
+        "Length",
+        "Tiv Word",
+        "English Meaning",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Short",
+          "Tiv Word": "kor",
+          "English Meaning": "catch",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Long",
+          "Tiv Word": "ishoon",
+          "English Meaning": "a liking, attraction",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Short",
+          "Tiv Word": "tom",
+          "English Meaning": "wish",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Long",
+          "Tiv Word": "too",
+          "English Meaning": "pour out a liquid or drink",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Short",
+          "Tiv Word": "gom",
+          "English Meaning": "skin lump in the neck",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Long",
+          "Tiv Word": "ndoor",
+          "English Meaning": "shed leaves",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Short",
+          "Tiv Word": "bom",
+          "English Meaning": "bomb",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Long",
+          "Tiv Word": "poo",
+          "English Meaning": "to the brim",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Short",
+          "Tiv Word": "won",
+          "English Meaning": "brother-/sister-in-law",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Short",
+          "Tiv Word": "kon",
+          "English Meaning": "tree",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Long",
+          "Tiv Word": "doo ga",
+          "English Meaning": "not good",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Long",
+          "Tiv Word": "doo gande",
+          "English Meaning": "extraordinarily good",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Long",
+          "Tiv Word": "doom",
+          "English Meaning": "I like",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Long",
+          "Tiv Word": "dooshima",
+          "English Meaning": "love",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Short",
+          "Tiv Word": "nom",
+          "English Meaning": "male-type",
+          "Notes": ""
+        },
+        {
+          "Sound": "/ɔ/",
+          "English Equivalent": "pot, dot",
+          "Length": "Short",
+          "Tiv Word": "pon",
+          "English Meaning": "reveal, expose",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "num": "5",
+      "title": "Worksheet 5: Vowel Sound /i/",
+      "sound_label": "/i/",
+      "columns": [
+        "Sound",
+        "English Equivalent",
+        "Length",
+        "Tiv Word",
+        "English Meaning"
+      ],
+      "rows": [
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Short",
+          "Tiv Word": "yina",
+          "English Meaning": "not enough; incomparable"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Long",
+          "Tiv Word": "atii",
+          "English Meaning": "sparrow"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Short",
+          "Tiv Word": "yima",
+          "English Meaning": "save"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Long",
+          "Tiv Word": "ii",
+          "English Meaning": "bury"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Short",
+          "Tiv Word": "tim",
+          "English Meaning": "destroy, post"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Long",
+          "Tiv Word": "ii",
+          "English Meaning": "steal"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Short",
+          "Tiv Word": "shi",
+          "English Meaning": "left"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Long",
+          "Tiv Word": "fiir",
+          "English Meaning": "bunch (v.)"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Short",
+          "Tiv Word": "ifi",
+          "English Meaning": "large river"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Long",
+          "Tiv Word": "fiishi",
+          "English Meaning": "let out stomach gas; fart"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Short",
+          "Tiv Word": "time",
+          "English Meaning": "dig"
+        },
+        {
+          "Sound": "/i/",
+          "English Equivalent": "ee in feet",
+          "Length": "Short",
+          "Tiv Word": "iti",
+          "English Meaning": "name"
+        }
+      ]
+    },
+    {
+      "num": "6",
+      "title": "Worksheet 6: Vowel Sound /e/",
+      "sound_label": "/e/",
+      "columns": [
+        "Sound",
+        "English Equivalent",
+        "Length",
+        "Tiv Word",
+        "English Meaning"
+      ],
+      "rows": [
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "de",
+          "English Meaning": "stop"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Long",
+          "Tiv Word": "bee",
+          "English Meaning": "finish"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "ve",
+          "English Meaning": "them"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Long",
+          "Tiv Word": "neer",
+          "English Meaning": "excess"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "se",
+          "English Meaning": "we"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Long",
+          "Tiv Word": "seer",
+          "English Meaning": "add"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "sen",
+          "English Meaning": "flow"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Long",
+          "Tiv Word": "keer",
+          "English Meaning": "kindle"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "ime",
+          "English Meaning": "darkness"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Long",
+          "Tiv Word": "mee",
+          "English Meaning": "entice"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "we",
+          "English Meaning": "you (singular)"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "ne",
+          "English Meaning": "you (plural)"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "ve",
+          "English Meaning": "they"
+        },
+        {
+          "Sound": "/e/",
+          "English Equivalent": "bed, net",
+          "Length": "Short",
+          "Tiv Word": "pepe",
+          "English Meaning": "morning"
+        }
+      ]
+    },
+    {
+      "num": "7",
+      "title": "Worksheet 7: Vowel Sound /u/",
+      "sound_label": "/u/",
+      "columns": [
+        "Sound",
+        "English Equivalent",
+        "Length",
+        "Tiv Word",
+        "English Meaning"
+      ],
+      "rows": [
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Short",
+          "Tiv Word": "Mu",
+          "English Meaning": "name of a river"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Long",
+          "Tiv Word": "tuur",
+          "English Meaning": "push"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Short",
+          "Tiv Word": "kuma",
+          "English Meaning": "pierce or prick"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Long",
+          "Tiv Word": "kuma",
+          "English Meaning": "enough; suit; satisfy"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Short",
+          "Tiv Word": "guma",
+          "English Meaning": "laterite"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Long",
+          "Tiv Word": "puu",
+          "English Meaning": "criticize"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Short",
+          "Tiv Word": "usu",
+          "English Meaning": "fire"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Long",
+          "Tiv Word": "suur",
+          "English Meaning": "support"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Short",
+          "Tiv Word": "kume",
+          "English Meaning": "to pound"
+        },
+        {
+          "Sound": "/u/",
+          "English Equivalent": "oo in book/look",
+          "Length": "Short",
+          "Tiv Word": "uma",
+          "English Meaning": "life; dry"
+        }
+      ]
+    }
+  ],
+  "consonant_worksheets": [
+    {
+      "symbol": "/b/",
+      "rows": [
+        {
+          "Tiv Word": "bem",
+          "English Meaning": "peace",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "bam",
+          "English Meaning": "bank",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ber",
+          "English Meaning": "lake",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "bar",
+          "English Meaning": "cave",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "bua",
+          "English Meaning": "cattle",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "butu",
+          "English Meaning": "mat",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/c/",
+      "rows": [
+        {
+          "Tiv Word": "cia",
+          "English Meaning": "fear",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "cir",
+          "English Meaning": "close",
+          "Notes": "Alternative spelling: chir"
+        }
+      ]
+    },
+    {
+      "symbol": "/d/",
+      "rows": [
+        {
+          "Tiv Word": "de",
+          "English Meaning": "stop",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dem",
+          "English Meaning": "leave me",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "demdem",
+          "English Meaning": "cooled down",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dafa",
+          "English Meaning": "cooked whole grain",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dagi",
+          "English Meaning": "small spear",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dan",
+          "English Meaning": "counter (verb)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "damiyo",
+          "English Meaning": "a kind of yam",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dura",
+          "English Meaning": "make thunder sound",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dogo",
+          "English Meaning": "railroad",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "deri",
+          "English Meaning": "hundred",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dubu",
+          "English Meaning": "thousand",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dubudubu",
+          "English Meaning": "million",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/f/",
+      "rows": [
+        {
+          "Tiv Word": "fa",
+          "English Meaning": "know",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "fam",
+          "English Meaning": "know me; wet season",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "fese",
+          "English Meaning": "quick",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "fefa",
+          "English Meaning": "soon",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "fere",
+          "English Meaning": "fast; quick",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "fesefese",
+          "English Meaning": "quickly",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ferefefere",
+          "English Meaning": "quickly",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Fada",
+          "English Meaning": "Rev. Father",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/g/",
+      "rows": [
+        {
+          "Tiv Word": "ga",
+          "English Meaning": "not",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gege",
+          "English Meaning": "back of leg",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gom",
+          "English Meaning": "cyst",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gar",
+          "English Meaning": "town, city",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gema",
+          "English Meaning": "turn",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ger",
+          "English Meaning": "cheer",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gule",
+          "English Meaning": "kneel",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "guda",
+          "English Meaning": "better",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gundu",
+          "English Meaning": "trunk",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "guma",
+          "English Meaning": "red soil",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/h/",
+      "rows": [
+        {
+          "Tiv Word": "har",
+          "English Meaning": "hung",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "haa",
+          "English Meaning": "pour or spill",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hôn",
+          "English Meaning": "to trap",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hondo",
+          "English Meaning": "whistle (with lips)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hôm",
+          "English Meaning": "funny",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hôm",
+          "English Meaning": "produce shoots",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "hôô",
+          "English Meaning": "rot, decay (verb)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hundu",
+          "English Meaning": "become muddy",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hunde",
+          "English Meaning": "mad",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hungwa",
+          "English Meaning": "descend",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hura",
+          "English Meaning": "make noise",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hur",
+          "English Meaning": "friendship",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "huror",
+          "English Meaning": "friend",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hunda",
+          "English Meaning": "door, entrance",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hingir",
+          "English Meaning": "turn during roasting",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hide",
+          "English Meaning": "return, come back",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hide jime",
+          "English Meaning": "to back up",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hule",
+          "English Meaning": "meander, fold",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "huma",
+          "English Meaning": "smell",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hungur",
+          "English Meaning": "forget",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hange",
+          "English Meaning": "stuck, hung",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hongor",
+          "English Meaning": "kernel",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hoghol",
+          "English Meaning": "narrow",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "hogholoo",
+          "English Meaning": "narrow condition",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/i/",
+      "rows": [
+        {
+          "Tiv Word": "Ijande",
+          "English Meaning": "swamp or pond",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ijem",
+          "English Meaning": "steep slope",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Ijen",
+          "English Meaning": "hunger",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ijor",
+          "English Meaning": "a well",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "aji",
+          "English Meaning": "eggs",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "iji",
+          "English Meaning": "egg",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "iji",
+          "English Meaning": "fly",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "ikange",
+          "English Meaning": "a partridge",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ikon",
+          "English Meaning": "green algae",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ikundu",
+          "English Meaning": "twenty",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ikungugh",
+          "English Meaning": "dove",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ifi",
+          "English Meaning": "sea",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ityeku",
+          "English Meaning": "ocean",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Ifa",
+          "English Meaning": "Eve (first Bible woman)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Imande",
+          "English Meaning": "leprosy",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Ivungu",
+          "English Meaning": "owl",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Ivurugh",
+          "English Meaning": "piece, verse",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/j/",
+      "rows": [
+        {
+          "Tiv Word": "jime",
+          "English Meaning": "back",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Jighjigh",
+          "English Meaning": "belief",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Jighirii",
+          "English Meaning": "straight",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Jato",
+          "English Meaning": "Hausa for red",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Jaki",
+          "English Meaning": "donkey",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Ajikegh",
+          "English Meaning": "eggs",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Jukum",
+          "English Meaning": "ethnic group",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Jamber",
+          "English Meaning": "torn piece",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Januari",
+          "English Meaning": "first month of the year (January)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Jun",
+          "English Meaning": "sixth month of the year (June)",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/k/",
+      "rows": [
+        {
+          "Tiv Word": "kam",
+          "English Meaning": "mould; press",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kor",
+          "English Meaning": "rope; sew",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kôr",
+          "English Meaning": "hold; catch",
+          "Notes": "Different pronunciation from kor"
+        },
+        {
+          "Tiv Word": "kua",
+          "English Meaning": "also; and",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kon",
+          "English Meaning": "tree",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kuma",
+          "English Meaning": "enough; pinch",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kuma",
+          "English Meaning": "pierce; inject",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "kwaghfan",
+          "English Meaning": "knowledge",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kile",
+          "English Meaning": "wash",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kimbi",
+          "English Meaning": "pay",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/l/",
+      "rows": [
+        {
+          "Tiv Word": "lam",
+          "English Meaning": "talk; speak (verb)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "lanegh",
+          "English Meaning": "foolishness",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "lankwagh",
+          "English Meaning": "is foolish",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "lu",
+          "English Meaning": "mortar",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "liam",
+          "English Meaning": "speech; talk (noun)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "lian",
+          "English Meaning": "lean; lay",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/m/",
+      "rows": [
+        {
+          "Tiv Word": "ma",
+          "English Meaning": "drink",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Mfe",
+          "English Meaning": "understanding",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Mimi",
+          "English Meaning": "truth; truly",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Mindi",
+          "English Meaning": "burst",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mo",
+          "English Meaning": "me",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "môm",
+          "English Meaning": "one (the number)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mon",
+          "English Meaning": "neck",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mem",
+          "English Meaning": "rest",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mena",
+          "English Meaning": "swallow",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mula",
+          "English Meaning": "swollen",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "musan",
+          "English Meaning": "change; exchange",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mor",
+          "English Meaning": "soaked up",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mir",
+          "English Meaning": "soaked in water",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mnyam",
+          "English Meaning": "sleep",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "mnyam ma cien",
+          "English Meaning": "dream",
+          "Notes": "Literally: \"sleep of the night\""
+        },
+        {
+          "Tiv Word": "mnyim",
+          "English Meaning": "smoke",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/n/",
+      "rows": [
+        {
+          "Tiv Word": "na",
+          "English Meaning": "give",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ne",
+          "English Meaning": "you (plural)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "nura",
+          "English Meaning": "needle; injection",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "nungwa",
+          "English Meaning": "mix",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "num",
+          "English Meaning": "scatter; destroy",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "num",
+          "English Meaning": "a fight",
+          "Notes": "Same spelling, different meaning"
+        }
+      ]
+    },
+    {
+      "symbol": "/o/",
+      "rows": [
+        {
+          "Tiv Word": "Omon",
+          "English Meaning": "to suck on dry matter",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Ongol",
+          "English Meaning": "drill",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Or",
+          "English Meaning": "person",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Ortwer",
+          "English Meaning": "doctor",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Orvesen",
+          "English Meaning": "elder",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Osough",
+          "English Meaning": "get free",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Orsar",
+          "English Meaning": "a man needed",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/p/",
+      "rows": [
+        {
+          "Tiv Word": "pa",
+          "English Meaning": "path",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pam",
+          "English Meaning": "pound sterling",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pampam",
+          "English Meaning": "can",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pande",
+          "English Meaning": "subtract",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "penda",
+          "English Meaning": "put; pay",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pav",
+          "English Meaning": "divide; cut open",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "paa",
+          "English Meaning": "cut (grass); clear",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pel",
+          "English Meaning": "plate; armor",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "per",
+          "English Meaning": "cross",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pev",
+          "English Meaning": "valley; has hole in it",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pon",
+          "English Meaning": "expose",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pir",
+          "English Meaning": "quench; put out a light",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pira",
+          "English Meaning": "boasting",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "piraikaa",
+          "English Meaning": "boastful fact",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pepa",
+          "English Meaning": "paper",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pepe",
+          "English Meaning": "morning",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pepepepe",
+          "English Meaning": "early morning",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pitapita",
+          "English Meaning": "soggy",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "pupur",
+          "English Meaning": "white",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "puu",
+          "English Meaning": "disparage; criticize",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "putôputô",
+          "English Meaning": "puddle",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "purututu",
+          "English Meaning": "all; completely",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "turughtutu",
+          "English Meaning": "steam",
+          "Notes": "Listed under /p/ in the source; preserve for consistency"
+        }
+      ]
+    }
+  ],
+  "digraph_worksheets": [
+    {
+      "symbol": "/bw/",
+      "rows": [
+        {
+          "Tiv Word": "bwagi",
+          "English Meaning": "a pick (for digging)",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/gb/",
+      "rows": [
+        {
+          "Tiv Word": "gba",
+          "English Meaning": "fall",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gbaa",
+          "English Meaning": "branch",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gbande",
+          "English Meaning": "dish",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gbande",
+          "English Meaning": "triangular drum",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "gbanger",
+          "English Meaning": "wide",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gbem",
+          "English Meaning": "chin",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gbem",
+          "English Meaning": "large brown ant",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "gbemgbem",
+          "English Meaning": "always",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gber",
+          "English Meaning": "cut (a tree)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gber",
+          "English Meaning": "sing",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "gbide",
+          "English Meaning": "hit; beat; whip",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gbir",
+          "English Meaning": "lay (as in a crib)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gbor",
+          "English Meaning": "stomach",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/kp/",
+      "rows": [
+        {
+          "Tiv Word": "kpaa",
+          "English Meaning": "also",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "akpa",
+          "English Meaning": "a whip",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kpar",
+          "English Meaning": "partition",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kpe",
+          "English Meaning": "die",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kpekpe",
+          "English Meaning": "wall",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kper",
+          "English Meaning": "tomorrow",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kper",
+          "English Meaning": "net",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "kpera",
+          "English Meaning": "draw; drag",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/ch/",
+      "rows": [
+        {
+          "Tiv Word": "chia",
+          "English Meaning": "fear",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "chicha",
+          "English Meaning": "all",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "chii",
+          "English Meaning": "all",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/sh/",
+      "rows": [
+        {
+          "Tiv Word": "sha",
+          "English Meaning": "up; away",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ishe",
+          "English Meaning": "eye",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ishima",
+          "English Meaning": "heart",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "shima",
+          "English Meaning": "heart",
+          "Notes": "Alternative form"
+        },
+        {
+          "Tiv Word": "shase",
+          "English Meaning": "cashew",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/ny/",
+      "rows": [
+        {
+          "Tiv Word": "nyam",
+          "English Meaning": "meat",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "nyen",
+          "English Meaning": "yesterday",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "nyian",
+          "English Meaning": "ripe",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "nyian",
+          "English Meaning": "today",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "nyon",
+          "English Meaning": "bird",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "nyuma",
+          "English Meaning": "bite",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/gh/",
+      "rows": [
+        {
+          "Tiv Word": "bugh",
+          "English Meaning": "open",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dugh",
+          "English Meaning": "take out",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kegh",
+          "English Meaning": "wait",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kough",
+          "English Meaning": "erase",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "dugh",
+          "English Meaning": "take out",
+          "Notes": "Duplicate entry in source"
+        },
+        {
+          "Tiv Word": "sugh",
+          "English Meaning": "thank",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tugh",
+          "English Meaning": "night",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tugh tugh",
+          "English Meaning": "early morning",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tegh tegh",
+          "English Meaning": "slowly",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/gw/",
+      "rows": [
+        {
+          "Tiv Word": "gwa",
+          "English Meaning": "fame",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "gwar",
+          "English Meaning": "strand",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/kw/",
+      "rows": [
+        {
+          "Tiv Word": "kwase",
+          "English Meaning": "woman",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kwe",
+          "English Meaning": "a crack",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "kwende",
+          "English Meaning": "elbow",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/sw/",
+      "rows": [
+        {
+          "Tiv Word": "Swem",
+          "English Meaning": "Tiv traditional god",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Swange",
+          "English Meaning": "a Tiv dance",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "Swase",
+          "English Meaning": "meat",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "ishwa",
+          "English Meaning": "beniseed",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/tw/",
+      "rows": [
+        {
+          "Tiv Word": "twev",
+          "English Meaning": "settlement",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "twer",
+          "English Meaning": "medical treatment",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "twar",
+          "English Meaning": "leftovers of produce",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "twande",
+          "English Meaning": "boil on the body",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "twande",
+          "English Meaning": "the armpit",
+          "Notes": "Same spelling, different meaning"
+        }
+      ]
+    },
+    {
+      "symbol": "/ts/",
+      "rows": [
+        {
+          "Tiv Word": "tsar",
+          "English Meaning": "bridge",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tsav",
+          "English Meaning": "witchcraft",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tsa",
+          "English Meaning": "sleep over",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tsa",
+          "English Meaning": "stayed/lived a while",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "tser",
+          "English Meaning": "cut up (into pieces)",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tser",
+          "English Meaning": "skip the line",
+          "Notes": "Same spelling, different meaning"
+        },
+        {
+          "Tiv Word": "tsen",
+          "English Meaning": "sun dry",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tsenda",
+          "English Meaning": "spray water; spit",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tswar",
+          "English Meaning": "anus",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tswen",
+          "English Meaning": "alone",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "tswer",
+          "English Meaning": "abstain",
+          "Notes": ""
+        }
+      ]
+    },
+    {
+      "symbol": "/zw/",
+      "rows": [
+        {
+          "Tiv Word": "zwa",
+          "English Meaning": "mouth",
+          "Notes": ""
+        },
+        {
+          "Tiv Word": "zwar",
+          "English Meaning": "large pot"
+        }
+      ]
+    }
+  ],
+  "gh_pronunciation_note": "Pronunciation Note: The /gh/ sound usually comes at the end of a word and is pronounced similarly to the ending in English words such as dough, borough, and Burrough."
+}

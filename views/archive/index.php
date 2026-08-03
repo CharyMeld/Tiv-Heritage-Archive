@@ -12,7 +12,7 @@ function exploreCard(string $cat, array $item): array
                 'subtitle' => $item['english_meaning'] ?? '',
                 'meta'     => ucfirst($item['gender'] ?? ''),
                 'desc'     => $item['description'] ?? '',
-                'url'      => url('name/' . $item['id']),
+                'url'      => url(SeoHelper::canonicalSlugPath('name', $item['id'], $item['tiv_name'])),
             ];
         case 'proverbs':
             $tiv = $item['tiv_text'] ?? '';
@@ -21,7 +21,7 @@ function exploreCard(string $cat, array $item): array
                 'subtitle' => mb_substr($item['english_translation'] ?? '', 0, 70),
                 'meta'     => $item['category'] ?? '',
                 'desc'     => $item['deeper_meaning'] ?? '',
-                'url'      => url('proverb/' . $item['id']),
+                'url'      => url(SeoHelper::canonicalSlugPath('proverb', $item['id'], $tiv)),
             ];
         case 'plants':
             return [
@@ -29,7 +29,7 @@ function exploreCard(string $cat, array $item): array
                 'subtitle' => $item['english_name'] ?? '',
                 'meta'     => $item['scientific_name'] ?? '',
                 'desc'     => $item['description'] ?? '',
-                'url'      => url('plant/' . $item['id']),
+                'url'      => url(SeoHelper::canonicalSlugPath('plant', $item['id'], $item['tiv_name'] ?? '')),
                 'image'    => $item['image'] ?? '',
             ];
         case 'festivals':
@@ -38,7 +38,7 @@ function exploreCard(string $cat, array $item): array
                 'subtitle' => $item['english_name'] ?? '',
                 'meta'     => $item['timing'] ?? '',
                 'desc'     => $item['description'] ?? '',
-                'url'      => url('festival/' . $item['id']),
+                'url'      => url(SeoHelper::canonicalSlugPath('festival', $item['id'], $item['tiv_name'] ?? '')),
                 'image'    => !empty($item['gallery_image']) ? $item['gallery_image'] : ($item['image'] ?? ''),
             ];
         case 'foods':
@@ -47,7 +47,7 @@ function exploreCard(string $cat, array $item): array
                 'subtitle' => $item['english_name'] ?? '',
                 'meta'     => '',
                 'desc'     => $item['description'] ?? '',
-                'url'      => url('food/' . $item['id']),
+                'url'      => url(SeoHelper::canonicalSlugPath('food', $item['id'], $item['tiv_name'] ?? '')),
                 'image'    => $item['image'] ?? '',
             ];
         case 'words':
@@ -56,7 +56,7 @@ function exploreCard(string $cat, array $item): array
                 'subtitle' => $item['english_meaning'] ?? '',
                 'meta'     => $item['part_of_speech'] ?? '',
                 'desc'     => $item['example_tiv'] ?? '',
-                'url'      => url('word/' . $item['id']),
+                'url'      => url(SeoHelper::canonicalSlugPath('word', $item['id'], $item['tiv_word'] ?? '')),
             ];
         case 'animals':
             return [
@@ -64,7 +64,7 @@ function exploreCard(string $cat, array $item): array
                 'subtitle' => $item['name'] ?? '',
                 'meta'     => '',
                 'desc'     => $item['description'] ?? '',
-                'url'      => url('animal/' . $item['id']),
+                'url'      => url(SeoHelper::canonicalSlugPath('animal', $item['id'], $item['tiv_name'] ?? $item['name'] ?? '')),
                 'image'    => $item['image'] ?? '',
             ];
         case 'bible':
@@ -77,6 +77,33 @@ function exploreCard(string $cat, array $item): array
                 'meta'     => !empty($tiv) ? $tiv : ($item['testament'] ?? ''),
                 'desc'     => ($item['english_web'] ?? '') . (!empty($item['tiv']) ? ' | ' . $item['tiv'] : ''),
                 'url'      => url('bible/' . ($item['book_key'] ?? '') . '/' . ($item['chapter'] ?? '')) . '#v' . ($item['verse'] ?? ''),
+                'image'    => '',
+            ];
+        case 'documents':
+            return [
+                'title'    => $item['title'],
+                'subtitle' => mb_substr($item['excerpt'] ?? '', 0, 70),
+                'meta'     => $item['media_type'] !== 'none' ? ucfirst($item['media_type']) : 'Document',
+                'desc'     => $item['content'] ?? '',
+                'url'      => url('content-item/' . $item['id']),
+                'image'    => ($item['media_type'] === 'image' && !empty($item['media_file'])) ? $item['media_file'] : '',
+            ];
+        case 'audio':
+            return [
+                'title'    => $item['title'],
+                'subtitle' => mb_substr($item['excerpt'] ?? '', 0, 70),
+                'meta'     => 'Audio',
+                'desc'     => $item['content'] ?? '',
+                'url'      => url('content-item/' . $item['id']),
+                'image'    => '',
+            ];
+        case 'publications':
+            return [
+                'title'    => $item['title'],
+                'subtitle' => mb_substr($item['excerpt'] ?? '', 0, 70),
+                'meta'     => $item['media_type'] !== 'none' ? ucfirst($item['media_type']) : 'Publication',
+                'desc'     => $item['content'] ?? '',
+                'url'      => url('content-item/' . $item['id']),
                 'image'    => '',
             ];
         default:

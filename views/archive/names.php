@@ -33,7 +33,7 @@
         <?php else: ?>
         <div>
             <?php foreach ($items as $item): ?>
-            <a href="<?= url('name/' . $item['id']) ?>" class="archive-item-modern">
+            <a href="<?= url(SeoHelper::canonicalSlugPath('name', $item['id'], $item['tiv_name'])) ?>" class="archive-item-modern">
                 <div class="archive-item-modern-icon" style="background:rgba(200,169,81,0.12);">&#128100;</div>
                 <div class="archive-item-modern-body">
                     <div class="archive-item-modern-title"><?= e($item['tiv_name']) ?></div>
@@ -44,6 +44,11 @@
             </a>
             <?php endforeach; ?>
         </div>
+        <?php if (ADSENSE_ENABLED): ?>
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
         <?php if ($pagination['total_pages'] > 1): ?>
         <div class="load-more" style="margin-top:1rem;">
             <?php if ($pagination['current_page'] < $pagination['total_pages']): ?>

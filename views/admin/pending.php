@@ -36,10 +36,15 @@
                             <button class="btn btn-sm btn-secondary" onclick="showDetails(<?= $submission['id'] ?>)">
                                 View
                             </button>
-                            <form action="<?= url('admin/pending/' . $submission['id'] . '/approve') ?>" method="POST" style="display: inline;">
+                            <form action="<?= url('admin/pending/' . $submission['id'] . '/approve') ?>" method="POST" style="display: inline-flex; gap:.3rem; align-items:center;">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="add_to_content" value="1">
+                                <input type="number" name="amount" class="form-input" placeholder="₦ Amount" min="0" step="0.01" required style="width:100px;padding:.35rem .5rem;">
                                 <button type="submit" class="btn btn-sm btn-primary">Approve</button>
+                            </form>
+                            <form action="<?= url('admin/pending/' . $submission['id'] . '/needs-revision') ?>" method="POST" style="display: inline;">
+                                <?= csrf_field() ?>
+                                <button type="submit" class="btn btn-sm btn-secondary">Needs Revision</button>
                             </form>
                             <form action="<?= url('admin/pending/' . $submission['id'] . '/reject') ?>" method="POST" style="display: inline;">
                                 <?= csrf_field() ?>
@@ -67,9 +72,15 @@
                                         <span>Add to archive</span>
                                     </label>
                                     <div style="margin-top: 0.5rem;">
+                                        <input type="number" name="amount" class="form-input" placeholder="Amount earned (₦)" min="0" step="0.01" required style="margin-bottom: 0.5rem;">
                                         <input type="text" name="notes" class="form-input" placeholder="Notes (optional)" style="margin-bottom: 0.5rem;">
                                         <button type="submit" class="btn btn-sm btn-primary">Approve</button>
                                     </div>
+                                </form>
+                                <form action="<?= url('admin/pending/' . $submission['id'] . '/needs-revision') ?>" method="POST" style="display: inline-block; margin-right: 1rem;">
+                                    <?= csrf_field() ?>
+                                    <input type="text" name="notes" class="form-input" placeholder="What needs to change?" style="margin-bottom: 0.5rem;">
+                                    <button type="submit" class="btn btn-sm btn-secondary">Needs Revision</button>
                                 </form>
                                 <form action="<?= url('admin/pending/' . $submission['id'] . '/reject') ?>" method="POST" style="display: inline-block;">
                                     <?= csrf_field() ?>

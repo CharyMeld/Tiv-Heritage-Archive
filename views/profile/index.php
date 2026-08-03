@@ -32,7 +32,11 @@
         <!-- Quick actions -->
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.5rem;">
             <a href="<?= url('contribute') ?>" class="btn btn-primary" style="border-radius:50px;">+ Contribute</a>
+            <?php if (has_role('contributor')): ?>
+            <a href="<?= url('contributor') ?>" class="btn btn-secondary" style="border-radius:50px;">&#128176; Contributor Dashboard</a>
+            <?php endif; ?>
             <a href="<?= url('profile/submissions') ?>" class="btn btn-secondary" style="border-radius:50px;">My Submissions</a>
+            <a href="<?= url('profile/collection') ?>" class="btn btn-secondary" style="border-radius:50px;">&#11088; My Collection</a>
             <a href="<?= url('profile/edit') ?>" class="btn btn-secondary" style="border-radius:50px;">Edit Profile</a>
             <a href="<?= url('profile/password') ?>" class="btn btn-secondary" style="border-radius:50px;">Change Password</a>
         </div>

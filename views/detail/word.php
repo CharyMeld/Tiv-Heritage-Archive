@@ -1,6 +1,9 @@
 <!-- Cinematic Detail Banner -->
 <div class="detail-banner">
     <div class="container">
+        <div class="hf-breadcrumb-dark">
+            <?php $this->partial('breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
+        </div>
         <a href="<?= url('archive/words') ?>" class="detail-banner-back">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             Dictionary
@@ -8,6 +11,9 @@
         <span class="detail-banner-cat">&#128172; Tiv Word</span>
         <h1 class="detail-banner-title"><?= e($item['tiv_word']) ?></h1>
         <p class="detail-banner-sub"><?= e($item['english_meaning']) ?></p>
+        <?php if (!empty($item['alternate_meaning'])): ?>
+        <p class="detail-banner-sub detail-banner-sub-alt">Also translated as: <?= e($item['alternate_meaning']) ?></p>
+        <?php endif; ?>
         <div class="detail-banner-badges">
             <?php if (!empty($item['part_of_speech'])): ?>
             <span class="detail-banner-badge"><?= ucfirst(e($item['part_of_speech'])) ?></span>
@@ -96,14 +102,14 @@
             <?php if (!empty($rootWord)): ?>
             <span class="detail-section-label">Root Word</span>
             <p class="detail-section-text">
-                <a href="<?= url('word/' . $rootWord['id']) ?>"><strong><?= e($rootWord['tiv_word']) ?></strong> — <?= e($rootWord['english_meaning']) ?></a>
+                <a href="<?= url(SeoHelper::canonicalSlugPath('word', $rootWord['id'], $rootWord['tiv_word'])) ?>"><strong><?= e($rootWord['tiv_word']) ?></strong> — <?= e($rootWord['english_meaning']) ?></a>
             </p>
             <?php endif; ?>
             <?php if (!empty($derivedWords)): ?>
             <span class="detail-section-label" style="margin-top:.75rem;display:block;">Derived Words</span>
             <div class="archive-grid-modern">
                 <?php foreach ($derivedWords as $dw): ?>
-                <a href="<?= url('word/' . $dw['id']) ?>" class="archive-card-modern archive-card-words">
+                <a href="<?= url(SeoHelper::canonicalSlugPath('word', $dw['id'], $dw['tiv_word'])) ?>" class="archive-card-modern archive-card-words">
                     <span class="archive-card-modern-icon">&#128172;</span>
                     <h4 class="archive-card-modern-title"><?= e($dw['tiv_word']) ?></h4>
                     <p class="archive-card-modern-sub"><?= e($dw['english_meaning']) ?></p>
@@ -125,7 +131,7 @@
             <?php foreach ($groupLabels as $key => $label): if (empty($grouped[$key])) continue; ?>
             <p class="detail-section-text" style="margin-top:.5rem;">
                 <strong><?= $label ?>:</strong>
-                <?php foreach ($grouped[$key] as $i => $w): ?><?= $i ? ', ' : '' ?><a href="<?= url('word/' . $w['id']) ?>"><?= e($w['tiv_word']) ?></a><?php endforeach; ?>
+                <?php foreach ($grouped[$key] as $i => $w): ?><?= $i ? ', ' : '' ?><a href="<?= url(SeoHelper::canonicalSlugPath('word', $w['id'], $w['tiv_word'])) ?>"><?= e($w['tiv_word']) ?></a><?php endforeach; ?>
             </p>
             <?php endforeach; ?>
         </div>
@@ -133,12 +139,18 @@
 
         <?php include BASE_PATH . '/views/partials/source-and-links.php'; ?>
 
+        <?php if (ADSENSE_ENABLED): ?>
+        <div class="adsense-wrap">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <?php endif; ?>
+
         <?php if (!empty($related)): ?>
         <div style="margin-top: 2.5rem;">
             <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-primary); margin-bottom: 1rem;">Related Words</h3>
             <div class="archive-grid-modern">
                 <?php foreach ($related as $relItem): ?>
-                <a href="<?= url('word/' . $relItem['id']) ?>" class="archive-card-modern archive-card-words">
+                <a href="<?= url(SeoHelper::canonicalSlugPath('word', $relItem['id'], $relItem['tiv_word'])) ?>" class="archive-card-modern archive-card-words">
                     <span class="archive-card-modern-icon">&#128172;</span>
                     <h4 class="archive-card-modern-title"><?= e($relItem['tiv_word']) ?></h4>
                     <p class="archive-card-modern-sub"><?= e($relItem['english_meaning']) ?></p>

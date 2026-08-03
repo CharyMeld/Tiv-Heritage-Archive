@@ -23,3 +23,6 @@ Thumbs.db
 # PHP compiled / vendor
 vendor/
 *.log
+
+# Claude Code tool state (worktrees, local session data)
+.claude/

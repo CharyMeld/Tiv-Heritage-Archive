@@ -229,6 +229,7 @@ class KnowledgeController extends Controller
             'tiv_foods'    => "SELECT id, tiv_name AS label FROM tiv_foods ORDER BY tiv_name LIMIT 300",
             'daily_words'  => "SELECT id, tiv_word AS label FROM daily_words ORDER BY tiv_word LIMIT 300",
             'tiv_animals'  => "SELECT id, tiv_name AS label FROM tiv_animals ORDER BY tiv_name LIMIT 300",
+            'historical_figures' => "SELECT id, english_name AS label FROM historical_figures ORDER BY english_name LIMIT 300",
         ];
 
         foreach ($queries as $table => $sql) {

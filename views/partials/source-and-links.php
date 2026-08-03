@@ -46,22 +46,22 @@
     </div>
     <div class="kg-links-grid">
         <?php foreach ($links as $link):
-            $cfg  = $link['cfg'];
-            $item = $link['item'];
-            $titleField = $cfg['title'];
-            $subField   = $cfg['sub'];
-            $title = mb_substr($item[$titleField] ?? '', 0, 60);
-            $sub   = mb_substr($item[$subField]   ?? '', 0, 60);
-            $url   = url($cfg['url'] . '/' . $item['id']);
-            $relation = ucwords(str_replace('_', ' ', $link['relation']));
+            $linkCfg   = $link['cfg'];
+            $linkItem  = $link['item'];
+            $linkTitleField = $linkCfg['title'];
+            $linkSubField   = $linkCfg['sub'];
+            $linkTitle = mb_substr($linkItem[$linkTitleField] ?? '', 0, 60);
+            $linkSub   = mb_substr($linkItem[$linkSubField]   ?? '', 0, 60);
+            $linkUrl   = url($linkCfg['url'] . '/' . $linkItem['id']);
+            $linkRelation = ucwords(str_replace('_', ' ', $link['relation']));
         ?>
-        <a href="<?= e($url) ?>" class="kg-link-card">
-            <span class="kg-link-icon"><?= $cfg['icon'] ?></span>
+        <a href="<?= e($linkUrl) ?>" class="kg-link-card">
+            <span class="kg-link-icon"><?= $linkCfg['icon'] ?></span>
             <div class="kg-link-body">
-                <span class="kg-link-relation"><?= e($relation) ?></span>
-                <h4 class="kg-link-title"><?= e($title) ?></h4>
-                <?php if ($sub): ?>
-                <p class="kg-link-sub"><?= e($sub) ?></p>
+                <span class="kg-link-relation"><?= e($linkRelation) ?></span>
+                <h4 class="kg-link-title"><?= e($linkTitle) ?></h4>
+                <?php if ($linkSub): ?>
+                <p class="kg-link-sub"><?= e($linkSub) ?></p>
                 <?php endif; ?>
             </div>
             <span class="kg-link-arrow">&rsaquo;</span>

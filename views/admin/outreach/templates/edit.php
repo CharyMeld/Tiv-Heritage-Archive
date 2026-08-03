@@ -15,18 +15,18 @@
 
                     <div class="form-group">
                         <label class="form-label required">Template Name</label>
-                        <input type="text" name="name" class="form-input" value="<?= e(old('name', $template['name'])) ?>" required>
+                        <input type="text" name="name" class="form-input" value="<?= old('name', $template['name']) ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label required">Email Subject</label>
-                        <input type="text" name="subject" class="form-input" value="<?= e(old('subject', $template['subject'])) ?>" required>
+                        <input type="text" name="subject" class="form-input" value="<?= old('subject', $template['subject']) ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label required">Email Body <span style="font-weight:400;color:#8a7a6a;">(HTML supported)</span></label>
                         <textarea name="body_html" id="bodyHtml" class="form-textarea" rows="18"
-                                  required style="font-family:monospace;font-size:.85rem;"><?= e(old('body_html', $template['body_html'])) ?></textarea>
+                                  required style="font-family:monospace;font-size:.85rem;"><?= old('body_html', $template['body_html']) ?></textarea>
                         <p class="form-hint">Variables: <code>{{name}}</code> <code>{{title}}</code> <code>{{site_name}}</code> <code>{{site_url}}</code></p>
                     </div>
 
@@ -57,8 +57,8 @@
 <script>
 function updatePreview() {
     var body = document.getElementById('bodyHtml').value
-        .replace(/\{\{name\}\}/g, 'Honorable Person')
-        .replace(/\{\{title\}\}/g, 'Professor')
+        .replace(/\{\{name\}\}/g, '[Name]')
+        .replace(/\{\{title\}\}/g, '[Title]')
         .replace(/\{\{site_name\}\}/g, '<?= addslashes(SITE_NAME) ?>')
         .replace(/\{\{site_url\}\}/g, '<?= addslashes(SITE_URL) ?>');
 

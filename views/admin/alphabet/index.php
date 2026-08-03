@@ -23,7 +23,7 @@
         <div class="admin-card-header" style="border-left:4px solid #7a4a2a;">
             <h2 class="admin-card-title" style="color:#7a4a2a;">
                 Plain Letters
-                <span style="font-weight:400;font-size:.8rem;color:#7a6a5a;margin-left:.4rem;">(<?= count($grouped['plain']) ?>)</span>
+                <span style="font-weight:400;font-size:.8rem;color:#7a6a5a;margin-left:.4rem;">(<?= count(array_filter($grouped['plain'], fn($e) => $e['letter'] !== '')) ?>)</span>
             </h2>
             <a href="<?= url('admin/alphabet/create?type=plain') ?>"
                style="font-size:.82rem;color:#7a4a2a;text-decoration:none;font-weight:600;">+ Add</a>

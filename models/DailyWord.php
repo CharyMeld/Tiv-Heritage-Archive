@@ -68,7 +68,7 @@ class DailyWord extends Model
     /**
      * Get a random active word without ORDER BY RAND()
      */
-    public function getRandom(): ?array
+    public function getRandom(string $where = '', array $params = []): ?array
     {
         $count = $this->countActive();
         if ($count === 0) return null;
