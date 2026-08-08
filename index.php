@@ -335,6 +335,7 @@ $router->get('admin/suggestions', 'AdminSuggestionsController', 'index');
 $router->get('admin/suggestions/export', 'AdminSuggestionsController', 'export');
 $router->get('admin/suggestions/{id}', 'AdminSuggestionsController', 'view');
 $router->post('admin/suggestions/{id}/status', 'AdminSuggestionsController', 'updateStatus');
+$router->post('admin/suggestions/{id}/reply', 'AdminSuggestionsController', 'reply');
 
 // ── Influential People & Outreach Module ──────────────────────────────────────
 

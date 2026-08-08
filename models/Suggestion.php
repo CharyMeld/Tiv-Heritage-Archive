@@ -9,6 +9,7 @@ class Suggestion extends Model
     protected array $fillable = [
         'full_name', 'email', 'subject', 'category', 'message',
         'attachment', 'status', 'admin_notes', 'handled_by',
+        'admin_reply', 'replied_at', 'replied_by',
     ];
 
     public static function categories(): array

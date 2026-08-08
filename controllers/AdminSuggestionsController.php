@@ -2,6 +2,7 @@
 
 require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/Suggestion.php';
+require_once BASE_PATH . '/services/OutreachMailer.php';
 
 class AdminSuggestionsController extends Controller
 {
@@ -96,6 +97,50 @@ class AdminSuggestionsController extends Controller
         ]);
 
         $this->flash('Suggestion status updated.', 'success');
+        $this->redirect(url('admin/suggestions/' . $id));
+    }
+
+    public function reply(string $id): void
+    {
+        if (!$this->validateCSRF()) {
+            $this->back();
+            return;
+        }
+
+        $suggestion = $this->model->find((int) $id);
+        if (!$suggestion) {
+            $this->flash('Suggestion not found.', 'error');
+            $this->redirect(url('admin/suggestions'));
+            return;
+        }
+
+        $reply = trim($_POST['admin_reply'] ?? '');
+        if ($reply === '') {
+            $this->flash('Reply message cannot be empty.', 'error');
+            $this->redirect(url('admin/suggestions/' . $id));
+            return;
+        }
+
+        $subject = 'Re: ' . $suggestion['subject'];
+        $body = OutreachMailer::buildBody(
+            '<p>Dear {{name}},</p><p>Thank you for reaching out to us regarding "' .
+            htmlspecialchars($suggestion['subject'], ENT_QUOTES, 'UTF-8') . '". Here is our response:</p>' .
+            '<blockquote style="margin:16px 0;padding:12px 16px;background:#f7f4ee;border-left:3px solid #C8A951;white-space:pre-line;">' .
+            nl2br(htmlspecialchars($reply, ENT_QUOTES, 'UTF-8')) . '</blockquote>' .
+            '<p>Warm regards,<br>{{site_name}} Team</p>',
+            ['name' => $suggestion['full_name']]
+        );
+
+        $sent = OutreachMailer::send($suggestion['email'], $suggestion['full_name'], $subject, $body);
+
+        $this->model->update((int) $id, [
+            'admin_reply' => $reply,
+            'replied_at'  => date('Y-m-d H:i:s'),
+            'replied_by'  => $this->user['id'],
+            'status'      => $suggestion['status'] === 'new' || $suggestion['status'] === 'read' ? 'in_progress' : $suggestion['status'],
+        ]);
+
+        $this->flash($sent ? 'Reply sent to ' . $suggestion['email'] . '.' : 'Reply saved, but the email failed to send.', $sent ? 'success' : 'error');
         $this->redirect(url('admin/suggestions/' . $id));
     }
 

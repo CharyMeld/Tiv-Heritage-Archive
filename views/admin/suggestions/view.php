@@ -75,6 +75,34 @@
                         <div style="color:#2d1b0e;line-height:1.6;white-space:pre-line;"><?= htmlspecialchars($suggestion['admin_notes']) ?></div>
                     </div>
                 <?php endif; ?>
+
+                <!-- Sent Reply -->
+                <?php if (!empty($suggestion['admin_reply'])): ?>
+                    <div style="margin-top:1rem;background:#eefaf3;border-left:3px solid #2f9e63;border-radius:0 8px 8px 0;padding:.9rem;">
+                        <div style="font-size:.78rem;color:#1f6e46;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem;">
+                            Reply sent<?= !empty($suggestion['replied_at']) ? ' &middot; ' . date('M j, Y \a\t g:ia', strtotime($suggestion['replied_at'])) : '' ?>
+                        </div>
+                        <div style="color:#2d1b0e;line-height:1.6;white-space:pre-line;"><?= htmlspecialchars($suggestion['admin_reply']) ?></div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- Reply Panel -->
+        <div class="admin-card" style="margin-top:1.2rem;">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title"><?= !empty($suggestion['admin_reply']) ? 'Send Another Reply' : 'Reply to Submitter' ?></h3>
+            </div>
+            <div class="admin-card-body">
+                <form method="POST" action="<?= url('admin/suggestions/' . $suggestion['id'] . '/reply') ?>">
+                    <?= csrf_field() ?>
+                    <div class="form-group">
+                        <label class="form-label">Message to <?= htmlspecialchars($suggestion['email']) ?></label>
+                        <textarea name="admin_reply" class="form-textarea" rows="5" required
+                                  placeholder="Write your reply. It will be emailed to the submitter..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Reply</button>
+                </form>
             </div>
         </div>
 

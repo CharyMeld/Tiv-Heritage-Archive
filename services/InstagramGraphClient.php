@@ -127,30 +127,45 @@ class InstagramGraphClient
             ];
         }
 
-        // Step 3: publish the container.
+        // Step 3: publish the container. Even after status_code reports
+        // FINISHED, Meta occasionally isn't quite ready yet and returns
+        // error code 9007 ("Media ID is not available" / "The media is not
+        // ready to be published. Please wait a moment.") — a known,
+        // self-resolving race condition, not a real failure. Retry the
+        // publish call itself (not container creation) a few times with
+        // backoff before giving up.
         $publishUrl = self::GRAPH_BASE . '/' . rawurlencode($igUserId) . '/media_publish';
-        [$publishHttpCode, $publishBody] = $this->request($publishUrl, 'POST', [
+        $publishPayload = [
             'creation_id' => $containerId,
             'access_token' => $this->pageAccessToken,
-        ]);
-        $publishDecoded = json_decode($publishBody, true);
-
-        if ($publishHttpCode === 200 && isset($publishDecoded['id'])) {
-            return [
-                'success' => true,
-                'post_id' => $publishDecoded['id'],
-                'permalink' => $this->permalinkFor($publishDecoded['id']),
-                'http_status' => $publishHttpCode,
-                'response_body' => $publishBody,
-            ];
-        }
-
-        return [
-            'success' => false,
-            'error' => $publishDecoded['error']['message'] ?? "Unexpected response publishing container (HTTP {$publishHttpCode}).",
-            'http_status' => $publishHttpCode,
-            'response_body' => $publishBody,
         ];
+
+        for ($attempt = 0; $attempt < 4; $attempt++) {
+            [$publishHttpCode, $publishBody] = $this->request($publishUrl, 'POST', $publishPayload);
+            $publishDecoded = json_decode($publishBody, true);
+
+            if ($publishHttpCode === 200 && isset($publishDecoded['id'])) {
+                return [
+                    'success' => true,
+                    'post_id' => $publishDecoded['id'],
+                    'permalink' => $this->permalinkFor($publishDecoded['id']),
+                    'http_status' => $publishHttpCode,
+                    'response_body' => $publishBody,
+                ];
+            }
+
+            $errorCode = $publishDecoded['error']['code'] ?? null;
+            if ($errorCode !== 9007 || $attempt === 3) {
+                return [
+                    'success' => false,
+                    'error' => $publishDecoded['error']['message'] ?? "Unexpected response publishing container (HTTP {$publishHttpCode}).",
+                    'http_status' => $publishHttpCode,
+                    'response_body' => $publishBody,
+                ];
+            }
+
+            usleep(1500000 * ($attempt + 1)); // 1.5s, 3s, 4.5s backoff
+        }
     }
 
     /**
