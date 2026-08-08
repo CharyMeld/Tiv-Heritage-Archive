@@ -63,6 +63,8 @@ $router->get('sitemap.xml', 'SitemapController', 'index');
 $router->get('', 'HomeController', 'index');
 $router->get('about', 'HomeController', 'about');
 $router->get('contact', 'HomeController', 'contact');
+$router->get('privacy-policy', 'HomeController', 'privacy');
+$router->get('terms-of-service', 'HomeController', 'terms');
 $router->post('contact', 'HomeController', 'sendContact');
 $router->post('newsletter/subscribe', 'NewsletterSubscribeController', 'subscribe');
 

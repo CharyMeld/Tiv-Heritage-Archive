@@ -10,6 +10,8 @@
                 <li><a href="<?= url('archive') ?>">Explore</a></li>
                 <li><a href="<?= url('contribute') ?>">Contribute</a></li>
                 <li><a href="<?= url('contact') ?>">Contact</a></li>
+                <li><a href="<?= url('privacy-policy') ?>">Privacy Policy</a></li>
+                <li><a href="<?= url('terms-of-service') ?>">Terms of Service</a></li>
                 <?php if (is_logged_in() && is_moderator()): ?>
                     <li><a href="<?= url('admin') ?>">Admin</a></li>
                 <?php endif; ?>

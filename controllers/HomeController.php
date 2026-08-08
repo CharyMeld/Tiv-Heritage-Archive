@@ -129,6 +129,30 @@ class HomeController extends Controller
     }
 
     /**
+     * Privacy Policy page
+     */
+    public function privacy(): void
+    {
+        $this->render('home/privacy', [
+            'title'       => 'Privacy Policy',
+            'description' => 'How the Tiv Heritage Archive collects, uses, and protects your information, including our use of cookies and Google AdSense.',
+            'currentPage' => 'privacy',
+        ]);
+    }
+
+    /**
+     * Terms of Service page
+     */
+    public function terms(): void
+    {
+        $this->render('home/terms', [
+            'title'       => 'Terms of Service',
+            'description' => 'The terms governing your use of the Tiv Heritage Archive website.',
+            'currentPage' => 'terms',
+        ]);
+    }
+
+    /**
      * Handle contact form submission
      */
     public function sendContact(): void

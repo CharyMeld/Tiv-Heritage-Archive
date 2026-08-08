@@ -35,6 +35,8 @@ class SitemapController extends Controller
             ['contribute',        '0.7', 'monthly'],
             ['about',             '0.5', 'monthly'],
             ['contact',           '0.4', 'monthly'],
+            ['privacy-policy',    '0.3', 'yearly'],
+            ['terms-of-service',  '0.3', 'yearly'],
             ['historical-figures', '0.8', 'weekly'],
             ['timeline',           '0.8', 'weekly'],
             ['references',         '0.6', 'monthly'],
