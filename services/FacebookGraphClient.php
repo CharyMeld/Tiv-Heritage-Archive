@@ -97,7 +97,10 @@ class FacebookGraphClient
             $payload['scheduled_publish_time'] = $data['scheduled_publish_time'];
         }
 
-        [$httpCode, $body] = $this->request($url, 'POST', array_filter($payload, fn($v) => $v !== null));
+        [$httpCode, $body, $curlError] = $this->request($url, 'POST', array_filter($payload, fn($v) => $v !== null));
+        if ($curlError) {
+            return ['success' => false, 'error' => 'Network error: ' . $curlError, 'http_status' => $httpCode];
+        }
         $decoded = json_decode($body, true);
 
         if ($httpCode === 200 && isset($decoded['id'])) {
@@ -139,7 +142,10 @@ class FacebookGraphClient
             'access_token' => $this->pageAccessToken,
         ]);
 
-        [$httpCode, $body] = $this->request($url, 'POST', $payload);
+        [$httpCode, $body, $curlError] = $this->request($url, 'POST', $payload);
+        if ($curlError) {
+            return ['success' => false, 'error' => 'Network error: ' . $curlError, 'http_status' => $httpCode];
+        }
         $decoded = json_decode($body, true);
 
         if ($httpCode === 200 && isset($decoded['id'])) {

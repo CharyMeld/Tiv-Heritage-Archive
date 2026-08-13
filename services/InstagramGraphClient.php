@@ -102,7 +102,10 @@ class InstagramGraphClient
             'access_token' => $this->pageAccessToken,
         ]);
 
-        [$httpCode, $body] = $this->request($containerUrl, 'POST', $containerPayload);
+        [$httpCode, $body, $curlError] = $this->request($containerUrl, 'POST', $containerPayload);
+        if ($curlError) {
+            return ['success' => false, 'error' => 'Network error: ' . $curlError, 'http_status' => $httpCode];
+        }
         $decoded = json_decode($body, true);
 
         if ($httpCode !== 200 || empty($decoded['id'])) {
@@ -141,7 +144,10 @@ class InstagramGraphClient
         ];
 
         for ($attempt = 0; $attempt < 4; $attempt++) {
-            [$publishHttpCode, $publishBody] = $this->request($publishUrl, 'POST', $publishPayload);
+            [$publishHttpCode, $publishBody, $publishCurlError] = $this->request($publishUrl, 'POST', $publishPayload);
+            if ($publishCurlError) {
+                return ['success' => false, 'error' => 'Network error: ' . $publishCurlError, 'http_status' => $publishHttpCode];
+            }
             $publishDecoded = json_decode($publishBody, true);
 
             if ($publishHttpCode === 200 && isset($publishDecoded['id'])) {
