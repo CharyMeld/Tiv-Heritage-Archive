@@ -7,9 +7,9 @@ Brief: the owner's "STATE-BY-STATE IMAGE REFILL" prompt (3 Oct 2026). This file 
 - **Benue: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_001_benue.php, research_batches#282, media_assets #4–6; backup `/root/backups/LATEST_NIGERIA_IMG001`, which also holds the pre-edit copies of the 3 code files). Live checks: 3 images + credit lines render, sitemap 3,026, 0 PHP fatals.
 - **Open owner question:** the Tiv photo (children in A'nger, `ng-tiv-anger-attire.jpg`, NOT uploaded to the server). If the owner says yes: rsync its 5 files to uploads/images, then `php database/research/img_001_benue.php --apply --include-owner-check`.
 - **Nasarawa: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_refill.php img_002_nasarawa, media_assets #12–16; backup `/root/backups/LATEST_NIGERIA_IMG002`). Live: 5 images + credits render, sitemap 3,026, 0 PHP fatals. From batch 002 on, all batches use the generic runner `img_refill.php` with `data/img_NNN_<state>.json` (picks + Commons metadata) and `data/img_NNN_<state>_gaps.json`.
-- **Current state:** Taraba — IN_PROGRESS (`img_003_taraba`).
+- **Taraba: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_003_taraba, backup `/root/backups/LATEST_NIGERIA_IMG003`; 7 images live, sitemap 3,026, 0 fatals).
+- **PAUSED 3 Oct 2026 at the owner's request** ("leave the images for now") to fill the empty People / Events / Historical Periods sections. **When resumed: next state is Plateau (`img_004_plateau`).**
 - **Open owner questions:** (1) Tiv photo (above); (2) empty People/Events/Periods cards on /nigeria — options A hide until populated, B make some Tiv figures/events national, C research national periods/events/people (asked 3 Oct, no answer yet).
-- **Next state after Taraba:** Plateau (`img_004_plateau`).
 - **People-handling rule:** a people is illustrated once, in its home state if that state is researched (Jukun → Taraba, Hausa → Kano, Kanuri → Borno, Ebira/Basa → Kogi, Kulere → Plateau, Yoruba → Oyo); otherwise in the first queued state that links it (Igbo, Fulani, Gbagyi → Nasarawa).
 
 ## Owner decisions (3 Oct 2026)
@@ -37,7 +37,7 @@ Brief: the owner's "STATE-BY-STATE IMAGE REFILL" prompt (3 Oct 2026). This file 
 |---|---|---|---|---|---|
 | Benue | 4 | 22 | 3 | 11 | COMPLETED_WITH_GAPS (deployed 3 Oct) |
 | Nasarawa | 2 | 12 | 2 | 26 | COMPLETED_WITH_GAPS (deployed 3 Oct) |
-| Taraba | 6 | 16 | 3 | 16 | IN_PROGRESS |
+| Taraba | 6 | 16 | 3 | 16 | COMPLETED_WITH_GAPS (deployed 3 Oct) |
 | Plateau | 8 | 17 | 12 | 33 | NOT_STARTED |
 | Kogi | 7 | 21 | 2 | 12 | NOT_STARTED |
 | Adamawa | 16 | 21 | 43 | 34 | NOT_STARTED |
@@ -102,5 +102,24 @@ Queue order = the order the states were researched (Benue first). The 19 not-sta
 | Duplicate downloads avoided / reused | 0 / 0 |
 | Licensing issues | 1 (Jenness PD-Nigeria tag) |
 | Wrong-subject results rejected | "Lafia.jpg" (its description says Katsina State); "Lafia 1.jpg" (blurred, tilted school grounds); Keana → an American actor; Alago → Alagón (Spain) and a statue in Abeokuta; Doma → a Kyiv mall, Slovak TV |
+| Record facts flagged | none |
+| Status | COMPLETED_WITH_GAPS |
+
+### TARABA IMAGE AUDIT — img_003_taraba (DEPLOYED 3 Oct 2026)
+
+| | |
+|---|---|
+| Records examined | 41 (6 heritage places, 16 towns/settlement, 3 cultural records, 16 peoples linked) |
+| Already illustrated | 0 in scope (Tiv, Etulo, Hausa, Fulani handled elsewhere) |
+| In scope / needing an image | 22 (Jalingo + 6 heritage places, 3 festivals, 12 peoples incl. the Jukun) |
+| Out of scope | 15 LGA headquarters towns; Tiv, Etulo (Benue); Fulani (Nasarawa); Hausa → Kano |
+| Free images found and verified | 7 — Gashaka-Gumti National Park, Mambilla Plateau, Jalingo (bridge), Jukun (hunters), Mumuye (museum figure), Mambila (ancestor jar, CC0), Chamba (1913 Frobenius photo, public domain) |
+| IMAGE NOT FOUND (research_gaps) | 15 — National Museum Jalingo, Yakoko Stone Burial Ground, Lake Nwonyo, Puje, Nwonyo Fishing Festival, Purma, Kuchicheb, Kuteb, Ichen, Jibu, Ndoola, Tigon, Jenjo, Karimjo, Yandang |
+| Non-free candidates recorded | 0 (no web search beyond Commons this state) |
+| Manual review | 2 — the only Nwonyo photo (watermark name ≠ uploader, no camera data, uploader's only file) for Lake Nwonyo + the festival; "Kuteb culture.jpg" (looks re-saved from social media, not categorised Kuteb) |
+| Duplicate downloads avoided / reused | 0 / 0 |
+| Licensing issues | 2 (the two manual-review items) |
+| Wrong-subject results rejected | Yandang → Mount Yandang (China); Jibu, Ndoola, Jenjo → unrelated; Mambilla "Settlements 01" (washed out) |
+| Notes | Two museum-object images (Mumuye, Mambila) and one historical photo (Chamba) stand for peoples with no free modern photos — these are well-known art traditions of those peoples. |
 | Record facts flagged | none |
 | Status | COMPLETED_WITH_GAPS |

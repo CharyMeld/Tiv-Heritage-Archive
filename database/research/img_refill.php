@@ -96,12 +96,19 @@ try {
         $mid->execute([$p['file']]);
         $mid = $mid->fetchColumn();
         if (!$mid) {
+            $date = trim((string) $p['date_created']);
+            $precision = match (true) {
+                (bool) preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) => 'exact',
+                (bool) preg_match('/^\d{4}$/', $date) => 'year',
+                default => 'unknown',
+            };
+            if ($precision === 'unknown') $date = '';
             $desc = "{$p['title']}.\n\nSource: Wikimedia Commons, {$p['source_page']}\nOriginal file: {$p['original_url']} ({$p['original_size']}; stored copy {$p['stored_size']})\n"
                   . "Creator: {$p['creator']}. Licence: {$p['licence']} ({$p['licence_url_commons']}). Attribution required: creator, licence and link. Accessed {$p['accessed']}.\n"
                   . "Verification: {$p['verified']}";
             $db->prepare("INSERT INTO media_assets (media_type, title, description, file_path, external_url, date_created, date_precision, creator, copyright_holder, licence, permission_status, sensitivity, review_status)
                           VALUES ('photo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 'not_required', 'public', 'published')")
-               ->execute([$p['title'], $desc, $p['file'], $p['source_page'], $p['date_created'] ?: null, $p['date_created'] ? 'exact' : 'unknown',
+               ->execute([$p['title'], $desc, $p['file'], $p['source_page'], $date ?: null, $precision,
                           $p['creator'], $p['creator'], $p['licence']]);
             $mid = (int) $db->lastInsertId();
             StableId::assign($db, 'media_assets', $mid);

@@ -1,0 +1,19 @@
+{"title":"Image refill 003 — Taraba State",
+ "scope":"Image refill for existing Taraba State records: heritage places, the state capital, cultural records and peoples. No history changed.",
+ "gaps":[
+  ["places",157,"National Museum, Jalingo","No photograph on Wikimedia Commons (searched \"National Museum Jalingo\", \"Jalingo\")."],
+  ["places",158,"Yakoko Stone Burial Ground","No photograph on Wikimedia Commons (searched \"Yakoko\")."],
+  ["places",161,"Lake Nwonyo","No usable free photograph. The only Commons photo (\"Ibi; Nwonyo Fishing Festival.jpg\", Danmakai4u, 2026) shows the lake during the festival but carries a watermark with a different name, has no camera data and is the uploader's only file — held for manual review, not used."],
+  ["places",162,"Puje","No photograph on Wikimedia Commons (searched \"Puje Wukari\"). The site is sacred to the Jukun kingship; any photo would need care."],
+  ["cultural_records",14,"Nwonyo Fishing Festival","Same as Lake Nwonyo: the one Commons photo has doubtful authorship (watermark ≠ uploader) — manual review."],
+  ["cultural_records",15,"Purma","No photograph of the Chamba Purma festival on Wikimedia Commons."],
+  ["cultural_records",16,"Kuchicheb","No photograph of the Kuteb Kuchicheb festival on Wikimedia Commons."],
+  ["ethnic_groups",78,"Kuteb","Only \"Kuteb culture.jpg\" (BD KHINYA, 2020): a small studio-style portrait that looks re-saved from social media, not categorised as Kuteb — held for manual review, not used."],
+  ["ethnic_groups",80,"Ichen","No photograph of the Ichen on Wikimedia Commons."],
+  ["ethnic_groups",81,"Jibu","No photograph of the Jibu on Wikimedia Commons."],
+  ["ethnic_groups",82,"Ndoola","No photograph of the Ndoola (Ndoro) on Wikimedia Commons."],
+  ["ethnic_groups",83,"Tigon","No photograph of the Tigon on Wikimedia Commons."],
+  ["ethnic_groups",84,"Jenjo","No photograph of the Jenjo on Wikimedia Commons."],
+  ["ethnic_groups",85,"Karimjo","No photograph of the Karimjo on Wikimedia Commons."],
+  ["ethnic_groups",86,"Yandang","No photograph of the Yandang on Wikimedia Commons (results were Mount Yandang, China)."]
+ ]}
