@@ -1,0 +1,2374 @@
+{
+ "01": {
+  "name": "AFIJIO",
+  "ras": [
+   {
+    "upper": "ILORA I",
+    "code": "01",
+    "pus": 8,
+    "name": "Ilora I"
+   },
+   {
+    "upper": "ILORA II",
+    "code": "02",
+    "pus": 15,
+    "name": "Ilora II"
+   },
+   {
+    "upper": "ILORA III",
+    "code": "03",
+    "pus": 6,
+    "name": "Ilora III"
+   },
+   {
+    "upper": "FIDITI I",
+    "code": "04",
+    "pus": 10,
+    "name": "Fiditi I"
+   },
+   {
+    "upper": "FIDITI II",
+    "code": "05",
+    "pus": 6,
+    "name": "Fiditi II"
+   },
+   {
+    "upper": "AWE I",
+    "code": "06",
+    "pus": 9,
+    "name": "Awe I"
+   },
+   {
+    "upper": "AWE II",
+    "code": "07",
+    "pus": 6,
+    "name": "Awe II"
+   },
+   {
+    "upper": "AKINMORIN/JOBELE",
+    "code": "08",
+    "pus": 7,
+    "name": "Akinmorin/Jobele"
+   },
+   {
+    "upper": "IWARE",
+    "code": "09",
+    "pus": 5,
+    "name": "Iware"
+   },
+   {
+    "upper": "IMINI",
+    "code": "10",
+    "pus": 5,
+    "name": "Imini"
+   }
+  ],
+  "nra": 10,
+  "npu": 77,
+  "slug": "afijio"
+ },
+ "02": {
+  "name": "AKINYELE",
+  "ras": [
+   {
+    "upper": "IKEREKU",
+    "code": "01",
+    "pus": 4,
+    "name": "Ikereku"
+   },
+   {
+    "upper": "OLANLA/OBODA/LABODE",
+    "code": "02",
+    "pus": 14,
+    "name": "Olanla/Oboda/Labode"
+   },
+   {
+    "upper": "ARULOGUN/ENIOSA/ARORO",
+    "code": "03",
+    "pus": 9,
+    "name": "Arulogun/Eniosa/Aroro"
+   },
+   {
+    "upper": "OLODE/AMOSUN/ONIDUNDU",
+    "code": "04",
+    "pus": 6,
+    "name": "Olode/Amosun/Onidundu"
+   },
+   {
+    "upper": "OJO‐EMO/MONIYA",
+    "code": "05",
+    "pus": 18,
+    "name": "Ojo‐Emo/Moniya"
+   },
+   {
+    "upper": "AKINYELE/ISABIYI/IREPODUN",
+    "code": "06",
+    "pus": 9,
+    "name": "Akinyele/Isabiyi/Irepodun"
+   },
+   {
+    "upper": "IWOKOTO/TALONTAN/IDI‐ORO",
+    "code": "07",
+    "pus": 7,
+    "name": "Iwokoto/Talontan/Idi‐Oro"
+   },
+   {
+    "upper": "OJOO/AJIBODE/LANIBA",
+    "code": "08",
+    "pus": 49,
+    "name": "Ojoo/Ajibode/Laniba"
+   },
+   {
+    "upper": "IJAYE/OJEDEJI",
+    "code": "09",
+    "pus": 14,
+    "name": "Ijaye/Ojedeji"
+   },
+   {
+    "upper": "AJIBADE/ALABATA/ELEKURU",
+    "code": "10",
+    "pus": 8,
+    "name": "Ajibade/Alabata/Elekuru"
+   },
+   {
+    "upper": "OLORISA‐OKO/OKEGBEMI/MELE",
+    "code": "11",
+    "pus": 6,
+    "name": "Olorisa‐Oko/Okegbemi/Mele"
+   },
+   {
+    "upper": "IROKO",
+    "code": "12",
+    "pus": 5,
+    "name": "Iroko"
+   }
+  ],
+  "nra": 12,
+  "npu": 149,
+  "slug": "akinyele"
+ },
+ "03": {
+  "name": "ATIBA",
+  "ras": [
+   {
+    "upper": "OKE‐AFIN I",
+    "code": "01",
+    "pus": 9,
+    "name": "Oke‐Afin I"
+   },
+   {
+    "upper": "OKE‐AFIN II",
+    "code": "02",
+    "pus": 8,
+    "name": "Oke‐Afin II"
+   },
+   {
+    "upper": "AREMO",
+    "code": "03",
+    "pus": 6,
+    "name": "Aremo"
+   },
+   {
+    "upper": "BASHORUN",
+    "code": "04",
+    "pus": 11,
+    "name": "Bashorun"
+   },
+   {
+    "upper": "AGUNPOPO I",
+    "code": "05",
+    "pus": 7,
+    "name": "Agunpopo I"
+   },
+   {
+    "upper": "AGUNPOPO II",
+    "code": "06",
+    "pus": 14,
+    "name": "Agunpopo II"
+   },
+   {
+    "upper": "AGUNPOPO III",
+    "code": "07",
+    "pus": 10,
+    "name": "Agunpopo III"
+   },
+   {
+    "upper": "ASHIPA I",
+    "code": "08",
+    "pus": 7,
+    "name": "Ashipa I"
+   },
+   {
+    "upper": "ASHIPA II",
+    "code": "09",
+    "pus": 16,
+    "name": "Ashipa II"
+   },
+   {
+    "upper": "ASHIPA III",
+    "code": "10",
+    "pus": 20,
+    "name": "Ashipa III"
+   }
+  ],
+  "nra": 10,
+  "npu": 108,
+  "slug": "atiba"
+ },
+ "04": {
+  "name": "ATISBO",
+  "ras": [
+   {
+    "upper": "TEDE I",
+    "code": "01",
+    "pus": 16,
+    "name": "Tede I"
+   },
+   {
+    "upper": "TEDE II",
+    "code": "02",
+    "pus": 23,
+    "name": "Tede II"
+   },
+   {
+    "upper": "IRAWO ILE",
+    "code": "03",
+    "pus": 14,
+    "name": "Irawo Ile"
+   },
+   {
+    "upper": "IRAWO OWODE",
+    "code": "04",
+    "pus": 14,
+    "name": "Irawo Owode"
+   },
+   {
+    "upper": "OFIKI",
+    "code": "05",
+    "pus": 21,
+    "name": "Ofiki"
+   },
+   {
+    "upper": "ALAGA",
+    "code": "06",
+    "pus": 12,
+    "name": "Alaga"
+   },
+   {
+    "upper": "AGO ARE I",
+    "code": "07",
+    "pus": 16,
+    "name": "Ago Are I"
+   },
+   {
+    "upper": "AGO ARE II",
+    "code": "08",
+    "pus": 18,
+    "name": "Ago Are II"
+   },
+   {
+    "upper": "OWO/AGUNREGE/SABE",
+    "code": "09",
+    "pus": 10,
+    "name": "Owo/Agunrege/Sabe"
+   },
+   {
+    "upper": "BAASI",
+    "code": "10",
+    "pus": 6,
+    "name": "Baasi"
+   }
+  ],
+  "nra": 10,
+  "npu": 150,
+  "slug": "atisbo"
+ },
+ "05": {
+  "name": "EGBEDA",
+  "ras": [
+   {
+    "upper": "ERUNMU",
+    "code": "01",
+    "pus": 19,
+    "name": "Erunmu"
+   },
+   {
+    "upper": "AYEDE/ALUGBO/KOLOKO",
+    "code": "02",
+    "pus": 10,
+    "name": "Ayede/Alugbo/Koloko"
+   },
+   {
+    "upper": "OWOBAALE/KASUMU",
+    "code": "03",
+    "pus": 13,
+    "name": "Owobaale/Kasumu"
+   },
+   {
+    "upper": "OLODAN/AJINOGBO",
+    "code": "04",
+    "pus": 9,
+    "name": "Olodan/Ajinogbo"
+   },
+   {
+    "upper": "OLODO/KUMAPAYI I",
+    "code": "05",
+    "pus": 15,
+    "name": "Olodo/Kumapayi I"
+   },
+   {
+    "upper": "OLODO II",
+    "code": "06",
+    "pus": 26,
+    "name": "Olodo II"
+   },
+   {
+    "upper": "OLODO III",
+    "code": "07",
+    "pus": 12,
+    "name": "Olodo III"
+   },
+   {
+    "upper": "OSEGERE/AWAYE",
+    "code": "08",
+    "pus": 9,
+    "name": "Osegere/Awaye"
+   },
+   {
+    "upper": "EGBEDA",
+    "code": "09",
+    "pus": 6,
+    "name": "Egbeda"
+   },
+   {
+    "upper": "OLODE/ALAKIA",
+    "code": "10",
+    "pus": 16,
+    "name": "Olode/Alakia"
+   },
+   {
+    "upper": "OLUBADAN ESTATE",
+    "code": "11",
+    "pus": 28,
+    "name": "Olubadan Estate"
+   }
+  ],
+  "nra": 11,
+  "npu": 163,
+  "slug": "egbeda"
+ },
+ "06": {
+  "name": "IBADAN NORTH",
+  "ras": [
+   {
+    "upper": "WARD I N2",
+    "code": "01",
+    "pus": 13,
+    "name": "Ward I N2"
+   },
+   {
+    "upper": "WARD II, N3",
+    "code": "02",
+    "pus": 26,
+    "name": "Ward II, N3"
+   },
+   {
+    "upper": "WARD III, N4",
+    "code": "03",
+    "pus": 36,
+    "name": "Ward III, N4"
+   },
+   {
+    "upper": "WARD IV, N5A",
+    "code": "04",
+    "pus": 29,
+    "name": "Ward IV, N5A"
+   },
+   {
+    "upper": "WARD V, N5B",
+    "code": "05",
+    "pus": 36,
+    "name": "Ward V, N5B"
+   },
+   {
+    "upper": "WARD VI, N6A PART I",
+    "code": "06",
+    "pus": 15,
+    "name": "Ward VI, N6A Part I"
+   },
+   {
+    "upper": "WARD VII, N6A PART II",
+    "code": "07",
+    "pus": 24,
+    "name": "Ward VII, N6A Part II"
+   },
+   {
+    "upper": "WARD VIII, N6A PART III",
+    "code": "08",
+    "pus": 34,
+    "name": "Ward VIII, N6A Part III"
+   },
+   {
+    "upper": "WARD IX, N6B PART I",
+    "code": "09",
+    "pus": 13,
+    "name": "Ward IX, N6B Part I"
+   },
+   {
+    "upper": "WARD X, N6B PART II",
+    "code": "10",
+    "pus": 17,
+    "name": "Ward X, N6B Part II"
+   },
+   {
+    "upper": "WARD XI, NW8",
+    "code": "11",
+    "pus": 19,
+    "name": "Ward XI, Nw8"
+   },
+   {
+    "upper": "WARD XII, NW8",
+    "code": "12",
+    "pus": 42,
+    "name": "Ward XII, Nw8"
+   }
+  ],
+  "nra": 12,
+  "npu": 304,
+  "slug": "ibadan-north"
+ },
+ "07": {
+  "name": "IBADAN NORTH-EAST",
+  "ras": [
+   {
+    "upper": "WARD I EI",
+    "code": "01",
+    "pus": 17,
+    "name": "Ward I EI"
+   },
+   {
+    "upper": "WARD II NI (PART II)",
+    "code": "02",
+    "pus": 11,
+    "name": "Ward II Ni (Part II)"
+   },
+   {
+    "upper": "WARD III E3",
+    "code": "03",
+    "pus": 15,
+    "name": "Ward III E3"
+   },
+   {
+    "upper": "WARD IV E4",
+    "code": "04",
+    "pus": 37,
+    "name": "Ward IV E4"
+   },
+   {
+    "upper": "WARD V E5A",
+    "code": "05",
+    "pus": 11,
+    "name": "Ward V E5A"
+   },
+   {
+    "upper": "WARD VI E5B",
+    "code": "06",
+    "pus": 10,
+    "name": "Ward VI E5B"
+   },
+   {
+    "upper": "WARD VII E6",
+    "code": "07",
+    "pus": 18,
+    "name": "Ward VII E6"
+   },
+   {
+    "upper": "WARD VIII E7 I",
+    "code": "08",
+    "pus": 34,
+    "name": "Ward VIII E7 I"
+   },
+   {
+    "upper": "WARD IX E7II",
+    "code": "09",
+    "pus": 38,
+    "name": "Ward IX E7II"
+   },
+   {
+    "upper": "WARD X E8",
+    "code": "10",
+    "pus": 16,
+    "name": "Ward X E8"
+   },
+   {
+    "upper": "WARD XI E9 I",
+    "code": "11",
+    "pus": 38,
+    "name": "Ward XI E9 I"
+   },
+   {
+    "upper": "WARD XII E9 II",
+    "code": "12",
+    "pus": 34,
+    "name": "Ward XII E9 II"
+   }
+  ],
+  "nra": 12,
+  "npu": 279,
+  "slug": "ibadan-north-east"
+ },
+ "08": {
+  "name": "IBADAN NORTH-WEST",
+  "ras": [
+   {
+    "upper": "WARD 1 N1 (PART I)",
+    "code": "01",
+    "pus": 12,
+    "name": "Ward 1 N1 (Part I)"
+   },
+   {
+    "upper": "WARD 2 N1 (PART II)",
+    "code": "02",
+    "pus": 15,
+    "name": "Ward 2 N1 (Part II)"
+   },
+   {
+    "upper": "WARD 3 NW1",
+    "code": "03",
+    "pus": 11,
+    "name": "Ward 3 NW1"
+   },
+   {
+    "upper": "WARD 4 NW2",
+    "code": "04",
+    "pus": 17,
+    "name": "Ward 4 NW2"
+   },
+   {
+    "upper": "WARD 5 NW3 (PART I)",
+    "code": "05",
+    "pus": 14,
+    "name": "Ward 5 NW3 (Part I)"
+   },
+   {
+    "upper": "WARD 6 NW3 (PART I)",
+    "code": "06",
+    "pus": 21,
+    "name": "Ward 6 NW3 (Part I)"
+   },
+   {
+    "upper": "WARD 7 NW4",
+    "code": "07",
+    "pus": 14,
+    "name": "Ward 7 NW4"
+   },
+   {
+    "upper": "WARD 8 NW5",
+    "code": "08",
+    "pus": 16,
+    "name": "Ward 8 NW5"
+   },
+   {
+    "upper": "WARD 9 NW6",
+    "code": "09",
+    "pus": 9,
+    "name": "Ward 9 NW6"
+   },
+   {
+    "upper": "WARD 10 NW7",
+    "code": "10",
+    "pus": 15,
+    "name": "Ward 10 NW7"
+   },
+   {
+    "upper": "WARD 11 NW7",
+    "code": "11",
+    "pus": 16,
+    "name": "Ward 11 NW7"
+   }
+  ],
+  "nra": 11,
+  "npu": 160,
+  "slug": "ibadan-north-west"
+ },
+ "09": {
+  "name": "IBADAN SOUTH-EAST",
+  "ras": [
+   {
+    "upper": "CI",
+    "code": "01",
+    "pus": 11,
+    "name": "CI"
+   },
+   {
+    "upper": "S1",
+    "code": "02",
+    "pus": 16,
+    "name": "S1"
+   },
+   {
+    "upper": "S 2A",
+    "code": "03",
+    "pus": 8,
+    "name": "S 2A"
+   },
+   {
+    "upper": "S 2B",
+    "code": "04",
+    "pus": 9,
+    "name": "S 2B"
+   },
+   {
+    "upper": "S3",
+    "code": "05",
+    "pus": 13,
+    "name": "S3"
+   },
+   {
+    "upper": "S 4A",
+    "code": "06",
+    "pus": 28,
+    "name": "S 4A"
+   },
+   {
+    "upper": "S 4B",
+    "code": "07",
+    "pus": 11,
+    "name": "S 4B"
+   },
+   {
+    "upper": "S S5",
+    "code": "08",
+    "pus": 46,
+    "name": "S S5"
+   },
+   {
+    "upper": "S 6A",
+    "code": "09",
+    "pus": 14,
+    "name": "S 6A"
+   },
+   {
+    "upper": "S 6B",
+    "code": "10",
+    "pus": 38,
+    "name": "S 6B"
+   },
+   {
+    "upper": "S 7A",
+    "code": "11",
+    "pus": 42,
+    "name": "S 7A"
+   },
+   {
+    "upper": "S 7B",
+    "code": "12",
+    "pus": 32,
+    "name": "S 7B"
+   }
+  ],
+  "nra": 12,
+  "npu": 268,
+  "slug": "ibadan-south-east"
+ },
+ "10": {
+  "name": "IBADAN SOUTH-WEST",
+  "ras": [
+   {
+    "upper": "WARD 1 C2",
+    "code": "01",
+    "pus": 32,
+    "name": "Ward 1 C2"
+   },
+   {
+    "upper": "WARD 2 SW 1",
+    "code": "02",
+    "pus": 32,
+    "name": "Ward 2 SW 1"
+   },
+   {
+    "upper": "WARD 3 SW2",
+    "code": "03",
+    "pus": 14,
+    "name": "Ward 3 SW2"
+   },
+   {
+    "upper": "WARD 4 SW3A & 3B",
+    "code": "04",
+    "pus": 23,
+    "name": "Ward 4 SW3A & 3B"
+   },
+   {
+    "upper": "WARD 5 SW4",
+    "code": "05",
+    "pus": 28,
+    "name": "Ward 5 SW4"
+   },
+   {
+    "upper": "WARD 6 SW5",
+    "code": "06",
+    "pus": 19,
+    "name": "Ward 6 SW5"
+   },
+   {
+    "upper": "WARD 7 SW6",
+    "code": "07",
+    "pus": 19,
+    "name": "Ward 7 SW6"
+   },
+   {
+    "upper": "WARD 8 SW7",
+    "code": "08",
+    "pus": 32,
+    "name": "Ward 8 SW7"
+   },
+   {
+    "upper": "WARD 9 SW8 (I)",
+    "code": "09",
+    "pus": 50,
+    "name": "Ward 9 SW8 (I)"
+   },
+   {
+    "upper": "WARD 10 SW8 II",
+    "code": "10",
+    "pus": 35,
+    "name": "Ward 10 SW8 II"
+   },
+   {
+    "upper": "WARD 11 SW9 (I)",
+    "code": "11",
+    "pus": 24,
+    "name": "Ward 11 SW9 (I)"
+   },
+   {
+    "upper": "WARD 12 SW9 (II)",
+    "code": "12",
+    "pus": 81,
+    "name": "Ward 12 SW9 (II)"
+   }
+  ],
+  "nra": 12,
+  "npu": 389,
+  "slug": "ibadan-south-west"
+ },
+ "11": {
+  "name": "IBARAPA CENTRAL",
+  "ras": [
+   {
+    "upper": "IDERE I (MOLETE)",
+    "code": "01",
+    "pus": 16,
+    "name": "Idere I (Molete)"
+   },
+   {
+    "upper": "IDERE II (OMINIGBO/OKE ‐ OBA)",
+    "code": "02",
+    "pus": 7,
+    "name": "Idere II (Ominigbo/Oke ‐ Oba)"
+   },
+   {
+    "upper": "IDERE III (KOSO/APA)",
+    "code": "03",
+    "pus": 6,
+    "name": "Idere III (Koso/Apa)"
+   },
+   {
+    "upper": "IBEREKODO I /(PATAOJU)",
+    "code": "04",
+    "pus": 12,
+    "name": "Iberekodo I /(Pataoju)"
+   },
+   {
+    "upper": "IBEREKODO/AGBOORO/ITA BAALE",
+    "code": "05",
+    "pus": 11,
+    "name": "Iberekodo/Agbooro/Ita Baale"
+   },
+   {
+    "upper": "IDOFIN ISAGANUN",
+    "code": "06",
+    "pus": 13,
+    "name": "Idofin Isaganun"
+   },
+   {
+    "upper": "IGBOLE/PAKO",
+    "code": "07",
+    "pus": 22,
+    "name": "Igbole/Pako"
+   },
+   {
+    "upper": "ISALE‐OBA",
+    "code": "08",
+    "pus": 19,
+    "name": "Isale‐Oba"
+   },
+   {
+    "upper": "OKESERIN I & II",
+    "code": "09",
+    "pus": 23,
+    "name": "Okeserin I & II"
+   },
+   {
+    "upper": "OKE‐ODO",
+    "code": "10",
+    "pus": 10,
+    "name": "Oke‐Odo"
+   }
+  ],
+  "nra": 10,
+  "npu": 139,
+  "slug": "ibarapa-central"
+ },
+ "12": {
+  "name": "IBARAPA EAST",
+  "ras": [
+   {
+    "upper": "OKE ‐OBA",
+    "code": "01",
+    "pus": 17,
+    "name": "Oke ‐Oba"
+   },
+   {
+    "upper": "ANKO",
+    "code": "02",
+    "pus": 16,
+    "name": "Anko"
+   },
+   {
+    "upper": "ISABA",
+    "code": "03",
+    "pus": 10,
+    "name": "Isaba"
+   },
+   {
+    "upper": "ABORERIN",
+    "code": "04",
+    "pus": 16,
+    "name": "Aborerin"
+   },
+   {
+    "upper": "NEW ERUWA",
+    "code": "05",
+    "pus": 13,
+    "name": "New Eruwa"
+   },
+   {
+    "upper": "SANGO",
+    "code": "06",
+    "pus": 14,
+    "name": "Sango"
+   },
+   {
+    "upper": "OKE‐IMALE",
+    "code": "07",
+    "pus": 13,
+    "name": "Oke‐Imale"
+   },
+   {
+    "upper": "ISALE TOGUN",
+    "code": "08",
+    "pus": 13,
+    "name": "Isale Togun"
+   },
+   {
+    "upper": "OKE OTUN",
+    "code": "09",
+    "pus": 14,
+    "name": "Oke Otun"
+   },
+   {
+    "upper": "ITABO",
+    "code": "10",
+    "pus": 14,
+    "name": "Itabo"
+   }
+  ],
+  "nra": 10,
+  "npu": 140,
+  "slug": "ibarapa-east"
+ },
+ "13": {
+  "name": "IBARAPA NORTH",
+  "ras": [
+   {
+    "upper": "AYETE I",
+    "code": "01",
+    "pus": 14,
+    "name": "Ayete I"
+   },
+   {
+    "upper": "AYETE II",
+    "code": "02",
+    "pus": 17,
+    "name": "Ayete II"
+   },
+   {
+    "upper": "IGANGAN I",
+    "code": "03",
+    "pus": 14,
+    "name": "Igangan I"
+   },
+   {
+    "upper": "IGANGAN II",
+    "code": "04",
+    "pus": 12,
+    "name": "Igangan II"
+   },
+   {
+    "upper": "IGANGAN III",
+    "code": "05",
+    "pus": 20,
+    "name": "Igangan III"
+   },
+   {
+    "upper": "IGANGAN IV",
+    "code": "06",
+    "pus": 10,
+    "name": "Igangan IV"
+   },
+   {
+    "upper": "OFIKI I",
+    "code": "07",
+    "pus": 22,
+    "name": "Ofiki I"
+   },
+   {
+    "upper": "OFIKI II",
+    "code": "08",
+    "pus": 12,
+    "name": "Ofiki II"
+   },
+   {
+    "upper": "TAPA I",
+    "code": "09",
+    "pus": 17,
+    "name": "Tapa I"
+   },
+   {
+    "upper": "TAPA II",
+    "code": "10",
+    "pus": 10,
+    "name": "Tapa II"
+   }
+  ],
+  "nra": 10,
+  "npu": 148,
+  "slug": "ibarapa-north"
+ },
+ "14": {
+  "name": "IDO",
+  "ras": [
+   {
+    "upper": "ABA EMO/ILAJU/ALAKO",
+    "code": "01",
+    "pus": 5,
+    "name": "Aba Emo/Ilaju/Alako"
+   },
+   {
+    "upper": "AKUFO/IDIGBA/ARAROMI",
+    "code": "02",
+    "pus": 6,
+    "name": "Akufo/Idigba/Araromi"
+   },
+   {
+    "upper": "AKINWARE/AKINDELE",
+    "code": "03",
+    "pus": 6,
+    "name": "Akinware/Akindele"
+   },
+   {
+    "upper": "APETE/AYEGUN/AWOTAN",
+    "code": "04",
+    "pus": 11,
+    "name": "Apete/Ayegun/Awotan"
+   },
+   {
+    "upper": "BATAKE/IDI‐IYA",
+    "code": "05",
+    "pus": 8,
+    "name": "Batake/Idi‐Iya"
+   },
+   {
+    "upper": "ERINWUSI/KOGUO/ODETOLA",
+    "code": "06",
+    "pus": 7,
+    "name": "Erinwusi/Koguo/Odetola"
+   },
+   {
+    "upper": "FENWA/OGANLA/ELENUSONSO",
+    "code": "07",
+    "pus": 8,
+    "name": "Fenwa/Oganla/Elenusonso"
+   },
+   {
+    "upper": "IDO/ONIKEDE/OKUNA AWO",
+    "code": "08",
+    "pus": 4,
+    "name": "Ido/Onikede/Okuna Awo"
+   },
+   {
+    "upper": "OMI ADIO/OMI ONIGBAGBO BAKATARI",
+    "code": "09",
+    "pus": 12,
+    "name": "Omi Adio/Omi Onigbagbo Bakatari"
+   },
+   {
+    "upper": "OGUNDELE/ALAHO/SIBA/IDI‐AHUN",
+    "code": "10",
+    "pus": 13,
+    "name": "Ogundele/Alaho/Siba/Idi‐Ahun"
+   }
+  ],
+  "nra": 10,
+  "npu": 80,
+  "slug": "ido"
+ },
+ "15": {
+  "name": "IREPO",
+  "ras": [
+   {
+    "upper": "AGORO",
+    "code": "01",
+    "pus": 7,
+    "name": "Agoro"
+   },
+   {
+    "upper": "AJAGUNNA",
+    "code": "02",
+    "pus": 6,
+    "name": "Ajagunna"
+   },
+   {
+    "upper": "ATIPA",
+    "code": "03",
+    "pus": 8,
+    "name": "Atipa"
+   },
+   {
+    "upper": "IBA I",
+    "code": "04",
+    "pus": 10,
+    "name": "Iba I"
+   },
+   {
+    "upper": "IBA II",
+    "code": "05",
+    "pus": 7,
+    "name": "Iba II"
+   },
+   {
+    "upper": "IBA III",
+    "code": "06",
+    "pus": 7,
+    "name": "Iba III"
+   },
+   {
+    "upper": "IBA IV",
+    "code": "07",
+    "pus": 6,
+    "name": "Iba IV"
+   },
+   {
+    "upper": "IBA V",
+    "code": "08",
+    "pus": 7,
+    "name": "Iba V"
+   },
+   {
+    "upper": "IKOLABA",
+    "code": "09",
+    "pus": 8,
+    "name": "Ikolaba"
+   },
+   {
+    "upper": "LAHA/AJANA",
+    "code": "10",
+    "pus": 9,
+    "name": "Laha/Ajana"
+   }
+  ],
+  "nra": 10,
+  "npu": 75,
+  "slug": "irepo"
+ },
+ "16": {
+  "name": "ISEYIN",
+  "ras": [
+   {
+    "upper": "ADO‐AWAYE",
+    "code": "01",
+    "pus": 23,
+    "name": "Ado‐Awaye"
+   },
+   {
+    "upper": "AKINWUMI/OSOOGUN",
+    "code": "02",
+    "pus": 17,
+    "name": "Akinwumi/Osoogun"
+   },
+   {
+    "upper": "EKUNLE I",
+    "code": "03",
+    "pus": 17,
+    "name": "Ekunle I"
+   },
+   {
+    "upper": "EKUNLE II",
+    "code": "04",
+    "pus": 20,
+    "name": "Ekunle II"
+   },
+   {
+    "upper": "FARAMORA",
+    "code": "05",
+    "pus": 11,
+    "name": "Faramora"
+   },
+   {
+    "upper": "IJEMBA/OKE‐OLA/OKE‐OJA",
+    "code": "06",
+    "pus": 15,
+    "name": "Ijemba/Oke‐Ola/Oke‐Oja"
+   },
+   {
+    "upper": "ISALU I",
+    "code": "07",
+    "pus": 13,
+    "name": "Isalu I"
+   },
+   {
+    "upper": "ISALU II",
+    "code": "08",
+    "pus": 18,
+    "name": "Isalu II"
+   },
+   {
+    "upper": "KOSO I",
+    "code": "09",
+    "pus": 8,
+    "name": "Koso I"
+   },
+   {
+    "upper": "KOSO II",
+    "code": "10",
+    "pus": 6,
+    "name": "Koso II"
+   },
+   {
+    "upper": "LADOGAN/OKE EYIN",
+    "code": "11",
+    "pus": 12,
+    "name": "Ladogan/Oke Eyin"
+   }
+  ],
+  "nra": 11,
+  "npu": 160,
+  "slug": "iseyin"
+ },
+ "17": {
+  "name": "ITESIWAJU",
+  "ras": [
+   {
+    "upper": "BABAODE",
+    "code": "01",
+    "pus": 10,
+    "name": "Babaode"
+   },
+   {
+    "upper": "IGBOJAIYE",
+    "code": "02",
+    "pus": 9,
+    "name": "Igbojaiye"
+   },
+   {
+    "upper": "IPAPO",
+    "code": "03",
+    "pus": 9,
+    "name": "Ipapo"
+   },
+   {
+    "upper": "KOMU",
+    "code": "04",
+    "pus": 9,
+    "name": "Komu"
+   },
+   {
+    "upper": "OKAKA I",
+    "code": "05",
+    "pus": 9,
+    "name": "Okaka I"
+   },
+   {
+    "upper": "OKAKA II",
+    "code": "06",
+    "pus": 6,
+    "name": "Okaka II"
+   },
+   {
+    "upper": "OKE‐AMU",
+    "code": "07",
+    "pus": 7,
+    "name": "Oke‐Amu"
+   },
+   {
+    "upper": "OTU I",
+    "code": "08",
+    "pus": 9,
+    "name": "Otu I"
+   },
+   {
+    "upper": "OTU II",
+    "code": "09",
+    "pus": 11,
+    "name": "Otu II"
+   },
+   {
+    "upper": "OWODE/IPAPO",
+    "code": "10",
+    "pus": 10,
+    "name": "Owode/Ipapo"
+   }
+  ],
+  "nra": 10,
+  "npu": 89,
+  "slug": "itesiwaju"
+ },
+ "18": {
+  "name": "IWAJOWA",
+  "ras": [
+   {
+    "upper": "AGBAAKIN I",
+    "code": "01",
+    "pus": 11,
+    "name": "Agbaakin I"
+   },
+   {
+    "upper": "AGBAAKIN II",
+    "code": "02",
+    "pus": 17,
+    "name": "Agbaakin II"
+   },
+   {
+    "upper": "IWERE‐ILE I",
+    "code": "03",
+    "pus": 15,
+    "name": "Iwere‐Ile I"
+   },
+   {
+    "upper": "IWERE‐ILE II",
+    "code": "04",
+    "pus": 12,
+    "name": "Iwere‐Ile II"
+   },
+   {
+    "upper": "IWERE‐ILE III",
+    "code": "05",
+    "pus": 6,
+    "name": "Iwere‐Ile III"
+   },
+   {
+    "upper": "IWERE‐ILE IV",
+    "code": "06",
+    "pus": 15,
+    "name": "Iwere‐Ile IV"
+   },
+   {
+    "upper": "SABI GANA I",
+    "code": "07",
+    "pus": 10,
+    "name": "Sabi Gana I"
+   },
+   {
+    "upper": "SABI GANA II",
+    "code": "08",
+    "pus": 7,
+    "name": "Sabi Gana II"
+   },
+   {
+    "upper": "SABI GANA III",
+    "code": "09",
+    "pus": 12,
+    "name": "Sabi Gana III"
+   },
+   {
+    "upper": "SABI GANA IV",
+    "code": "10",
+    "pus": 11,
+    "name": "Sabi Gana IV"
+   }
+  ],
+  "nra": 10,
+  "npu": 116,
+  "slug": "iwajowa"
+ },
+ "19": {
+  "name": "KAJOLA",
+  "ras": [
+   {
+    "upper": "AYETORO‐OKE I",
+    "code": "01",
+    "pus": 7,
+    "name": "Ayetoro‐Oke I"
+   },
+   {
+    "upper": "ELERO",
+    "code": "02",
+    "pus": 8,
+    "name": "Elero"
+   },
+   {
+    "upper": "GBELEKALE I & II",
+    "code": "03",
+    "pus": 12,
+    "name": "Gbelekale I & II"
+   },
+   {
+    "upper": "IBA‐OGAN",
+    "code": "04",
+    "pus": 19,
+    "name": "Iba‐Ogan"
+   },
+   {
+    "upper": "IJO",
+    "code": "05",
+    "pus": 11,
+    "name": "Ijo"
+   },
+   {
+    "upper": "ILAJI OKE/IWERE‐OKE",
+    "code": "06",
+    "pus": 6,
+    "name": "Ilaji Oke/Iwere‐Oke"
+   },
+   {
+    "upper": "IMOBA/OKE‐OGUN",
+    "code": "07",
+    "pus": 8,
+    "name": "Imoba/Oke‐Ogun"
+   },
+   {
+    "upper": "ISEMI‐ILE/IMIA/ILUA",
+    "code": "08",
+    "pus": 20,
+    "name": "Isemi‐Ile/Imia/Ilua"
+   },
+   {
+    "upper": "ISIA",
+    "code": "09",
+    "pus": 7,
+    "name": "Isia"
+   },
+   {
+    "upper": "KAJOLA",
+    "code": "10",
+    "pus": 10,
+    "name": "Kajola"
+   },
+   {
+    "upper": "OLELE",
+    "code": "11",
+    "pus": 16,
+    "name": "Olele"
+   }
+  ],
+  "nra": 11,
+  "npu": 124,
+  "slug": "kajola"
+ },
+ "20": {
+  "name": "LAGELU",
+  "ras": [
+   {
+    "upper": "AJARA/OPEODU",
+    "code": "01",
+    "pus": 9,
+    "name": "Ajara/Opeodu"
+   },
+   {
+    "upper": "APATERE/KUFFI/OGUNBODE/OGO",
+    "code": "02",
+    "pus": 9,
+    "name": "Apatere/Kuffi/Ogunbode/Ogo"
+   },
+   {
+    "upper": "ARULOGUN EHIN/KELEBE",
+    "code": "03",
+    "pus": 6,
+    "name": "Arulogun Ehin/Kelebe"
+   },
+   {
+    "upper": "EJIOKU/IGBON/ARIKU",
+    "code": "04",
+    "pus": 11,
+    "name": "Ejioku/Igbon/Ariku"
+   },
+   {
+    "upper": "LAGELU MARKET/KAJOLA/GBENA",
+    "code": "05",
+    "pus": 15,
+    "name": "Lagelu Market/Kajola/Gbena"
+   },
+   {
+    "upper": "LAGUN",
+    "code": "06",
+    "pus": 9,
+    "name": "Lagun"
+   },
+   {
+    "upper": "LALUPON I",
+    "code": "07",
+    "pus": 9,
+    "name": "Lalupon I"
+   },
+   {
+    "upper": "LALUPON II",
+    "code": "08",
+    "pus": 8,
+    "name": "Lalupon II"
+   },
+   {
+    "upper": "LALUPON III",
+    "code": "09",
+    "pus": 8,
+    "name": "Lalupon III"
+   },
+   {
+    "upper": "OFA‐IGBO",
+    "code": "10",
+    "pus": 9,
+    "name": "Ofa‐Igbo"
+   },
+   {
+    "upper": "OGUNJANA/OLOWODE/OGBURO",
+    "code": "11",
+    "pus": 5,
+    "name": "Ogunjana/Olowode/Ogburo"
+   },
+   {
+    "upper": "OGUNREMI/OGUNSINA",
+    "code": "12",
+    "pus": 11,
+    "name": "Ogunremi/Ogunsina"
+   },
+   {
+    "upper": "OYEDEJI/OLODE/KUTAYI",
+    "code": "13",
+    "pus": 7,
+    "name": "Oyedeji/Olode/Kutayi"
+   },
+   {
+    "upper": "SAGBE/PABIEKUN",
+    "code": "14",
+    "pus": 8,
+    "name": "Sagbe/Pabiekun"
+   }
+  ],
+  "nra": 14,
+  "npu": 124,
+  "slug": "lagelu"
+ },
+ "21": {
+  "name": "OGBOMOSO NORTH",
+  "ras": [
+   {
+    "upper": "ABOGUNDE",
+    "code": "01",
+    "pus": 10,
+    "name": "Abogunde"
+   },
+   {
+    "upper": "AAJE/OGUNBADO",
+    "code": "02",
+    "pus": 12,
+    "name": "Aaje/Ogunbado"
+   },
+   {
+    "upper": "AGUODO/ MASIFA",
+    "code": "03",
+    "pus": 27,
+    "name": "Aguodo/ Masifa"
+   },
+   {
+    "upper": "ISALE AFON",
+    "code": "04",
+    "pus": 14,
+    "name": "Isale Afon"
+   },
+   {
+    "upper": "ISALE ALAASA",
+    "code": "05",
+    "pus": 12,
+    "name": "Isale Alaasa"
+   },
+   {
+    "upper": "ISALE ORA/SAJA",
+    "code": "06",
+    "pus": 13,
+    "name": "Isale Ora/Saja"
+   },
+   {
+    "upper": "JAGUN",
+    "code": "07",
+    "pus": 10,
+    "name": "Jagun"
+   },
+   {
+    "upper": "OKELERIN",
+    "code": "08",
+    "pus": 13,
+    "name": "Okelerin"
+   },
+   {
+    "upper": "OSUPA",
+    "code": "09",
+    "pus": 19,
+    "name": "Osupa"
+   },
+   {
+    "upper": "SABO/TARA",
+    "code": "10",
+    "pus": 20,
+    "name": "Sabo/Tara"
+   }
+  ],
+  "nra": 10,
+  "npu": 150,
+  "slug": "ogbomosho-north",
+  "display": "Ogbomosho North"
+ },
+ "22": {
+  "name": "OGBOMOSO SOUTH",
+  "ras": [
+   {
+    "upper": "AKATA",
+    "code": "01",
+    "pus": 18,
+    "name": "Akata"
+   },
+   {
+    "upper": "ALAPATA",
+    "code": "02",
+    "pus": 19,
+    "name": "Alapata"
+   },
+   {
+    "upper": "AROWOMOLE",
+    "code": "03",
+    "pus": 15,
+    "name": "Arowomole"
+   },
+   {
+    "upper": "IBAPON",
+    "code": "04",
+    "pus": 24,
+    "name": "Ibapon"
+   },
+   {
+    "upper": "IJERU I",
+    "code": "05",
+    "pus": 16,
+    "name": "Ijeru I"
+   },
+   {
+    "upper": "IJERU II",
+    "code": "06",
+    "pus": 12,
+    "name": "Ijeru II"
+   },
+   {
+    "upper": "ILOGBO",
+    "code": "07",
+    "pus": 14,
+    "name": "Ilogbo"
+   },
+   {
+    "upper": "ISOKO",
+    "code": "08",
+    "pus": 14,
+    "name": "Isoko"
+   },
+   {
+    "upper": "LAGBEDU",
+    "code": "09",
+    "pus": 15,
+    "name": "Lagbedu"
+   },
+   {
+    "upper": "OKE‐OLA/FARM SETTLEMENT",
+    "code": "10",
+    "pus": 13,
+    "name": "Oke‐Ola/Farm Settlement"
+   }
+  ],
+  "nra": 10,
+  "npu": 160,
+  "slug": "ogbomosho-south",
+  "display": "Ogbomosho South"
+ },
+ "23": {
+  "name": "OGO-OLUWA",
+  "ras": [
+   {
+    "upper": "AJAAWA I",
+    "code": "01",
+    "pus": 13,
+    "name": "Ajaawa I"
+   },
+   {
+    "upper": "AJAAWA II",
+    "code": "02",
+    "pus": 5,
+    "name": "Ajaawa II"
+   },
+   {
+    "upper": "AYEDE",
+    "code": "03",
+    "pus": 6,
+    "name": "Ayede"
+   },
+   {
+    "upper": "AYETORO",
+    "code": "04",
+    "pus": 6,
+    "name": "Ayetoro"
+   },
+   {
+    "upper": "IDEWURE",
+    "code": "05",
+    "pus": 6,
+    "name": "Idewure"
+   },
+   {
+    "upper": "LAGBEDU",
+    "code": "06",
+    "pus": 9,
+    "name": "Lagbedu"
+   },
+   {
+    "upper": "MOWOLOWO/IWO‐ATE",
+    "code": "07",
+    "pus": 8,
+    "name": "Mowolowo/Iwo‐Ate"
+   },
+   {
+    "upper": "ODO‐OBA",
+    "code": "08",
+    "pus": 11,
+    "name": "Odo‐Oba"
+   },
+   {
+    "upper": "OPETE",
+    "code": "09",
+    "pus": 9,
+    "name": "Opete"
+   },
+   {
+    "upper": "OTAMOKUN",
+    "code": "10",
+    "pus": 12,
+    "name": "Otamokun"
+   }
+  ],
+  "nra": 10,
+  "npu": 85,
+  "slug": "ogo-oluwa"
+ },
+ "24": {
+  "name": "OLORUNSOGO",
+  "ras": [
+   {
+    "upper": "ABOKE (ABOYUN OGUN)",
+    "code": "01",
+    "pus": 6,
+    "name": "Aboke (Aboyun Ogun)"
+   },
+   {
+    "upper": "ELERUGBA/ELEHINKE/SAGBO (APERU)",
+    "code": "02",
+    "pus": 6,
+    "name": "Elerugba/Elehinke/Sagbo (Aperu)"
+   },
+   {
+    "upper": "IKOLABA/OBADIMO",
+    "code": "03",
+    "pus": 6,
+    "name": "Ikolaba/Obadimo"
+   },
+   {
+    "upper": "ONIGBETI I (IYAMOPO)",
+    "code": "04",
+    "pus": 7,
+    "name": "Onigbeti I (Iyamopo)"
+   },
+   {
+    "upper": "ONIGBETI II/SAGBON AGORO (SAGBON)",
+    "code": "05",
+    "pus": 7,
+    "name": "Onigbeti II/Sagbon Agoro (Sagbon)"
+   },
+   {
+    "upper": "ONIGBETI III & IV (AGBENI)",
+    "code": "06",
+    "pus": 7,
+    "name": "Onigbeti III & IV (Agbeni)"
+   },
+   {
+    "upper": "OPA/OGUNNIYI",
+    "code": "07",
+    "pus": 6,
+    "name": "Opa/Ogunniyi"
+   },
+   {
+    "upper": "SERIKI I & ABOSINO (OKIN)",
+    "code": "08",
+    "pus": 7,
+    "name": "Seriki I & Abosino (Okin)"
+   },
+   {
+    "upper": "SERIKI II (AGBELE)",
+    "code": "09",
+    "pus": 6,
+    "name": "Seriki II (Agbele)"
+   },
+   {
+    "upper": "WARO/APATA‐ALAJE",
+    "code": "10",
+    "pus": 6,
+    "name": "Waro/Apata‐Alaje"
+   }
+  ],
+  "nra": 10,
+  "npu": 64,
+  "slug": "olorunsogo"
+ },
+ "25": {
+  "name": "OLUYOLE",
+  "ras": [
+   {
+    "upper": "AYEGUN",
+    "code": "01",
+    "pus": 9,
+    "name": "Ayegun"
+   },
+   {
+    "upper": "IDI‐IROKO/IKEREKU",
+    "code": "02",
+    "pus": 19,
+    "name": "Idi‐Iroko/Ikereku"
+   },
+   {
+    "upper": "IDI‐OSAN/EGBEDA‐ATUBA",
+    "code": "03",
+    "pus": 6,
+    "name": "Idi‐Osan/Egbeda‐Atuba"
+   },
+   {
+    "upper": "MUSLIM/OGBERE",
+    "code": "04",
+    "pus": 15,
+    "name": "Muslim/Ogbere"
+   },
+   {
+    "upper": "ODO‐ONA NLA",
+    "code": "05",
+    "pus": 10,
+    "name": "Odo‐Ona Nla"
+   },
+   {
+    "upper": "OKANHINDE/LATUNDE",
+    "code": "06",
+    "pus": 7,
+    "name": "Okanhinde/Latunde"
+   },
+   {
+    "upper": "OLOMI/OLURINDE",
+    "code": "07",
+    "pus": 18,
+    "name": "Olomi/Olurinde"
+   },
+   {
+    "upper": "OLONDE/ABA‐NLA",
+    "code": "08",
+    "pus": 12,
+    "name": "Olonde/Aba‐Nla"
+   },
+   {
+    "upper": "ONIPE",
+    "code": "09",
+    "pus": 10,
+    "name": "Onipe"
+   },
+   {
+    "upper": "ORISUNBARE/OJO‐EKUN",
+    "code": "10",
+    "pus": 8,
+    "name": "Orisunbare/Ojo‐Ekun"
+   }
+  ],
+  "nra": 10,
+  "npu": 114,
+  "slug": "oluyole"
+ },
+ "26": {
+  "name": "ONA-ARA",
+  "ras": [
+   {
+    "upper": "AKANRAN/OLORUNDA",
+    "code": "01",
+    "pus": 6,
+    "name": "Akanran/Olorunda"
+   },
+   {
+    "upper": "ARAROMI/APERIN",
+    "code": "02",
+    "pus": 7,
+    "name": "Araromi/Aperin"
+   },
+   {
+    "upper": "BADEKU",
+    "code": "03",
+    "pus": 7,
+    "name": "Badeku"
+   },
+   {
+    "upper": "GBADA EFON",
+    "code": "04",
+    "pus": 5,
+    "name": "Gbada Efon"
+   },
+   {
+    "upper": "ODI ODEYALE/ODI APERIN",
+    "code": "05",
+    "pus": 6,
+    "name": "Odi Odeyale/Odi Aperin"
+   },
+   {
+    "upper": "OGBERE",
+    "code": "06",
+    "pus": 8,
+    "name": "Ogbere"
+   },
+   {
+    "upper": "OGBERE TIOYA",
+    "code": "07",
+    "pus": 14,
+    "name": "Ogbere Tioya"
+   },
+   {
+    "upper": "OJOKU/AJIA",
+    "code": "08",
+    "pus": 6,
+    "name": "Ojoku/Ajia"
+   },
+   {
+    "upper": "OLORUNSOGO",
+    "code": "09",
+    "pus": 14,
+    "name": "Olorunsogo"
+   },
+   {
+    "upper": "OLODE/GBEDUN/OJEBODE",
+    "code": "10",
+    "pus": 7,
+    "name": "Olode/Gbedun/Ojebode"
+   },
+   {
+    "upper": "OREMEJI/AGUGU",
+    "code": "11",
+    "pus": 10,
+    "name": "Oremeji/Agugu"
+   }
+  ],
+  "nra": 11,
+  "npu": 90,
+  "slug": "ona-ara"
+ },
+ "27": {
+  "name": "ORELOPE",
+  "ras": [
+   {
+    "upper": "ALEPATA",
+    "code": "01",
+    "pus": 7,
+    "name": "Alepata"
+   },
+   {
+    "upper": "AARE",
+    "code": "02",
+    "pus": 4,
+    "name": "Aare"
+   },
+   {
+    "upper": "BONNI",
+    "code": "03",
+    "pus": 15,
+    "name": "Bonni"
+   },
+   {
+    "upper": "IGBOPE/IYEYE I",
+    "code": "04",
+    "pus": 5,
+    "name": "Igbope/Iyeye I"
+   },
+   {
+    "upper": "IGBOPE/IYEYE II",
+    "code": "05",
+    "pus": 5,
+    "name": "Igbope/Iyeye II"
+   },
+   {
+    "upper": "IGI ISUBU",
+    "code": "06",
+    "pus": 3,
+    "name": "Igi Isubu"
+   },
+   {
+    "upper": "ONIBODE I",
+    "code": "07",
+    "pus": 6,
+    "name": "Onibode I"
+   },
+   {
+    "upper": "ONIBODE II",
+    "code": "08",
+    "pus": 8,
+    "name": "Onibode II"
+   },
+   {
+    "upper": "ONIBODE III",
+    "code": "09",
+    "pus": 10,
+    "name": "Onibode III"
+   },
+   {
+    "upper": "ONIGBOHO/ALOMO/OKERE",
+    "code": "10",
+    "pus": 15,
+    "name": "Onigboho/Alomo/Okere"
+   }
+  ],
+  "nra": 10,
+  "npu": 78,
+  "slug": "orelope"
+ },
+ "28": {
+  "name": "ORI-IRE",
+  "ras": [
+   {
+    "upper": "ORI IRE I",
+    "code": "01",
+    "pus": 16,
+    "name": "Ori Ire I"
+   },
+   {
+    "upper": "ORI IRE II",
+    "code": "02",
+    "pus": 12,
+    "name": "Ori Ire II"
+   },
+   {
+    "upper": "ORI IRE III",
+    "code": "03",
+    "pus": 17,
+    "name": "Ori Ire III"
+   },
+   {
+    "upper": "ORI IRE IV",
+    "code": "04",
+    "pus": 8,
+    "name": "Ori Ire IV"
+   },
+   {
+    "upper": "ORI IRE V",
+    "code": "05",
+    "pus": 15,
+    "name": "Ori Ire V"
+   },
+   {
+    "upper": "ORI IRE VI",
+    "code": "06",
+    "pus": 20,
+    "name": "Ori Ire VI"
+   },
+   {
+    "upper": "ORI IRE VII",
+    "code": "07",
+    "pus": 14,
+    "name": "Ori Ire VII"
+   },
+   {
+    "upper": "ORI IRE VIII",
+    "code": "08",
+    "pus": 12,
+    "name": "Ori Ire VIII"
+   },
+   {
+    "upper": "ORI IRE IX",
+    "code": "09",
+    "pus": 20,
+    "name": "Ori Ire IX"
+   },
+   {
+    "upper": "ORI IRE X",
+    "code": "10",
+    "pus": 21,
+    "name": "Ori Ire X"
+   }
+  ],
+  "nra": 10,
+  "npu": 155,
+  "slug": "ori-ire"
+ },
+ "29": {
+  "name": "OYO EAST",
+  "ras": [
+   {
+    "upper": "AGBOYE/MOLETE",
+    "code": "01",
+    "pus": 7,
+    "name": "Agboye/Molete"
+   },
+   {
+    "upper": "AJAGBA",
+    "code": "02",
+    "pus": 12,
+    "name": "Ajagba"
+   },
+   {
+    "upper": "ALAODI/MODEKE",
+    "code": "03",
+    "pus": 8,
+    "name": "Alaodi/Modeke"
+   },
+   {
+    "upper": "APAARA",
+    "code": "04",
+    "pus": 11,
+    "name": "Apaara"
+   },
+   {
+    "upper": "APINNI",
+    "code": "05",
+    "pus": 13,
+    "name": "Apinni"
+   },
+   {
+    "upper": "BALOGUN",
+    "code": "06",
+    "pus": 7,
+    "name": "Balogun"
+   },
+   {
+    "upper": "JABATA",
+    "code": "07",
+    "pus": 10,
+    "name": "Jabata"
+   },
+   {
+    "upper": "OKE APO",
+    "code": "08",
+    "pus": 11,
+    "name": "Oke Apo"
+   },
+   {
+    "upper": "OLUAJO",
+    "code": "09",
+    "pus": 9,
+    "name": "Oluajo"
+   },
+   {
+    "upper": "OWODE/ARAROMI",
+    "code": "10",
+    "pus": 11,
+    "name": "Owode/Araromi"
+   }
+  ],
+  "nra": 10,
+  "npu": 99,
+  "slug": "oyo-east"
+ },
+ "30": {
+  "name": "OYO WEST",
+  "ras": [
+   {
+    "upper": "AKEETAN",
+    "code": "01",
+    "pus": 7,
+    "name": "Akeetan"
+   },
+   {
+    "upper": "AJOKIDERO/AKEWUGBERU",
+    "code": "02",
+    "pus": 13,
+    "name": "Ajokidero/Akewugberu"
+   },
+   {
+    "upper": "FASOLA/SOKU",
+    "code": "03",
+    "pus": 12,
+    "name": "Fasola/Soku"
+   },
+   {
+    "upper": "ISEKE",
+    "code": "04",
+    "pus": 8,
+    "name": "Iseke"
+   },
+   {
+    "upper": "ISOKUN I",
+    "code": "05",
+    "pus": 14,
+    "name": "Isokun I"
+   },
+   {
+    "upper": "ISOKUN II",
+    "code": "06",
+    "pus": 11,
+    "name": "Isokun II"
+   },
+   {
+    "upper": "IYAJI",
+    "code": "07",
+    "pus": 9,
+    "name": "Iyaji"
+   },
+   {
+    "upper": "OPAPA",
+    "code": "08",
+    "pus": 7,
+    "name": "Opapa"
+   },
+   {
+    "upper": "OWODE",
+    "code": "09",
+    "pus": 11,
+    "name": "Owode"
+   },
+   {
+    "upper": "PAKOYI/IDODE",
+    "code": "10",
+    "pus": 8,
+    "name": "Pakoyi/Idode"
+   }
+  ],
+  "nra": 10,
+  "npu": 100,
+  "slug": "oyo-west"
+ },
+ "31": {
+  "name": "SAKI EAST",
+  "ras": [
+   {
+    "upper": "AGBONLE",
+    "code": "01",
+    "pus": 9,
+    "name": "Agbonle"
+   },
+   {
+    "upper": "AGO AMODU I",
+    "code": "02",
+    "pus": 9,
+    "name": "Ago Amodu I"
+   },
+   {
+    "upper": "AGO AMODU II",
+    "code": "03",
+    "pus": 9,
+    "name": "Ago Amodu II"
+   },
+   {
+    "upper": "OGBOORO I",
+    "code": "04",
+    "pus": 9,
+    "name": "Ogbooro I"
+   },
+   {
+    "upper": "OGBOORO II",
+    "code": "05",
+    "pus": 9,
+    "name": "Ogbooro II"
+   },
+   {
+    "upper": "OJE OWODE I",
+    "code": "06",
+    "pus": 11,
+    "name": "Oje Owode I"
+   },
+   {
+    "upper": "OJE OWODE II",
+    "code": "07",
+    "pus": 11,
+    "name": "Oje Owode II"
+   },
+   {
+    "upper": "SEPETERI I",
+    "code": "08",
+    "pus": 9,
+    "name": "Sepeteri I"
+   },
+   {
+    "upper": "SEPETERI II",
+    "code": "09",
+    "pus": 8,
+    "name": "Sepeteri II"
+   },
+   {
+    "upper": "SEPETERI III",
+    "code": "10",
+    "pus": 9,
+    "name": "Sepeteri III"
+   },
+   {
+    "upper": "SEPETERI IV",
+    "code": "11",
+    "pus": 8,
+    "name": "Sepeteri IV"
+   }
+  ],
+  "nra": 11,
+  "npu": 101,
+  "slug": "saki-east"
+ },
+ "32": {
+  "name": "SAKI WEST",
+  "ras": [
+   {
+    "upper": "AGANMU/KOOKO",
+    "code": "01",
+    "pus": 17,
+    "name": "Aganmu/Kooko"
+   },
+   {
+    "upper": "AJEGUNLE",
+    "code": "02",
+    "pus": 29,
+    "name": "Ajegunle"
+   },
+   {
+    "upper": "BAGII",
+    "code": "03",
+    "pus": 15,
+    "name": "Bagii"
+   },
+   {
+    "upper": "EKOKAN / IMUA",
+    "code": "04",
+    "pus": 15,
+    "name": "Ekokan / Imua"
+   },
+   {
+    "upper": "IYA",
+    "code": "05",
+    "pus": 19,
+    "name": "Iya"
+   },
+   {
+    "upper": "OGIDIGBO/KINNIKINNI",
+    "code": "06",
+    "pus": 18,
+    "name": "Ogidigbo/Kinnikinni"
+   },
+   {
+    "upper": "OKE‐ORO",
+    "code": "07",
+    "pus": 14,
+    "name": "Oke‐Oro"
+   },
+   {
+    "upper": "OKERE I",
+    "code": "08",
+    "pus": 13,
+    "name": "Okere I"
+   },
+   {
+    "upper": "OKERE II",
+    "code": "09",
+    "pus": 18,
+    "name": "Okere II"
+   },
+   {
+    "upper": "SANGOTE/BOODA/BAABO/ILUA",
+    "code": "10",
+    "pus": 24,
+    "name": "Sangote/Booda/Baabo/Ilua"
+   },
+   {
+    "upper": "SEPETERI/BAPON",
+    "code": "11",
+    "pus": 20,
+    "name": "Sepeteri/Bapon"
+   }
+  ],
+  "nra": 11,
+  "npu": 202,
+  "slug": "saki-west"
+ },
+ "33": {
+  "name": "SURULERE",
+  "ras": [
+   {
+    "upper": "BAYA‐OJE",
+    "code": "01",
+    "pus": 15,
+    "name": "Baya‐Oje"
+   },
+   {
+    "upper": "IGBON/GAMBARI",
+    "code": "02",
+    "pus": 15,
+    "name": "Igbon/Gambari"
+   },
+   {
+    "upper": "IRESAAPA",
+    "code": "03",
+    "pus": 16,
+    "name": "Iresaapa"
+   },
+   {
+    "upper": "AROLU",
+    "code": "04",
+    "pus": 15,
+    "name": "Arolu"
+   },
+   {
+    "upper": "IRESAADU",
+    "code": "05",
+    "pus": 12,
+    "name": "Iresaadu"
+   },
+   {
+    "upper": "IREGBA",
+    "code": "06",
+    "pus": 16,
+    "name": "Iregba"
+   },
+   {
+    "upper": "IWOFIN",
+    "code": "07",
+    "pus": 10,
+    "name": "Iwofin"
+   },
+   {
+    "upper": "OKO",
+    "code": "08",
+    "pus": 12,
+    "name": "Oko"
+   },
+   {
+    "upper": "ILAJUE",
+    "code": "09",
+    "pus": 15,
+    "name": "Ilajue"
+   },
+   {
+    "upper": "MAYIN",
+    "code": "10",
+    "pus": 17,
+    "name": "Mayin"
+   }
+  ],
+  "nra": 10,
+  "npu": 143,
+  "slug": "surulere"
+ }
+}

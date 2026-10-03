@@ -1,0 +1,1437 @@
+{
+ "01": {
+  "name": "ALKALERI",
+  "ras": [
+   {
+    "upper": "ALKALERI",
+    "code": "01",
+    "pus": 22,
+    "name": "Alkaleri"
+   },
+   {
+    "upper": "PALI",
+    "code": "02",
+    "pus": 21,
+    "name": "Pali"
+   },
+   {
+    "upper": "GAR",
+    "code": "03",
+    "pus": 14,
+    "name": "Gar"
+   },
+   {
+    "upper": "GWARAM",
+    "code": "04",
+    "pus": 23,
+    "name": "Gwaram"
+   },
+   {
+    "upper": "MAIMADI",
+    "code": "05",
+    "pus": 12,
+    "name": "Maimadi"
+   },
+   {
+    "upper": "DAN KUNGIBAR",
+    "code": "06",
+    "pus": 21,
+    "name": "Dan Kungibar"
+   },
+   {
+    "upper": "BIRIN/ GIGARA/ YANKARI",
+    "code": "07",
+    "pus": 23,
+    "name": "Birin/ Gigara/ Yankari"
+   },
+   {
+    "upper": "YULI/ LIM",
+    "code": "08",
+    "pus": 33,
+    "name": "Yuli/ Lim"
+   },
+   {
+    "upper": "FUTUK",
+    "code": "09",
+    "pus": 22,
+    "name": "Futuk"
+   },
+   {
+    "upper": "YALO",
+    "code": "10",
+    "pus": 17,
+    "name": "Yalo"
+   },
+   {
+    "upper": "GWANA / MANSUR",
+    "code": "11",
+    "pus": 29,
+    "name": "Gwana / Mansur"
+   }
+  ],
+  "nra": 11,
+  "npu": 237,
+  "slug": "alkaleri"
+ },
+ "02": {
+  "name": "BAUCHI",
+  "ras": [
+   {
+    "upper": "MAJIDADI 'A'",
+    "code": "01",
+    "pus": 27,
+    "name": "Majidadi 'A'"
+   },
+   {
+    "upper": "MAJIDADI 'B'",
+    "code": "02",
+    "pus": 34,
+    "name": "Majidadi 'B'"
+   },
+   {
+    "upper": "MAKAMA/SARKI BAKI",
+    "code": "03",
+    "pus": 78,
+    "name": "Makama/Sarki Baki"
+   },
+   {
+    "upper": "ZUNGUR/LIMAN KATAGUM",
+    "code": "04",
+    "pus": 41,
+    "name": "Zungur/Liman Katagum"
+   },
+   {
+    "upper": "MUN/MUNSAL",
+    "code": "05",
+    "pus": 32,
+    "name": "Mun/Munsal"
+   },
+   {
+    "upper": "DANDANGO/YAMRAT",
+    "code": "06",
+    "pus": 42,
+    "name": "Dandango/Yamrat"
+   },
+   {
+    "upper": "BIRSHI/MIRI",
+    "code": "07",
+    "pus": 51,
+    "name": "Birshi/Miri"
+   },
+   {
+    "upper": "KUNDUM/DURUM",
+    "code": "08",
+    "pus": 19,
+    "name": "Kundum/Durum"
+   },
+   {
+    "upper": "KANGYARE/TURWUN",
+    "code": "09",
+    "pus": 39,
+    "name": "Kangyare/Turwun"
+   },
+   {
+    "upper": "GALAMBI/GWASKWARAM",
+    "code": "10",
+    "pus": 32,
+    "name": "Galambi/Gwaskwaram"
+   },
+   {
+    "upper": "DAN'IYA HARDO",
+    "code": "11",
+    "pus": 65,
+    "name": "Dan'Iya Hardo"
+   },
+   {
+    "upper": "DAWAKI",
+    "code": "12",
+    "pus": 33,
+    "name": "Dawaki"
+   }
+  ],
+  "nra": 12,
+  "npu": 493,
+  "slug": "bauchi"
+ },
+ "03": {
+  "name": "BOGORO",
+  "ras": [
+   {
+    "upper": "BOGORO \"A\"",
+    "code": "01",
+    "pus": 9,
+    "name": "Bogoro \"A\""
+   },
+   {
+    "upper": "BOGORO \"B\"",
+    "code": "02",
+    "pus": 6,
+    "name": "Bogoro \"B\""
+   },
+   {
+    "upper": "BOGORO \"C\"",
+    "code": "03",
+    "pus": 8,
+    "name": "Bogoro \"C\""
+   },
+   {
+    "upper": "BOGORO \"D\"",
+    "code": "04",
+    "pus": 8,
+    "name": "Bogoro \"D\""
+   },
+   {
+    "upper": "B O I \"A\"",
+    "code": "05",
+    "pus": 5,
+    "name": "B O I \"A\""
+   },
+   {
+    "upper": "B O I \"B\"",
+    "code": "06",
+    "pus": 8,
+    "name": "B O I \"B\""
+   },
+   {
+    "upper": "B O I \"C\"",
+    "code": "07",
+    "pus": 5,
+    "name": "B O I \"C\""
+   },
+   {
+    "upper": "LUSA \"A\"",
+    "code": "08",
+    "pus": 8,
+    "name": "Lusa \"A\""
+   },
+   {
+    "upper": "LUSA \"B\"",
+    "code": "09",
+    "pus": 7,
+    "name": "Lusa \"B\""
+   },
+   {
+    "upper": "LUSA \"C\"",
+    "code": "10",
+    "pus": 6,
+    "name": "Lusa \"C\""
+   }
+  ],
+  "nra": 10,
+  "npu": 70,
+  "slug": "bogoro"
+ },
+ "04": {
+  "name": "DAMBAN",
+  "ras": [
+   {
+    "upper": "GARUZA",
+    "code": "01",
+    "pus": 11,
+    "name": "Garuza"
+   },
+   {
+    "upper": "GURBANA",
+    "code": "02",
+    "pus": 17,
+    "name": "Gurbana"
+   },
+   {
+    "upper": "DAMBAM",
+    "code": "03",
+    "pus": 16,
+    "name": "Dambam"
+   },
+   {
+    "upper": "YANDA",
+    "code": "04",
+    "pus": 15,
+    "name": "Yanda"
+   },
+   {
+    "upper": "YAME",
+    "code": "05",
+    "pus": 14,
+    "name": "Yame"
+   },
+   {
+    "upper": "DAGAUDA",
+    "code": "06",
+    "pus": 12,
+    "name": "Dagauda"
+   },
+   {
+    "upper": "GARGAWA",
+    "code": "07",
+    "pus": 8,
+    "name": "Gargawa"
+   },
+   {
+    "upper": "ZAURA",
+    "code": "08",
+    "pus": 10,
+    "name": "Zaura"
+   },
+   {
+    "upper": "JALAM CENTRAL",
+    "code": "09",
+    "pus": 8,
+    "name": "Jalam Central"
+   },
+   {
+    "upper": "JALAM EAST",
+    "code": "10",
+    "pus": 10,
+    "name": "Jalam East"
+   }
+  ],
+  "nra": 10,
+  "npu": 121,
+  "slug": "damban"
+ },
+ "05": {
+  "name": "DARAZO",
+  "ras": [
+   {
+    "upper": "DARAZO",
+    "code": "01",
+    "pus": 37,
+    "name": "Darazo"
+   },
+   {
+    "upper": "TAUYA",
+    "code": "02",
+    "pus": 28,
+    "name": "Tauya"
+   },
+   {
+    "upper": "GABARIN",
+    "code": "03",
+    "pus": 19,
+    "name": "Gabarin"
+   },
+   {
+    "upper": "KONKIYAL",
+    "code": "04",
+    "pus": 16,
+    "name": "Konkiyal"
+   },
+   {
+    "upper": "LAGO",
+    "code": "05",
+    "pus": 19,
+    "name": "Lago"
+   },
+   {
+    "upper": "SADE",
+    "code": "06",
+    "pus": 25,
+    "name": "Sade"
+   },
+   {
+    "upper": "LANZAI",
+    "code": "07",
+    "pus": 17,
+    "name": "Lanzai"
+   },
+   {
+    "upper": "YAUTARE",
+    "code": "08",
+    "pus": 12,
+    "name": "Yautare"
+   },
+   {
+    "upper": "GABCIYARI",
+    "code": "09",
+    "pus": 19,
+    "name": "Gabciyari"
+   },
+   {
+    "upper": "WAHU",
+    "code": "10",
+    "pus": 13,
+    "name": "Wahu"
+   },
+   {
+    "upper": "PAPA",
+    "code": "11",
+    "pus": 28,
+    "name": "Papa"
+   }
+  ],
+  "nra": 11,
+  "npu": 233,
+  "slug": "darazo"
+ },
+ "06": {
+  "name": "DASS",
+  "ras": [
+   {
+    "upper": "BAGEL/BAJAR",
+    "code": "01",
+    "pus": 5,
+    "name": "Bagel/Bajar"
+   },
+   {
+    "upper": "BUNDOT",
+    "code": "02",
+    "pus": 6,
+    "name": "Bundot"
+   },
+   {
+    "upper": "BUNUNU CENTRAL",
+    "code": "03",
+    "pus": 16,
+    "name": "Bununu Central"
+   },
+   {
+    "upper": "BUNUNU SOUTH",
+    "code": "04",
+    "pus": 12,
+    "name": "Bununu South"
+   },
+   {
+    "upper": "BARAZA",
+    "code": "05",
+    "pus": 8,
+    "name": "Baraza"
+   },
+   {
+    "upper": "DOTT",
+    "code": "06",
+    "pus": 6,
+    "name": "Dott"
+   },
+   {
+    "upper": "DURR",
+    "code": "07",
+    "pus": 6,
+    "name": "Durr"
+   },
+   {
+    "upper": "POLCHI",
+    "code": "08",
+    "pus": 6,
+    "name": "Polchi"
+   },
+   {
+    "upper": "WANDI",
+    "code": "09",
+    "pus": 6,
+    "name": "Wandi"
+   },
+   {
+    "upper": "ZUMBUL/LUKSHI",
+    "code": "10",
+    "pus": 8,
+    "name": "Zumbul/Lukshi"
+   }
+  ],
+  "nra": 10,
+  "npu": 79,
+  "slug": "dass"
+ },
+ "07": {
+  "name": "GAMAWA",
+  "ras": [
+   {
+    "upper": "GAMAWA",
+    "code": "01",
+    "pus": 30,
+    "name": "Gamawa"
+   },
+   {
+    "upper": "KAFIN ROMI",
+    "code": "02",
+    "pus": 12,
+    "name": "Kafin Romi"
+   },
+   {
+    "upper": "GOLOLO",
+    "code": "03",
+    "pus": 21,
+    "name": "Gololo"
+   },
+   {
+    "upper": "KUBDIYA",
+    "code": "04",
+    "pus": 22,
+    "name": "Kubdiya"
+   },
+   {
+    "upper": "ALAGARNO/JADORI",
+    "code": "05",
+    "pus": 26,
+    "name": "Alagarno/Jadori"
+   },
+   {
+    "upper": "TUMBI",
+    "code": "06",
+    "pus": 18,
+    "name": "Tumbi"
+   },
+   {
+    "upper": "UDUBO",
+    "code": "07",
+    "pus": 53,
+    "name": "Udubo"
+   },
+   {
+    "upper": "TARMASUWA",
+    "code": "08",
+    "pus": 13,
+    "name": "Tarmasuwa"
+   },
+   {
+    "upper": "RAGA",
+    "code": "09",
+    "pus": 31,
+    "name": "Raga"
+   },
+   {
+    "upper": "GADIYA",
+    "code": "10",
+    "pus": 17,
+    "name": "Gadiya"
+   },
+   {
+    "upper": "ZINDI",
+    "code": "11",
+    "pus": 13,
+    "name": "Zindi"
+   }
+  ],
+  "nra": 11,
+  "npu": 256,
+  "slug": "gamawa"
+ },
+ "08": {
+  "name": "GANJUWA",
+  "ras": [
+   {
+    "upper": "GANJUWA",
+    "code": "01",
+    "pus": 27,
+    "name": "Ganjuwa"
+   },
+   {
+    "upper": "GUNGURA",
+    "code": "02",
+    "pus": 20,
+    "name": "Gungura"
+   },
+   {
+    "upper": "KAFIN MADAKI",
+    "code": "03",
+    "pus": 15,
+    "name": "Kafin Madaki"
+   },
+   {
+    "upper": "KARIYA",
+    "code": "04",
+    "pus": 28,
+    "name": "Kariya"
+   },
+   {
+    "upper": "KUBI EAST",
+    "code": "05",
+    "pus": 15,
+    "name": "Kubi East"
+   },
+   {
+    "upper": "KUBI WEST",
+    "code": "06",
+    "pus": 14,
+    "name": "Kubi West"
+   },
+   {
+    "upper": "MIYA EAST",
+    "code": "07",
+    "pus": 18,
+    "name": "Miya East"
+   },
+   {
+    "upper": "MIYA WEST",
+    "code": "08",
+    "pus": 25,
+    "name": "Miya West"
+   },
+   {
+    "upper": "NASARAWA NORTH",
+    "code": "09",
+    "pus": 16,
+    "name": "Nasarawa North"
+   },
+   {
+    "upper": "NASARAWA SOUTH",
+    "code": "10",
+    "pus": 15,
+    "name": "Nasarawa South"
+   },
+   {
+    "upper": "YALI",
+    "code": "11",
+    "pus": 15,
+    "name": "Yali"
+   }
+  ],
+  "nra": 11,
+  "npu": 208,
+  "slug": "ganjuwa"
+ },
+ "09": {
+  "name": "GIADE",
+  "ras": [
+   {
+    "upper": "CHINKANI",
+    "code": "01",
+    "pus": 21,
+    "name": "Chinkani"
+   },
+   {
+    "upper": "SABON SARA",
+    "code": "02",
+    "pus": 15,
+    "name": "Sabon Sara"
+   },
+   {
+    "upper": "DOGUWA CENTRAL",
+    "code": "03",
+    "pus": 10,
+    "name": "Doguwa Central"
+   },
+   {
+    "upper": "DOGUWA SOUTH",
+    "code": "04",
+    "pus": 7,
+    "name": "Doguwa South"
+   },
+   {
+    "upper": "GIADE",
+    "code": "05",
+    "pus": 16,
+    "name": "Giade"
+   },
+   {
+    "upper": "ISAWA",
+    "code": "06",
+    "pus": 14,
+    "name": "Isawa"
+   },
+   {
+    "upper": "UZUM \"A\"",
+    "code": "07",
+    "pus": 8,
+    "name": "Uzum \"A\""
+   },
+   {
+    "upper": "UZUM \"B\"",
+    "code": "08",
+    "pus": 7,
+    "name": "Uzum \"B\""
+   },
+   {
+    "upper": "ZABI",
+    "code": "09",
+    "pus": 10,
+    "name": "Zabi"
+   },
+   {
+    "upper": "ZIRRAMI",
+    "code": "10",
+    "pus": 13,
+    "name": "Zirrami"
+   }
+  ],
+  "nra": 10,
+  "npu": 121,
+  "slug": "giade"
+ },
+ "10": {
+  "name": "ITAS/GADAU",
+  "ras": [
+   {
+    "upper": "ITAS",
+    "code": "01",
+    "pus": 23,
+    "name": "Itas"
+   },
+   {
+    "upper": "MASHEMA",
+    "code": "02",
+    "pus": 19,
+    "name": "Mashema"
+   },
+   {
+    "upper": "GWARAI",
+    "code": "03",
+    "pus": 14,
+    "name": "Gwarai"
+   },
+   {
+    "upper": "ABDALLAWA/MAGARYA",
+    "code": "04",
+    "pus": 14,
+    "name": "Abdallawa/Magarya"
+   },
+   {
+    "upper": "BUZAWA",
+    "code": "05",
+    "pus": 15,
+    "name": "Buzawa"
+   },
+   {
+    "upper": "BILKICHERI",
+    "code": "06",
+    "pus": 19,
+    "name": "Bilkicheri"
+   },
+   {
+    "upper": "BAMBAL",
+    "code": "07",
+    "pus": 12,
+    "name": "Bambal"
+   },
+   {
+    "upper": "GADAU",
+    "code": "08",
+    "pus": 25,
+    "name": "Gadau"
+   },
+   {
+    "upper": "KASHURI",
+    "code": "09",
+    "pus": 19,
+    "name": "Kashuri"
+   },
+   {
+    "upper": "ZUBUKI",
+    "code": "10",
+    "pus": 33,
+    "name": "Zubuki"
+   }
+  ],
+  "nra": 10,
+  "npu": 193,
+  "slug": "itas-gadau",
+  "display": "Itas/Gadau"
+ },
+ "11": {
+  "name": "JAMA'ARE",
+  "ras": [
+   {
+    "upper": "JAMA'ARE 'A'",
+    "code": "01",
+    "pus": 8,
+    "name": "Jama'are 'A'"
+   },
+   {
+    "upper": "JAMA'ARE 'B'",
+    "code": "02",
+    "pus": 10,
+    "name": "Jama'are 'B'"
+   },
+   {
+    "upper": "JAMA'ARE 'C'",
+    "code": "03",
+    "pus": 9,
+    "name": "Jama'are 'C'"
+   },
+   {
+    "upper": "JAMA'ARE 'D'",
+    "code": "04",
+    "pus": 7,
+    "name": "Jama'are 'D'"
+   },
+   {
+    "upper": "DOGON JEJI \"A\"",
+    "code": "05",
+    "pus": 8,
+    "name": "Dogon Jeji \"A\""
+   },
+   {
+    "upper": "DOGON JEJI \"B\"",
+    "code": "06",
+    "pus": 9,
+    "name": "Dogon Jeji \"B\""
+   },
+   {
+    "upper": "DOGON JEJI \"C\"",
+    "code": "07",
+    "pus": 8,
+    "name": "Dogon Jeji \"C\""
+   },
+   {
+    "upper": "HANAFARI",
+    "code": "08",
+    "pus": 20,
+    "name": "Hanafari"
+   },
+   {
+    "upper": "GALDIMARI",
+    "code": "09",
+    "pus": 14,
+    "name": "Galdimari"
+   },
+   {
+    "upper": "JURARA",
+    "code": "10",
+    "pus": 12,
+    "name": "Jurara"
+   }
+  ],
+  "nra": 10,
+  "npu": 105,
+  "slug": "jama-are",
+  "display": "Jama'are"
+ },
+ "12": {
+  "name": "KATAGUM",
+  "ras": [
+   {
+    "upper": "TSAKUWA KOFAR GABAS/ KOFAR KUKA",
+    "code": "01",
+    "pus": 30,
+    "name": "Tsakuwa Kofar Gabas/ Kofar Kuka"
+   },
+   {
+    "upper": "NASARAWA BAKIN KASUWA",
+    "code": "02",
+    "pus": 52,
+    "name": "Nasarawa Bakin Kasuwa"
+   },
+   {
+    "upper": "MADANGALA",
+    "code": "03",
+    "pus": 25,
+    "name": "Madangala"
+   },
+   {
+    "upper": "MADARA",
+    "code": "04",
+    "pus": 15,
+    "name": "Madara"
+   },
+   {
+    "upper": "BUSKURI",
+    "code": "05",
+    "pus": 16,
+    "name": "Buskuri"
+   },
+   {
+    "upper": "RAGWAM/MAGONSHI",
+    "code": "06",
+    "pus": 24,
+    "name": "Ragwam/Magonshi"
+   },
+   {
+    "upper": "GAMBAKI/BIDIR",
+    "code": "07",
+    "pus": 28,
+    "name": "Gambaki/Bidir"
+   },
+   {
+    "upper": "CHINADE",
+    "code": "08",
+    "pus": 18,
+    "name": "Chinade"
+   },
+   {
+    "upper": "BULKACHUWA/DAGARO",
+    "code": "09",
+    "pus": 28,
+    "name": "Bulkachuwa/Dagaro"
+   },
+   {
+    "upper": "YAYU",
+    "code": "10",
+    "pus": 15,
+    "name": "Yayu"
+   },
+   {
+    "upper": "MADACHI/GANGAI",
+    "code": "11",
+    "pus": 23,
+    "name": "Madachi/Gangai"
+   }
+  ],
+  "nra": 11,
+  "npu": 274,
+  "slug": "katagum"
+ },
+ "13": {
+  "name": "KIRFI",
+  "ras": [
+   {
+    "upper": "BADARA",
+    "code": "01",
+    "pus": 16,
+    "name": "Badara"
+   },
+   {
+    "upper": "BARA",
+    "code": "02",
+    "pus": 19,
+    "name": "Bara"
+   },
+   {
+    "upper": "BENI \"A\"",
+    "code": "03",
+    "pus": 12,
+    "name": "Beni \"A\""
+   },
+   {
+    "upper": "BENI \"B\"",
+    "code": "04",
+    "pus": 7,
+    "name": "Beni \"B\""
+   },
+   {
+    "upper": "DEWU CENTRAL",
+    "code": "05",
+    "pus": 12,
+    "name": "Dewu Central"
+   },
+   {
+    "upper": "DEWU EAST",
+    "code": "06",
+    "pus": 13,
+    "name": "Dewu East"
+   },
+   {
+    "upper": "KIRFI",
+    "code": "07",
+    "pus": 18,
+    "name": "Kirfi"
+   },
+   {
+    "upper": "SHANGO",
+    "code": "08",
+    "pus": 13,
+    "name": "Shango"
+   },
+   {
+    "upper": "TUBULE",
+    "code": "09",
+    "pus": 7,
+    "name": "Tubule"
+   },
+   {
+    "upper": "WANKA",
+    "code": "10",
+    "pus": 15,
+    "name": "Wanka"
+   }
+  ],
+  "nra": 10,
+  "npu": 132,
+  "slug": "kirfi"
+ },
+ "14": {
+  "name": "MISAU",
+  "ras": [
+   {
+    "upper": "ZADAWA",
+    "code": "01",
+    "pus": 24,
+    "name": "Zadawa"
+   },
+   {
+    "upper": "BETI",
+    "code": "02",
+    "pus": 16,
+    "name": "Beti"
+   },
+   {
+    "upper": "JARKASA",
+    "code": "03",
+    "pus": 16,
+    "name": "Jarkasa"
+   },
+   {
+    "upper": "KUKADI/GUNDARI",
+    "code": "04",
+    "pus": 34,
+    "name": "Kukadi/Gundari"
+   },
+   {
+    "upper": "AJILIN/GUGULIN",
+    "code": "05",
+    "pus": 25,
+    "name": "Ajilin/Gugulin"
+   },
+   {
+    "upper": "TOFU",
+    "code": "06",
+    "pus": 15,
+    "name": "Tofu"
+   },
+   {
+    "upper": "HARDAWA",
+    "code": "07",
+    "pus": 19,
+    "name": "Hardawa"
+   },
+   {
+    "upper": "SARMA/AKUYAM",
+    "code": "08",
+    "pus": 25,
+    "name": "Sarma/Akuyam"
+   },
+   {
+    "upper": "SIRKO",
+    "code": "09",
+    "pus": 8,
+    "name": "Sirko"
+   },
+   {
+    "upper": "GWARAM",
+    "code": "10",
+    "pus": 15,
+    "name": "Gwaram"
+   }
+  ],
+  "nra": 10,
+  "npu": 197,
+  "slug": "misau"
+ },
+ "15": {
+  "name": "NINGI",
+  "ras": [
+   {
+    "upper": "NINGI",
+    "code": "01",
+    "pus": 29,
+    "name": "Ningi"
+   },
+   {
+    "upper": "DINGIS",
+    "code": "02",
+    "pus": 21,
+    "name": "Dingis"
+   },
+   {
+    "upper": "NASARU",
+    "code": "03",
+    "pus": 34,
+    "name": "Nasaru"
+   },
+   {
+    "upper": "JANGU",
+    "code": "04",
+    "pus": 14,
+    "name": "Jangu"
+   },
+   {
+    "upper": "BALMA",
+    "code": "05",
+    "pus": 26,
+    "name": "Balma"
+   },
+   {
+    "upper": "KUDU / YAMMA",
+    "code": "06",
+    "pus": 28,
+    "name": "Kudu / Yamma"
+   },
+   {
+    "upper": "TIFFI / GUDA",
+    "code": "07",
+    "pus": 18,
+    "name": "Tiffi / Guda"
+   },
+   {
+    "upper": "BURRA / KYATA",
+    "code": "08",
+    "pus": 22,
+    "name": "Burra / Kyata"
+   },
+   {
+    "upper": "SAMA",
+    "code": "09",
+    "pus": 25,
+    "name": "Sama"
+   },
+   {
+    "upper": "BASHE",
+    "code": "10",
+    "pus": 34,
+    "name": "Bashe"
+   },
+   {
+    "upper": "KURMI",
+    "code": "11",
+    "pus": 31,
+    "name": "Kurmi"
+   }
+  ],
+  "nra": 11,
+  "npu": 282,
+  "slug": "ningi"
+ },
+ "16": {
+  "name": "SHIRA",
+  "ras": [
+   {
+    "upper": "ANDUBUN",
+    "code": "01",
+    "pus": 16,
+    "name": "Andubun"
+   },
+   {
+    "upper": "SAMBUWAL",
+    "code": "02",
+    "pus": 15,
+    "name": "Sambuwal"
+   },
+   {
+    "upper": "BUKUL/BANGIRE",
+    "code": "03",
+    "pus": 32,
+    "name": "Bukul/Bangire"
+   },
+   {
+    "upper": "DISINA",
+    "code": "04",
+    "pus": 23,
+    "name": "Disina"
+   },
+   {
+    "upper": "FAGGO",
+    "code": "05",
+    "pus": 21,
+    "name": "Faggo"
+   },
+   {
+    "upper": "BELI/GAGIDABA",
+    "code": "06",
+    "pus": 22,
+    "name": "Beli/Gagidaba"
+   },
+   {
+    "upper": "KILBORI",
+    "code": "07",
+    "pus": 18,
+    "name": "Kilbori"
+   },
+   {
+    "upper": "SHIRA",
+    "code": "08",
+    "pus": 41,
+    "name": "Shira"
+   },
+   {
+    "upper": "TSAFI",
+    "code": "09",
+    "pus": 19,
+    "name": "Tsafi"
+   },
+   {
+    "upper": "TUMFAFI",
+    "code": "10",
+    "pus": 15,
+    "name": "Tumfafi"
+   },
+   {
+    "upper": "ZUBO",
+    "code": "11",
+    "pus": 16,
+    "name": "Zubo"
+   }
+  ],
+  "nra": 11,
+  "npu": 238,
+  "slug": "shira"
+ },
+ "17": {
+  "name": "TAFAWA-BALEWA",
+  "ras": [
+   {
+    "upper": "KARDAM \"A\"",
+    "code": "01",
+    "pus": 13,
+    "name": "Kardam \"A\""
+   },
+   {
+    "upper": "KARDAM \"B\"",
+    "code": "02",
+    "pus": 18,
+    "name": "Kardam \"B\""
+   },
+   {
+    "upper": "LERE NORTH",
+    "code": "03",
+    "pus": 14,
+    "name": "Lere North"
+   },
+   {
+    "upper": "LERE SOUTH",
+    "code": "04",
+    "pus": 8,
+    "name": "Lere South"
+   },
+   {
+    "upper": "TAPSHIN",
+    "code": "05",
+    "pus": 13,
+    "name": "Tapshin"
+   },
+   {
+    "upper": "WAI",
+    "code": "06",
+    "pus": 34,
+    "name": "Wai"
+   },
+   {
+    "upper": "BALL",
+    "code": "07",
+    "pus": 17,
+    "name": "Ball"
+   },
+   {
+    "upper": "BULA",
+    "code": "08",
+    "pus": 15,
+    "name": "Bula"
+   },
+   {
+    "upper": "DAJIN",
+    "code": "09",
+    "pus": 11,
+    "name": "Dajin"
+   },
+   {
+    "upper": "DULL",
+    "code": "10",
+    "pus": 21,
+    "name": "Dull"
+   },
+   {
+    "upper": "BUNUNU",
+    "code": "11",
+    "pus": 32,
+    "name": "Bununu"
+   }
+  ],
+  "nra": 11,
+  "npu": 196,
+  "slug": "tafawa-balewa",
+  "display": "Tafawa Balewa"
+ },
+ "18": {
+  "name": "TORO",
+  "ras": [
+   {
+    "upper": "TORO / TULAI",
+    "code": "01",
+    "pus": 39,
+    "name": "Toro / Tulai"
+   },
+   {
+    "upper": "TILDEN FULANI",
+    "code": "02",
+    "pus": 25,
+    "name": "Tilden Fulani"
+   },
+   {
+    "upper": "RIBINA",
+    "code": "03",
+    "pus": 24,
+    "name": "Ribina"
+   },
+   {
+    "upper": "MARA / PALAMA",
+    "code": "04",
+    "pus": 28,
+    "name": "Mara / Palama"
+   },
+   {
+    "upper": "RAUTA / GEJI",
+    "code": "05",
+    "pus": 22,
+    "name": "Rauta / Geji"
+   },
+   {
+    "upper": "JAMA'A / ZARANDA",
+    "code": "06",
+    "pus": 41,
+    "name": "Jama'a / Zaranda"
+   },
+   {
+    "upper": "LAME",
+    "code": "07",
+    "pus": 17,
+    "name": "Lame"
+   },
+   {
+    "upper": "WONU",
+    "code": "08",
+    "pus": 26,
+    "name": "Wonu"
+   },
+   {
+    "upper": "ZALAU / RISHI",
+    "code": "09",
+    "pus": 27,
+    "name": "Zalau / Rishi"
+   },
+   {
+    "upper": "TAMA",
+    "code": "10",
+    "pus": 23,
+    "name": "Tama"
+   },
+   {
+    "upper": "RAHAMA",
+    "code": "11",
+    "pus": 20,
+    "name": "Rahama"
+   }
+  ],
+  "nra": 11,
+  "npu": 292,
+  "slug": "toro"
+ },
+ "19": {
+  "name": "WARJI",
+  "ras": [
+   {
+    "upper": "BAIMA NORTH / WEST",
+    "code": "01",
+    "pus": 11,
+    "name": "Baima North / West"
+   },
+   {
+    "upper": "BAIMA SOUTH/EAST",
+    "code": "02",
+    "pus": 14,
+    "name": "Baima South/East"
+   },
+   {
+    "upper": "DAGU EAST",
+    "code": "03",
+    "pus": 9,
+    "name": "Dagu East"
+   },
+   {
+    "upper": "DAGU WEST",
+    "code": "04",
+    "pus": 8,
+    "name": "Dagu West"
+   },
+   {
+    "upper": "GABANGA",
+    "code": "05",
+    "pus": 14,
+    "name": "Gabanga"
+   },
+   {
+    "upper": "KATANGA",
+    "code": "06",
+    "pus": 9,
+    "name": "Katanga"
+   },
+   {
+    "upper": "RANGA",
+    "code": "07",
+    "pus": 9,
+    "name": "Ranga"
+   },
+   {
+    "upper": "TIYIN",
+    "code": "08",
+    "pus": 16,
+    "name": "Tiyin"
+   },
+   {
+    "upper": "TUDUN WADA EAST",
+    "code": "09",
+    "pus": 10,
+    "name": "Tudun Wada East"
+   },
+   {
+    "upper": "TUDUN WADA WEST",
+    "code": "10",
+    "pus": 16,
+    "name": "Tudun Wada West"
+   }
+  ],
+  "nra": 10,
+  "npu": 116,
+  "slug": "warji"
+ },
+ "20": {
+  "name": "ZAKI",
+  "ras": [
+   {
+    "upper": "BURSALI",
+    "code": "01",
+    "pus": 31,
+    "name": "Bursali"
+   },
+   {
+    "upper": "KATAGUM",
+    "code": "02",
+    "pus": 15,
+    "name": "Katagum"
+   },
+   {
+    "upper": "TASHENA / GADAI",
+    "code": "03",
+    "pus": 33,
+    "name": "Tashena / Gadai"
+   },
+   {
+    "upper": "MAKAWA",
+    "code": "04",
+    "pus": 16,
+    "name": "Makawa"
+   },
+   {
+    "upper": "SAKWA",
+    "code": "05",
+    "pus": 25,
+    "name": "Sakwa"
+   },
+   {
+    "upper": "GUMAI",
+    "code": "06",
+    "pus": 18,
+    "name": "Gumai"
+   },
+   {
+    "upper": "MURMUR NORTH",
+    "code": "07",
+    "pus": 13,
+    "name": "Murmur North"
+   },
+   {
+    "upper": "MURMUR SOUTH",
+    "code": "08",
+    "pus": 19,
+    "name": "Murmur South"
+   },
+   {
+    "upper": "ALANGAWARI / KAFIN / LARABAWA",
+    "code": "09",
+    "pus": 18,
+    "name": "Alangawari / Kafin / Larabawa"
+   },
+   {
+    "upper": "MAIWA",
+    "code": "10",
+    "pus": 20,
+    "name": "Maiwa"
+   },
+   {
+    "upper": "MAINAKO",
+    "code": "11",
+    "pus": 23,
+    "name": "Mainako"
+   }
+  ],
+  "nra": 11,
+  "npu": 231,
+  "slug": "zaki"
+ }
+}
