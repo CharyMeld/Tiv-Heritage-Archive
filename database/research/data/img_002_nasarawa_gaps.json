@@ -1,0 +1,21 @@
+{"title":"Image refill 002 — Nasarawa State",
+ "scope":"Image refill for existing Nasarawa State records: heritage places, the state capital, cultural records and peoples (plus the Igbo and Fulani, whose home states are not researched yet). No history changed.",
+ "gaps":[
+  ["places",127,"Keana Salt Village","No photograph on Wikimedia Commons (searched \"Keana salt\", \"Keana\", \"salt Nasarawa\"). Non-free candidate: The Sun, \"Keana: Untapped Nasarawa salt mining industry\", https://thesun.ng/keana-untapped-nasarawa-salt-mining-industry/ (permission needed)."],
+  ["places",128,"National Museum, Lafia","No photograph on Wikimedia Commons (searched \"National Museum Lafia\", \"Lafia\")."],
+  ["cultural_records",9,"Oyarore Salt Festival","No photograph on Wikimedia Commons. Non-free candidate: NAN report on the 2025 National Oyarore Salt Festival, https://api.nannews.ng/?p=2416 (permission needed)."],
+  ["cultural_records",10,"Odu","No photograph of the Odu festival of Doma on Wikimedia Commons or found on the web (web results were other festivals: the Igbo Odo, the Ijebu Ojude Oba)."],
+  ["ethnic_groups",45,"Alago","No photograph of the Alago on Wikimedia Commons (results were Alagón, Spain, and an Alago statue in Abeokuta)."],
+  ["ethnic_groups",49,"Migili","No photograph of the Migili (Koro Lafia) on Wikimedia Commons."],
+  ["ethnic_groups",50,"Kantana","No photograph of the Kantana people. Museum Mangam masks on Commons are labelled \"Kantana/Kulere\" (Musée du quai Branly, Ji-Elle, CC BY-SA 3.0) — attribution split between two peoples, so held for manual review rather than used."],
+  ["ethnic_groups",51,"Fulani","1960s Fulani photographs by Aylette Jenness (Smithsonian EEPA) are on Commons tagged PD-Nigeria, but the photographer is American and the licence basis is doubtful — held for manual review, not used. No other suitable free photo checked yet."],
+  ["ethnic_groups",53,"Afo","No photograph of the Afo (Eloyi) on Wikimedia Commons."],
+  ["ethnic_groups",54,"Gade","No photograph of the Gade on Wikimedia Commons."],
+  ["ethnic_groups",55,"Nyankpa","No photograph of the Nyankpa (Yeskwa) on Wikimedia Commons."],
+  ["ethnic_groups",56,"Koro","Commons \"Koro people\" photos are of the Tinor-Myamya (Koro Wachi) of Kachia, Kaduna State — a distinct people from the Koro of Nasarawa — so not used."],
+  ["ethnic_groups",57,"Mada","Only \"Mada Design.jpg\" (an object described only as 'a traditional material for mada people', CC0) — too vague to confirm; not used."],
+  ["ethnic_groups",58,"Ninzam","No photograph of the Ninzam on Wikimedia Commons."],
+  ["ethnic_groups",59,"Buh","No photograph of the Buh on Wikimedia Commons."],
+  ["ethnic_groups",61,"Arum","No photograph of the Arum on Wikimedia Commons."],
+  ["ethnic_groups",63,"Rindre","No photograph of the Rindre on Wikimedia Commons."]
+ ]}

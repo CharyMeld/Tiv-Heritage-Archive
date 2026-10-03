@@ -6,7 +6,11 @@ Brief: the owner's "STATE-BY-STATE IMAGE REFILL" prompt (3 Oct 2026). This file 
 
 - **Benue: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_001_benue.php, research_batches#282, media_assets #4–6; backup `/root/backups/LATEST_NIGERIA_IMG001`, which also holds the pre-edit copies of the 3 code files). Live checks: 3 images + credit lines render, sitemap 3,026, 0 PHP fatals.
 - **Open owner question:** the Tiv photo (children in A'nger, `ng-tiv-anger-attire.jpg`, NOT uploaded to the server). If the owner says yes: rsync its 5 files to uploads/images, then `php database/research/img_001_benue.php --apply --include-owner-check`.
-- **Current state:** Nasarawa — IN_PROGRESS (image batch `img_002_nasarawa`).
+- **Nasarawa: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_refill.php img_002_nasarawa, media_assets #12–16; backup `/root/backups/LATEST_NIGERIA_IMG002`). Live: 5 images + credits render, sitemap 3,026, 0 PHP fatals. From batch 002 on, all batches use the generic runner `img_refill.php` with `data/img_NNN_<state>.json` (picks + Commons metadata) and `data/img_NNN_<state>_gaps.json`.
+- **Current state:** Taraba — IN_PROGRESS (`img_003_taraba`).
+- **Open owner questions:** (1) Tiv photo (above); (2) empty People/Events/Periods cards on /nigeria — options A hide until populated, B make some Tiv figures/events national, C research national periods/events/people (asked 3 Oct, no answer yet).
+- **Next state after Taraba:** Plateau (`img_004_plateau`).
+- **People-handling rule:** a people is illustrated once, in its home state if that state is researched (Jukun → Taraba, Hausa → Kano, Kanuri → Borno, Ebira/Basa → Kogi, Kulere → Plateau, Yoruba → Oyo); otherwise in the first queued state that links it (Igbo, Fulani, Gbagyi → Nasarawa).
 
 ## Owner decisions (3 Oct 2026)
 
@@ -32,8 +36,8 @@ Brief: the owner's "STATE-BY-STATE IMAGE REFILL" prompt (3 Oct 2026). This file 
 | State | Heritage places | Towns | Culture | Peoples | Image status |
 |---|---|---|---|---|---|
 | Benue | 4 | 22 | 3 | 11 | COMPLETED_WITH_GAPS (deployed 3 Oct) |
-| Nasarawa | 2 | 12 | 2 | 26 | IN_PROGRESS |
-| Taraba | 6 | 16 | 3 | 16 | NOT_STARTED |
+| Nasarawa | 2 | 12 | 2 | 26 | COMPLETED_WITH_GAPS (deployed 3 Oct) |
+| Taraba | 6 | 16 | 3 | 16 | IN_PROGRESS |
 | Plateau | 8 | 17 | 12 | 33 | NOT_STARTED |
 | Kogi | 7 | 21 | 2 | 12 | NOT_STARTED |
 | Adamawa | 16 | 21 | 43 | 34 | NOT_STARTED |
@@ -82,3 +86,21 @@ Queue order = the order the states were researched (Benue first). The 19 not-sta
 | Wrong-subject results rejected | Igede-Ekiti (Ekiti State) for Igede; Ekoi items for Akweya; new concrete bridge ("River Benue 2.jpg") for the 1932 bridge |
 | Record facts flagged | none |
 | Status | COMPLETED_WITH_GAPS (Tiv photo pending owner yes/no) |
+
+### NASARAWA IMAGE AUDIT — img_002_nasarawa (DEPLOYED 3 Oct 2026)
+
+| | |
+|---|---|
+| Records examined | 40 (2 heritage places, 12 towns/settlement, 2 cultural records, 26 peoples linked) |
+| Already illustrated | 1 (Idoma, from Benue) |
+| In scope / needing an image | 22 (Keana Salt Village, National Museum Lafia, Lafia; Oyarore, Odu; 17 peoples incl. Igbo and Fulani) |
+| Out of scope | 11 LGA headquarters towns; Tiv, Idoma (Benue, done); Jukun, Hausa, Kanuri, Ebira, Basa, Kulere, Yoruba → their home states |
+| Free images found and verified | 5 — Lafia (St William's Cathedral), Gwandara, Eggon, Gbagyi, Igbo (Ijele masquerade) |
+| IMAGE NOT FOUND (research_gaps) | 17 — Keana Salt Village, National Museum Lafia, Oyarore, Odu, Alago, Migili, Kantana, Fulani, Afo, Gade, Nyankpa, Koro, Mada, Ninzam, Buh, Arum, Rindre |
+| Non-free candidates recorded | 2 — Keana salt (The Sun), Oyarore 2025 (NAN) |
+| Manual review | 5 — Kantana museum masks labelled "Kantana/Kulere"; Fulani 1960s Jenness photos tagged PD-Nigeria (doubtful); Koro results are the Tinor-Myamya (Koro Wachi) of Kaduna, a distinct people; "Mada Design.jpg" too vague; Lafia shown by a cathedral (owner may prefer a non-religious landmark) |
+| Duplicate downloads avoided / reused | 0 / 0 |
+| Licensing issues | 1 (Jenness PD-Nigeria tag) |
+| Wrong-subject results rejected | "Lafia.jpg" (its description says Katsina State); "Lafia 1.jpg" (blurred, tilted school grounds); Keana → an American actor; Alago → Alagón (Spain) and a statue in Abeokuta; Doma → a Kyiv mall, Slovak TV |
+| Record facts flagged | none |
+| Status | COMPLETED_WITH_GAPS |
