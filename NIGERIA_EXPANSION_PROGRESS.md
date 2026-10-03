@@ -2,6 +2,13 @@
 
 Last updated: **2 October 2026**. Read this first when resuming.
 
+## ▶ NEWEST-3 (3 Oct 2026) — event and people pages past 300 words (owner request)
+
+- **Batches 140–141 DEPLOYED 3 Oct 2026** (backup `/root/backups/LATEST_NIGERIA_BATCH140`; live: all 59 pages indexable, sitemap 3,099, 0 PHP fatals): `batch_140_national_events_expand.py` (29 events: new 'Causes' + significance/consequences sections) and `batch_141_national_people_expand.py` (30 people: early life, education, career, achievements, significance, legacy). Fill EMPTY fields only via importer `updates`; rollback empties them.
+- **Code change needed on deploy:** importer `updates` now accept `@timeline_events:<national_slug>` / `@historical_figures:<national_slug>`; rollback empties those fields. Live copies checked (only the replaced lines differ).
+- Tested on a fresh prod copy: every event ≥ 311 words, every person ≥ 316 (site's own counter); pages lose noindex; sitemap 3,038 → 3,099; 0 PHP errors; rollback restores the original pages exactly.
+- **Next state batch number is now 142.**
+
 ## ▶ NEWEST-2 (3 Oct 2026) — People & Events extended (owner: "extend people and events")
 
 - **Batches 138–139 DEPLOYED 3 Oct 2026** (backup `/root/backups/LATEST_NIGERIA_BATCH138`; live hub People 30 / Events 29 / Periods 11, 0 PHP fatals, Tiv lists clean):

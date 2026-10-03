@@ -198,9 +198,11 @@ try {
             $cur = $db->prepare("SELECT * FROM {$tbl} WHERE id = ?");
             $cur->execute([$existingParent($up['ref'])]); // also '@admin_units:lga:<state>/<lga>'
         } else {
-            if (!preg_match('/^@(ethnic_groups|languages|places):([a-z0-9-]+)$/', $up['ref'], $um)) throw new RuntimeException("unsupported update target {$up['ref']}");
+            // National people/events are addressed by their national_slug.
+            if (!preg_match('/^@(ethnic_groups|languages|places|timeline_events|historical_figures):([a-z0-9-]+)$/', $up['ref'], $um)) throw new RuntimeException("unsupported update target {$up['ref']}");
             $tbl = $um[1];
-            $cur = $db->prepare("SELECT * FROM {$tbl} WHERE slug = ? LIMIT 1");
+            $col = in_array($tbl, $NATIONAL_TABLES, true) ? 'national_slug' : 'slug';
+            $cur = $db->prepare("SELECT * FROM {$tbl} WHERE {$col} = ? LIMIT 1");
             $cur->execute([$um[2]]);
         }
         $row = $cur->fetch();

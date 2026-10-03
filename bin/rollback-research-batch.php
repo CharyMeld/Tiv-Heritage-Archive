@@ -58,7 +58,7 @@ try {
             [$ref, $fields] = explode(':', $item, 2);
             [$t, $id] = explode('#', $ref);
             $cols = array_filter(explode(',', $fields), fn($c) => preg_match('/^[a-z_]+$/', $c));
-            if (in_array($t, ['admin_units', 'places', 'ethnic_groups', 'languages'], true) && $cols) {
+            if (in_array($t, ['admin_units', 'places', 'ethnic_groups', 'languages', 'timeline_events', 'historical_figures'], true) && $cols) {
                 $n['fields_emptied'] = ($n['fields_emptied'] ?? 0) + $db->exec("UPDATE {$t} SET " . implode(', ', array_map(fn($c) => "{$c} = NULL", $cols)) . ' WHERE id = ' . (int) $id);
             }
         }
