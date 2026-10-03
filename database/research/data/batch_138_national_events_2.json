@@ -1,0 +1,564 @@
+{
+ "sources": {
+  "LWAR": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Civil War",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/23.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Aburi (January 1967); Biafra proclaimed 30 May 1967; the war's end in January 1970; death estimates. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_23.txt."
+  },
+  "LGOW": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — The Gowon Regime",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/25.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Supreme Military Council; OPEC membership (1971); ECOWAS (1975); the oil boom. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_25.txt."
+  },
+  "LMUR": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Preparations for the Return to Civilian Rule",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/27.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Murtala Muhammad's transition programme; nineteen states in 1976. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_27.txt."
+  },
+  "LSEC": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — The Second Republic, 1979-83",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/29.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Elections of 1979; Shagari president from 1 October 1979; the five parties; the end of the oil boom in 1981; expulsions of 1983. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_29.txt."
+  },
+  "WHIST": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "History of Nigeria",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/History_of_Nigeria",
+   "verification_status": "needs_corroboration",
+   "notes": "Overview from prehistory to the present: Dufuna canoe; Iwo/Iho Eleru; Nok; the Third Republic and the annulled election of 12 June 1993; Abacha; Abubakar's transition; the Fourth Republic presidencies. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "LPOST": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Military Government in the Postwar Era",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/24.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "The Northern Region divided into six states in 1967, leaving the north without its former single power base. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_24.txt."
+  },
+  "STAT": {
+   "source_type": "website",
+   "source_kind": "reference_database",
+   "source_tier": 2,
+   "title": "States of Nigeria",
+   "organisation": "Statoids",
+   "url": "https://www.statoids.com/ung.html",
+   "verification_status": "verified",
+   "notes": "Reused (archive source #180): dates of creation of each state."
+  },
+  "WABA": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Women's War",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Women's_War",
+   "verification_status": "needs_corroboration",
+   "notes": "November 1929: Igbo women from Bende, Umuahia and elsewhere protested at Oloko against the warrant chiefs; women of six peoples; 16 Native Courts attacked; warrant chief system abolished in 1930. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WOPEC": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "OPEC",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/OPEC",
+   "verification_status": "needs_corroboration",
+   "notes": "Nigeria joined OPEC in 1971. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WECO": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Economic Community of West African States",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Economic_Community_of_West_African_States",
+   "verification_status": "needs_corroboration",
+   "notes": "Established 28 May 1975 by the Treaty of Lagos to promote economic integration. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WFES": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "FESTAC 77",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/FESTAC_77",
+   "verification_status": "needs_corroboration",
+   "notes": "Second World Black and African Festival of Arts and Culture, Lagos, 15 January – 12 February 1977; about 16,000 participants from 56 nations; National Theatre, Iganmu. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WIDIA": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Idia",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Idia",
+   "verification_status": "needs_corroboration",
+   "notes": "Iyoba (Queen Mother) of Benin, early 16th century; an ivory pendant identified with her was the emblem of FESTAC 77. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WABJ": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Abuja",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Abuja",
+   "verification_status": "needs_corroboration",
+   "notes": "Replaced Lagos as capital on 12 December 1991; a purpose-built capital in the Federal Capital Territory, chosen as neutral and central. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WOGN": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Ogoni Nine",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Ogoni_Nine",
+   "verification_status": "needs_corroboration",
+   "notes": "Ken Saro-Wiwa and eight other Ogoni leaders hanged on 10 November 1995 after a trial over the murder of four Ogoni chiefs; international condemnation. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WBAK": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Bakassi",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Bakassi",
+   "verification_status": "needs_corroboration",
+   "notes": "ICJ judgment of 10 October 2002 gave Bakassi to Cameroon; Greentree Agreement; full transfer on 14 August 2008. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WCHI": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Chibok schoolgirls kidnapping",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Chibok_schoolgirls_kidnapping",
+   "verification_status": "needs_corroboration",
+   "notes": "276 schoolgirls kidnapped by Boko Haram at Chibok, Borno State, on the night of 14–15 April 2014; 82 still missing in April 2024. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WEND": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "End SARS",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/End_SARS",
+   "verification_status": "needs_corroboration",
+   "notes": "Protests against police brutality, mainly October 2020; SARS dissolved 11 October 2020; shooting at the Lekki toll gate on 20 October 2020; Lagos State Government denied involvement; judicial panel. Accessed 2026-10-03; text saved in database/research/data/."
+  }
+ },
+ "units": [],
+ "places": [],
+ "changes": [],
+ "records": [
+  {
+   "key": "aba1929",
+   "table": "timeline_events",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "title": "The Women's War (Aba Women's War)",
+    "national_slug": "womens-war-1929",
+    "event_date": "November 1929",
+    "year": 1929,
+    "date_precision": "month",
+    "temporal_status": "historical",
+    "event_kind": "political",
+    "event_nature": "documented_history",
+    "location": "Oloko, Aba and the Owerri and Calabar provinces",
+    "period_id": "@historical_periods:colonial-nigeria",
+    "short_summary": "In November 1929 thousands of women in south-eastern Nigeria rose against the warrant chiefs, local men appointed by the British colonial government who had no precedent in Igbo tradition.",
+    "description": "In November 1929 thousands of women in south-eastern Nigeria rose against the warrant chiefs, local men appointed by the British colonial government who had no precedent in Igbo tradition. According to Wikipedia, the protests began when Igbo women from the Bende district, Umuahia and other places travelled to the town of Oloko, accusing the warrant chiefs of restricting women's role in government. Women of six peoples took part: Igbo, Ibibio, Andoni, Ogoni, Efik and Ijaw.\n\nThe protests were organised and led by rural women of the Owerri and Calabar provinces. The word \"war\" did not mean fighting: it referred to the practice of \"making war on\" (or \"sitting on\") a man, a form of public shaming. Many warrant chiefs were forced to resign, and sixteen Native Courts were attacked, most of them destroyed. In Igbo it is remembered as Ogu Umunwanyi.",
+    "consequences": "In 1930 the colonial government abolished the warrant chief system and appointed women to the Native Courts. Wikipedia describes the Women's War as the first major revolt by women in West Africa and a prelude to mass African nationalism."
+   },
+   "srcs": [
+    [
+     "WABA",
+     "The Women's War (Aba Women's War)"
+    ]
+   ]
+  },
+  {
+   "key": "states1967",
+   "table": "timeline_events",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "title": "Nigeria Divided into Twelve States",
+    "national_slug": "twelve-states-1967",
+    "event_date": "27 May 1967",
+    "year": 1967,
+    "date_precision": "exact",
+    "temporal_status": "historical",
+    "event_kind": "administrative",
+    "event_nature": "documented_history",
+    "location": "Nigeria",
+    "period_id": "@historical_periods:military-rule-and-civil-war",
+    "short_summary": "On 27 May 1967, as the crisis with the Eastern Region deepened, Yakubu Gowon proclaimed a state of emergency and announced the abolition of the four regions and the division of Nigeria into twelve states (Library of Congress country study; the date is the creation date recorded in this archive from Statoids).",
+    "description": "On 27 May 1967, as the crisis with the Eastern Region deepened, Yakubu Gowon proclaimed a state of emergency and announced the abolition of the four regions and the division of Nigeria into twelve states (Library of Congress country study; the date is the creation date recorded in this archive from Statoids). Three days later the Eastern Region's leaders proclaimed Biafra.\n\nThe country study notes that the Igbo heartland became the East Central State, under an Igbo administrator, Ukapi \"Tony\" Asika, while the Delta was reorganised as the Rivers State and the South-Eastern State; the Northern Region was divided into six states, leaving the north without its former single power base in the federation.",
+    "historical_significance": "Six of today's states date their creation to this day in this archive's records: Cross River, Kaduna, Kano, Kwara, Lagos and Rivers. The twelve-state structure replaced the regions that had dominated the First Republic."
+   },
+   "srcs": [
+    [
+     "LWAR",
+     "Nigeria Divided into Twelve States"
+    ],
+    [
+     "LPOST",
+     "Nigeria Divided into Twelve States"
+    ],
+    [
+     "STAT",
+     "Nigeria Divided into Twelve States"
+    ]
+   ]
+  },
+  {
+   "key": "opec1971",
+   "table": "timeline_events",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "title": "Nigeria Joins OPEC",
+    "national_slug": "nigeria-joins-opec-1971",
+    "event_date": "1971",
+    "year": 1971,
+    "date_precision": "year",
+    "temporal_status": "historical",
+    "event_kind": "economic",
+    "event_nature": "documented_history",
+    "location": "Nigeria",
+    "period_id": "@historical_periods:military-rule-and-civil-war",
+    "short_summary": "In 1971 Nigeria, by then the world's seventh-largest producer of petroleum, became a member of the Organization of the Petroleum Exporting Countries (OPEC) (Library of Congress country study; Wikipedia).",
+    "description": "In 1971 Nigeria, by then the world's seventh-largest producer of petroleum, became a member of the Organization of the Petroleum Exporting Countries (OPEC) (Library of Congress country study; Wikipedia). By the late 1960s oil had already replaced cocoa, groundnuts and palm produce as the country's largest earner of foreign exchange.",
+    "consequences": "The rise in world oil prices in 1974 brought Nigeria a sudden flood of revenue, which the country study describes as \"dynamic chaos\": a boom in spending, industrialisation and infrastructure that lasted until the oil boom ended in mid-1981."
+   },
+   "srcs": [
+    [
+     "LGOW",
+     "Nigeria Joins OPEC"
+    ],
+    [
+     "LSEC",
+     "Nigeria Joins OPEC"
+    ],
+    [
+     "WOPEC",
+     "Nigeria Joins OPEC"
+    ]
+   ]
+  },
+  {
+   "key": "ecowas1975",
+   "table": "timeline_events",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "title": "The Founding of ECOWAS",
+    "national_slug": "founding-of-ecowas-1975",
+    "event_date": "28 May 1975",
+    "year": 1975,
+    "date_precision": "exact",
+    "temporal_status": "historical",
+    "event_kind": "economic",
+    "event_nature": "documented_history",
+    "location": "Lagos",
+    "period_id": "@historical_periods:military-rule-and-civil-war",
+    "short_summary": "On 28 May 1975 the Economic Community of West African States (ECOWAS) was established with the signing of the Treaty of Lagos, with the mission of promoting economic integration across the region (Wikipedia).",
+    "description": "On 28 May 1975 the Economic Community of West African States (ECOWAS) was established with the signing of the Treaty of Lagos, with the mission of promoting economic integration across the region (Wikipedia). The Library of Congress country study records that Nigeria joined other West African countries in creating it, with a mandate to reduce trade barriers in the region. All of its present members except Cape Verde, which joined in 1977, were founding members."
+   },
+   "srcs": [
+    [
+     "WECO",
+     "The Founding of ECOWAS"
+    ],
+    [
+     "LGOW",
+     "The Founding of ECOWAS"
+    ]
+   ]
+  },
+  {
+   "key": "states1976",
+   "table": "timeline_events",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "title": "Nigeria Divided into Nineteen States",
+    "national_slug": "nineteen-states-1976",
+    "event_date": "3 February 1976",
+    "year": 1976,
+    "date_precision": "exact",
+    "temporal_status": "historical",
+    "event_kind": "administrative",
+    "event_nature": "documented_history",
+    "location": "Nigeria",
+    "period_id": "@historical_periods:military-rule-and-civil-war",
+    "short_summary": "On 3 February 1976 Nigeria's twelve states became nineteen (the date is the creation date recorded in this archive from Statoids).",
+    "description": "On 3 February 1976 Nigeria's twelve states became nineteen (the date is the creation date recorded in this archive from Statoids). According to the Library of Congress country study, Murtala Muhammad had appointed a five-member panel in August 1975 to study Gowon's earlier plan for a nineteen-state federation that would \"help to erase memories of past political ties and emotional attachments\". The panel recommended dividing the mainly Yoruba Western State into three states, the Igbo East Central State into two, and the six northern states into nine, only three of them mainly Hausa-Fulani.",
+    "historical_significance": "Ten of today's states date their creation to this day in this archive's records: Bauchi, Benue, Borno, Imo, Niger, Ogun, Ondo, Oyo, Plateau and Sokoto. Benue State, the home state of the Tiv, was created at this time."
+   },
+   "srcs": [
+    [
+     "LMUR",
+     "Nigeria Divided into Nineteen States"
+    ],
+    [
+     "STAT",
+     "Nigeria Divided into Nineteen States"
+    ]
+   ]
+  },
+  {
+   "key": "festac1977",
+   "table": "timeline_events",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "title": "FESTAC '77",
+    "national_slug": "festac-77",
+    "event_date": "15 January – 12 February 1977",
+    "year": 1977,
+    "date_precision": "range",
+    "temporal_status": "historical",
+    "event_kind": "cultural",
+    "event_nature": "documented_history",
+    "location": "Lagos",
+    "period_id": "@historical_periods:military-rule-and-civil-war",
+    "short_summary": "FESTAC '77, the Second World Black and African Festival of Arts and Culture, was held in Lagos from 15 January to 12 February 1977 (Wikipedia).",
+    "description": "FESTAC '77, the Second World Black and African Festival of Arts and Culture, was held in Lagos from 15 January to 12 February 1977 (Wikipedia). The month-long festival celebrated African music, art, literature, drama, dance and religion. About 16,000 participants from 56 African nations and countries of the African diaspora took part, and the event drew some 500,000 spectators; at the time it was the largest pan-African gathering ever held. Performers included Stevie Wonder, Gilberto Gil, Miriam Makeba and Franco Luambo Makiadi. Most events were held at the National Theatre, the National Stadium in Surulere, Lagos City Hall and Tafawa Balewa Square.\n\nThe festival's emblem was a replica of a royal ivory mask, made by Erhabor Emokpae of Benin. According to Wikipedia's article on Queen Mother Idia, the ivory pendant it reproduced is identified with her, and it has since become a symbol of Nigerian and African cultural heritage.",
+    "consequences": "Hosting the festival led to the creation of the Nigerian National Council of Arts and Culture, Festac Village and the National Theatre at Iganmu, Lagos (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WFES",
+     "FESTAC '77"
+    ],
+    [
+     "WIDIA",
+     "FESTAC '77"
+    ]
+   ]
+  },
+  {
+   "key": "states1987",
+   "table": "timeline_events",
+   "evidence": "multiple_sources",
+   "level": "verified",
+   "fields": {
+    "title": "From Nineteen to Thirty-Six States",
+    "national_slug": "creation-of-states-1987-1996",
+    "event_date": "1987–1996",
+    "year": 1987,
+    "date_precision": "range",
+    "temporal_status": "historical",
+    "event_kind": "administrative",
+    "event_nature": "documented_history",
+    "location": "Nigeria",
+    "period_id": "@historical_periods:military-rule-1983-1999",
+    "short_summary": "Between 1987 and 1996 the military governments of Ibrahim Babangida and Sani Abacha raised the number of Nigeria's states from nineteen to thirty-six.",
+    "description": "Between 1987 and 1996 the military governments of Ibrahim Babangida and Sani Abacha raised the number of Nigeria's states from nineteen to thirty-six. According to the creation dates recorded in this archive (from Statoids):\n\nOn 23 September 1987 two states were created, Akwa Ibom and Katsina, bringing the total to twenty-one.\n\nOn 27 August 1991 the number rose to thirty; twelve of today's states date their present form to that day: Abia, Adamawa, Anambra, Delta, Edo, Enugu, Jigawa, Kebbi, Kogi, Osun, Taraba and Yobe.\n\nOn 1 October 1996 six more were created, Bayelsa, Ebonyi, Ekiti, Gombe, Nasarawa and Zamfara, giving the thirty-six states that exist today, together with the Federal Capital Territory.",
+    "historical_significance": "Each state of this archive records its own creation date and predecessor units; see the States & FCT section for the details of each reorganisation."
+   },
+   "srcs": [
+    [
+     "STAT",
+     "From Nineteen to Thirty-Six States"
+    ],
+    [
+     "WHIST",
+     "From Nineteen to Thirty-Six States"
+    ]
+   ]
+  },
+  {
+   "key": "abuja1991",
+   "table": "timeline_events",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "title": "Abuja Becomes the Capital",
+    "national_slug": "abuja-becomes-capital-1991",
+    "event_date": "12 December 1991",
+    "year": 1991,
+    "date_precision": "exact",
+    "temporal_status": "historical",
+    "event_kind": "administrative",
+    "event_nature": "documented_history",
+    "location": "Abuja",
+    "period_id": "@historical_periods:military-rule-1983-1999",
+    "short_summary": "On 12 December 1991 Abuja replaced Lagos as the capital of Nigeria (Wikipedia).",
+    "description": "On 12 December 1991 Abuja replaced Lagos as the capital of Nigeria (Wikipedia). Abuja is a purpose-built capital at the geographic centre of the country, within the Federal Capital Territory. According to Wikipedia, plans had been made since independence to place the capital in a location seen as neutral to all the major ethnic groups and close to all the regions of the country, in view of Nigeria's ethnic and religious divisions. Lagos remains the country's most populous city."
+   },
+   "srcs": [
+    [
+     "WABJ",
+     "Abuja Becomes the Capital"
+    ],
+    [
+     "WHIST",
+     "Abuja Becomes the Capital"
+    ]
+   ]
+  },
+  {
+   "key": "ogoni1995",
+   "table": "timeline_events",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "title": "The Execution of the Ogoni Nine",
+    "national_slug": "execution-of-the-ogoni-nine-1995",
+    "event_date": "10 November 1995",
+    "year": 1995,
+    "date_precision": "exact",
+    "temporal_status": "historical",
+    "event_kind": "political",
+    "event_nature": "documented_history",
+    "location": "Port Harcourt",
+    "period_id": "@historical_periods:military-rule-1983-1999",
+    "short_summary": "On 10 November 1995 the writer and activist Ken Saro-Wiwa and eight other Ogoni leaders, Saturday Dobee, Nordu Eawo, Daniel Gbooko, Paul Levera, Felix Nuate, Baribor Bera, Barinem Kiobel and John Kpuine, were hanged by the military government of General Sani Abacha and buried in Port Harcourt (Wikipedia).",
+    "description": "On 10 November 1995 the writer and activist Ken Saro-Wiwa and eight other Ogoni leaders, Saturday Dobee, Nordu Eawo, Daniel Gbooko, Paul Levera, Felix Nuate, Baribor Bera, Barinem Kiobel and John Kpuine, were hanged by the military government of General Sani Abacha and buried in Port Harcourt (Wikipedia). They had opposed the practices of the Royal Dutch Shell oil company in the Niger Delta through the Movement for the Survival of the Ogoni People (MOSOP).\n\nThey were convicted of inciting the murder of four Ogoni chiefs in May 1994. Wikipedia records that, according to Amnesty International, the government blamed MOSOP for those murders without presenting evidence, and that at least two witnesses later retracted their testimony against Saro-Wiwa, alleging that they had been paid and offered jobs by Shell to give false evidence.",
+    "consequences": "The executions provoked international condemnation, and Nigeria was increasingly treated as a pariah state until Abacha's death in 1998 (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WOGN",
+     "The Execution of the Ogoni Nine"
+    ],
+    [
+     "WHIST",
+     "The Execution of the Ogoni Nine"
+    ]
+   ]
+  },
+  {
+   "key": "bakassi2002",
+   "table": "timeline_events",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "title": "The Bakassi Judgment",
+    "national_slug": "bakassi-judgment-2002",
+    "event_date": "10 October 2002",
+    "year": 2002,
+    "date_precision": "exact",
+    "temporal_status": "historical",
+    "event_kind": "political",
+    "event_nature": "documented_history",
+    "location": "Bakassi Peninsula",
+    "period_id": "@historical_periods:fourth-republic",
+    "short_summary": "On 10 October 2002 the International Court of Justice ruled that sovereignty over the Bakassi Peninsula, on the Gulf of Guinea between the Cross River estuary near Calabar and the Rio del Rey, belonged to Cameroon (Wikipedia).",
+    "description": "On 10 October 2002 the International Court of Justice ruled that sovereignty over the Bakassi Peninsula, on the Gulf of Guinea between the Cross River estuary near Calabar and the Rio del Rey, belonged to Cameroon (Wikipedia). Cameroon had taken the dispute to the court on 29 March 1994. Nigeria relied largely on Anglo-German correspondence from 1885 and on treaties with local rulers, notably the 1884 Treaty of Protection; Cameroon relied on the Anglo-German treaty of 1913 and on two agreements signed with Nigeria in the 1970s. The court decided mainly on the basis of the Anglo-German agreements.",
+    "consequences": "Bakassi had remained under Nigerian administration from Calabar after the Southern Cameroons voted in 1961 to join Cameroon. Under the Greentree Agreement it was transferred to Cameroon in stages; on 22 November 2007 the Nigerian Senate rejected the transfer as contrary to the 1999 constitution, but the territory was completely handed over on 14 August 2008 (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WBAK",
+     "The Bakassi Judgment"
+    ]
+   ]
+  },
+  {
+   "key": "chibok2014",
+   "table": "timeline_events",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "title": "The Chibok Schoolgirls Kidnapping",
+    "national_slug": "chibok-schoolgirls-kidnapping-2014",
+    "event_date": "14–15 April 2014",
+    "year": 2014,
+    "date_precision": "exact",
+    "temporal_status": "historical",
+    "event_kind": "conflict",
+    "event_nature": "documented_history",
+    "location": "Chibok, Borno State",
+    "period_id": "@historical_periods:fourth-republic",
+    "short_summary": "On the night of 14–15 April 2014 the militant group Boko Haram kidnapped 276 schoolgirls, aged 16 to 18, from the Government Girls Secondary School in Chibok, Borno State (Wikipedia).",
+    "description": "On the night of 14–15 April 2014 the militant group Boko Haram kidnapped 276 schoolgirls, aged 16 to 18, from the Government Girls Secondary School in Chibok, Borno State (Wikipedia). The school had been closed for four weeks because of insecurity, but the girls had returned to sit their final physics examinations. Fifty-seven escaped almost at once by jumping from the trucks carrying them, and others were later rescued or released.",
+    "consequences": "Ten years later, in April 2024, 82 of the girls were still missing. Wikipedia notes that the Chibok girls were a small fraction of those abducted by Boko Haram: Amnesty International estimated in 2015 that at least 2,000 women and girls had been abducted by the group since 2014."
+   },
+   "srcs": [
+    [
+     "WCHI",
+     "The Chibok Schoolgirls Kidnapping"
+    ]
+   ]
+  },
+  {
+   "key": "endsars2020",
+   "table": "timeline_events",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "title": "The #EndSARS Protests",
+    "national_slug": "endsars-protests-2020",
+    "event_date": "October 2020",
+    "year": 2020,
+    "date_precision": "month",
+    "temporal_status": "historical",
+    "event_kind": "political",
+    "event_nature": "documented_history",
+    "location": "Lagos and other cities",
+    "period_id": "@historical_periods:fourth-republic",
+    "short_summary": "In October 2020 mass protests against police brutality spread across Nigeria under the slogan #EndSARS, calling for the disbandment of the police Special Anti-Robbery Squad (SARS) (Wikipedia).",
+    "description": "In October 2020 mass protests against police brutality spread across Nigeria under the slogan #EndSARS, calling for the disbandment of the police Special Anti-Robbery Squad (SARS) (Wikipedia). The campaign had begun on Twitter in 2017; it revived in October 2020 after new reports of abuses by the unit, and was led mainly by young Nigerians, with demands widening to good governance and accountability. The hashtag was used more than 28 million times, and solidarity protests were held by Nigerians abroad.\n\nOn 11 October 2020 the Nigeria Police Force announced that SARS had been dissolved, but protests continued because similar announcements had been made before. On 20 October 2020, after a curfew was declared in Lagos, protesters gathered at the Lekki toll gate were shot at; Wikipedia states that the protests were suppressed by the military, with several protesters killed there. The Lagos State Government denied any involvement, and a judicial panel set up to look into SARS was also charged with investigating the Lekki shooting."
+   },
+   "srcs": [
+    [
+     "WEND",
+     "The #EndSARS Protests"
+    ]
+   ]
+  }
+ ],
+ "names": [],
+ "gaps": [
+  [
+   "National events part 2: still missing",
+   "Not yet covered: the 1946–1954 constitutions, the creation of the Midwestern Region (1963), the Nigerian Civil War's main battles, Operation Feed the Nation, the Structural Adjustment Programme (1986), the Niger Delta amnesty (2009), the Ebola outbreak (2014), the 2023 election, and pre-colonial events (the founding of Kano, the fall of Old Oyo)."
+  ],
+  [
+   "National events part 2: #EndSARS and Lekki",
+   "The findings of the Lagos judicial panel on the Lekki shooting, and the responses of the army and federal government, are not in the source read; a primary source (the panel report) should be added before the entry is expanded."
+  ],
+  [
+   "National events part 2: single sources",
+   "Several entries (Women's War, Bakassi, Chibok, #EndSARS, ECOWAS founding details) rest on one Wikipedia article each; academic or official sources should be added."
+  ]
+ ],
+ "updates": [],
+ "relations": [],
+ "statistics": [],
+ "scope": "National events, part 2: twelve more events from the Women's War (1929) to the #EndSARS protests (2020)."
+}

@@ -2,6 +2,14 @@
 
 Last updated: **2 October 2026**. Read this first when resuming.
 
+## ▶ NEWEST-2 (3 Oct 2026) — People & Events extended (owner: "extend people and events")
+
+- **Batches 138–139 DEPLOYED 3 Oct 2026** (backup `/root/backups/LATEST_NIGERIA_BATCH138`; live hub People 30 / Events 29 / Periods 11, 0 PHP fatals, Tiv lists clean):
+  - **138 Events part 2** (`batch_138_national_events_2.py`): 12 events — Women's War 1929, twelve states 1967, OPEC 1971, ECOWAS 1975, nineteen states 1976, FESTAC '77, states 1987–1996, Abuja 1991, Ogoni Nine 1995, Bakassi 2002, Chibok 2014, #EndSARS 2020. State dates reuse the archive's Statoids source (#180).
+  - **139 People part 2** (`batch_139_national_people_2.py`): 14 deceased figures — Idia, Jaja, Nana Olomu, Attahiru I, Aguiyi-Ironsi, Aminu Kano, Margaret Ekpo, Gambo Sawaba, Shagari, Abacha, Fela, Yar'Adua, Akunyili, Buhari (d. 13 July 2025).
+  - Tested on a fresh prod copy: hub People 30 / Events 29 / Periods 11; Tiv lists clean; 0 PHP errors; rollback exact.
+- **Next state batch number is now 140.**
+
 ## ▶ NEWEST (3 Oct 2026) — national People / Events / Periods (owner: "fill in the gap" on /nigeria)
 
 - **Batches 135–137 DEPLOYED 3 Oct 2026** (backup `/root/backups/LATEST_NIGERIA_BATCH135` = …136 = …137; JSON in /root/research/). Live: hub People 16 / Events 17 / Periods 11, sitemap 3,038, 0 PHP fatals, Tiv lists unaffected:

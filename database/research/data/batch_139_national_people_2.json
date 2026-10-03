@@ -1,0 +1,673 @@
+{
+ "sources": {
+  "LSEC": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — The Second Republic, 1979-83",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/29.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Elections of 1979; Shagari president from 1 October 1979; the five parties; the end of the oil boom in 1981; expulsions of 1983. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_29.txt."
+  },
+  "LMIL": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Return to Military Rule",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/30.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Coup of 31 December 1983; Buhari; War Against Indiscipline; Babangida's transition programme. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_30.txt."
+  },
+  "LCRI": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Politics in the Crisis Years",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/22.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Census disputes; the 1964–65 elections; the coups of January and July 1966. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_22.txt."
+  },
+  "LGOW": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — The Gowon Regime",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/25.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Supreme Military Council; OPEC membership (1971); ECOWAS (1975); the oil boom. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_25.txt."
+  },
+  "WHIST": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "History of Nigeria",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/History_of_Nigeria",
+   "verification_status": "needs_corroboration",
+   "notes": "Overview from prehistory to the present: Dufuna canoe; Iwo/Iho Eleru; Nok; the Third Republic and the annulled election of 12 June 1993; Abacha; Abubakar's transition; the Fourth Republic presidencies. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WFOURTH": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Fourth Nigerian Republic",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Fourth_Nigerian_Republic",
+   "verification_status": "needs_corroboration",
+   "notes": "Constitution adopted 29 May 1999; Obasanjo, Yar'Adua, Jonathan, Buhari (2015), Tinubu (2023). Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WIDIA": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Idia",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Idia",
+   "verification_status": "needs_corroboration",
+   "notes": "Iyoba (Queen Mother) of Benin, late 15th – early 16th century; mother of Oba Esigie; Igala–Benin War 1515–1516; FESTAC 77 emblem. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WJAJA": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Jaja of Opobo",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Jaja_of_Opobo",
+   "verification_status": "needs_corroboration",
+   "notes": "c. 1821 – 1891; founder and first amanyanabo of Opobo (1869); palm-oil trade; exiled by the British; died 1891 on the way home. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WNANA": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Nana Olomu",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Nana_Olomu",
+   "verification_status": "needs_corroboration",
+   "notes": "c. 1852 – 3 July 1916; Itsekiri merchant and Governor of the Benin River (1884); Ebrohimi bombarded 1894; deported; returned 1906. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WATT": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Muhammadu Attahiru I",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Muhammadu_Attahiru_I",
+   "verification_status": "needs_corroboration",
+   "notes": "Twelfth Sultan of Sokoto, October 1902 – 15 March 1903; last independent sultan; killed at Burmi (Mbormi) 29 July 1903. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WIRO": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Johnson Aguiyi-Ironsi",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Johnson_Aguiyi-Ironsi",
+   "verification_status": "needs_corroboration",
+   "notes": "3 March 1924 – 29 July 1966; born in Ibeku, Umuahia; first military head of state, 16 January – 29 July 1966. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WAMK": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Aminu Kano",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Aminu_Kano",
+   "verification_status": "needs_corroboration",
+   "notes": "9 August 1920 – 17 April 1983; born in Kano; founder of NEPU and leader of the PRP; Northern Teachers' Association (1948). Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WEKPO": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Margaret Ekpo",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Margaret_Ekpo",
+   "verification_status": "needs_corroboration",
+   "notes": "27 July 1914 – 21 September 2006; born in Creek Town; women's rights leader in Aba; Eastern House of Assembly 1961. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WSAW": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Gambo Sawaba",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Gambo_Sawaba",
+   "verification_status": "needs_corroboration",
+   "notes": "15 February 1933 – October 2001; women's rights activist; NEPU women's wing; imprisoned 16 times. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WSHA": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Shehu Shagari",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Shehu_Shagari",
+   "verification_status": "needs_corroboration",
+   "notes": "25 February 1925 – 28 December 2018; born in Shagari; president 1979–1983. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WABA2": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Sani Abacha",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Sani_Abacha",
+   "verification_status": "needs_corroboration",
+   "notes": "20 September 1943 – 8 June 1998; born in Kano; military head of state 1993–1998. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WYAR": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Umaru Musa Yar'Adua",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Umaru_Musa_Yar'Adua",
+   "verification_status": "needs_corroboration",
+   "notes": "16 August 1951 – 5 May 2010; born in Katsina; governor of Katsina 1999–2007; president 2007–2010. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WFELA": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Fela Kuti",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Fela_Kuti",
+   "verification_status": "needs_corroboration",
+   "notes": "15 October 1938 – 2 August 1997; born in Abeokuta; musician, pioneer of Afrobeat; Kalakuta Republic. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WAKU": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Dora Akunyili",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Dora_Akunyili",
+   "verification_status": "needs_corroboration",
+   "notes": "14 July 1954 – 7 June 2014; born in Makurdi; Director-General of NAFDAC 2001–2008; Minister of Information 2008–2010. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WBUH": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Muhammadu Buhari",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Muhammadu_Buhari",
+   "verification_status": "needs_corroboration",
+   "notes": "17 December 1942 – 13 July 2025; born in Daura; military head of state 1983–1985; president 2015–2023. Accessed 2026-10-03; text saved in database/research/data/."
+  }
+ },
+ "units": [],
+ "places": [],
+ "changes": [],
+ "records": [
+  {
+   "key": "idia",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Idia",
+    "title": "Iyoba (Queen Mother) of Benin",
+    "national_slug": "idia-iyoba-of-benin",
+    "category": "Women of Influence",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "female",
+    "date_of_birth": null,
+    "place_of_birth": "Ugieghudu, Benin kingdom (in tradition)",
+    "date_of_death": null,
+    "occupation": "Queen Mother (Iyoba) of the Kingdom of Benin",
+    "state": "Edo",
+    "country": "Nigeria",
+    "short_summary": "Idia was a royal woman of the Kingdom of Benin and the first to hold the title of Iyoba, the Edo title of the mother of the reigning oba (Wikipedia).",
+    "biography": "Idia was a royal woman of the Kingdom of Benin and the first to hold the title of Iyoba, the Edo title of the mother of the reigning oba (Wikipedia). A wife of Oba Ozolua and the mother of Oba Esigie, she held ritual, military and political authority during the disputes over her son's succession and the early decades of his reign, in the first half of the sixteenth century. Her birth and death cannot be dated precisely; tradition says she came from Ugieghudu in the Isi district.\n\nEdo accounts credit Esigie's victory over his half-brother Aruanran partly to Idia's counsel, forces, ritual protection and knowledge of medicine. An Edo proverb calls her the only woman who went to war, though traditions differ on whether she led troops herself. Her contingent took part in the Igala–Benin War of 1515–1516. Esigie created the office of Iyoba for her, with her own palace at Lower Uselu.",
+    "legacy": "After her death Idia became a subject of Benin court art, on cast-metal memorial heads, carved ivory pendants and other royal objects. An ivory pendant identified with her became the emblem of FESTAC '77 in 1977 and has since been reproduced as a symbol of Nigerian and African cultural heritage (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WIDIA",
+     "Idia"
+    ]
+   ]
+  },
+  {
+   "key": "jaja",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Jaja of Opobo",
+    "title": "King (Amanyanabo) of Opobo",
+    "national_slug": "jaja-of-opobo",
+    "category": "Traditional Leadership",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "male",
+    "date_of_birth": "c. 1821",
+    "place_of_birth": null,
+    "date_of_death": "1891",
+    "occupation": "Merchant and king of Opobo",
+    "state": "Rivers",
+    "country": "Nigeria",
+    "short_summary": "Jaja of Opobo (Jubo Jubogha; c.",
+    "biography": "Jaja of Opobo (Jubo Jubogha; c. 1821–1891) was the founder and first king (amanyanabo) of the Opobo Kingdom, in present-day Rivers and Akwa Ibom states (Wikipedia). Of Igbo origin, he was brought to Bonny and ritually adopted into the Ijaw community. After his master's death he took charge of the trade of the Anna Pepple House, one of Bonny's merchant houses, and led it until a war with the Manilla Pepple House, led by Oko Jumbo, led him to break away and found Opobo, east of Bonny, in 1869.\n\nOpobo became a leading centre of the palm-oil trade. Jaja barred European and African middlemen from the interior markets, and by 1870 was selling eight thousand tons of palm oil directly to the British.",
+    "career": "He was later abducted aboard a British vessel, tried in Accra and exiled, first to London and then to Saint Vincent and Barbados in the West Indies. In 1891 he was allowed to return to Opobo but died on the way (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WJAJA",
+     "Jaja of Opobo"
+    ]
+   ]
+  },
+  {
+   "key": "nana",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Nana Olomu",
+    "title": "Governor of the Benin River",
+    "national_slug": "nana-olomu",
+    "category": "Freedom Fighters & Resistance Leaders",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "male",
+    "date_of_birth": "c. 1852",
+    "place_of_birth": null,
+    "date_of_death": "3 July 1916",
+    "occupation": "Itsekiri palm-oil merchant and political leader",
+    "state": "Delta",
+    "country": "Nigeria",
+    "short_summary": "Nana Olomu (born Eriomala; c.",
+    "biography": "Nana Olomu (born Eriomala; c. 1852 – 3 July 1916) was an Itsekiri palm-oil merchant and political leader in the western Niger Delta (Wikipedia). He inherited the large trading organisation of his father, Olomu, and in 1884 was chosen by Itsekiri elders as Governor of the Benin River, an office that combined commercial and political authority while the Warri kingship was vacant. By the early 1890s his organisation controlled much of the trade between European firms on the lower Benin River and the Urhobo palm-oil producers inland, through commercial alliances and credit as well as armed canoes, agents and enslaved labour.",
+    "career": "British officials at first endorsed his authority but, after setting up a more direct administration in 1891, treated his office as obsolete and sought to open the hinterland to direct trade. The dispute ended with the British blockade and bombardment of his fortified town of Ebrohimi in 1894. Nana escaped, surrendered in Lagos, and was convicted on four charges in a consular court without legal representation. He was deported, first within the Niger Coast Protectorate and then to the Gold Coast, and returned home in 1906 (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WNANA",
+     "Nana Olomu"
+    ]
+   ]
+  },
+  {
+   "key": "attahiru",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Muhammadu Attahiru I",
+    "title": "Sultan of Sokoto",
+    "national_slug": "muhammadu-attahiru-i",
+    "category": "Freedom Fighters & Resistance Leaders",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "male",
+    "date_of_birth": null,
+    "place_of_birth": null,
+    "date_of_death": "29 July 1903",
+    "occupation": "Sultan of the Sokoto Caliphate",
+    "state": "Sokoto",
+    "country": "Nigeria",
+    "short_summary": "Muhammadu Attahiru I was the twelfth Sultan of the Sokoto Caliphate, from October 1902 until 15 March 1903, and the last independent sultan before the British conquest (Wikipedia).",
+    "biography": "Muhammadu Attahiru I was the twelfth Sultan of the Sokoto Caliphate, from October 1902 until 15 March 1903, and the last independent sultan before the British conquest (Wikipedia). When British forces advanced on Sokoto in 1903, he and many followers left the city on what he described as a hijra, to prepare for the coming of the Mahdi. The British entered the largely deserted city and on 21 March 1903 installed Muhammadu Attahiru II as the new sultan.",
+    "legacy": "British forces attacked Attahiru's followers at Burmi (written Mbormi in the source), near present-day Gombe, on 29 July 1903, and he was among those killed (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WATT",
+     "Muhammadu Attahiru I"
+    ]
+   ]
+  },
+  {
+   "key": "ironsi",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Johnson Aguiyi-Ironsi",
+    "title": "Major General",
+    "national_slug": "johnson-aguiyi-ironsi",
+    "category": "Warriors & Military Leaders",
+    "historical_period": "Military Era",
+    "gender": "male",
+    "date_of_birth": "3 March 1924",
+    "place_of_birth": "Ibeku, Umuahia",
+    "date_of_death": "29 July 1966",
+    "occupation": "Army officer; first military head of state of Nigeria",
+    "state": "Abia",
+    "country": "Nigeria",
+    "short_summary": "Johnson Thomas Umunnakwe Aguiyi-Ironsi (3 March 1924 – 29 July 1966) was a Nigerian army officer and the country's first military head of state (Wikipedia).",
+    "biography": "Johnson Thomas Umunnakwe Aguiyi-Ironsi (3 March 1924 – 29 July 1966) was a Nigerian army officer and the country's first military head of state (Wikipedia). Born in Ibeku, Umuahia, he was educated in Umuahia and Kano. In November 1960 he led the 5th Battalion to the Congo as part of the United Nations operation there, and by 1964 Nigerian units under his command formed the backbone of the UN force (Library of Congress country study, chapter on the Gowon regime; Wikipedia).\n\nAs army commander he took control after the coup of 15 January 1966, suspended the constitution, banned political parties and formed a Federal Military Government; he ruled from 16 January 1966. According to the country study, his decree moving towards a unitary state alarmed many northerners.",
+    "legacy": "He was killed on 29 July 1966 in the counter-coup led by northern officers (Wikipedia; country study)."
+   },
+   "srcs": [
+    [
+     "WIRO",
+     "Johnson Aguiyi-Ironsi"
+    ],
+    [
+     "LCRI",
+     "Johnson Aguiyi-Ironsi"
+    ],
+    [
+     "LGOW",
+     "Johnson Aguiyi-Ironsi"
+    ]
+   ]
+  },
+  {
+   "key": "aminu",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Aminu Kano",
+    "title": "Mallam",
+    "national_slug": "aminu-kano",
+    "category": "Political Leaders",
+    "historical_period": "First Republic",
+    "gender": "male",
+    "date_of_birth": "9 August 1920",
+    "place_of_birth": "Sudawa ward, Kano",
+    "date_of_death": "17 April 1983",
+    "occupation": "Teacher, poet, trade unionist and politician",
+    "state": "Kano",
+    "country": "Nigeria",
+    "short_summary": "Aminu Kano (9 August 1920 – 17 April 1983) was a Nigerian politician, teacher, poet, playwright and trade unionist, one of the leading figures of the independence movement (Wikipedia).",
+    "biography": "Aminu Kano (9 August 1920 – 17 April 1983) was a Nigerian politician, teacher, poet, playwright and trade unionist, one of the leading figures of the independence movement (Wikipedia). Born in the Sudawa ward of Kano, he began as a teacher and became an early critic of colonial rule and of the northern aristocracy, denouncing indirect rule as oppressive to the talakawa (commoners).\n\nIn 1948 he founded the Northern Teachers' Association, the first labour union in Northern Nigeria, and was a founding member of the Northern People's Congress, which he left because of its conservatism. As leader of the Northern Elements Progressive Union (NEPU) from 1953 he championed democratic socialism, women's rights and the empowerment of the talakawa, seeking to align Islamic principles with social justice. He sat in the Federal House of Representatives from 1959 and served as a federal commissioner under Yakubu Gowon.",
+    "career": "In the Second Republic he led the People's Redemption Party, successor to NEPU, and was its presidential candidate; in 1979 the party won Kano State and the governorship of Kaduna (country study; Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WAMK",
+     "Aminu Kano"
+    ],
+    [
+     "LSEC",
+     "Aminu Kano"
+    ]
+   ]
+  },
+  {
+   "key": "ekpo",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Margaret Ekpo",
+    "title": "Chief",
+    "national_slug": "margaret-ekpo",
+    "category": "Women of Influence",
+    "historical_period": "First Republic",
+    "gender": "female",
+    "date_of_birth": "27 July 1914",
+    "place_of_birth": "Creek Town",
+    "date_of_death": "21 September 2006",
+    "occupation": "Women's rights activist and politician",
+    "state": "Cross River",
+    "country": "Nigeria",
+    "short_summary": "Margaret Ekpo (27 July 1914 – 21 September 2006) was a Nigerian women's rights activist and a pioneering woman politician of the First Republic (Wikipedia).",
+    "biography": "Margaret Ekpo (27 July 1914 – 21 September 2006) was a Nigerian women's rights activist and a pioneering woman politician of the First Republic (Wikipedia). Born in Creek Town, in present-day Cross River State, she grew up in Aba, where after training in domestic science she set up a Domestic Science and Sewing Institute.\n\nShe organised a Market Women Association to unionise the market women of Aba, and in 1954 founded the Aba Township Women's Association. She joined the NCNC, which in 1959 nominated her to the regional House of Chiefs, and in 1961 she won a seat in the Eastern Regional House of Assembly, where she continued to fight for women's interests. Wikipedia describes her as one of a class of women activists who rallied women beyond ethnic loyalties in a male-dominated independence movement."
+   },
+   "srcs": [
+    [
+     "WEKPO",
+     "Margaret Ekpo"
+    ]
+   ]
+  },
+  {
+   "key": "sawaba",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "reported",
+   "fields": {
+    "english_name": "Gambo Sawaba",
+    "title": "Hajia",
+    "national_slug": "gambo-sawaba",
+    "category": "Women of Influence",
+    "historical_period": "First Republic",
+    "gender": "female",
+    "date_of_birth": "15 February 1933",
+    "place_of_birth": null,
+    "date_of_death": "October 2001",
+    "occupation": "Women's rights activist and politician",
+    "state": "Kaduna",
+    "country": "Nigeria",
+    "short_summary": "Hajia Gambo Sawaba (15 February 1933 – October 2001) was a Nigerian women's rights activist, politician and philanthropist (Wikipedia).",
+    "biography": "Hajia Gambo Sawaba (15 February 1933 – October 2001) was a Nigerian women's rights activist, politician and philanthropist (Wikipedia). Her father, Isa Amartey Amarteifio, was an immigrant from Ghana who converted to Islam after settling in Zaria; her mother, Fatima, was a Nupe woman from Niger State. She was named Gambo, the Hausa name for a child born after twins.\n\nShe was elected leader of the national women's wing of the Northern Elements Progressive Union (NEPU) and later served as deputy chairman of the Great Nigerian People's Party. Wikipedia records that she was imprisoned sixteen times for openly campaigning against child marriage, forced and unpaid labour and unfair taxes, and for jobs for women, education for girls and full voting rights."
+   },
+   "srcs": [
+    [
+     "WSAW",
+     "Gambo Sawaba"
+    ]
+   ]
+  },
+  {
+   "key": "shagari",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Shehu Shagari",
+    "title": "Alhaji",
+    "national_slug": "shehu-shagari",
+    "category": "Political Leaders",
+    "historical_period": "Post-Colonial Era",
+    "gender": "male",
+    "date_of_birth": "25 February 1925",
+    "place_of_birth": "Shagari",
+    "date_of_death": "28 December 2018",
+    "occupation": "Teacher and politician; president of Nigeria",
+    "state": "Sokoto",
+    "country": "Nigeria",
+    "short_summary": "Shehu Usman Aliyu Shagari (25 February 1925 – 28 December 2018) was the first democratically elected president of Nigeria, from 1979 to 1983 (Wikipedia).",
+    "biography": "Shehu Usman Aliyu Shagari (25 February 1925 – 28 December 2018) was the first democratically elected president of Nigeria, from 1979 to 1983 (Wikipedia). Born in Shagari to a Fulani family, he worked briefly as a teacher, entered politics in 1951 and was elected to the House of Representatives in 1954. Between 1958 and 1975 he held federal ministerial posts; as federal commissioner for finance he oversaw the launch of the naira.\n\nHe won the presidency in 1979 as candidate of the National Party of Nigeria, defeating Nnamdi Azikiwe in a close and controversial vote (country study). As president he prioritised industrial development, including the Ajaokuta steel works. His government faced the end of the oil boom in 1981, rising debts and political unrest (country study).",
+    "career": "He was re-elected in 1983 in an election widely regarded as fraudulent, and was overthrown in the military coup of 31 December 1983 (country study; Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WSHA",
+     "Shehu Shagari"
+    ],
+    [
+     "LSEC",
+     "Shehu Shagari"
+    ],
+    [
+     "LMIL",
+     "Shehu Shagari"
+    ]
+   ]
+  },
+  {
+   "key": "abacha",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Sani Abacha",
+    "title": "General",
+    "national_slug": "sani-abacha",
+    "category": "Warriors & Military Leaders",
+    "historical_period": "Military Era",
+    "gender": "male",
+    "date_of_birth": "20 September 1943",
+    "place_of_birth": "Kano",
+    "date_of_death": "8 June 1998",
+    "occupation": "Army officer; military head of state of Nigeria",
+    "state": "Kano",
+    "country": "Nigeria",
+    "short_summary": "Sani Abacha (20 September 1943 – 8 June 1998) was a Nigerian army officer who ruled as military head of state from 1993 until his death (Wikipedia).",
+    "biography": "Sani Abacha (20 September 1943 – 8 June 1998) was a Nigerian army officer who ruled as military head of state from 1993 until his death (Wikipedia). Born and raised in Kano to a Kanuri family from present-day Borno State, he played a prominent part in the coup of 1983 that brought Muhammadu Buhari to power and in the coup of 1985 that replaced Buhari with Ibrahim Babangida, under whom he became Chief of Army Staff. In 1993 he seized power from the interim government of Ernest Shonekan; Wikipedia records this as the last successful coup in Nigeria.",
+    "career": "His rule was marked by repression. Wikipedia records political killings and executions of opponents, including the hanging of Ken Saro-Wiwa and eight other Ogoni leaders in 1995, which made Nigeria an international pariah, and the imprisonment of M. K. O. Abiola. He is alleged to have embezzled between US$2 billion and US$5 billion, much of it hidden abroad; some of these funds have since been seized and returned to Nigeria (Wikipedia).",
+    "legacy": "His death on 8 June 1998 opened the way to the transition led by General Abdulsalami Abubakar and the Fourth Republic in 1999 (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WABA2",
+     "Sani Abacha"
+    ],
+    [
+     "WHIST",
+     "Sani Abacha"
+    ]
+   ]
+  },
+  {
+   "key": "fela",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Fela Kuti",
+    "title": null,
+    "national_slug": "fela-kuti",
+    "category": "Musicians & Performing Artists",
+    "historical_period": "Military Era",
+    "gender": "male",
+    "date_of_birth": "15 October 1938",
+    "place_of_birth": "Abeokuta",
+    "date_of_death": "2 August 1997",
+    "occupation": "Musician and political activist",
+    "state": "Ogun",
+    "country": "Nigeria",
+    "short_summary": "Fela Aníkúlápó Kútì (born Olufela Olusegun Oludotun Ransome-Kuti; 15 October 1938 – 2 August 1997) was a Nigerian musician and political activist, regarded as the principal innovator of Afrobeat, which combines West African music with American funk and jazz (Wikipedia).",
+    "biography": "Fela Aníkúlápó Kútì (born Olufela Olusegun Oludotun Ransome-Kuti; 15 October 1938 – 2 August 1997) was a Nigerian musician and political activist, regarded as the principal innovator of Afrobeat, which combines West African music with American funk and jazz (Wikipedia). Born in Abeokuta, he was the son of the women's rights leader Funmilayo Ransome-Kuti. With his band Africa '70, featuring the drummer Tony Allen, he became a star in Nigeria in the 1970s, performing at his own club, the Afrika Shrine.\n\nHe was an outspoken critic of Nigeria's military governments and their target. In 1970 he founded the Kalakuta Republic, a commune that declared itself independent of military rule; it was destroyed in a 1977 army raid in which he was injured and his mother fatally hurt. He was jailed by the Buhari government in 1984 and released after twenty months; the Library of Congress country study describes his arrest as the symbol of that government's crackdown on critics.",
+    "legacy": "He continued to record and perform through the 1980s and 1990s. Since his death his music has been widely reissued, and AllMusic has described him as \"a musical and sociopolitical voice\" of international significance (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WFELA",
+     "Fela Kuti"
+    ],
+    [
+     "LMIL",
+     "Fela Kuti"
+    ]
+   ]
+  },
+  {
+   "key": "yaradua",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Umaru Musa Yar'Adua",
+    "title": null,
+    "national_slug": "umaru-musa-yaradua",
+    "category": "Political Leaders",
+    "historical_period": "Fourth Republic",
+    "gender": "male",
+    "date_of_birth": "16 August 1951",
+    "place_of_birth": "Katsina",
+    "date_of_death": "5 May 2010",
+    "occupation": "Teacher and politician; president of Nigeria",
+    "state": "Katsina",
+    "country": "Nigeria",
+    "short_summary": "Umaru Musa Yar'Adua (16 August 1951 – 5 May 2010) was president of Nigeria from 2007 until his death (Wikipedia).",
+    "biography": "Umaru Musa Yar'Adua (16 August 1951 – 5 May 2010) was president of Nigeria from 2007 until his death (Wikipedia). Born in Katsina, he was the son of Musa Yar'Adua, a federal minister in the First Republic, and inherited his father's title of Matawalle of the Katsina Emirate. He taught at the Katsina College of Arts, Science and Technology and at Katsina Polytechnic before entering business and politics, and was governor of Katsina State from 1999 to 2007 for the People's Democratic Party.\n\nHe won the presidential election of 21 April 2007, which international observers strongly criticised, and was sworn in on 29 May 2007 (Wikipedia).",
+    "legacy": "In 2009 he travelled to Saudi Arabia for treatment for pericarditis; he returned on 24 February 2010 and died on 5 May 2010. His vice-president, Goodluck Jonathan, succeeded him (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WYAR",
+     "Umaru Musa Yar'Adua"
+    ],
+    [
+     "WFOURTH",
+     "Umaru Musa Yar'Adua"
+    ]
+   ]
+  },
+  {
+   "key": "akunyili",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Dora Akunyili",
+    "title": null,
+    "national_slug": "dora-akunyili",
+    "category": "Public Servants & Administrators",
+    "historical_period": "Fourth Republic",
+    "gender": "female",
+    "date_of_birth": "14 July 1954",
+    "place_of_birth": "Makurdi",
+    "date_of_death": "7 June 2014",
+    "occupation": "Pharmacist; head of NAFDAC and Minister of Information",
+    "state": "Anambra",
+    "country": "Nigeria",
+    "short_summary": "Dora Nkem Akunyili (14 July 1954 – 7 June 2014) was Director-General of the National Agency for Food and Drug Administration and Control (NAFDAC) from 2001 to 2008 (Wikipedia).",
+    "biography": "Dora Nkem Akunyili (14 July 1954 – 7 June 2014) was Director-General of the National Agency for Food and Drug Administration and Control (NAFDAC) from 2001 to 2008 (Wikipedia). She was born in Makurdi, Benue State, to a father from Nanka, Anambra State.\n\nShe had a personal reason for fighting counterfeit medicines: in 1988 her 21-year-old sister died after being given fake insulin. At NAFDAC she built a team of mostly women pharmacists and inspectors and led a campaign against counterfeit drugs that closed many open-air medicine markets, publicised lists of fake products, and by June 2006 had secured convictions of 45 counterfeiters (Wikipedia).",
+    "career": "In 2008 she became Minister of Information and Communications, and resigned on 16 December 2010 to run for the Senate seat of Anambra Central (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WAKU",
+     "Dora Akunyili"
+    ]
+   ]
+  },
+  {
+   "key": "buhari",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Muhammadu Buhari",
+    "title": "General",
+    "national_slug": "muhammadu-buhari",
+    "category": "Political Leaders",
+    "historical_period": "Fourth Republic",
+    "gender": "male",
+    "date_of_birth": "17 December 1942",
+    "place_of_birth": "Daura",
+    "date_of_death": "13 July 2025",
+    "occupation": "Army officer and politician; head of state and president of Nigeria",
+    "state": "Katsina",
+    "country": "Nigeria",
+    "short_summary": "Muhammadu Buhari (17 December 1942 – 13 July 2025) was a Nigerian army officer and politician who ruled as military head of state from 1983 to 1985 and was elected president from 2015 to 2023 (Wikipedia).",
+    "biography": "Muhammadu Buhari (17 December 1942 – 13 July 2025) was a Nigerian army officer and politician who ruled as military head of state from 1983 to 1985 and was elected president from 2015 to 2023 (Wikipedia). Born in Daura, now in Katsina State, he fought in the civil war and rose through later military governments.\n\nHe became head of state after the coup of 31 December 1983 that ended the Second Republic. According to the Library of Congress country study, his government set up tribunals against corruption, cut spending and in 1984 launched the \"War Against Indiscipline\", while critics and journalists were harassed. He was overthrown on 27 August 1985 in a palace coup led by Ibrahim Babangida (Wikipedia).",
+    "career": "In the Fourth Republic he stood for president several times and won on 28 March 2015 as candidate of the All Progressives Congress, defeating the incumbent, Goodluck Jonathan: the first opposition candidate to win a presidential election since independence. He was re-elected in February 2019 and served until 29 May 2023 (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WBUH",
+     "Muhammadu Buhari"
+    ],
+    [
+     "LMIL",
+     "Muhammadu Buhari"
+    ],
+    [
+     "WFOURTH",
+     "Muhammadu Buhari"
+    ]
+   ]
+  }
+ ],
+ "names": [],
+ "gaps": [
+  [
+   "National people part 2: still missing",
+   "Not yet covered: Queen Moremi, Oduduwa and other figures of tradition; Usman dan Fodio's family (Nana Asma'u, Muhammad Bello); Samuel Ajayi Crowther; Ernest Ikoli; Anthony Enahoro; Ahmadu Rufai Cerkoru; living former heads of state (Gowon, Obasanjo, Babangida, Abubakar, Jonathan) and living cultural figures (Wole Soyinka) — living people need extra care."
+  ],
+  [
+   "National people part 2: single sources",
+   "Most entries rest on the person's own Wikipedia article only; biographical dictionaries or academic sources should be added, above all for Gambo Sawaba (single source)."
+  ]
+ ],
+ "updates": [],
+ "relations": [],
+ "statistics": [],
+ "scope": "National people, part 2: fourteen more figures, from Iyoba Idia to Muhammadu Buhari (deceased people only)."
+}
