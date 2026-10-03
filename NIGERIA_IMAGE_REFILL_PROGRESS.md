@@ -4,6 +4,8 @@ Brief: the owner's "STATE-BY-STATE IMAGE REFILL" prompt (3 Oct 2026). This file 
 
 ## ▶ RESUME HERE
 
+- **Session saved 3 Oct 2026, end of day.** Image refill PAUSED; nothing pending deployment. **Resume at Plateau (`img_004_plateau`)** when the owner asks; the Tiv record still needs a free photo (children photo declined).
+
 - **Benue: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_001_benue.php, research_batches#282, media_assets #4–6; backup `/root/backups/LATEST_NIGERIA_IMG001`, which also holds the pre-edit copies of the 3 code files). Live checks: 3 images + credit lines render, sitemap 3,026, 0 PHP fatals.
 - **Tiv photo DECLINED by the owner (3 Oct 2026):** the children-in-A'nger photo is not to be used; removed from the picks and local files (it was never uploaded). The Tiv record still needs a free photo, preferably adults or the A'nger cloth itself — add a research_gaps row for it in the next image batch.
 - **Nasarawa: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_refill.php img_002_nasarawa, media_assets #12–16; backup `/root/backups/LATEST_NIGERIA_IMG002`). Live: 5 images + credits render, sitemap 3,026, 0 PHP fatals. From batch 002 on, all batches use the generic runner `img_refill.php` with `data/img_NNN_<state>.json` (picks + Commons metadata) and `data/img_NNN_<state>_gaps.json`.

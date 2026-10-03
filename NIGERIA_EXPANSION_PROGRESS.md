@@ -1,3 +1,13 @@
+## ▶▶ SESSION SAVED — 3 Oct 2026, end of day (read this first)
+
+- **Nothing is pending deployment.** Everything built today is live on tivheritage.com.
+- **Deployed today:** image refill Benue/Nasarawa/Taraba; national Periods (135), Events (136, 138), People (137, 139); expansion of all 59 event/people pages past 300 words (140–141). Live: hub People 30 / Events 29 / Periods 11; sitemap 3,099; 0 PHP fatals.
+- **Two threads are open — the owner chooses which to continue:**
+  1. **State research:** next batch **142**; 18 of 37 states done; suggested next state **Ondo**, then Ekiti (see the 2 Oct RESUME block below for the per-state method).
+  2. **Image refill:** paused; resume at **Plateau** (`img_004_plateau`) — see `NIGERIA_IMAGE_REFILL_PROGRESS.md`.
+- Possible further work offered: more national people/events (living figures need extra care), second independent sources for single-source records.
+- Backups: DB `/root/backups/LATEST_NIGERIA_BATCH140` (latest); research files tarball `/root/backups/nigeria_research_20261003b.tar.gz`. Local commits not pushed (GitHub repo is public — owner chose private VPS backup).
+
 # Nigeria Heritage Archive — progress log
 
 Last updated: **2 October 2026**. Read this first when resuming.
