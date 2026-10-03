@@ -10,6 +10,8 @@ Last updated: **2 October 2026**. Read this first when resuming.
 - **Remaining (19):** Abia, Akwa Ibom, Anambra, Bayelsa, Cross River, Delta, Ebonyi, Edo, Ekiti, Enugu, FCT, Imo, Kaduna, Kebbi, Kwara, Niger, Ondo, Rivers, Sokoto.
 - **Live baselines:** sitemap 3,026; 0 PHP fatals.
 - **Open owner decision:** separate records for Yoruba sub-groups (currently in link notes).
+- **Verified 3 Oct 2026 against production:** research_progress = 18 qc_in_progress / 19 not_started (same lists as above), live sitemap 3,026, backup symlink LATEST_NIGERIA_BATCH134 present. Work paused here while the owner switched to the AI marketing engine port (see AI_ENGINE_PORT_NOTES.md).
+- **Saved in git:** all batch scripts (database/research/, incl. data/ source snapshots), review/QC files and this log, committed locally as 3a78927 (not pushed). The nigeria_expansion_*.sql migrations are gitignored by repo rule (*.sql) and live only on disk + production.
 - **Method, harness and pitfalls:** see the memory note `project_nigeria_resume.md`, the per-batch `NIGERIA_BATCH_NNN_REVIEW.md` files and the per-state `NIGERIA_QC_<STATE>.md` reports.
 
 ## Older resume notes (30 Sep 2026)
