@@ -5,11 +5,11 @@ Brief: the owner's "STATE-BY-STATE IMAGE REFILL" prompt (3 Oct 2026). This file 
 ## ▶ RESUME HERE
 
 - **Benue: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_001_benue.php, research_batches#282, media_assets #4–6; backup `/root/backups/LATEST_NIGERIA_IMG001`, which also holds the pre-edit copies of the 3 code files). Live checks: 3 images + credit lines render, sitemap 3,026, 0 PHP fatals.
-- **Open owner question:** the Tiv photo (children in A'nger, `ng-tiv-anger-attire.jpg`, NOT uploaded to the server). If the owner says yes: rsync its 5 files to uploads/images, then `php database/research/img_001_benue.php --apply --include-owner-check`.
+- **Tiv photo DECLINED by the owner (3 Oct 2026):** the children-in-A'nger photo is not to be used; removed from the picks and local files (it was never uploaded). The Tiv record still needs a free photo, preferably adults or the A'nger cloth itself — add a research_gaps row for it in the next image batch.
 - **Nasarawa: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_refill.php img_002_nasarawa, media_assets #12–16; backup `/root/backups/LATEST_NIGERIA_IMG002`). Live: 5 images + credits render, sitemap 3,026, 0 PHP fatals. From batch 002 on, all batches use the generic runner `img_refill.php` with `data/img_NNN_<state>.json` (picks + Commons metadata) and `data/img_NNN_<state>_gaps.json`.
 - **Taraba: COMPLETED_WITH_GAPS — DEPLOYED 3 Oct 2026** (img_003_taraba, backup `/root/backups/LATEST_NIGERIA_IMG003`; 7 images live, sitemap 3,026, 0 fatals).
 - **PAUSED 3 Oct 2026 at the owner's request** ("leave the images for now") to fill the empty People / Events / Historical Periods sections. **When resumed: next state is Plateau (`img_004_plateau`).**
-- **Open owner questions:** (1) Tiv photo (above); (2) empty People/Events/Periods cards on /nigeria — options A hide until populated, B make some Tiv figures/events national, C research national periods/events/people (asked 3 Oct, no answer yet).
+- **Open owner questions:** (1) empty People/Events/Periods cards — RESOLVED 3 Oct by batches 135–137 on /nigeria — options A hide until populated, B make some Tiv figures/events national, C research national periods/events/people (asked 3 Oct, no answer yet).
 - **People-handling rule:** a people is illustrated once, in its home state if that state is researched (Jukun → Taraba, Hausa → Kano, Kanuri → Borno, Ebira/Basa → Kogi, Kulere → Plateau, Yoruba → Oyo); otherwise in the first queued state that links it (Igbo, Fulani, Gbagyi → Nasarawa).
 
 ## Owner decisions (3 Oct 2026)
@@ -85,7 +85,7 @@ Queue order = the order the states were researched (Benue first). The 19 not-sta
 | Licensing issues | 2 (Ashinze authorship conflict, Wilses likely copied) |
 | Wrong-subject results rejected | Igede-Ekiti (Ekiti State) for Igede; Ekoi items for Akweya; new concrete bridge ("River Benue 2.jpg") for the 1932 bridge |
 | Record facts flagged | none |
-| Status | COMPLETED_WITH_GAPS (Tiv photo pending owner yes/no) |
+| Status | COMPLETED_WITH_GAPS (Tiv photo declined by owner; Tiv still needs an image) |
 
 ### NASARAWA IMAGE AUDIT — img_002_nasarawa (DEPLOYED 3 Oct 2026)
 

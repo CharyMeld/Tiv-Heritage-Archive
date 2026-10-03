@@ -142,7 +142,8 @@ class NigeriaController extends Controller
                 $groups = ['' => HeritagePublic::published($table, '1 = 1', [], 't.year IS NULL, t.year, t.id')];
                 break;
             case 'historical_periods':
-                $groups = ['' => HeritagePublic::published($table, '1 = 1', [], 't.start_year IS NULL, t.start_year')];
+                // A period known only by its end (prehistory) sorts by that end.
+                $groups = ['' => HeritagePublic::published($table, '1 = 1', [], 'COALESCE(t.start_year, t.end_year) IS NULL, COALESCE(t.start_year, t.end_year), t.end_year IS NULL, t.end_year')];
                 break;
             case 'ethnic_groups':
                 $groups = ['' => HeritagePublic::published($table, HeritagePublic::LISTINGS['ethnic-groups'][1])];
@@ -395,7 +396,8 @@ class NigeriaController extends Controller
             'historical_periods' => [
                 'Scope' => $opt('historical-periods', 'scope', $r['scope']),
                 'From' => $p($r['start_year'], null, $r['date_precision']),
-                'Until' => $p($r['end_year'], null, $r['date_precision']),
+                // A period that starts BCE and ends CE (e.g. Nok) needs the era on its end year too.
+                'Until' => ($u = $p($r['end_year'], null, $r['date_precision'])) && (int) $r['start_year'] < 0 && (int) $r['end_year'] > 0 ? "{$u} CE" : $u,
             ],
             'historical_figures' => [
                 'Known as' => $r['title'], 'Born' => $r['date_of_birth'], 'Place of birth' => $r['place_of_birth'],

@@ -1,0 +1,845 @@
+{
+ "sources": {
+  "LSOK": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Usman dan Fodio and the Sokoto Caliphate",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/9.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Jihad from 1804; Sokoto founded 1809; thirty emirates; Al Kanemi in Borno; Ilorin; the fall of Oyo. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_9.txt."
+  },
+  "LSAV": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — The Savanna States, 1500-1800",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/6.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Songhai and Borno; Idris Aloma; the Hausa states; the 18th-century droughts. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_6.txt."
+  },
+  "LEXT": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Extension of British Control",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/16.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Oil Rivers and Niger Coast protectorates; Benin 1897; end of the Royal Niger Company charter, 31 December 1899. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_16.txt."
+  },
+  "LNAT": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Emergence of Nigerian Nationalism",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/20.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Parties (NCNC 1944, Action Group 1951, NPC); constitutions 1946–1954; oil found 1956 at Oloibiri; independence 1 October 1960. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_20.txt."
+  },
+  "LIND": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Independent Nigeria",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/21.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "NPC–NCNC coalition; the Action Group crisis of 1962; republic in 1963 with Azikiwe as president. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_21.txt."
+  },
+  "LCRI": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Politics in the Crisis Years",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/22.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Census disputes; the 1964–65 elections; the coups of January and July 1966. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_22.txt."
+  },
+  "LWAR": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Civil War",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/23.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Aburi (January 1967); Biafra proclaimed 30 May 1967; the war's end in January 1970; death estimates. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_23.txt."
+  },
+  "LMUR": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — Preparations for the Return to Civilian Rule",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/27.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Murtala Muhammad's transition programme; nineteen states in 1976. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_27.txt."
+  },
+  "LSEC": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — The Second Republic, 1979-83",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/29.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Elections of 1979; Shagari president from 1 October 1979; the five parties; the end of the oil boom in 1981; expulsions of 1983. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_29.txt."
+  },
+  "WHIST": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "History of Nigeria",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/History_of_Nigeria",
+   "verification_status": "needs_corroboration",
+   "notes": "Overview from prehistory to the present: Dufuna canoe; Iwo/Iho Eleru; Nok; the Third Republic and the annulled election of 12 June 1993; Abacha; Abubakar's transition; the Fourth Republic presidencies. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "LMURG": {
+   "source_type": "government_publication",
+   "source_kind": "government_publication",
+   "source_tier": 2,
+   "title": "Nigeria: A Country Study — The Regime of Murtala Muhammad",
+   "organisation": "Federal Research Division, Library of Congress",
+   "url": "http://countrystudies.us/nigeria/26.htm",
+   "lineage_group": "loc-country-study-nigeria",
+   "verification_status": "verified",
+   "notes": "Gowon deposed 29 July 1975; Murtala Muhammad, a Hausa trained at Sandhurst, chosen to succeed him. The study's text reflects information as of December 1990 (preface). Mirror of the Library of Congress text. Accessed 2026-10-03; saved as data/loc_cs_nigeria_26.txt."
+  },
+  "WUSM": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Usman dan Fodio",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Usman_dan_Fodio",
+   "verification_status": "needs_corroboration",
+   "notes": "15 December 1754 – 20 April 1817; Fulani scholar, born in Gobir; founder and first caliph of the Sokoto Caliphate; wrote more than a hundred books. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WKAN": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Muhammad al-Amin al-Kanemi",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Muhammad_al-Amin_al-Kanemi",
+   "verification_status": "needs_corroboration",
+   "notes": "1776 – 8 June 1837; saved Kanem–Bornu during the Fula jihads; title shehu; seat at Kukawa. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WIDR": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Idris Alooma",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Idris_Alooma",
+   "verification_status": "needs_corroboration",
+   "notes": "Mai of Kanem–Bornu c. 1570–1603; chronicled by Ahmad bin Fartuwa; legal reforms; expansion over Hausaland, Aïr and Bilma. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WAMI": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Amina of Zazzau",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Amina_of_Zazzau",
+   "verification_status": "needs_corroboration",
+   "notes": "Hausa figure of Zazzau (Zaria), born c. 1533, died 1610; traditions differ on whether she was queen or princess. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WOVO": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Ovonramwen",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Ovonramwen",
+   "verification_status": "needs_corroboration",
+   "notes": "Born Idugbowa; 1857 – 14 January 1914; 35th Oba of Benin; deposed and exiled to Calabar after 1897. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WMAC": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Herbert Macaulay",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Herbert_Macaulay",
+   "verification_status": "needs_corroboration",
+   "notes": "14 November 1864 – 7 May 1946; born in Lagos; grandson of Bishop Samuel Ajayi Crowther; regarded by many as the founder of Nigerian nationalism. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WAZI": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Nnamdi Azikiwe",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Nnamdi_Azikiwe",
+   "verification_status": "needs_corroboration",
+   "notes": "16 November 1904 – 11 May 1996; born in Zungeru; governor-general 1960–63 and first president 1963–66. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WAWO": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Obafemi Awolowo",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Obafemi_Awolowo",
+   "verification_status": "needs_corroboration",
+   "notes": "6 March 1909 – 9 May 1987; born in Ikenne; premier of the Western Region 1952–1959; leader of the opposition 1959–1963. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WBEL": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Ahmadu Bello",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Ahmadu_Bello",
+   "verification_status": "needs_corroboration",
+   "notes": "12 June 1910 – 15 January 1966; born in Rabah; premier of the Northern Region 1954–1966; leader of the NPC. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WBAL": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Abubakar Tafawa Balewa",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Abubakar_Tafawa_Balewa",
+   "verification_status": "needs_corroboration",
+   "notes": "December 1912 – 15 January 1966; born in Tafawa Balewa, Bauchi; teacher; first and only prime minister of Nigeria. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WFRK": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Funmilayo Ransome-Kuti",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Funmilayo_Ransome-Kuti",
+   "verification_status": "needs_corroboration",
+   "notes": "25 October 1900 – 13 April 1978; born in Abeokuta; educator and women's rights leader; Abeokuta Women's Union. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WMUR": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Murtala Muhammed",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Murtala_Muhammed",
+   "verification_status": "needs_corroboration",
+   "notes": "8 November 1938 – 13 February 1976; born in Kano; head of state 29 July 1975 – 13 February 1976. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WOJU": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Chukwuemeka Odumegwu Ojukwu",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Chukwuemeka_Odumegwu_Ojukwu",
+   "verification_status": "needs_corroboration",
+   "notes": "4 November 1933 – 26 November 2011; born in Zungeru; military governor of the Eastern Region; leader of Biafra 1967–1970. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WABI": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Moshood Abiola",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Moshood_Abiola",
+   "verification_status": "needs_corroboration",
+   "notes": "24 August 1937 – 7 July 1998; born in Abeokuta; businessman and publisher; won the annulled election of 12 June 1993; died in detention. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WKSW": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Ken Saro-Wiwa",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Ken_Saro-Wiwa",
+   "verification_status": "needs_corroboration",
+   "notes": "10 October 1941 – 10 November 1995; born in Bori; writer; president of MOSOP; executed in 1995. Accessed 2026-10-03; text saved in database/research/data/."
+  },
+  "WACH": {
+   "source_type": "encyclopedia",
+   "source_kind": "encyclopedia",
+   "source_tier": 3,
+   "title": "Chinua Achebe",
+   "organisation": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Chinua_Achebe",
+   "verification_status": "needs_corroboration",
+   "notes": "16 November 1930 – 21 March 2013; born in Ogidi; novelist; Things Fall Apart (1958). Accessed 2026-10-03; text saved in database/research/data/."
+  }
+ },
+ "units": [],
+ "places": [],
+ "changes": [],
+ "records": [
+  {
+   "key": "amina",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "reported",
+   "fields": {
+    "english_name": "Amina of Zazzau",
+    "title": "Queen (in palace tradition)",
+    "national_slug": "amina-of-zazzau",
+    "category": "Women of Influence",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "female",
+    "date_of_birth": "c. 1533",
+    "place_of_birth": "Zazzau (Zaria)",
+    "date_of_death": "1610",
+    "occupation": "Ruler and military leader of Zazzau (in tradition)",
+    "state": "Kaduna",
+    "country": "Nigeria",
+    "short_summary": "Amina, also called Aminatu, is a Hausa historical figure of the city-state of Zazzau, today Zaria in Kaduna State.",
+    "biography": "Amina, also called Aminatu, is a Hausa historical figure of the city-state of Zazzau, today Zaria in Kaduna State. According to Wikipedia, she was born around 1533 and died in 1610, the daughter of Nikatau, the 22nd ruler of Zazzau, and Queen Bakwa Turunku.\n\nTraditions about her differ. Palace tradition holds that she reigned as queen (sarauniya), while other traditions say she was a princess (gimbiya); her name does not appear on the regnal lists in the Chronicle of Abuja or in the two lists published by E. J. Arnett. Some traditions say she became queen after the death of her brother Karama in 1576 and ruled the territories she conquered.",
+    "legacy": "She is still celebrated in Hausa praise songs as \"Amina daughter of Nikatau, a woman as capable as a man\", remembered as a leader of men in war (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WAMI",
+     "Amina of Zazzau"
+    ]
+   ]
+  },
+  {
+   "key": "idris",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Idris Alooma",
+    "title": "Mai of Kanem–Bornu",
+    "national_slug": "idris-alooma",
+    "category": "Traditional Leadership",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "male",
+    "date_of_birth": null,
+    "place_of_birth": null,
+    "date_of_death": null,
+    "occupation": "Mai (ruler) of the Kanem–Bornu Empire",
+    "state": null,
+    "country": "Nigeria",
+    "short_summary": "Idris Alooma, also called Idris Amsami, was mai (ruler) of the Kanem–Bornu Empire in the late sixteenth and early seventeenth centuries.",
+    "biography": "Idris Alooma, also called Idris Amsami, was mai (ruler) of the Kanem–Bornu Empire in the late sixteenth and early seventeenth centuries. Wikipedia dates his reign to approximately 1570–1603; the Library of Congress country study gives about 1569–1600. His reign is known mainly from the chronicle of his chief imam, Ahmad bin Fartuwa.\n\nAccording to Wikipedia, Idris ended Bornu's long conflict with the Bilala of Kanem, introduced legal reforms based on Islamic law with qadi courts independent of the executive, and extended Bornu's influence over most of Hausaland, the Tuareg of Aïr and the Tebu of Bilma, giving it control of central Saharan trade routes. The country study says that Kanem was reconquered during his reign and that Kano and Katsina became tributaries.",
+    "historical_significance": "Both sources regard his reign as the high point of Bornu: the country study says that after the fall of Songhai in 1591 Bornu dominated the political history of northern Nigeria for two centuries."
+   },
+   "srcs": [
+    [
+     "WIDR",
+     "Idris Alooma"
+    ],
+    [
+     "LSAV",
+     "Idris Alooma"
+    ]
+   ]
+  },
+  {
+   "key": "usman",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Usman dan Fodio",
+    "title": "Shehu; Commander of the Faithful",
+    "national_slug": "usman-dan-fodio",
+    "category": "Religious Leaders",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "male",
+    "date_of_birth": "15 December 1754",
+    "place_of_birth": "Gobir",
+    "date_of_death": "20 April 1817",
+    "occupation": "Islamic scholar, teacher, writer and leader of the Sokoto jihad",
+    "state": null,
+    "country": "Nigeria",
+    "short_summary": "Shehu Usman dan Fodio (15 December 1754 – 20 April 1817) was a Fulani Islamic scholar, teacher and writer who founded the Sokoto Caliphate and was its first caliph.",
+    "biography": "Shehu Usman dan Fodio (15 December 1754 – 20 April 1817) was a Fulani Islamic scholar, teacher and writer who founded the Sokoto Caliphate and was its first caliph. According to Wikipedia he was born in Gobir, studied the Quran at Degel, and was first taught by his mother, Hauwa; he wrote more than a hundred books on religion, government, culture and society, and criticised the ruling Muslim elites of the Hausa states for what he saw as their greed and their violations of Islamic law.\n\nThe Library of Congress country study describes how, as a member of the Qadiriyya brotherhood, he drew a following among clerics and among the Fulani, and how the jihad he led began in Gobir in 1804. By 1808 the Hausa states had been conquered. Sokoto, founded in 1809, became the capital of the new caliphate. Wikipedia notes that he passed actual leadership to his son, Muhammad Bello, who succeeded him on his death in 1817 (country study).",
+    "legacy": "The country study calls the Sokoto Caliphate the largest empire in Africa since the fall of Songhai, and says the jihad inspired Islamic states far beyond Nigeria. Wikipedia notes that he encouraged literacy and scholarship for women as well as men."
+   },
+   "srcs": [
+    [
+     "WUSM",
+     "Usman dan Fodio"
+    ],
+    [
+     "LSOK",
+     "Usman dan Fodio"
+    ]
+   ]
+  },
+  {
+   "key": "kanemi",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Muhammad al-Amin al-Kanemi",
+    "title": "Shehu of Borno",
+    "national_slug": "muhammad-al-amin-al-kanemi",
+    "category": "Religious Leaders",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "male",
+    "date_of_birth": "1776",
+    "place_of_birth": null,
+    "date_of_death": "8 June 1837",
+    "occupation": "Islamic scholar, military and political leader of Borno",
+    "state": "Borno",
+    "country": "Nigeria",
+    "short_summary": "Muhammad al-Amin al-Kanemi (1776 – 8 June 1837), also known as Laminu, was an Islamic scholar and teacher and a religious, military and political leader who saved the Kanem–Bornu Empire during the jihads of the early nineteenth century (Wikipedia).",
+    "biography": "Muhammad al-Amin al-Kanemi (1776 – 8 June 1837), also known as Laminu, was an Islamic scholar and teacher and a religious, military and political leader who saved the Kanem–Bornu Empire during the jihads of the early nineteenth century (Wikipedia). According to the Library of Congress country study, when the Sokoto jihad reached Borno its mai was overthrown and the capital, Birni Gazargamu, destroyed, but al-Kanemi organised a strong resistance that forced the jihadists to retreat west and south.\n\nWikipedia records that the mai, Dunama IX Lefiami, rewarded him with unprecedented power, which allowed al-Kanemi to become the effective ruler of the empire; he took the title shehu (\"sheikh\") and made Kukawa his seat.",
+    "legacy": "His family replaced the centuries-old Sayfawa dynasty (country study); under his son Umar the mais were deposed and the al-Kanemi line became Borno's monarchs in name as well as in fact (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WKAN",
+     "Muhammad al-Amin al-Kanemi"
+    ],
+    [
+     "LSOK",
+     "Muhammad al-Amin al-Kanemi"
+    ]
+   ]
+  },
+  {
+   "key": "ovonramwen",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Ovonramwen",
+    "title": "Oba of Benin",
+    "national_slug": "ovonramwen",
+    "category": "Traditional Leadership",
+    "historical_period": "Pre-Colonial Era",
+    "gender": "male",
+    "date_of_birth": "1857",
+    "place_of_birth": null,
+    "date_of_death": "14 January 1914",
+    "occupation": "Oba (king) of Benin",
+    "state": "Edo",
+    "country": "Nigeria",
+    "short_summary": "Ovonramwen (born Idugbowa; 1857 – 14 January 1914), recorded as \"Overami\" by the British, was the thirty-fifth Oba of Benin and the last ruler of the kingdom before it lost its independence (Wikipedia).",
+    "biography": "Ovonramwen (born Idugbowa; 1857 – 14 January 1914), recorded as \"Overami\" by the British, was the thirty-fifth Oba of Benin and the last ruler of the kingdom before it lost its independence (Wikipedia). He succeeded his father, Adolo, in 1888 or 1889, taking the name Ovonramwen n'Ogbaisi, \"the rising sun that spreads over all\". His reign began with rivalry among palace chiefs and efforts to keep Benin's authority as British influence spread across the western Niger Delta.\n\nIn 1892 the British vice-consul Henry Gallwey negotiated a treaty which, as the British read it, limited Benin's independence; Ovonramwen did not personally touch the pen, and continued to enforce Benin's trade restrictions and royal monopolies. In January 1897 the acting consul-general, James Phillips, set out for Benin although the oba had asked him to postpone his visit; a group of Benin chiefs, despite objections attributed to Ovonramwen, attacked the party and killed most of its European members (Wikipedia).",
+    "career": "The British expedition that followed took Benin City in 1897 and destroyed the oba's palace (country study). Ovonramwen was deposed, sentenced to exile and sent to Calabar, where he remained until his death in January 1914; his eldest son then became oba as Eweka II (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WOVO",
+     "Ovonramwen"
+    ],
+    [
+     "LEXT",
+     "Ovonramwen"
+    ]
+   ]
+  },
+  {
+   "key": "macaulay",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Herbert Macaulay",
+    "title": null,
+    "national_slug": "herbert-macaulay",
+    "category": "Political Leaders",
+    "historical_period": "Colonial Era",
+    "gender": "male",
+    "date_of_birth": "14 November 1864",
+    "place_of_birth": "Lagos",
+    "date_of_death": "7 May 1946",
+    "occupation": "Nationalist politician, surveyor, engineer and journalist",
+    "state": "Lagos",
+    "country": "Nigeria",
+    "short_summary": "Herbert Macaulay (14 November 1864 – 7 May 1946) was a Nigerian nationalist, politician, surveyor, engineer, journalist and musician, considered by many to be the founder of Nigerian nationalism (Wikipedia).",
+    "biography": "Herbert Macaulay (14 November 1864 – 7 May 1946) was a Nigerian nationalist, politician, surveyor, engineer, journalist and musician, considered by many to be the founder of Nigerian nationalism (Wikipedia). Born on Broad Street, Lagos, he was a grandson of Samuel Ajayi Crowther, the first African bishop of the Niger territory. From 1891 to 1894 he studied civil engineering in Plymouth, England.\n\nAccording to the Library of Congress country study, he was the principal figure in the political activity that followed the 1922 constitution, which allowed a few elected members on the Legislative Council: he led the Nigerian National Democratic Party, which dominated elections in Lagos from its founding in 1922 until 1938, and used his newspaper, the Lagos Daily News, to arouse political awareness. Wikipedia records that in his political work he also relied on the Lagos Daily News, on the Lagos Market Women Association led by his ally Alimotu Pelewura, and on the House of Docemo. In 1944, when the NCNC was founded as Nigeria's first party with nationwide appeal, \"the aged Macaulay\" was elected its president, with Nnamdi Azikiwe as secretary-general (country study)."
+   },
+   "srcs": [
+    [
+     "WMAC",
+     "Herbert Macaulay"
+    ],
+    [
+     "LNAT",
+     "Herbert Macaulay"
+    ]
+   ]
+  },
+  {
+   "key": "frk",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Funmilayo Ransome-Kuti",
+    "title": "Chief",
+    "national_slug": "funmilayo-ransome-kuti",
+    "category": "Women of Influence",
+    "historical_period": "Colonial Era",
+    "gender": "female",
+    "date_of_birth": "25 October 1900",
+    "place_of_birth": "Abeokuta",
+    "date_of_death": "13 April 1978",
+    "occupation": "Educator, political organiser and women's rights campaigner",
+    "state": "Ogun",
+    "country": "Nigeria",
+    "short_summary": "Funmilayo Ransome-Kuti (25 October 1900 – 13 April 1978) was a Nigerian educator, political organiser and women's rights campaigner (Wikipedia).",
+    "biography": "Funmilayo Ransome-Kuti (25 October 1900 – 13 April 1978) was a Nigerian educator, political organiser and women's rights campaigner (Wikipedia). Born in Abeokuta, she was the first female student at the Abeokuta Grammar School. As a teacher she organised some of the earliest pre-school classes in the country and literacy classes for poorer women.\n\nIn the 1940s she founded the Abeokuta Women's Union, which demanded better representation of women in local government and an end to unfair taxes on market women; marches and protests of up to 10,000 women led by her forced the Alake of Egbaland to abdicate temporarily in 1949. She took part in the independence movement, joined delegations on Nigeria's constitution, led the creation of the Nigerian Women's Union and the Federation of Nigerian Women's Societies, and campaigned for women's right to vote.",
+    "legacy": "She received the Lenin Peace Prize and membership of the Order of the Niger. Her children included the musician Fela Kuti, the doctor and activist Beko Ransome-Kuti and the health minister Olikoye Ransome-Kuti. She died at 77 after being wounded in a military raid on family property (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WFRK",
+     "Funmilayo Ransome-Kuti"
+    ]
+   ]
+  },
+  {
+   "key": "azikiwe",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Nnamdi Azikiwe",
+    "title": "Zik of Africa",
+    "national_slug": "nnamdi-azikiwe",
+    "category": "Political Leaders",
+    "historical_period": "First Republic",
+    "gender": "male",
+    "date_of_birth": "16 November 1904",
+    "place_of_birth": "Zungeru",
+    "date_of_death": "11 May 1996",
+    "occupation": "Journalist and politician; first president of Nigeria",
+    "state": "Anambra",
+    "country": "Nigeria",
+    "short_summary": "Nnamdi Azikiwe (16 November 1904 – 11 May 1996), known as \"Zik of Africa\", was the first Nigerian governor-general of Nigeria, from 1960 to 1963, and the first president of the country, from 1963 to 1966 (Wikipedia).",
+    "biography": "Nnamdi Azikiwe (16 November 1904 – 11 May 1996), known as \"Zik of Africa\", was the first Nigerian governor-general of Nigeria, from 1960 to 1963, and the first president of the country, from 1963 to 1966 (Wikipedia). Born in Zungeru, in present-day Niger State, to Igbo parents from Onitsha, he grew up speaking Hausa, Igbo and Yoruba. He studied in the United States at Storer College, Columbia University, the University of Pennsylvania and Howard University, and returned to Africa in 1934 to work as a journalist in the Gold Coast.\n\nThe Library of Congress country study describes his central role in the nationalist movement: he encouraged the conference that founded the NCNC in 1944, became its secretary-general under Herbert Macaulay, and led the party, in part through the string of newspapers he ran. When Nigeria became a republic in 1963, Azikiwe, who had been governor-general, became its first president (country study).",
+    "legacy": "Wikipedia records that he is widely regarded as a father of Nigerian nationalism and one of the founding fathers of the country. In the Second Republic he led the Nigerian People's Party and stood for the presidency in 1979 (country study)."
+   },
+   "srcs": [
+    [
+     "WAZI",
+     "Nnamdi Azikiwe"
+    ],
+    [
+     "LNAT",
+     "Nnamdi Azikiwe"
+    ],
+    [
+     "LIND",
+     "Nnamdi Azikiwe"
+    ],
+    [
+     "LSEC",
+     "Nnamdi Azikiwe"
+    ]
+   ]
+  },
+  {
+   "key": "awolowo",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Obafemi Awolowo",
+    "title": "Chief",
+    "national_slug": "obafemi-awolowo",
+    "category": "Political Leaders",
+    "historical_period": "First Republic",
+    "gender": "male",
+    "date_of_birth": "6 March 1909",
+    "place_of_birth": "Ikenne",
+    "date_of_death": "9 May 1987",
+    "occupation": "Lawyer, journalist and politician; premier of the Western Region",
+    "state": "Ogun",
+    "country": "Nigeria",
+    "short_summary": "Obafemi Awolowo (6 March 1909 – 9 May 1987) was a Nigerian politician who was the first premier of the Western Region (Wikipedia).",
+    "biography": "Obafemi Awolowo (6 March 1909 – 9 May 1987) was a Nigerian politician who was the first premier of the Western Region (Wikipedia). Born in the Remo town of Ikenne, in present-day Ogun State, he worked as a journalist, studied commerce in Nigeria and law at the University of London, and founded the Nigerian Tribune.\n\nAccording to the Library of Congress country study, he led the Nigerian Produce Traders' Association and played a leading role in the Yoruba cultural movement Egbe Omo Oduduwa, and the Action Group, founded in 1951, was largely his creation. He was premier of the Western Region from 1952 to 1959 and leader of the opposition in the federal parliament from 1959 to 1963 (Wikipedia).\n\nIn 1962 the Action Group split between Awolowo and Samuel Akintola; Awolowo was later tried and convicted of treason and sentenced to ten years in prison (country study). He was released in 1966, after the July coup, and served as federal commissioner for finance and vice-chairman of the Federal Executive Council during the civil war (Wikipedia; country study). He was three times a leading candidate for the presidency."
+   },
+   "srcs": [
+    [
+     "WAWO",
+     "Obafemi Awolowo"
+    ],
+    [
+     "LNAT",
+     "Obafemi Awolowo"
+    ],
+    [
+     "LIND",
+     "Obafemi Awolowo"
+    ]
+   ]
+  },
+  {
+   "key": "bello",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Ahmadu Bello",
+    "title": "Sardauna of Sokoto",
+    "national_slug": "ahmadu-bello",
+    "category": "Political Leaders",
+    "historical_period": "First Republic",
+    "gender": "male",
+    "date_of_birth": "12 June 1910",
+    "place_of_birth": "Rabah",
+    "date_of_death": "15 January 1966",
+    "occupation": "Politician; premier of the Northern Region",
+    "state": "Sokoto",
+    "country": "Nigeria",
+    "short_summary": "Sir Ahmadu Bello (12 June 1910 – 15 January 1966), known by his title Sardauna of Sokoto, was the first and only premier of the Northern Region, from 1954 until his death, and leader of the Northern People's Congress (Wikipedia).",
+    "biography": "Sir Ahmadu Bello (12 June 1910 – 15 January 1966), known by his title Sardauna of Sokoto, was the first and only premier of the Northern Region, from 1954 until his death, and leader of the Northern People's Congress (Wikipedia). He was born in Rabah, where his father was district head, and was a member of the Sokoto Caliphate dynasty; he sought to become Sultan of Sokoto before entering politics.\n\nThe Library of Congress country study calls him the most powerful figure in the NPC, a controversial figure described by opponents as a \"feudal\" conservative, with a consuming interest in protecting northern social and political institutions from southern influence. Through the NPC's control of the north he dominated national affairs for more than a decade (Wikipedia).",
+    "career": "He was killed in Kaduna in the coup of 15 January 1966, together with Prime Minister Balewa and the Western premier, Samuel Akintola (country study)."
+   },
+   "srcs": [
+    [
+     "WBEL",
+     "Ahmadu Bello"
+    ],
+    [
+     "LNAT",
+     "Ahmadu Bello"
+    ],
+    [
+     "LCRI",
+     "Ahmadu Bello"
+    ]
+   ]
+  },
+  {
+   "key": "balewa",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Abubakar Tafawa Balewa",
+    "title": "Sir",
+    "national_slug": "abubakar-tafawa-balewa",
+    "category": "Political Leaders",
+    "historical_period": "First Republic",
+    "gender": "male",
+    "date_of_birth": "December 1912",
+    "place_of_birth": "Tafawa Balewa, Bauchi",
+    "date_of_death": "15 January 1966",
+    "occupation": "Teacher and politician; prime minister of Nigeria",
+    "state": "Bauchi",
+    "country": "Nigeria",
+    "short_summary": "Sir Abubakar Tafawa Balewa (December 1912 – 15 January 1966) was the first and only prime minister of Nigeria (Wikipedia).",
+    "biography": "Sir Abubakar Tafawa Balewa (December 1912 – 15 January 1966) was the first and only prime minister of Nigeria (Wikipedia). He was born in the village of Tafawa Balewa in the Lere district of Bauchi province, to a Gerawa father and a Fulani mother. He studied at a madrasa in Bauchi, at Bauchi Government Provincial School and at Katsina Higher College (now Barewa College) from 1928 to 1932, became a secondary-school teacher, and in 1944 headmaster of Bauchi middle school.\n\nAs prime minister from independence in 1960 he led a coalition of the Northern People's Congress and the NCNC (country study). He governed through the crises of the First Republic, including the Action Group split and the state of emergency in the Western Region in 1962. He was killed in Lagos in the coup of 15 January 1966 (country study)."
+   },
+   "srcs": [
+    [
+     "WBAL",
+     "Abubakar Tafawa Balewa"
+    ],
+    [
+     "LIND",
+     "Abubakar Tafawa Balewa"
+    ],
+    [
+     "LCRI",
+     "Abubakar Tafawa Balewa"
+    ]
+   ]
+  },
+  {
+   "key": "murtala",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Murtala Muhammed",
+    "title": "General",
+    "national_slug": "murtala-muhammed",
+    "category": "Warriors & Military Leaders",
+    "historical_period": "Military Era",
+    "gender": "male",
+    "date_of_birth": "8 November 1938",
+    "place_of_birth": "Kano",
+    "date_of_death": "13 February 1976",
+    "occupation": "Army officer; head of state of Nigeria",
+    "state": "Kano",
+    "country": "Nigeria",
+    "short_summary": "Murtala Muhammed (8 November 1938 – 13 February 1976) was a Nigerian army officer and the fourth head of state of Nigeria, from 29 July 1975 until his assassination on 13 February 1976 (Wikipedia).",
+    "biography": "Murtala Muhammed (8 November 1938 – 13 February 1976) was a Nigerian army officer and the fourth head of state of Nigeria, from 29 July 1975 until his assassination on 13 February 1976 (Wikipedia). Born in Kano, he trained at the Royal Military Academy Sandhurst and served in the Congo. He played a leading part in the counter-coup of July 1966 and during the civil war commanded the federal army's Second Infantry Division, which, Wikipedia records, committed the Asaba massacre of civilians (Wikipedia; country study).\n\nAfter Yakubu Gowon was deposed on 29 July 1975, the armed forces chose Murtala to succeed him. According to the Library of Congress country study, he committed the government to hand over power to an elected civilian government by October 1979, began the drafting of a new constitution, and reviewed the plan that gave Nigeria nineteen states in 1976. His policies quickly won broad popular support.",
+    "legacy": "He was killed in an unsuccessful coup in February 1976, and the country went into deep mourning (country study). His deputy, Olusegun Obasanjo, completed the transition to civilian rule in 1979."
+   },
+   "srcs": [
+    [
+     "WMUR",
+     "Murtala Muhammed"
+    ],
+    [
+     "LMURG",
+     "Murtala Muhammed"
+    ],
+    [
+     "LMUR",
+     "Murtala Muhammed"
+    ]
+   ]
+  },
+  {
+   "key": "ojukwu",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Chukwuemeka Odumegwu Ojukwu",
+    "title": "Ikemba",
+    "national_slug": "chukwuemeka-odumegwu-ojukwu",
+    "category": "Warriors & Military Leaders",
+    "historical_period": "Military Era",
+    "gender": "male",
+    "date_of_birth": "4 November 1933",
+    "place_of_birth": "Zungeru",
+    "date_of_death": "26 November 2011",
+    "occupation": "Army officer and politician; leader of Biafra",
+    "state": "Anambra",
+    "country": "Nigeria",
+    "short_summary": "Chukwuemeka Odumegwu Ojukwu (4 November 1933 – 26 November 2011), known as Ikemba, was a Nigerian army officer and politician who led the Republic of Biafra from 1967 to 1970 (Wikipedia).",
+    "biography": "Chukwuemeka Odumegwu Ojukwu (4 November 1933 – 26 November 2011), known as Ikemba, was a Nigerian army officer and politician who led the Republic of Biafra from 1967 to 1970 (Wikipedia). Born in Zungeru, the son of the Igbo businessman Louis Odumegwu Ojukwu, he was educated at King's College, Lagos, Epsom College in England and Lincoln College, Oxford, where he studied history. He served as an administrative officer before joining the army.\n\nAfter the coup of January 1966, Johnson Aguiyi-Ironsi appointed him military governor of the Eastern Region. Following the killings of Igbo in other parts of Nigeria, and after the talks at Aburi failed, he proclaimed the independent Republic of Biafra on 30 May 1967, saying that the federal government could not protect the lives of easterners (country study; Wikipedia).",
+    "career": "He led Biafra through the civil war. When Biafran resistance collapsed in January 1970 he left for Côte d'Ivoire, where he was given political asylum (country study; Wikipedia). He died in London in 2011 (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WOJU",
+     "Chukwuemeka Odumegwu Ojukwu"
+    ],
+    [
+     "LWAR",
+     "Chukwuemeka Odumegwu Ojukwu"
+    ]
+   ]
+  },
+  {
+   "key": "abiola",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Moshood Abiola",
+    "title": "Chief",
+    "national_slug": "moshood-abiola",
+    "category": "Business Leaders & Entrepreneurs",
+    "historical_period": "Military Era",
+    "gender": "male",
+    "date_of_birth": "24 August 1937",
+    "place_of_birth": "Abeokuta",
+    "date_of_death": "7 July 1998",
+    "occupation": "Businessman, publisher and politician",
+    "state": "Ogun",
+    "country": "Nigeria",
+    "short_summary": "Moshood Kashimawo Olawale Abiola (24 August 1937 – 7 July 1998), known as M.",
+    "biography": "Moshood Kashimawo Olawale Abiola (24 August 1937 – 7 July 1998), known as M. K. O. Abiola, was a Nigerian businessman, publisher and politician (Wikipedia). He was born and educated in Abeokuta. He stood for president in the election of 12 June 1993, which most observers considered the fairest in Nigeria's history, and early returns showed him winning decisively; his support crossed regional and religious lines. The military president, Ibrahim Babangida, annulled the election on 23 June 1993 (Wikipedia).\n\nIn June 1994 Abiola declared himself the lawful president of Nigeria at Epetedo, Lagos, and was imprisoned. He died in detention on 7 July 1998, shortly after the death of General Sani Abacha, on the day he was due to be released (Wikipedia).",
+    "legacy": "In 2018 he was posthumously awarded Nigeria's highest honour, Grand Commander of the Order of the Federal Republic, and Democracy Day was moved from 29 May to 12 June in his honour (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WABI",
+     "Moshood Abiola"
+    ],
+    [
+     "WHIST",
+     "Moshood Abiola"
+    ]
+   ]
+  },
+  {
+   "key": "saro",
+   "table": "historical_figures",
+   "evidence": "multiple_sources",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Ken Saro-Wiwa",
+    "title": null,
+    "national_slug": "ken-saro-wiwa",
+    "category": "Activists & Reformers",
+    "historical_period": "Military Era",
+    "gender": "male",
+    "date_of_birth": "10 October 1941",
+    "place_of_birth": "Bori",
+    "date_of_death": "10 November 1995",
+    "occupation": "Writer, television producer and environmental activist",
+    "state": "Rivers",
+    "country": "Nigeria",
+    "short_summary": "Kenule Beeson Saro-Wiwa (10 October 1941 – 10 November 1995) was a Nigerian writer, teacher, television producer and activist, a member of the Ogoni people of the Niger Delta (Wikipedia).",
+    "biography": "Kenule Beeson Saro-Wiwa (10 October 1941 – 10 November 1995) was a Nigerian writer, teacher, television producer and activist, a member of the Ogoni people of the Niger Delta (Wikipedia). Born in Bori, near Port Harcourt, he studied at Government College Umuahia and taught at the University of Nigeria, Nsukka. His novel Sozaboy (1985) tells of a village boy recruited into the army in the civil war, and his satirical television series Basi & Company drew an estimated audience of 30 million.\n\nAs spokesman and then president of the Movement for the Survival of the Ogoni People (MOSOP), he led a non-violent campaign against the environmental damage done to Ogoniland by oil companies, especially Royal Dutch Shell, and criticised the government for failing to enforce environmental regulations (Wikipedia).",
+    "legacy": "He was tried by a special military tribunal on charges of masterminding the murder of Ogoni chiefs and was hanged in 1995 under the government of General Sani Abacha, together with eight others. His execution caused international outrage and, according to Wikipedia's article on him, led to Nigeria's suspension from the Commonwealth for more than three years."
+   },
+   "srcs": [
+    [
+     "WKSW",
+     "Ken Saro-Wiwa"
+    ],
+    [
+     "WHIST",
+     "Ken Saro-Wiwa"
+    ]
+   ]
+  },
+  {
+   "key": "achebe",
+   "table": "historical_figures",
+   "evidence": "single_reliable_source",
+   "level": "well_documented",
+   "fields": {
+    "english_name": "Chinua Achebe",
+    "title": null,
+    "national_slug": "chinua-achebe",
+    "category": "Writers & Authors",
+    "historical_period": "Post-Colonial Era",
+    "gender": "male",
+    "date_of_birth": "16 November 1930",
+    "place_of_birth": "Ogidi",
+    "date_of_death": "21 March 2013",
+    "occupation": "Novelist, poet and critic",
+    "state": "Anambra",
+    "country": "Nigeria",
+    "short_summary": "Chinua Achebe (16 November 1930 – 21 March 2013) was a Nigerian novelist, poet and critic regarded as a central figure of modern African literature (Wikipedia).",
+    "biography": "Chinua Achebe (16 November 1930 – 21 March 2013) was a Nigerian novelist, poet and critic regarded as a central figure of modern African literature (Wikipedia). Born in Ogidi and raised between Igbo tradition and colonial Christianity, he studied at what is now the University of Ibadan and worked for the Nigerian Broadcasting Service in Lagos.\n\nHis first novel, Things Fall Apart (1958), is, according to Wikipedia, the most widely studied, translated and read African novel; with No Longer at Ease (1960) and Arrow of God (1964) it forms his \"African Trilogy\". Later novels include A Man of the People (1966) and Anthills of the Savannah (1987). With the publisher Heinemann he began the African Writers Series, which launched the careers of writers such as Ngũgĩ wa Thiong'o and Flora Nwapa.",
+    "career": "When Biafra broke away in 1967 he supported its independence and acted as an ambassador for its cause. He won the Man Booker International Prize in 2007, and from 2009 until his death was professor of African studies at Brown University in the United States (Wikipedia)."
+   },
+   "srcs": [
+    [
+     "WACH",
+     "Chinua Achebe"
+    ]
+   ]
+  }
+ ],
+ "names": [],
+ "gaps": [
+  [
+   "National people: coverage",
+   "Sixteen people only, all deceased. Not yet covered: Jaja of Opobo, Nana Olomu, Sultan Attahiru I, Aminu Kano, Margaret Ekpo, Sarduana-era and First Republic ministers, the military heads of state (Ironsi, Gowon, Obasanjo, Buhari, Babangida, Abacha, Abubakar), Shehu Shagari, Fela Kuti, Wole Soyinka and other living or recent figures. Living people need extra care and should be added only with strong sources."
+  ],
+  [
+   "National people: single-source records",
+   "Achebe and Amina rest on one source each; Amina's dates and title are matters of tradition, recorded as such."
+  ],
+  [
+   "National people: images",
+   "No portraits yet; add free-licence portraits through the image-refill process (media_assets) where they exist."
+  ]
+ ],
+ "updates": [],
+ "relations": [],
+ "statistics": [],
+ "scope": "National people: sixteen figures of Nigerian history from Amina of Zazzau to Chinua Achebe (deceased people only in this batch)."
+}

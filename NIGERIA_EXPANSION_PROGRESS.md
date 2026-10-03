@@ -2,6 +2,17 @@
 
 Last updated: **2 October 2026**. Read this first when resuming.
 
+## ▶ NEWEST (3 Oct 2026) — national People / Events / Periods (owner: "fill in the gap" on /nigeria)
+
+- **Batches 135–137 DEPLOYED 3 Oct 2026** (backup `/root/backups/LATEST_NIGERIA_BATCH135` = …136 = …137; JSON in /root/research/). Live: hub People 16 / Events 17 / Periods 11, sitemap 3,038, 0 PHP fatals, Tiv lists unaffected:
+  - **135 Historical Periods** (`batch_135_national_periods.py`): 11 periods, prehistory → Fourth Republic, 307–389 words each (indexable).
+  - **136 Events** (`batch_136_national_events.py`): 17 events 1804–2015, each linked to its period (needs 135 first).
+  - **137 People** (`batch_137_national_people.py`): 16 deceased national figures (Amina → Achebe).
+  - Sources: Library of Congress *Nigeria: A Country Study* (history chapters, text as of Dec 1990; saved data/loc_cs_nigeria_N.txt) + Wikipedia (saved data/wiki_*_2026-10-03.txt). Disagreements (Nok dates, Iho Eleru age, civil-war deaths, Phillips 1896/1897) kept side by side.
+- **Code changes needed on deploy:** `bin/import-research-batch.php`, `bin/publish-research-batch.php`, `bin/rollback-research-batch.php` now handle national `timeline_events` / `historical_figures` (status draft/published, national_slug, 'nigeria'-only collection tag so they never show in the Tiv lists); `controllers/NigeriaController.php` sorts periods by start-or-end year and adds "CE" to an end year when the period starts BCE. Live copies were checked: the only live-only lines are the ones replaced.
+- **Tested** on a fresh prod copy: hub cards People 16 / Events 17 / Periods 11; Tiv /historical-figures and /timeline show none of the national records; old Tiv URL of a national person 301s to /nigeria/people/…; sitemap 3,026 → 3,038 (periods only; event/person pages are under 300 words, so noindex); 0 PHP errors; full rollback restores every count.
+- **Next state batch number is now 138** (was 135).
+
 ## ▶ RESUME HERE (saved 2 Oct 2026, end of day — this block supersedes the older notes below)
 
 - **18 of 37 done** (36 states + FCT; Phase 3 + Phase 4 QC, progress rows qc_in_progress): Benue, Nasarawa, Taraba, Plateau, Kogi, Adamawa, Borno, Yobe, Bauchi, Gombe, Kano, Jigawa, Katsina, Zamfara, Lagos, Ogun, Oyo, Osun.
