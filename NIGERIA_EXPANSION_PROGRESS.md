@@ -11,7 +11,7 @@ Last updated: **2 October 2026**. Read this first when resuming.
 - **Live baselines:** sitemap 3,026; 0 PHP fatals.
 - **Open owner decision:** separate records for Yoruba sub-groups (currently in link notes).
 - **Verified 3 Oct 2026 against production:** research_progress = 18 qc_in_progress / 19 not_started (same lists as above), live sitemap 3,026, backup symlink LATEST_NIGERIA_BATCH134 present. Work paused here while the owner switched to the AI marketing engine port (see AI_ENGINE_PORT_NOTES.md).
-- **Saved in git:** all batch scripts (database/research/, incl. data/ source snapshots), review/QC files and this log, committed locally as 3a78927 (not pushed). The nigeria_expansion_*.sql migrations are gitignored by repo rule (*.sql) and live only on disk + production.
+- **Saved in git:** all batch scripts (database/research/, incl. data/ source snapshots), review/QC files and this log, committed locally as 3a78927 (NOT pushed: the GitHub repo is public and these are internal notes plus third-party source copies). Off-laptop backup: VPS `/root/backups/nigeria_research_20261003.tar.gz` (415 files incl. the nigeria_expansion_*.sql migrations, sha256 8625018153b82a369d0d3ed03562949397c9718b9453f5f63c2fa0a72d9bac5e). The nigeria_expansion_*.sql migrations are gitignored by repo rule (*.sql) and live only on disk + production.
 - **Method, harness and pitfalls:** see the memory note `project_nigeria_resume.md`, the per-batch `NIGERIA_BATCH_NNN_REVIEW.md` files and the per-state `NIGERIA_QC_<STATE>.md` reports.
 
 ## Older resume notes (30 Sep 2026)
