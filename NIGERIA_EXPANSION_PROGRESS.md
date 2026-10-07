@@ -1,3 +1,14 @@
+## ▶▶▶ SESSION SAVED — 7 Oct 2026, late evening (read this first)
+
+- **Nothing is pending deployment.** Live: 23 qc_in_progress / 14 not_started; sitemap 3,099; 0 PHP fatals. Latest backup: `/root/backups/LATEST_NIGERIA_BATCH171`.
+- **Done this session:** NIGER finished (163 heritage, 164 LGA profiles, QC, fix_165); KADUNA done in full (166 Kainji languages, 166b Plateau languages, 166c peoples, 167 wards, 168 institutions, 169 heritage, 170 LGA profiles, QC `NIGERIA_QC_KADUNA.md`, fix_171). Also seeded tiv.conversational2.odt (33 new phrases, 12 spelling fixes; see project memory).
+- **Owner chose FCT next. Batch 172 (FCT languages and peoples) is WRITTEN, NOT TESTED, NOT DEPLOYED.** Script `database/research/batch_172_fct_languages_peoples.py`; title "Batch 172 — FCT: languages and peoples". It passed a dry-run import only. To resume: rebuild the test harness, run `python3 database/research/batch_172_fct_languages_peoples.py <out>`, import --apply, publish, `qc_state.php federal-capital-territory`, check pages, roll back, write `NIGERIA_BATCH_172_REVIEW.md`, then ask the owner.
+  - FCT refs: the territory is `@admin_units:federal_capital_territory:federal-capital-territory`; area councils are unit_type **other**: `@admin_units:other:federal-capital-territory/<slug>` (abaji, abuja-municipal-area-council, bwari, gwagwalada, kuje, kwali). QC: `php database/research/qc_state.php federal-capital-territory`.
+  - Content: 3 new languages (Basa-Gurara/Basa-Kwali, Koro Ija, Koro Zuba koro1324); FCT links for Gbagyi, Gbari, Gwandara, Dibo, Gade, Nupe; peoples all existing (Gbagyi, Basa, Gwandara, Gade, Dibo=Ganagana, Koro from the federal profile; Nupe, Ebira (Egbura), Hausa reported). INEC FCT PDF data/inec_fct.pdf (format: 'AC:' and 'Ward:' headers, not 'LGA:'/'RA:' — inec_parse_directory.py may need adapting for batch 173 wards). Federal profile data/fg_fct_2026-10-07.html.
+  - FCT plan after 172: 173 wards (62 wards, 562 PUs), 174 institutions (Abaji, Bwari, Gwagwalada/Aguma of Bassa, Kuje, Kwali, Garki/Esu Karu…), 175 heritage (Zuma Rock is in Niger; Aso Rock NCMM proposed; Usuma dam…), 176 area-council profiles, QC + fix_177 (6/6).
+- **Owner questions still open:** Bariba vs Baatonu; Niger people names (own vs federal-profile); Ijaw vs Izon; Yoruba sub-group records; Koro (Kaduna Bhazar/Batinor linked to the shared Koro record) and Egbura (linked to Ebira) — separate records or not.
+- **Kaduna method the owner accepted:** INEC polling-unit/ward name matches and Wikipedia place names are linked as *reported* for LGAs created after the Atlas survey.
+
 ## ▶▶▶ SESSION SAVED — 7 Oct 2026, end of day (read this first)
 
 - **Nothing is pending deployment.** Everything built today is live on tivheritage.com. Live: 21 qc_in_progress / 16 not_started; sitemap 3,099; 0 PHP fatals.
