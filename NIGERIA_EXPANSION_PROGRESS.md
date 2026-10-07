@@ -1,6 +1,6 @@
 ## ▶▶ ONDO STARTED — 7 Oct 2026 (read this first)
 
-- The owner chose **Ondo** (state research, resumed 7 Oct). **Batch 142, Ondo languages and peoples, is BUILT and TESTED. It is NOT deployed and is waiting for the owner's approval.**
+- The owner chose **Ondo** (state research, resumed 7 Oct). **Batch 142, Ondo languages and peoples, was DEPLOYED and published on 7 Oct 2026.** Backup: `/root/backups/LATEST_NIGERIA_BATCH142`. Live checks: Ondo QC 0 problems and 3 checks (the expected no-family ones), 0 coverage checks (previously 18), all new pages 200, sitemap 3,099, 0 PHP fatals. **Nothing is pending deployment. Next batch: 143, Ondo INEC wards.**
   - Script: `database/research/batch_142_ondo_languages_peoples.py`. Review: `NIGERIA_BATCH_142_REVIEW.md`. Title: "Batch 142 — Ondo: languages and peoples".
   - Contents: the Ijoid branch; 9 languages (Ahan, Akpes, Arigidi, Ehuẹun, Iyayu, Uhami, Ukaan, Ukue, Ịzọn); the Ijaw people (endonym Izon); Yoruba linked to all 18 LGAs. 11 records, 53 links, 43 names, 9 gaps.
   - Tested on a fresh prod copy: QC 0 problems and 3 checks (Akpes, Arigidi and Ukaan have no family, which is correct); pages 200; sitemap 3,099 unchanged; rollback exact.
