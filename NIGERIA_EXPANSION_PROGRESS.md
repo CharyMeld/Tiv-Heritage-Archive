@@ -2,7 +2,8 @@
 
 - **Nothing is pending deployment.** Everything built today is live on tivheritage.com. Live: 21 qc_in_progress / 16 not_started; sitemap 3,099; 0 PHP fatals.
 - **Done today:** ONDO (142–147), EKITI (148–153) and KWARA (154–159) are complete. NIGER is in progress: 160 languages, 160b peoples, 161 wards and 162 traditional institutions are all DEPLOYED.
-- **Resume at batch 163: Niger culture and heritage.**
+- **Batch 163, Niger culture and heritage, BUILT AND TESTED (not deployed), 7 Oct 2026.** Script `database/research/batch_163_niger_heritage.py`; title "Batch 163 — Niger: culture and heritage"; review `NIGERIA_BATCH_163_REVIEW.md`. NCMM declared 48–51 (Tsoede's tomb, Mai Jimina's house, Zungeru Government House ruins, the Etsu Nupe's katamba), proposed 67–69 and 88 (Zungeru landscape, Dabo Mosque Gulu, All Saints Zungeru, Zuma Rock), National Museum Minna, Kainji National Park, Gurara Waterfalls, Nupe Day. Test: QC 0 problems / 9 expected checks; pages 200; sitemap 3,099; rollback exact.
+- **(Earlier note) Resume at batch 163: Niger culture and heritage.**
   - Check the NCMM lists for Niger; likely entries include the Zungeru colonial landscape, the Dabo Mosque at Gulu (Lapai) and All Saints Church, Zungeru (proposed).
   - Then 164 LGA profiles. Note that the archive's 'Muya' is Munya in the federal profile and Wikipedia (keep both names); headquarters come from Statoids, Wikipedia and INEC (KWARA-STATE.pdf pattern: NIGER-STATE.pdf).
   - Then the Niger QC and fix_165_niger.php (progress 25/25).
