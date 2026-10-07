@@ -1,3 +1,14 @@
+## ▶▶ ONDO STARTED — 7 Oct 2026 (read this first)
+
+- The owner chose **Ondo** (state research, resumed 7 Oct). **Batch 142, Ondo languages and peoples, is BUILT and TESTED. It is NOT deployed and is waiting for the owner's approval.**
+  - Script: `database/research/batch_142_ondo_languages_peoples.py`. Review: `NIGERIA_BATCH_142_REVIEW.md`. Title: "Batch 142 — Ondo: languages and peoples".
+  - Contents: the Ijoid branch; 9 languages (Ahan, Akpes, Arigidi, Ehuẹun, Iyayu, Uhami, Ukaan, Ukue, Ịzọn); the Ijaw people (endonym Izon); Yoruba linked to all 18 LGAs. 11 records, 53 links, 43 names, 9 gaps.
+  - Tested on a fresh prod copy: QC 0 problems and 3 checks (Akpes, Arigidi and Ukaan have no family, which is correct); pages 200; sitemap 3,099 unchanged; rollback exact.
+  - Owner decision asked: keep the people record named **Ijaw**, or rename it **Izon** (keep-both-names rule).
+- Saved for the next batches: `data/fg_ondo_2026-10-07.html` (federal profile) and `data/inec_ondo.pdf` (INEC 2015 directory, for batch 143 wards).
+- Test-harness tip: the batch title contains an em dash, and `docker exec mysql` mangles it. Unpublish by `research_batch_id`, not by title.
+- **Next:** after approval, deploy 142, then 143 Ondo INEC wards, then traditional institutions, heritage (NCMM No. 54 Iwo Eleru, No. 55 Deji's palace), LGA profiles, QC and fix_.
+
 ## ▶▶ SESSION SAVED — 3 Oct 2026, end of day (read this first)
 
 - **Nothing is pending deployment.** Everything built today is live on tivheritage.com.
