@@ -34,7 +34,7 @@ LGAS = {
  "ekiti-south-west": ("Ekiti South-West", "Ilawe Ekiti", 165277, 346, "SI", "Ilawe Ekiti", ""),
  "ekiti-west": ("Ekiti West", "Aramoko Ekiti", 179892, 366, "SI", "Aramoko Ekiti", "The Ikogosi Warm Springs are in the LGA (Wikipedia; INEC's Ikogosi ward)."),
  "emure": ("Emure", "Emure Ekiti", 93884, 301, "SI", "Emure Ekiti", "Statoids writes Emure."),
- "idosi-osi": ("Ido-Osi, also written Idosi-Osi,", "Ido Ekiti", 159114, 232, "SI", "Ido Ekiti", "INEC writes Ido/Osi and Wikipedia Ido-Osi; Statoids keeps Idosi-Osi."),
+ "idosi-osi": ("Idosi-Osi, also written Ido-Osi,", "Ido Ekiti", 159114, 232, "SI", "Ido Ekiti", "INEC writes Ido/Osi and Wikipedia Ido-Osi; the archive keeps Idosi-Osi, the spelling of the First Schedule to the 1999 Constitution."),
  "ijero": ("Ijero", "Ijero Ekiti", 221405, 391, "SI", "Ijero Ekiti", "Statoids writes Ijero."),
  "ikere": ("Ikere", "Ikere Ekiti", 147355, 263, "SI", "Ikere Ekiti", "Ikere-Ekiti is the seat of the Ogoga, whose authority is challenged by the Olukere; the Olosunta and Orole hills rise in the LGA (Wikipedia; Peoples Gazette). Statoids writes Ikere."),
  "ikole": ("Ikole", "Ikole Ekiti", 168436, 321, "SI", "Ikole-Ekiti", "Statoids writes Ikole."),
@@ -46,7 +46,7 @@ LGAS = {
 }
 NAMES_OF = {"S": "Statoids", "I": "INEC"}
 REUSE = {"ado-ekiti": "@places:ado-ekiti"}
-HQ_PREFIX = {"aiyekire": "Gbonyin", "idosi-osi": "Ido-Osi"}
+HQ_PREFIX = {"aiyekire": "Gbonyin", "idosi-osi": "Idosi-Osi"}
 
 
 def slugify(s):
@@ -92,7 +92,7 @@ NAMES = [
     dict(record="hq_ekiti-east", name="Omuo-Ekiti", name_type="spelling_variant", usage_notes="INEC and Wikipedia write Omuo-Ekiti.", srcs=["INECS"]),
 ]
 GAPS = [
-    ("Ekiti: Gbonyin and Ido-Osi", "INEC (2015 and 2024) and Wikipedia name these LGAs Gbonyin and Ido/Osi (Ido-Osi); Statoids and the archive have Aiyekire and Idosi-Osi. The renaming is proposed in batch 153; the date of the change to Gbonyin is not given in a source read."),
+    ("Ekiti: Gbonyin and Ido-Osi", "INEC (2015 and 2024) and Wikipedia name these LGAs Gbonyin and Ido/Osi (Ido-Osi); Statoids and the archive have Aiyekire and Idosi-Osi. Renaming Aiyekire to Gbonyin is proposed in batch 153; Idosi-Osi is kept, the Constitution's spelling (owner decision, 25 September 2026). The date of the change to Gbonyin is not given in a source read."),
     ("Ekiti: Wikipedia's headquarters", "Wikipedia's state page does not list the headquarters; Statoids and INEC agree on all 16, but a state government list would add a third source."),
 ]
 
@@ -112,8 +112,8 @@ def report():
          "## What it adds", "",
          f"- **16 LGA descriptions** and **{len(RECORDS)} new headquarters towns**. Ado Ekiti reuses the existing place. New town slugs end in '-ekiti'.",
          "- **Headquarters:** Statoids and INEC's LGA office list agree for all 16. Wikipedia's state page lists the LGAs without headquarters.",
-         "- **Names:** the archive's **Aiyekire** is **Gbonyin**, and its **Idosi-Osi** is **Ido-Osi**, in INEC's lists and Wikipedia. The descriptions say 'Gbonyin, also called Aiyekire'.",
-         "  - Renaming the two LGA records, keeping the old names as other names, will be proposed in the QC fix (batch 153), as was done for Yewa North and South.",
+         "- **Names:** the archive's **Aiyekire** is **Gbonyin**, in INEC's lists and Wikipedia; the description says 'Gbonyin, also called Aiyekire'. **Idosi-Osi** (INEC 'Ido/Osi', Wikipedia 'Ido-Osi') keeps the Constitution's spelling, as you decided on 25 September.",
+         "  - Renaming Aiyekire to Gbonyin, keeping Aiyekire as a historical name, is proposed in the QC fix (batch 153), as was done for Yewa North and South.",
          "- **Each description** names any seat of a ruler, monument, festival or smaller language recorded in batches 148–151.",
          "- **Figures:** 2006 population and area from Statoids.",
          "- The pages stay under 300 words, so they are noindex and the sitemap is unchanged.", "",
