@@ -26,3 +26,6 @@ vendor/
 
 # Claude Code tool state (worktrees, local session data)
 .claude/
+
+# Private per-installation values (encryption key) — keep a copy on each server
+config/secrets.php

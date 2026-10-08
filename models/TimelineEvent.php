@@ -8,6 +8,7 @@ require_once BASE_PATH . '/core/Model.php';
 class TimelineEvent extends Model
 {
     protected string $table = 'timeline_events';
+    protected ?string $publicCollection = 'tiv';
 
     protected array $fillable = [
         'title', 'slug', 'event_date', 'start_date', 'end_date', 'year', 'is_estimated',
@@ -92,7 +93,7 @@ class TimelineEvent extends Model
 
     private function buildWhere(array $filters): array
     {
-        $clauses = [];
+        $clauses = [$this->collectionScope()];
         $params = [];
 
         foreach (self::FILTERABLE_COLUMNS as $col) {
@@ -225,8 +226,9 @@ class TimelineEvent extends Model
     {
         $sql = "SELECT tec.category, COUNT(*) c
                 FROM timeline_event_categories tec
-                INNER JOIN timeline_events te ON te.id = tec.event_id";
-        if ($publishedOnly) $sql .= " WHERE te.status = 'published'";
+                INNER JOIN timeline_events te ON te.id = tec.event_id
+                WHERE {$this->collectionScope('te')}";
+        if ($publishedOnly) $sql .= " AND te.status = 'published'";
         $sql .= " GROUP BY tec.category ORDER BY tec.category";
 
         $stmt = $this->db->query($sql);
@@ -239,7 +241,7 @@ class TimelineEvent extends Model
     public function countByEra(): array
     {
         $stmt = $this->db->query(
-            "SELECT era, COUNT(*) c FROM {$this->table} WHERE status = 'published' AND era IS NOT NULL GROUP BY era"
+            "SELECT era, COUNT(*) c FROM {$this->table} WHERE status = 'published' AND era IS NOT NULL AND {$this->collectionScope()} GROUP BY era"
         );
         $raw = array_column($stmt->fetchAll(), 'c', 'era');
         $out = [];
@@ -251,7 +253,7 @@ class TimelineEvent extends Model
     public function getDistinctCenturies(): array
     {
         $stmt = $this->db->query(
-            "SELECT DISTINCT century FROM {$this->table} WHERE century IS NOT NULL AND status = 'published' ORDER BY century"
+            "SELECT DISTINCT century FROM {$this->table} WHERE century IS NOT NULL AND status = 'published' AND {$this->collectionScope()} ORDER BY century"
         );
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
@@ -259,7 +261,7 @@ class TimelineEvent extends Model
     public function getDistinctDecades(): array
     {
         $stmt = $this->db->query(
-            "SELECT DISTINCT decade FROM {$this->table} WHERE decade IS NOT NULL AND status = 'published' ORDER BY decade"
+            "SELECT DISTINCT decade FROM {$this->table} WHERE decade IS NOT NULL AND status = 'published' AND {$this->collectionScope()} ORDER BY decade"
         );
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
@@ -275,7 +277,7 @@ class TimelineEvent extends Model
 
         $prevStmt = $this->db->prepare(
             "SELECT id, title, year FROM {$this->table}
-             WHERE status = 'published' AND year IS NOT NULL
+             WHERE status = 'published' AND year IS NOT NULL AND {$this->collectionScope()}
                AND (year < ? OR (year = ? AND id < ?))
              ORDER BY year DESC, id DESC LIMIT 1"
         );
@@ -283,7 +285,7 @@ class TimelineEvent extends Model
 
         $nextStmt = $this->db->prepare(
             "SELECT id, title, year FROM {$this->table}
-             WHERE status = 'published' AND year IS NOT NULL
+             WHERE status = 'published' AND year IS NOT NULL AND {$this->collectionScope()}
                AND (year > ? OR (year = ? AND id > ?))
              ORDER BY year ASC, id ASC LIMIT 1"
         );
@@ -293,5 +295,11 @@ class TimelineEvent extends Model
         $next = $nextStmt->fetch();
 
         return ['prev' => $prev ?: null, 'next' => $next ?: null];
+    }
+
+    /** Every published record (newsletter popularity candidates). */
+    public function allPublished(): array
+    {
+        return $this->db->query("SELECT * FROM {$this->table} WHERE status = 'published' AND {$this->collectionScope()}")->fetchAll();
     }
 }

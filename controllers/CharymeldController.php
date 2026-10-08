@@ -63,9 +63,22 @@ class CharymeldController extends Controller
             return;
         }
 
-        // Decode conversation history sent by the client
-        $rawHistory = $this->post('history', '[]');
-        $history    = is_string($rawHistory) ? (json_decode($rawHistory, true) ?? []) : [];
+        // Decode conversation history sent by the client. Read $_POST directly
+        // (not via $this->post()) — that helper runs Security::sanitize(), which
+        // calls stripslashes() and corrupts any escaped quote inside the JSON
+        // (e.g. a previous reply quoting a proverb or book title), silently
+        // breaking json_decode() and dropping history to []. This is a structured
+        // payload, not free text, so it's decoded directly instead; every string
+        // pulled out of it is only ever used as archive search input (never
+        // rendered as HTML or used in raw SQL), so skipping the free-text
+        // sanitizer here is safe.
+        $rawHistory = $_POST['history'] ?? '[]';
+        $history    = is_string($rawHistory) && mb_strlen($rawHistory) <= 20000
+            ? (json_decode($rawHistory, true) ?? [])
+            : [];
+        if (!is_array($history)) {
+            $history = [];
+        }
 
         // ArchiveIntelligence handles its own DB search internally
         $service  = new CharymeldService();

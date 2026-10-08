@@ -31,56 +31,6 @@
 </div>
 
 <!-- ═══════════════════════════════════════════
-     DAILY TIV WORD — Spotlight
-════════════════════════════════════════════ -->
-<?php if ($dailyWord): ?>
-<section class="home-daily-word">
-    <div class="container">
-        <div class="home-dw-card">
-            <div class="home-dw-left">
-                <span class="home-dw-eyebrow">&#128172; Today&rsquo;s Tiv Word &mdash; <?= date('M j, Y') ?></span>
-                <a href="<?= url(SeoHelper::canonicalSlugPath('word', $dailyWord['id'], $dailyWord['tiv_word'])) ?>" class="home-dw-tiv">
-                    <?= e($dailyWord['tiv_word']) ?>
-                </a>
-                <p class="home-dw-eng"><?= e($dailyWord['english_meaning']) ?></p>
-                <?php if (!empty($dailyWord['pronunciation'])): ?>
-                <p class="home-dw-pronun">/ <?= e($dailyWord['pronunciation']) ?> /</p>
-                <?php endif; ?>
-                <?php if (!empty($dailyWord['example_tiv'])): ?>
-                <p class="home-dw-example">&ldquo;<?= e($dailyWord['example_tiv']) ?>&rdquo;</p>
-                <?php endif; ?>
-            </div>
-            <div class="home-dw-right">
-                <?php if (!empty($dailyWord['audio_file'])): ?>
-                <button type="button"
-                        class="home-dw-listen"
-                        onclick="playDailyWord(this)"
-                        data-audio="<?= e(AUDIO_UPLOADS_URL . '/' . $dailyWord['audio_file']) ?>">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
-                         fill="currentColor" class="play-icon">
-                        <polygon points="5 3 19 12 5 21 5 3"/>
-                    </svg>
-                    <span>Listen</span>
-                </button>
-                <audio id="dailyWordAudio" style="display:none;"></audio>
-                <?php else: ?>
-                <a href="<?= url(SeoHelper::canonicalSlugPath('word', $dailyWord['id'], $dailyWord['tiv_word'])) ?>" class="home-dw-listen">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2"
-                         stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18 6-6-6-6"/>
-                    </svg>
-                    <span>View</span>
-                </a>
-                <?php endif; ?>
-                <p class="home-dw-pos"><?= e($dailyWord['part_of_speech'] ?? '') ?></p>
-            </div>
-        </div>
-    </div>
-</section>
-<?php endif; ?>
-
-<!-- ═══════════════════════════════════════════
      CATEGORY GRID
 ════════════════════════════════════════════ -->
 <section class="home-cats-section">
@@ -91,22 +41,31 @@
         </div>
         <div class="home-cats-grid">
             <?php
+            $catCounts = $categoryCounts ?? [];
             $cats = [
-                ['href'=>url('archive/names'),     'icon'=>'&#128100;', 'label'=>'Tiv Names',   'desc'=>'Traditional names & meanings',         'cls'=>'names'],
-                ['href'=>url('archive/proverbs'),  'icon'=>'&#128221;', 'label'=>'Proverbs',     'desc'=>'Ancient wisdom & sayings',             'cls'=>'proverbs'],
-                ['href'=>url('archive/plants'),    'icon'=>'&#127807;', 'label'=>'Plants',       'desc'=>'Medicinal & sacred plants',            'cls'=>'plants'],
-                ['href'=>url('archive/festivals'), 'icon'=>'&#127881;', 'label'=>'Festivals',    'desc'=>'Cultural celebrations',                'cls'=>'festivals'],
-                ['href'=>url('archive/foods'),     'icon'=>'&#127858;', 'label'=>'Foods',        'desc'=>'Traditional cuisine & recipes',        'cls'=>'foods'],
-                ['href'=>url('archive/words'),     'icon'=>'&#128172;', 'label'=>'Dictionary',   'desc'=>'Tiv words & translations',             'cls'=>'words'],
-                ['href'=>url('archive/animals'),   'icon'=>'&#128062;', 'label'=>'Animals',      'desc'=>'Animals in Tiv culture & significance','cls'=>'animals'],
-                ['href'=>url('bible'),             'icon'=>'&#128214;', 'label'=>'Bible',         'desc'=>'Icighan Bibilo — English &amp; Tiv',   'cls'=>'bible'],
+                ['href'=>url(section_path('names')),        'icon'=>'&#128100;', 'label'=>'Tiv Names',    'desc'=>'Traditional names & meanings',          'cls'=>'names',        'count'=>$catCounts['names'] ?? null],
+                ['href'=>url(section_path('proverbs')),     'icon'=>'&#128221;', 'label'=>'Proverbs',     'desc'=>'Ancient wisdom & sayings',              'cls'=>'proverbs',     'count'=>$catCounts['proverbs'] ?? null],
+                ['href'=>url(section_path('plants')),       'icon'=>'&#127807;', 'label'=>'Plants',       'desc'=>'Medicinal & sacred plants',             'cls'=>'plants',       'count'=>$catCounts['plants'] ?? null],
+                ['href'=>url(section_path('festivals')),    'icon'=>'&#127881;', 'label'=>'Festivals',    'desc'=>'Cultural celebrations',                 'cls'=>'festivals',    'count'=>$catCounts['festivals'] ?? null],
+                ['href'=>url(section_path('foods')),        'icon'=>'&#127858;', 'label'=>'Foods',        'desc'=>'Traditional cuisine & recipes',         'cls'=>'foods',        'count'=>$catCounts['foods'] ?? null],
+                ['href'=>url(section_path('words')),        'icon'=>'&#128172;', 'label'=>'Dictionary',   'desc'=>'Tiv words & translations',              'cls'=>'words',        'count'=>$catCounts['words'] ?? null],
+                ['href'=>url(section_path('animals')),      'icon'=>'&#128062;', 'label'=>'Animals',      'desc'=>'Animals in Tiv culture & significance', 'cls'=>'animals',      'count'=>$catCounts['animals'] ?? null],
+                ['href'=>url('bible'),                'icon'=>'&#128214;', 'label'=>'Bible',        'desc'=>'Icighan Bibilo — English &amp; Tiv',    'cls'=>'bible',        'count'=>$catCounts['bible'] ?? null],
+                ['href'=>url('archive/documents'),    'icon'=>'&#128196;', 'label'=>'Documents',    'desc'=>'Historical manuscripts & records',      'cls'=>'documents',    'count'=>$catCounts['documents'] ?? null],
+                ['href'=>url('archive/audio'),        'icon'=>'&#127911;', 'label'=>'Audio',        'desc'=>'Songs, speeches & oral traditions',     'cls'=>'audio',        'count'=>$catCounts['audio'] ?? null],
+                ['href'=>url('archive/publications'), 'icon'=>'&#128218;', 'label'=>'Publications', 'desc'=>'Academic & community research',         'cls'=>'publications', 'count'=>$catCounts['publications'] ?? null],
             ];
             foreach ($cats as $cat):
             ?>
             <a href="<?= $cat['href'] ?>" class="home-cat-tile home-cat-<?= $cat['cls'] ?>">
                 <span class="home-cat-icon"><?= $cat['icon'] ?></span>
                 <div class="home-cat-body">
-                    <h3 class="home-cat-label"><?= $cat['label'] ?></h3>
+                    <h3 class="home-cat-label">
+                        <?= $cat['label'] ?>
+                        <?php if ($cat['count'] !== null): ?>
+                        <span class="home-cat-count"><?= number_format($cat['count']) ?></span>
+                        <?php endif; ?>
+                    </h3>
                     <p class="home-cat-desc"><?= $cat['desc'] ?></p>
                 </div>
                 <svg class="home-cat-arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -120,17 +79,58 @@
     </div>
 </section>
 
+<!-- ═══════════════════════════════════════════
+     MAJOR SECTIONS — Language, Literature, Culture, History
+     Same labels/descriptions/icons/links as the real /language, /literature,
+     /culture, /history pages (views/content/section.php) — passed in from
+     ContentCategoryController::getSections(), never duplicated here.
+════════════════════════════════════════════ -->
+<?php foreach (($contentSections ?? []) as $sectionKey => $sectionConfig): ?>
+<section class="home-mega-section">
+    <div class="container">
+        <div class="home-mega-header">
+            <div class="home-mega-eyebrow">
+                <span class="home-mega-icon"><?= $sectionConfig['icon'] ?></span>
+                <div>
+                    <h2 class="home-mega-title"><?= e($sectionConfig['title']) ?></h2>
+                    <p class="home-mega-desc"><?= e($sectionConfig['description']) ?></p>
+                </div>
+            </div>
+            <a href="<?= url($sectionKey) ?>" class="home-mega-viewall">
+                View <?= e($sectionConfig['title']) ?>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+        </div>
+        <div class="home-mega-grid">
+            <?php foreach ($sectionConfig['subcategories'] as $subKey => $sub):
+                $isPlaceholder = !empty($sub['placeholder']);
+                $href = $isPlaceholder
+                    ? url($sectionKey . '/' . $subKey)
+                    : url($sub['redirect'] ?? ($sectionKey . '/' . $subKey));
+            ?>
+            <a href="<?= $href ?>" class="home-mega-card" style="--card-accent:<?= e($sectionConfig['color']) ?>"
+               aria-label="<?= e($sub['label']) ?> — <?= e($sub['description']) ?>">
+                <span class="home-mega-card-icon"><?= $sub['icon'] ?></span>
+                <h3 class="home-mega-card-label"><?= e($sub['label']) ?></h3>
+                <p class="home-mega-card-desc"><?= e($sub['description']) ?></p>
+                <span class="home-mega-card-cta"><?= $isPlaceholder ? 'Learn more &rarr;' : 'Explore &rarr;' ?></span>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+<?php endforeach; ?>
 
-
-
-<?php if (ADSENSE_ENABLED): ?>
+<?php if (ads_on()): ?>
 <!-- Ad 3: between Category Grid and Learning Videos -->
 <div class="container">
     <div class="adsense-wrap">
         <ins class="adsbygoogle"
              style="display:block"
-             data-ad-client="ca-pub-7960622250292703"
-             data-ad-slot="6111588136"
+             data-ad-client="<?= ADSENSE_CLIENT ?>"
+             data-ad-slot="<?= ADSENSE_SLOT ?>"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
     </div>
@@ -792,27 +792,4 @@ document.querySelectorAll('.explore-track').forEach(function(track) {
     track.addEventListener('scroll', update, { passive: true });
     update();
 });
-
-/* ── Daily word audio ── */
-function playDailyWord(button) {
-    var audioUrl = button.dataset.audio;
-    var audio    = document.getElementById('dailyWordAudio');
-    var span     = button.querySelector('span');
-    var icon     = button.querySelector('.play-icon');
-    if (audio.src === audioUrl && !audio.paused) {
-        audio.pause(); audio.currentTime = 0;
-        span.textContent = 'Listen';
-        icon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
-        return;
-    }
-    audio.src = audioUrl;
-    audio.play().then(function() {
-        span.textContent = 'Playing…';
-        icon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
-    }).catch(function() { span.textContent = 'Error'; });
-    audio.onended = function() {
-        span.textContent = 'Listen';
-        icon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
-    };
-}
 </script>

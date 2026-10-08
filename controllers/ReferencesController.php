@@ -1,4 +1,5 @@
 <?php
+require_once BASE_PATH . '/services/HeritagePublic.php';
 /**
  * References & Contributors Controller
  */
@@ -21,8 +22,8 @@ class ReferencesController extends Controller
     public function index(): void
     {
         $model   = new Source();
-        $grouped = $model->getGroupedByType();
-        $total   = $model->count();
+        $grouped = $model->getPublicGroupedByType();
+        $total   = array_sum(array_map('count', $grouped));
 
         $this->render('references/index', [
             'title'       => 'References & Contributors',
@@ -40,6 +41,7 @@ class ReferencesController extends Controller
     {
         $model  = new Source();
         $source = $model->find((int) $id);
+        if ($source && !is_moderator() && !$model->isPublic((int) $source['id'])) $source = null; // held back until cited research is published
 
         if (!$source) {
             $this->render('errors/404', ['title' => 'Not Found']);
@@ -60,6 +62,7 @@ class ReferencesController extends Controller
             'description'  => 'Citation and details for this reference in the Tiv Heritage Archive.',
             'source'       => $source,
             'canonicalUrl' => $canonicalUrl,
+            'noindex'      => !HeritagePublic::sourceIsIndexable((int) $source['id']),
             'defaultCitation' => $formatter->apa(),
             'saved'        => $saved,
             'breadcrumb'   => [
@@ -80,6 +83,7 @@ class ReferencesController extends Controller
 
         $model  = new Source();
         $source = $model->find((int) $id);
+        if ($source && !is_moderator() && !$model->isPublic((int) $source['id'])) $source = null; // held back until cited research is published
         if (!$source) {
             $this->render('errors/404', ['title' => 'Not Found']);
             return;
@@ -105,6 +109,7 @@ class ReferencesController extends Controller
     {
         $model  = new Source();
         $source = $model->find((int) $id);
+        if ($source && !is_moderator() && !$model->isPublic((int) $source['id'])) $source = null; // held back until cited research is published
 
         if (!$source) {
             $this->render('errors/404', ['title' => 'Not Found']);
@@ -142,6 +147,7 @@ class ReferencesController extends Controller
 
         $model  = new Source();
         $source = $model->find((int) $id);
+        if ($source && !is_moderator() && !$model->isPublic((int) $source['id'])) $source = null; // held back until cited research is published
         if (!$source) {
             $this->json(['ok' => false, 'error' => 'not_found'], 404);
             return;

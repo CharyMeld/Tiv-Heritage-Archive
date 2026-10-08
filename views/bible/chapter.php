@@ -96,9 +96,9 @@
             <?php endforeach; ?>
         </div>
 
-        <?php if (ADSENSE_ENABLED): ?>
+        <?php if (ads_on()): ?>
         <div class="adsense-wrap">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<?= ADSENSE_CLIENT ?>" data-ad-slot="<?= ADSENSE_SLOT ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
         <?php endif; ?>
 

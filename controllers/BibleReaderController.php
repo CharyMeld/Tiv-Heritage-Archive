@@ -22,6 +22,7 @@ class BibleReaderController extends Controller
         $ot    = array_filter($books, fn($b) => $b['testament'] === 'OT');
 
         $this->render('bible/index', [
+            'noindex'     => true, // Bible text isn't original to this site (thin/duplicate for search + AdSense)
             'title'       => 'Icighan Bibilo — Bible',
             'description' => 'Read the Bible in English (WEB) with Tiv translation',
             'nt'          => array_values($nt),
@@ -61,6 +62,7 @@ class BibleReaderController extends Controller
         }
 
         $this->render('bible/chapter', [
+            'noindex'     => true, // Bible text isn't original to this site (thin/duplicate for search + AdSense)
             'title'            => "$bookName $chapter — Bible",
             'description'      => "$bookName chapter $chapter in English and Tiv",
             'bookKey'          => $book,
@@ -99,6 +101,7 @@ class BibleReaderController extends Controller
         $results = $q ? $this->model->searchVerses($q, 30) : [];
 
         $this->render('bible/search', [
+            'noindex'     => true, // Bible text isn't original to this site (thin/duplicate for search + AdSense)
             'title'       => $q ? "Bible Search: $q" : 'Search the Bible',
             'query'       => $q,
             'results'     => $results,

@@ -217,11 +217,57 @@ class TranslationEngine
 
         $result = null;
 
-        // Step 1 — Proverb match
-        $result = $this->matchProverb($normalized, $sourceLang, $targetLang);
+        // Step -1 (Stage 8, TRANSLATION_ENGINE_STAGE_8_REPORT.md) — exact
+        // specific-category priority. Runs before every other step, including
+        // Step 0 below, so a term with a genuine exact record in tiv_names/
+        // tiv_foods/tiv_festivals (e.g. "Kwagh-Hir" the festival) is never
+        // shadowed by a same-spelling daily_words entry (e.g. "Kwagh-Hir" the
+        // common-word gloss "something magical") — confirmed by direct testing
+        // that both "Kwagh-Hir" and "Gbande" were being resolved by Step 0
+        // (not Step 4/5) before this fix, since Step 0 already runs first for
+        // any single-token input. Deliberately narrower than the existing
+        // Step 5 matchCategory() call further down: exact match only (no
+        // prefix-LIKE), and only these three tables — tiv_plants/tiv_animals
+        // and Step 5's own prefix fallback are unchanged and still run later,
+        // unaffected, for everything this doesn't catch. If no exact category
+        // record exists, $result stays null and the entire existing pipeline
+        // (Step 0 onward) runs exactly as it did before this stage.
+        $result = $this->matchCategory($normalized, $sourceLang, $targetLang, true, ['tiv_names', 'tiv_foods', 'tiv_festivals']);
         if ($result) {
-            $result['match_type']       = 'proverb';
-            $result['confidence_score'] = 95;
+            $result['match_type']       = 'category';
+            // Same confidence as the existing Step 5 category match below —
+            // this is the same kind of result, just resolved earlier for
+            // precedence; it should not carry a different score depending on
+            // which step produced it.
+            $result['confidence_score'] = 80;
+        }
+
+        // Step 0 — Exact single-token dictionary priority.
+        // A bare dictionary word (e.g. "va") must resolve to its verified daily_words
+        // entry before matchPhrase()'s LIKE '%token%' fallback (Step 2) gets a chance
+        // to substitute an unrelated phrase/example sentence that merely contains the
+        // token as a substring (e.g. "va" inside "van"). Multi-word input is untouched
+        // and falls through to the existing pipeline exactly as before. $exactOnly=true
+        // disables matchWord()'s prefix-LIKE behavior so this can only ever return a
+        // genuine exact dictionary match, never a guess.
+        if (!$result && count($this->tokenize($normalized)) === 1) {
+            $result = $this->matchWord($normalized, $sourceLang, $targetLang, true);
+            if ($result) {
+                $result['match_type']       = 'word';
+                // Stage 4: matchWord() now sets its own confidence (85 confident /
+                // 65 genuinely ambiguous — see WORD_MATCH_CONFIDENCE_* constants);
+                // only fall back to 85 if it somehow didn't.
+                $result['confidence_score'] = $result['confidence_score'] ?? 85;
+            }
+        }
+
+        // Step 1 — Proverb match
+        if (!$result) {
+            $result = $this->matchProverb($normalized, $sourceLang, $targetLang);
+            if ($result) {
+                $result['match_type']       = 'proverb';
+                $result['confidence_score'] = 95;
+            }
         }
 
         // Step 2 — Exact phrase match
@@ -247,7 +293,8 @@ class TranslationEngine
             $result = $this->matchWord($normalized, $sourceLang, $targetLang);
             if ($result) {
                 $result['match_type']       = 'word';
-                $result['confidence_score'] = 85;
+                // Stage 4: see Step 0's comment above — matchWord() sets its own.
+                $result['confidence_score'] = $result['confidence_score'] ?? 85;
             }
         }
 
@@ -567,6 +614,18 @@ class TranslationEngine
     // STEP 1: Proverb Match
     // -------------------------------------------------------
 
+    // Stage 7 (TRANSLATION_ENGINE_STAGE_7_REPORT.md): SQL fragments that
+    // normalize a stored column value the exact same way normalize() (below)
+    // normalizes user input, so exact-match comparisons are symmetric. Before
+    // this stage, `LOWER(col) = ?` compared a punctuation-INTACT stored value
+    // against a punctuation-STRIPPED input, so any proverb/phrase whose stored
+    // text ended in (or contained) punctuation could never exact-match its own
+    // text (confirmed: 202/232 active proverbs). These two patterns are bound
+    // as query parameters (never concatenated into SQL), so no escaping is
+    // needed and MariaDB's PCRE-backed REGEXP_REPLACE applies them safely.
+    private const NORMALIZE_STRIP_PATTERN = '[^\p{L}\p{N}\s\'-]';
+    private const NORMALIZE_SPACE_PATTERN = '\s+';
+
     private function matchProverb(string $normalized, string $sourceLang, string $targetLang): ?array
     {
         $col = ($sourceLang === 'tiv') ? 'tiv_text' : 'english_translation';
@@ -576,9 +635,11 @@ class TranslationEngine
         // full proverb translation for inputs that only partially matched, injecting
         // text into the output that was never in the original input.
         $stmt = $this->db->prepare(
-            "SELECT * FROM tiv_proverbs WHERE LOWER({$col}) = ? LIMIT 1"
+            "SELECT * FROM tiv_proverbs
+             WHERE TRIM(REGEXP_REPLACE(REGEXP_REPLACE(LOWER({$col}), ?, ''), ?, ' ')) = ?
+             LIMIT 1"
         );
-        $stmt->execute([$normalized]);
+        $stmt->execute([self::NORMALIZE_STRIP_PATTERN, self::NORMALIZE_SPACE_PATTERN, $normalized]);
         $row = $stmt->fetch();
 
         if (!$row) return null;
@@ -601,35 +662,61 @@ class TranslationEngine
     // STEP 2: Exact Phrase Match
     // -------------------------------------------------------
 
+    // Context tags whose rows are dictionary/grammar illustrations rather than
+    // curated standalone phrase translations — never authoritative for direct
+    // phrase matching. 'bible' is handled separately by matchBibleVerse(); the
+    // '*-example' tags were found (Stage 2 audit) to be dictionary example
+    // sentences stored in this table, not phrases the archive team curated as
+    // translatable in their own right.
+    private const PHRASE_MATCH_EXCLUDED_CONTEXT_TAGS = ['bible', 'example', 'pronoun-example', 'adjective-example'];
+
+    // Stage 4 — confidence for a dictionary word match (matchWord()). The
+    // CONFIDENT value is the pre-existing flat score used since Stage 1/2 for
+    // any daily_words match, unchanged. The AMBIGUOUS value is new: used only
+    // when the matched word has multiple active dictionary records that
+    // genuinely disagree on MEANING (a real homonym, e.g. "corpse" vs "barren")
+    // and no stronger existing signal (context/domain/metadata completeness)
+    // could decisively separate them. The engine is still grounded in a real
+    // dictionary entry in that case — only the choice of WHICH entry is a
+    // best-effort pick rather than a certainty — so the score is set below the
+    // confident case, and the other senses are surfaced via `alternatives`.
+    private const WORD_MATCH_CONFIDENCE_CONFIDENT = 85;
+    private const WORD_MATCH_CONFIDENCE_AMBIGUOUS = 65;
+
     private function matchPhrase(string $normalized, string $sourceLang, string $targetLang): ?array
     {
-        // Exact match — exclude bible-tagged entries; those are handled by matchBibleVerse
+        $excluded = self::PHRASE_MATCH_EXCLUDED_CONTEXT_TAGS;
+        $placeholders = implode(',', array_fill(0, count($excluded), '?'));
+
+        // Exact match — excludes non-phrase context tags (see above); bible verses
+        // are handled by matchBibleVerse(). Stage 7: source_text is normalized the
+        // same way as the input (see NORMALIZE_STRIP_PATTERN docblock above) so a
+        // phrase ending in punctuation (e.g. "U lamen dzwa Tiv?") can still
+        // exact-match its own normalized text instead of silently falling through
+        // to findSafePhraseFallback()'s token-containment search, which could
+        // otherwise let a different, longer phrase win the match.
         $stmt = $this->db->prepare(
             "SELECT * FROM translation_phrases
              WHERE source_language = ?
                AND target_language = ?
                AND status = 'active'
-               AND context_tag != 'bible'
-               AND LOWER(source_text) = ?
+               AND context_tag NOT IN ({$placeholders})
+               AND TRIM(REGEXP_REPLACE(REGEXP_REPLACE(LOWER(source_text), ?, ''), ?, ' ')) = ?
              LIMIT 1"
         );
-        $stmt->execute([$sourceLang, $targetLang, $normalized]);
+        $stmt->execute([$sourceLang, $targetLang, ...$excluded, self::NORMALIZE_STRIP_PATTERN, self::NORMALIZE_SPACE_PATTERN, $normalized]);
         $row = $stmt->fetch();
 
-        // LIKE fallback — only non-bible entries where source_text equals or contains input
+        // Safe fallback — replaces the former `LIKE '%input%'` character-substring
+        // search, which matched an input's raw characters anywhere inside a longer
+        // word (e.g. "va" inside "van", "wuna" inside "Awuna", "ambe" inside
+        // "samber"/"iwambe"), letting an unrelated phrase stand in for the input's
+        // translation. This version only ever compares whole tokens: the input's
+        // tokens must appear as a contiguous run of COMPLETE words somewhere inside
+        // the candidate phrase — never as a substring of a longer word. See
+        // findSafePhraseFallback().
         if (!$row) {
-            $stmt = $this->db->prepare(
-                "SELECT * FROM translation_phrases
-                 WHERE source_language = ?
-                   AND target_language = ?
-                   AND status = 'active'
-                   AND context_tag != 'bible'
-                   AND (LOWER(source_text) = ? OR LOWER(source_text) LIKE ?)
-                 ORDER BY confidence_score DESC, LENGTH(source_text) DESC
-                 LIMIT 1"
-            );
-            $stmt->execute([$sourceLang, $targetLang, $normalized, '%' . $normalized . '%']);
-            $row = $stmt->fetch();
+            $row = $this->findSafePhraseFallback($normalized, $sourceLang, $targetLang);
         }
 
         if (!$row) return null;
@@ -645,6 +732,74 @@ class TranslationEngine
             'explanation'      => '',
             'confidence_score' => (int) $row['confidence_score'],
         ];
+    }
+
+    /**
+     * Word-boundary-safe replacement for the old substring `LIKE '%input%'`
+     * fallback. Candidates are pre-filtered by the same indexed columns the old
+     * query used (source_language, target_language, status, context_tag) — this
+     * does not scan the table any more broadly than before, it only changes how
+     * the resulting (small, ~1k-row-table) candidate set is judged, in PHP,
+     * against whole tokens instead of raw characters.
+     *
+     * A candidate qualifies only when the input's tokens appear as a contiguous
+     * run of complete, exactly-matching words somewhere inside the candidate
+     * phrase's own tokens — the same "phrase contains input" relationship the
+     * old query intended, just measured in whole words instead of characters.
+     * Rows are scanned in the same confidence-DESC/length-DESC priority order
+     * the old query used, and the loop returns on the first qualifying match.
+     */
+    private function findSafePhraseFallback(string $normalized, string $sourceLang, string $targetLang): ?array
+    {
+        $inputTokens = $this->tokenize($normalized);
+        if (empty($inputTokens)) return null;
+
+        $excluded = self::PHRASE_MATCH_EXCLUDED_CONTEXT_TAGS;
+        $placeholders = implode(',', array_fill(0, count($excluded), '?'));
+
+        $stmt = $this->db->prepare(
+            "SELECT * FROM translation_phrases
+             WHERE source_language = ?
+               AND target_language = ?
+               AND status = 'active'
+               AND context_tag NOT IN ({$placeholders})
+             ORDER BY confidence_score DESC, LENGTH(source_text) DESC"
+        );
+        $stmt->execute([$sourceLang, $targetLang, ...$excluded]);
+
+        while ($row = $stmt->fetch()) {
+            $phraseTokens = $this->tokenize($this->normalize($row['source_text']));
+            if ($this->tokenSequenceContains($phraseTokens, $inputTokens)) {
+                return $row;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * True when $needle appears as a contiguous, exact-token-for-token run
+     * somewhere inside $haystack (order-preserving whole-word containment —
+     * the word-level analogue of a character substring check). Returns false
+     * for an empty needle or a needle longer than the haystack.
+     */
+    private function tokenSequenceContains(array $haystack, array $needle): bool
+    {
+        $n = count($needle);
+        $h = count($haystack);
+        if ($n === 0 || $n > $h) return false;
+
+        for ($start = 0; $start <= $h - $n; $start++) {
+            $match = true;
+            for ($i = 0; $i < $n; $i++) {
+                if ($haystack[$start + $i] !== $needle[$i]) {
+                    $match = false;
+                    break;
+                }
+            }
+            if ($match) return true;
+        }
+        return false;
     }
 
     // -------------------------------------------------------
@@ -703,10 +858,10 @@ class TranslationEngine
     // STEP 4: Dictionary Word Match
     // -------------------------------------------------------
 
-    private function matchWord(string $normalized, string $sourceLang, string $targetLang): ?array
+    private function matchWord(string $normalized, string $sourceLang, string $targetLang, bool $exactOnly = false): ?array
     {
         // Fetch ALL POS variants so we can disambiguate and show alternatives
-        $variants = $this->fetchAllPosVariants($normalized, $sourceLang);
+        $variants = $this->fetchAllPosVariants($normalized, $sourceLang, $exactOnly);
 
         if (empty($variants)) {
             // Fall through to translation_phrases
@@ -750,18 +905,39 @@ class TranslationEngine
             $translated = $row['tiv_word'];
         }
 
-        // Build POS disambiguation note when homonyms exist
-        $posNote   = '';
-        $posAlts   = [];
-        if (count($variants) > 1) {
-            foreach ($variants as $v) {
-                if ($v['id'] === $row['id']) continue;
-                $altMeaning = $sourceLang === 'tiv' ? $v['english_meaning'] : $v['tiv_word'];
-                $posAlts[]  = '[' . ($v['part_of_speech'] ?: 'other') . '] ' . $altMeaning;
+        // Stage 4: determine whether the candidate records actually disagree on
+        // MEANING, not just part of speech — two variants that both mean "dance"
+        // (one noun, one verb) are not lexically ambiguous in the sense a user
+        // cares about; two variants meaning "corpse" and "barren" are. This
+        // reuses only the meaning text already in the database (the same
+        // comparison the Stage 3 duplicate audit used) — no new data, no
+        // invented scoring model.
+        $chosenMeaning       = mb_strtolower(trim($sourceLang === 'tiv' ? $row['english_meaning'] : $row['tiv_word']), 'UTF-8');
+        $hasGenuineAmbiguity = false;
+        foreach ($variants as $v) {
+            if ($v['id'] === $row['id']) continue;
+            $otherMeaning = mb_strtolower(trim($sourceLang === 'tiv' ? $v['english_meaning'] : $v['tiv_word']), 'UTF-8');
+            if ($otherMeaning !== '' && $otherMeaning !== $chosenMeaning) {
+                $hasGenuineAmbiguity = true;
+                break;
             }
-            $posNote = 'This word has ' . count($variants) . ' meanings depending on part of speech. '
-                     . 'Showing: [' . ($row['part_of_speech'] ?: 'noun') . '] '
-                     . ($sourceLang === 'tiv' ? $row['english_meaning'] : $row['tiv_word']) . '.';
+        }
+
+        // Build a disambiguation note when multiple dictionary records exist —
+        // worded honestly depending on whether they actually disagree on meaning
+        // (genuine homonymy) or just duplicate/vary the same sense.
+        $posNote = '';
+        if (count($variants) > 1) {
+            if ($hasGenuineAmbiguity) {
+                $posNote = 'This Tiv word has ' . count($variants) . ' recorded meanings in the dictionary. '
+                         . 'Showing the best-supported one: '
+                         . ($sourceLang === 'tiv' ? $row['english_meaning'] : $row['tiv_word'])
+                         . (!empty($row['part_of_speech']) ? ' [' . $row['part_of_speech'] . ']' : '') . '. '
+                         . 'See alternatives for other possible meanings — the correct sense may depend on context.';
+            } else {
+                $posNote = 'This word has ' . count($variants) . ' matching dictionary entries with the same meaning; '
+                         . 'showing the most complete one.';
+            }
         }
 
         $explanation = $posNote;
@@ -806,6 +982,15 @@ class TranslationEngine
             'category'          => $row['category'] ?? $row['part_of_speech'] ?? 'word',
             'explanation'       => $explanation,
             'pronunciation'     => $pronunciation,
+            // Stage 4: lower, explicitly-documented confidence when the dictionary
+            // genuinely contains a different meaning for this same word and no
+            // stronger signal (context/domain/metadata) could decisively separate
+            // them — see WORD_MATCH_CONFIDENCE_AMBIGUOUS docblock. The engine is
+            // still grounded in a real dictionary entry; only the CHOICE among
+            // several equally-valid entries is uncertain, and the score says so.
+            'confidence_score'  => $hasGenuineAmbiguity
+                ? self::WORD_MATCH_CONFIDENCE_AMBIGUOUS
+                : self::WORD_MATCH_CONFIDENCE_CONFIDENT,
             '_pos_variants'     => $variants,  // passed to findAlternatives
             '_extra_citations'  => $extraCitations,
         ];
@@ -859,15 +1044,30 @@ class TranslationEngine
      *
      * Within each priority tier, shorter meanings come first (more specific).
      */
-    private function fetchAllPosVariants(string $normalized, string $sourceLang): array
+    private function fetchAllPosVariants(string $normalized, string $sourceLang, bool $exactOnly = false): array
     {
         $toForm = 'to ' . $normalized;
         // Only use prefix LIKE for queries of 4+ chars to avoid false positives
-        // (e.g. "we" matching "weather", "and" matching "android")
-        $usePrefixLike = mb_strlen($normalized) >= 4;
+        // (e.g. "we" matching "weather", "and" matching "android"). $exactOnly
+        // forces this off unconditionally — used by translateSegment()'s Step 0
+        // single-token exact dictionary check, which must never resolve via a
+        // prefix guess.
+        $usePrefixLike = !$exactOnly && mb_strlen($normalized) >= 4;
         $prefix = $normalized . '%';
 
         if ($sourceLang === 'tiv') {
+            // Stage 4: apply the same existing domain-boost signal already used on
+            // the English→Tiv branch below — when several homonym rows are tied on
+            // exact-match and length (the normal case, since they're all the same
+            // word), prefer whichever row's `category` matches the semantic domain
+            // already detected for this sentence. Uses only existing data/columns;
+            // no new context extraction is added.
+            $domainCase = '';
+            if ($this->_currentDomain !== null) {
+                $domain = $this->db->quote($this->_currentDomain);
+                $domainCase = ", CASE WHEN LOWER(category) = {$domain} THEN 0 ELSE 1 END";
+            }
+
             $stmt = $this->db->prepare(
                 "SELECT * FROM daily_words
                  WHERE is_active = 1
@@ -877,6 +1077,7 @@ class TranslationEngine
                  ORDER BY
                    CASE WHEN LOWER(tiv_word) = ? THEN 0 ELSE 1 END,
                    CHAR_LENGTH(tiv_word) ASC
+                   {$domainCase}
                  LIMIT 8"
             );
             $params = $usePrefixLike
@@ -997,8 +1198,44 @@ class TranslationEngine
             }
         }
 
-        // 3. No match for wantedPos — return SQL-ordered best match (variants[0]).
-        return $variants[0];
+        // 3. No context signal resolved a wanted POS (or none of the variants
+        // matched it). Rather than trusting raw SQL/tie order at this point —
+        // which, for rows tied on every existing sort key (the normal case for
+        // true homonyms of one word), is decided by MySQL's internal row order
+        // and not by any evidence — prefer whichever tied candidate has the
+        // richest EXISTING metadata (Stage 4: the same completeness metric used
+        // in the Stage 3 data-quality audit). This never invents or guesses a
+        // meaning; it only picks which already-equally-ranked record to show
+        // first when nothing else can decide.
+        $best      = $variants[0];
+        $bestScore = $this->dictionaryRecordCompleteness($variants[0]);
+        foreach (array_slice($variants, 1) as $v) {
+            $score = $this->dictionaryRecordCompleteness($v);
+            if ($score > $bestScore) {
+                $best      = $v;
+                $bestScore = $score;
+            }
+        }
+        return $best;
+    }
+
+    /**
+     * Count of populated enrichment fields on a daily_words row — the same
+     * metric used in the Stage 3 data-quality audit (see
+     * TRANSLATION_ENGINE_STAGE_3_REPORT.md §3). Used only as a tie-break among
+     * dictionary records already tied on every other existing signal; never
+     * used to decide that a record's MEANING is correct.
+     */
+    private function dictionaryRecordCompleteness(array $row): int
+    {
+        $fields = ['alternate_meaning', 'category', 'example_tiv', 'example_english',
+            'literal_meaning', 'figurative_meaning', 'usage_notes', 'pronunciation',
+            'ipa', 'tone', 'root_word_id'];
+        $score = 0;
+        foreach ($fields as $f) {
+            if (!empty($row[$f])) $score++;
+        }
+        return $score;
     }
 
     /**
@@ -1091,8 +1328,13 @@ class TranslationEngine
     // STEP 5: Category Content Match
     // -------------------------------------------------------
 
-    private function matchCategory(string $normalized, string $sourceLang, string $targetLang): ?array
-    {
+    private function matchCategory(
+        string $normalized,
+        string $sourceLang,
+        string $targetLang,
+        bool   $exactOnly = false,
+        ?array $onlyTables = null
+    ): ?array {
         $sources = [
             'tiv_names'     => ['tiv_col' => 'tiv_name', 'eng_col' => 'english_meaning', 'label' => 'name'],
             'tiv_plants'    => ['tiv_col' => 'tiv_name', 'eng_col' => 'english_name',    'label' => 'plant'],
@@ -1101,17 +1343,36 @@ class TranslationEngine
             'tiv_animals'   => ['tiv_col' => 'tiv_name', 'eng_col' => 'name',            'label' => 'animal'],
         ];
 
+        // Stage 8 (TRANSLATION_ENGINE_STAGE_8_REPORT.md): used by the new
+        // pre-pipeline exact-category-priority check in translateSegment() to
+        // restrict this same method to only tiv_names/tiv_foods/tiv_festivals
+        // (never tiv_plants/tiv_animals — out of scope for that fix) and to
+        // exact matching only (never the prefix LIKE below). The existing
+        // Step 5 call site is unaffected: it passes no arguments, so
+        // $onlyTables stays null (all 5 tables) and $exactOnly stays false
+        // (exact-then-prefix), identical to before this stage.
+        if ($onlyTables !== null) {
+            $sources = array_intersect_key($sources, array_flip($onlyTables));
+        }
+
         foreach ($sources as $table => $cols) {
             $searchCol = ($sourceLang === 'tiv') ? $cols['tiv_col'] : $cols['eng_col'];
             $returnCol = ($sourceLang === 'tiv') ? $cols['eng_col'] : $cols['tiv_col'];
 
-            $stmt = $this->db->prepare(
-                "SELECT * FROM {$table}
-                 WHERE LOWER({$searchCol}) = ? OR LOWER({$searchCol}) LIKE ?
-                 ORDER BY CASE WHEN LOWER({$searchCol}) = ? THEN 0 ELSE 1 END
-                 LIMIT 1"
-            );
-            $stmt->execute([$normalized, $normalized . '%', $normalized]);
+            if ($exactOnly) {
+                $stmt = $this->db->prepare(
+                    "SELECT * FROM {$table} WHERE LOWER({$searchCol}) = ? LIMIT 1"
+                );
+                $stmt->execute([$normalized]);
+            } else {
+                $stmt = $this->db->prepare(
+                    "SELECT * FROM {$table}
+                     WHERE LOWER({$searchCol}) = ? OR LOWER({$searchCol}) LIKE ?
+                     ORDER BY CASE WHEN LOWER({$searchCol}) = ? THEN 0 ELSE 1 END
+                     LIMIT 1"
+                );
+                $stmt->execute([$normalized, $normalized . '%', $normalized]);
+            }
             $row = $stmt->fetch();
 
             if ($row) {
@@ -1977,7 +2238,7 @@ class TranslationEngine
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT dw.tiv_word, dw.english_meaning, dw.part_of_speech
+                "SELECT dw.id, dw.tiv_word, dw.english_meaning, dw.part_of_speech
                  FROM knowledge_links kl
                  JOIN daily_words dw
                    ON (kl.source_table = 'daily_words' AND kl.target_table = 'daily_words'
@@ -1998,10 +2259,12 @@ class TranslationEngine
             $text = $sourceLang === 'tiv' ? $row['english_meaning'] : $row['tiv_word'];
             if (mb_strtolower($text) === $primaryLower) continue;
             $out[] = [
-                'text'   => $text,
-                'note'   => 'synonym' . (!empty($row['part_of_speech']) ? " [{$row['part_of_speech']}]" : ''),
-                'source' => 'synonym',
-                'pos'    => $row['part_of_speech'] ?? '',
+                'text'         => $text,
+                'note'         => 'synonym' . (!empty($row['part_of_speech']) ? " [{$row['part_of_speech']}]" : ''),
+                'source'       => 'synonym',
+                'pos'          => $row['part_of_speech'] ?? '',
+                'source_table' => 'daily_words',
+                'source_id'    => (int) $row['id'],
             ];
         }
         return $out;
@@ -2028,6 +2291,12 @@ class TranslationEngine
         // 1. OTHER POS VARIANTS of the same word (most important for disambiguation)
         if (!empty($posVariants) && count($posVariants) > 1) {
             foreach ($posVariants as $v) {
+                // Stage 4: skip the record that IS the primary result, by id first
+                // (robust — the text check below can miss it, e.g. when
+                // alternate_meaning was appended to the primary's translated_text
+                // but not to this variant's bare english_meaning, as happened for
+                // "tor" → "King / chief" vs. this variant's plain "king").
+                if ($wordId !== null && (int) $v['id'] === $wordId) continue;
                 $altText = $sourceLang === 'tiv' ? $v['english_meaning'] : $v['tiv_word'];
                 if (mb_strtolower($altText) === $primaryLower) continue;
                 $pos = $v['part_of_speech'] ?? '';
@@ -2036,10 +2305,14 @@ class TranslationEngine
                     $note .= ' — e.g. "' . mb_substr($v['example_tiv'], 0, 50) . '"';
                 }
                 $alternatives[] = [
-                    'text'   => $altText,
-                    'note'   => $note ?: 'alternate POS',
-                    'source' => 'dictionary',
-                    'pos'    => $pos,
+                    'text'         => $altText,
+                    'note'         => $note ?: 'alternate POS',
+                    'source'       => 'dictionary',
+                    'pos'          => $pos,
+                    // Stage 4: homonym source integrity — every alternative sense
+                    // stays traceable to the exact daily_words record it came from.
+                    'source_table' => 'daily_words',
+                    'source_id'    => (int) $v['id'],
                 ];
             }
         }
@@ -2048,14 +2321,17 @@ class TranslationEngine
         if (empty($alternatives)) {
             $variantRows = $this->fetchAllPosVariants($normalized, $sourceLang);
             foreach ($variantRows as $v) {
+                if ($wordId !== null && (int) $v['id'] === $wordId) continue;
                 $altText = $sourceLang === 'tiv' ? $v['english_meaning'] : $v['tiv_word'];
                 if (mb_strtolower($altText) === $primaryLower) continue;
                 $pos  = $v['part_of_speech'] ?? '';
                 $alternatives[] = [
-                    'text'   => $altText,
-                    'note'   => $pos ? "[{$pos}]" : 'alternate meaning',
-                    'source' => 'dictionary',
-                    'pos'    => $pos,
+                    'text'         => $altText,
+                    'note'         => $pos ? "[{$pos}]" : 'alternate meaning',
+                    'source'       => 'dictionary',
+                    'pos'          => $pos,
+                    'source_table' => 'daily_words',
+                    'source_id'    => (int) $v['id'],
                 ];
             }
         }
@@ -2064,7 +2340,7 @@ class TranslationEngine
         if ($sourceLang === 'english') {
             $like = '%' . $normalized . '%';
             $stmt = $this->db->prepare(
-                "SELECT tiv_word, english_meaning, part_of_speech
+                "SELECT id, tiv_word, english_meaning, part_of_speech
                  FROM daily_words
                  WHERE (LOWER(english_meaning) LIKE ? OR LOWER(alternate_meaning) LIKE ?)
                    AND LOWER(tiv_word) != ?
@@ -2076,36 +2352,61 @@ class TranslationEngine
                 if (!in_array($row['tiv_word'], array_column($alternatives, 'text'))) {
                     $pos = $row['part_of_speech'] ?? '';
                     $alternatives[] = [
-                        'text'   => $row['tiv_word'],
-                        'note'   => ($pos ? "[{$pos}] " : '') . $row['english_meaning'],
-                        'source' => 'dictionary',
-                        'pos'    => $pos,
+                        'text'         => $row['tiv_word'],
+                        'note'         => ($pos ? "[{$pos}] " : '') . $row['english_meaning'],
+                        'source'       => 'dictionary',
+                        'pos'          => $pos,
+                        'source_table' => 'daily_words',
+                        'source_id'    => (int) $row['id'],
                     ];
                 }
             }
         }
 
-        // 4. Related phrases
-        $stmt2 = $this->db->prepare(
-            "SELECT target_text, context_tag
-             FROM translation_phrases
-             WHERE source_language = ? AND target_language = ?
-               AND LOWER(source_text) LIKE ?
-               AND LOWER(target_text) != ?
-               AND status = 'active'
-             LIMIT 2"
-        );
-        $stmt2->execute([$sourceLang, $targetLang, '%' . $normalized . '%', $primaryLower]);
-        foreach ($stmt2->fetchAll() as $row) {
-            if (!in_array($row['target_text'], array_column($alternatives, 'text'))) {
+        // 4. Related phrases — word-boundary-safe (Stage 4: reuses the same
+        // token-sequence containment check and non-phrase context-tag
+        // exclusions Stage 2 introduced for matchPhrase(), so a short word can
+        // never pull an unrelated phrase or a dictionary-example sentence into
+        // its alternatives here either — the same failure class Stage 2 fixed
+        // for the primary translation, closed here for the alternatives list).
+        if (count($alternatives) < 5) {
+            $excluded     = self::PHRASE_MATCH_EXCLUDED_CONTEXT_TAGS;
+            $placeholders = implode(',', array_fill(0, count($excluded), '?'));
+            $stmt2 = $this->db->prepare(
+                "SELECT id, source_text, target_text, context_tag
+                 FROM translation_phrases
+                 WHERE source_language = ? AND target_language = ?
+                   AND status = 'active'
+                   AND context_tag NOT IN ({$placeholders})
+                   AND LOWER(target_text) != ?"
+            );
+            $stmt2->execute(array_merge([$sourceLang, $targetLang], $excluded, [$primaryLower]));
+            $inputTokens = $this->tokenize($normalized);
+            foreach ($stmt2->fetchAll() as $row) {
+                if (count($alternatives) >= 5) break;
+                $phraseTokens = $this->tokenize($this->normalize($row['source_text']));
+                if (!$this->tokenSequenceContains($phraseTokens, $inputTokens)) continue;
+                if (in_array($row['target_text'], array_column($alternatives, 'text'))) continue;
                 $alternatives[] = [
-                    'text'   => $row['target_text'],
-                    'note'   => $row['context_tag'] ? 'phrase (' . $row['context_tag'] . ')' : 'phrase',
+                    'text'         => $row['target_text'],
+                    'source_table' => 'translation_phrases',
+                    'source_id'    => (int) $row['id'],
+                    'note'         => $row['context_tag'] ? 'phrase (' . $row['context_tag'] . ')' : 'phrase',
                     'source' => 'phrases',
                     'pos'    => '',
                 ];
             }
         }
+
+        // Stage 4: de-duplicate by meaning text (case/whitespace-insensitive) —
+        // two dictionary records that only differ in capitalization (e.g. "Sew"
+        // vs "sew") are the same alternative to a user, not two. Keeps the
+        // first occurrence, which is already the SQL-ordered/richest one.
+        $alternatives = array_values(array_reduce($alternatives, function ($carry, $alt) {
+            $key = mb_strtolower(trim($alt['text']), 'UTF-8');
+            if (!isset($carry[$key])) $carry[$key] = $alt;
+            return $carry;
+        }, []));
 
         return array_slice($alternatives, 0, 5);
     }

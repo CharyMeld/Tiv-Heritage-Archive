@@ -22,10 +22,18 @@ class ApiAuth
         'archive.org_bot', 'ia_archiver',
     ];
 
-    // Well-known crawlers that are allowed despite matching above
+    // Well-known crawlers that are never blocked or rate-limited. Google runs separate
+    // crawlers for AdSense review/targeting (Mediapartners-Google), ad landing-page
+    // checks (AdsBot-Google, incl. -Mobile), Search Console's live test
+    // (Google-InspectionTool), site verification and others; before this list named them
+    // all, only Googlebot was exempt and the AdSense crawler shared the 60/min limit.
     private static array $allowedBots = [
-        'googlebot', 'bingbot', 'slurp', 'duckduckbot',
-        'baiduspider', 'yandexbot', 'facebookexternalhit',
+        'googlebot', 'mediapartners-google', 'adsbot-google', 'google-inspectiontool',
+        'googleother', 'storebot-google', 'google-site-verification', 'google-read-aloud',
+        'feedfetcher-google', 'apis-google', 'google-safety', 'duplexweb-google',
+        'google-adwords', 'googleproducer',
+        'bingbot', 'adidxbot', 'slurp', 'duckduckbot',
+        'baiduspider', 'yandexbot', 'applebot', 'facebookexternalhit',
         'twitterbot', 'linkedinbot', 'whatsapp',
     ];
 

@@ -20,7 +20,39 @@ abstract class Controller
      */
     protected function render(string $view, array $data = [], string $layout = 'main'): void
     {
+        // Every "not found" call site across the app (18 occurrences as of
+        // this fix — DetailController, HistoricalFigureController,
+        // TimelineController, CommunityController,
+        // MarketingRedirectController, ReferencesController) renders this
+        // exact view but never sent a real HTTP status — every one of
+        // those pages was a soft 404 (200 OK with "Not Found" text),
+        // which Google Search Console flagged directly. Setting the
+        // status here, once, fixes every existing and future call site
+        // without needing to touch each one individually.
+        if ($view === 'errors/404' && ! headers_sent()) {
+            http_response_code(404);
+        }
+
         $data['user'] = $this->user;
+
+        $path = trim((string) ($_GET['url'] ?? ''), '/');
+
+        // Pages that are not content for search engines: internal search results
+        // (?q=...) and forms/account pages (join, contribute, suggestions, nominate,
+        // login...). They stay usable but are noindex and carry no ads.
+        if (trim((string) ($_GET['q'] ?? '')) !== ''
+            || preg_match('#^(contribute|suggestions|community/join|nominate-influential|login|register|forgot-password|reset-password|profile)(/|$)#', $path)) {
+            $data['noindex'] = true;
+        }
+
+        // Ad eligibility for this page (read by ads_eligible() in config/security.php):
+        // only indexable content pages served with 200 and the main layout, never
+        // account/form/admin pages or the Bible reader (text not original to this site).
+        $GLOBALS['_ads_page_eligible'] = $layout === 'main'
+            && http_response_code() === 200
+            && empty($data['noindex'])
+            && empty($data['noAds'])
+            && !preg_match('#^(admin|login|register|logout|profile|forgot-password|reset-password|contribute|suggestions|community/join|nominate-influential|newsletter|bible|translate/history|api|go|outreach)(/|$)#', $path);
 
         // Release the session lock before rendering.
         // PHP sessions are file-locked for the entire request by default —
@@ -41,7 +73,15 @@ abstract class Controller
             // Preload flash messages so flash() still works after session closes
             $GLOBALS['_flash_store'] = $_SESSION['flash'] ?? [];
             unset($_SESSION['flash']);
+
+            // Form errors and old input are shown once. Views unset them only after the
+            // session is closed (which would not persist), so remove them from the stored
+            // session here and keep them in memory for this render only. Otherwise a refused
+            // save would pre-fill later forms — even another record's — with stale values.
+            $once = array_intersect_key($_SESSION, ['errors' => 1, 'old_input' => 1]);
+            unset($_SESSION['errors'], $_SESSION['old_input']);
             session_write_close();
+            $_SESSION = $once + $_SESSION;
         }
 
         $this->view->render($view, $data, $layout);

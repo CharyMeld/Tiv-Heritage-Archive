@@ -5,7 +5,7 @@
                 <a href="<?= url('/') ?>" class="logo">
                     <img src="<?= asset('images/logo.png') ?>" alt="<?= SITE_NAME ?>" class="logo-img">
                     <div class="logo-text">
-                        <span class="logo-title">TIV CULTURE ARCHIVE</span>
+                        <span class="logo-title">TIV HERITAGE ARCHIVE</span>
                         <span class="logo-subtitle">"Wisdom of the Tiv People"</span>
                     </div>
                 </a>

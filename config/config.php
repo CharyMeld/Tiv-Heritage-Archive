@@ -30,10 +30,21 @@ if (ENVIRONMENT === 'development') {
 }
 
 // Site Configuration
-define('SITE_NAME', 'Tiv Culture Archive');
+define('SITE_NAME', 'Tiv Heritage Archive');
 define('SITE_TAGLINE', 'Preserving Language, History & Identity');
 
-// AdSense: off until Google approves the account. Flip to true once approved.
+// AdSense publisher and the in-page display unit.
+define('ADSENSE_CLIENT', 'ca-pub-7960622250292703');
+define('ADSENSE_SLOT', '6111588136');
+
+// AdSense loader script (Auto ads) in <head>. On, so AdSense finds its code during review
+// and Auto ads can start as soon as the site is approved (placements are chosen in the
+// AdSense dashboard, nothing shows before approval). Only printed on pages that may carry
+// ads — see ads_eligible() in config/security.php.
+define('ADSENSE_SCRIPT_ENABLED', true);
+
+// Manual in-page ad units. Off until Google approves the site: before approval they would
+// render as empty boxes. Flip to true once approved.
 define('ADSENSE_ENABLED', false);
 
 // Google Search Console site-verification (HTML tag method). Paste the code
@@ -66,6 +77,11 @@ define('SITE_EMAIL', 'contact@tivheritage.com');
 // Paths
 define('ASSETS_URL', SITE_URL . '/assets');
 define('UPLOADS_URL', SITE_URL . '/uploads');
+
+// Nigeria Heritage section. Every national link is built with nigeria_url(), so the
+// section can later move to a subdomain (e.g. https://nigeria.tivheritage.com) or its
+// own domain by changing only this value plus the web-server config — no DB changes.
+define('NIGERIA_BASE_URL', SITE_URL . '/nigeria');
 define('UPLOADS_PATH', BASE_PATH . '/uploads');
 
 // Session Configuration
@@ -144,12 +160,47 @@ define('OLLAMA_MODEL',    'qwen2.5:7b-instruct');
 define('OLLAMA_TIMEOUT',  240); // seconds — cold model load alone measured ~122s on the production VPS; warm calls are ~2-3s
 define('MARKETING_CRON_LOG_PATH', BASE_PATH . '/storage/logs/marketing-cron.log'); // read by the Activity Log admin page
 
+// Charymeld (Tiv AI chat) — reuses the same Ollama instance/model above via
+// OllamaClient::chat(). Lower temperature than marketing generation (which
+// wants creative variety) since Charymeld must stay tightly grounded in the
+// archive evidence it's given. The model's context window is 4096 tokens
+// total (confirmed via `ollama ps` on the VPS), so history/evidence sent per
+// turn are deliberately kept short — see ArchiveIntelligence's evidence
+// builder. Falls back to the deterministic template composers whenever this
+// is off or the model doesn't respond in time.
+define('CHARYMELD_LLM_ENABLED',      OLLAMA_ENABLED);
+define('CHARYMELD_LLM_TEMPERATURE',  0.2);
+// CPU-only inference here (confirmed via `ollama ps` — size_vram: 0) costs ~55-60ms per
+// output token, measured directly against production. 350 let one real reply run ~34s —
+// too slow for a live chat widget. The system prompt already asks for 2-5 sentences, so
+// 220 tokens (~170 words) still gives plenty of room while roughly halving worst-case wait.
+define('CHARYMELD_LLM_NUM_PREDICT',  220);
+define('CHARYMELD_LLM_HISTORY_TURNS', 3); // most recent user/assistant turns included per request
+
+// Embedding model (semantic/meaning-based search) — a SEPARATE, dedicated small model
+// from the chat model above; embedding models aren't chat models and vice versa. Used
+// by EmbeddingSearch as a last-resort fallback when lexical search (FULLTEXT/LIKE/
+// stemming) finds nothing, for paraphrases that share no words with the archive content
+// at all (e.g. "which place is Tiv located?" vs. an article titled "The Origins of the
+// Tiv People"). 768-dimension vectors, ~270MB model, runs on the same local Ollama
+// instance — no external API, consistent with the rest of this app's AI features.
+define('EMBEDDING_MODEL',    'nomic-embed-text');
+define('EMBEDDING_TIMEOUT',  30); // seconds — warm calls are tens of ms; margin for the model's first cold load (measured ~4s, kept generous)
+define('EMBEDDING_DIMENSIONS', 768);
+define('EMBEDDING_MIN_SIMILARITY', 0.55); // cosine similarity floor — see EmbeddingSearch for how this was chosen
+
 define('WHATSAPP_CHANNEL_URL', 'https://whatsapp.com/channel/0029Vb8LKTP6buMQyVH18v09');
 
 // Key used by Security::encrypt()/decrypt() for at-rest secrets (Facebook
 // app secret / page access token). Must be identical across every
-// environment that needs to decrypt previously-stored values.
-define('APP_ENCRYPTION_KEY', '');
+// environment that needs to decrypt previously-stored values. The real value
+// lives in config/secrets.php (not in git); this repository is public.
+if (is_file(__DIR__ . '/secrets.php')) {
+    require_once __DIR__ . '/secrets.php';
+}
+if (!defined('APP_ENCRYPTION_KEY')) {
+    define('APP_ENCRYPTION_KEY', (string) getenv('APP_ENCRYPTION_KEY'));
+}
 
 // Maps every content type the Marketing module can generate from to its
 // model class, table, and the fields used to build AI prompts. Deliberately

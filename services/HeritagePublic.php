@@ -245,8 +245,27 @@ class HeritagePublic
         // Reference pages of sources created by research batches stay visible to readers
         // but are never submitted to search engines: they are citation records, and only
         // real content pages should grow the sitemap (AdSense thin-content rule, audit §15).
-        // Sources that existed before keep their previous behaviour.
-        return !in_array($id, self::batchCreatedSourceIds(), true);
+        // Other sources are indexable only when the reference page carries real text of
+        // its own: an annotation (notes) of at least EntryQuality::MIN_WORDS words. A bare
+        // citation card (title, author, year, link) is a thin page; the reader still
+        // reaches it, and it still serves as the source of the pages that cite it.
+        if (in_array($id, self::batchCreatedSourceIds(), true)) {
+            return false;
+        }
+        require_once BASE_PATH . '/services/EntryQuality.php';
+        return (self::sourceNoteWords()[$id] ?? 0) >= EntryQuality::MIN_WORDS;
+    }
+
+    /** [source id => words in its notes], loaded once per request. */
+    private static function sourceNoteWords(): array
+    {
+        static $words = null;
+        if ($words !== null) return $words;
+        $words = [];
+        foreach (self::db()->query('SELECT id, notes FROM sources')->fetchAll(PDO::FETCH_KEY_PAIR) as $id => $notes) {
+            $words[(int) $id] = count(preg_split('/\s+/u', trim(strip_tags((string) $notes)), -1, PREG_SPLIT_NO_EMPTY));
+        }
+        return $words;
     }
 
     /** Ids of sources created by research batches (recorded in each batch's summary by the importer). */
@@ -407,19 +426,19 @@ class HeritagePublic
         $links = $table === 'ethnic_groups' ? [
             ['History articles', 'history', $articles('history')],
             ['Culture articles', 'culture', $articles('culture')],
-            ['Festivals', 'archive/festivals', $count('SELECT COUNT(*) FROM tiv_festivals')],
-            ['Foods', 'archive/foods', $count('SELECT COUNT(*) FROM tiv_foods')],
-            ['Proverbs', 'archive/proverbs', $count('SELECT COUNT(*) FROM tiv_proverbs')],
-            ['Personal names', 'archive/names', $count('SELECT COUNT(*) FROM tiv_names')],
+            ['Festivals', section_path('festivals'), $count('SELECT COUNT(*) FROM tiv_festivals')],
+            ['Foods', section_path('foods'), $count('SELECT COUNT(*) FROM tiv_foods')],
+            ['Proverbs', section_path('proverbs'), $count('SELECT COUNT(*) FROM tiv_proverbs')],
+            ['Personal names', section_path('names'), $count('SELECT COUNT(*) FROM tiv_names')],
             ['Historical figures', 'historical-figures', $count("SELECT COUNT(*) FROM historical_figures t WHERE t.status = 'published' AND "
                 . (new HistoricalFigure())->publicScopeSql('t'))],
             ['Timeline of Tiv history', 'timeline', $count("SELECT COUNT(*) FROM timeline_events t WHERE t.status = 'published' AND "
                 . (new TimelineEvent())->publicScopeSql('t'))],
         ] : [
-            ['Tiv–English dictionary', 'archive/words', null],
+            ['Tiv–English dictionary', section_path('words'), null],
             ['Language section (alphabet, grammar, lessons)', 'language', null],
-            ['Proverbs', 'archive/proverbs', $count('SELECT COUNT(*) FROM tiv_proverbs')],
-            ['Personal names', 'archive/names', $count('SELECT COUNT(*) FROM tiv_names')],
+            ['Proverbs', section_path('proverbs'), $count('SELECT COUNT(*) FROM tiv_proverbs')],
+            ['Personal names', section_path('names'), $count('SELECT COUNT(*) FROM tiv_names')],
         ];
         $out = [];
         foreach ($links as [$name, $path, $n]) {

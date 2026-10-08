@@ -66,3 +66,36 @@
         </div>
     </div>
 </div>
+<style>
+/* Non-blocking newsletter card. It used to cover the whole homepage on a first visit,
+   which Google treats as an intrusive interstitial. Now: shown only from a reader's
+   third page view, on screens wide enough for a corner card, without dimming or
+   covering the page. */
+.welcome-popup-overlay.is-card {
+    background: transparent;
+    pointer-events: none;
+    inset: auto 1.25rem 1.25rem auto;
+    padding: 0;
+    width: min(380px, calc(100vw - 2.5rem));
+}
+.welcome-popup-overlay.is-card .welcome-popup {
+    pointer-events: auto;
+    max-height: min(560px, 75vh);
+    box-shadow: 0 12px 40px rgba(31, 24, 16, 0.28);
+}
+.welcome-popup-overlay.is-card .welcome-popup-body { padding: 1.5rem 1.25rem 1.25rem; }
+.welcome-popup-overlay.is-card .welcome-popup-list { display: none; }
+</style>
+<script>
+(function () {
+    var overlay = document.getElementById('welcomePopupOverlay');
+    if (!overlay) return;
+    var views = 0;
+    try { views = parseInt(localStorage.getItem('tiv_pv') || '0', 10) || 0; } catch (e) {}
+    // First and second page views, and small screens: no sign-up card at all.
+    if (views < 3 || window.innerWidth < 768) { overlay.remove(); return; }
+    overlay.classList.add('is-card');
+    var dialog = overlay.querySelector('.welcome-popup');
+    if (dialog) dialog.setAttribute('aria-modal', 'false');
+}());
+</script>

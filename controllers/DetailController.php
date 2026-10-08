@@ -3,6 +3,7 @@
  * Detail Controller - Individual item pages
  */
 
+require_once BASE_PATH . '/services/EntryQuality.php';
 require_once BASE_PATH . '/models/TivName.php';
 require_once BASE_PATH . '/models/TivProverb.php';
 require_once BASE_PATH . '/models/TivPlant.php';
@@ -80,10 +81,11 @@ class DetailController extends Controller
             [$item['description'] ?? null, $item['origin_story'] ?? null],
             "{$item['tiv_name']} — a Tiv name meaning \"{$item['english_meaning']}\"."
         );
-        $breadcrumb = $this->breadcrumbFor('Names', 'archive/names', $item['tiv_name']);
+        $breadcrumb = $this->breadcrumbFor('Names', section_path('names'), $item['tiv_name']);
         $canonicalUrl = url(SeoHelper::canonicalSlugPath('name', (int) $id, $item['tiv_name']));
 
         $this->render('detail/name', [
+            'noindex'     => !EntryQuality::isIndexable('tiv_names', $item), // thin records: see services/EntryQuality.php
             'title'       => $item['tiv_name'] . ' - Tiv Name',
             'description' => $description,
             'breadcrumb'  => $breadcrumb,
@@ -122,10 +124,11 @@ class DetailController extends Controller
             [$item['deeper_meaning'] ?? null, $item['english_translation'] ?? null],
             'A traditional Tiv proverb with meaning and cultural context.'
         );
-        $breadcrumb = $this->breadcrumbFor('Proverbs', 'archive/proverbs', $slugSource);
+        $breadcrumb = $this->breadcrumbFor('Proverbs', section_path('proverbs'), $slugSource);
         $canonicalUrl = url(SeoHelper::canonicalSlugPath('proverb', (int) $id, $slugSource));
 
         $this->render('detail/proverb', [
+            'noindex'     => !EntryQuality::isIndexable('tiv_proverbs', $item), // thin records: see services/EntryQuality.php
             'title'       => $item['tiv_text'] . ' - Tiv Proverb',
             'description' => $description,
             'breadcrumb'  => $breadcrumb,
@@ -164,10 +167,11 @@ class DetailController extends Controller
             "{$item['tiv_name']} — a Tiv plant, part of the Tiv Heritage Archive."
         );
         $ogImage    = SeoHelper::ogImage($item['image'] ?? null);
-        $breadcrumb = $this->breadcrumbFor('Plants', 'archive/plants', $item['tiv_name']);
+        $breadcrumb = $this->breadcrumbFor('Plants', section_path('plants'), $item['tiv_name']);
         $canonicalUrl = url(SeoHelper::canonicalSlugPath('plant', (int) $id, $item['tiv_name']));
 
         $this->render('detail/plant', [
+            'noindex'     => !EntryQuality::isIndexable('tiv_plants', $item), // thin records: see services/EntryQuality.php
             'title'       => $item['tiv_name'] . ' - Tiv Plant',
             'description' => $description,
             'ogImage'     => $ogImage,
@@ -208,7 +212,7 @@ class DetailController extends Controller
             "{$item['tiv_name']} — a Tiv festival, part of the Tiv Heritage Archive."
         );
         $ogImage    = SeoHelper::ogImage($item['image'] ?? null);
-        $breadcrumb = $this->breadcrumbFor('Festivals', 'archive/festivals', $item['tiv_name']);
+        $breadcrumb = $this->breadcrumbFor('Festivals', section_path('festivals'), $item['tiv_name']);
         $canonicalUrl = url(SeoHelper::canonicalSlugPath('festival', (int) $id, $item['tiv_name']));
 
         // Festivals recur on a traditional/agricultural calendar with no fixed
@@ -234,6 +238,7 @@ class DetailController extends Controller
         }
 
         $this->render('detail/festival', [
+            'noindex'     => !EntryQuality::isIndexable('tiv_festivals', $item), // thin records: see services/EntryQuality.php
             'title'       => $item['tiv_name'] . ' - Tiv Festival',
             'description' => $description,
             'ogImage'     => $ogImage,
@@ -264,10 +269,11 @@ class DetailController extends Controller
             "{$item['tiv_name']} — a Tiv food, part of the Tiv Heritage Archive."
         );
         $ogImage    = SeoHelper::ogImage($item['image'] ?? null);
-        $breadcrumb = $this->breadcrumbFor('Foods', 'archive/foods', $item['tiv_name']);
+        $breadcrumb = $this->breadcrumbFor('Foods', section_path('foods'), $item['tiv_name']);
         $canonicalUrl = url(SeoHelper::canonicalSlugPath('food', (int) $id, $item['tiv_name']));
 
         $this->render('detail/food', [
+            'noindex'     => !EntryQuality::isIndexable('tiv_foods', $item), // thin records: see services/EntryQuality.php
             'title'       => $item['tiv_name'] . ' - Tiv Food',
             'description' => $description,
             'ogImage'     => $ogImage,
@@ -309,10 +315,11 @@ class DetailController extends Controller
             "{$itemLabel} — a Tiv animal, part of the Tiv Heritage Archive."
         );
         $ogImage    = SeoHelper::ogImage($item['image'] ?? null);
-        $breadcrumb = $this->breadcrumbFor('Animals', 'archive/animals', $itemLabel);
+        $breadcrumb = $this->breadcrumbFor('Animals', section_path('animals'), $itemLabel);
         $canonicalUrl = url(SeoHelper::canonicalSlugPath('animal', (int) $id, $itemLabel));
 
         $this->render('detail/animal', [
+            'noindex'     => !EntryQuality::isIndexable('tiv_animals', $item), // thin records: see services/EntryQuality.php
             'title'       => $itemLabel . ' - Tiv Animal',
             'description' => $description,
             'ogImage'     => $ogImage,
@@ -342,7 +349,8 @@ class DetailController extends Controller
         $model   = new DailyWord();
         $item    = $model->find((int) $id);
 
-        if (!$item) { $this->render('errors/404', ['title' => 'Not Found']); return; }
+        // Hidden (is_active = 0) entries are import fragments or retired words — not public.
+        if (!$item || (int) $item['is_active'] !== 1) { $this->render('errors/404', ['title' => 'Not Found']); return; }
         if ($this->enforceCanonicalSlug('word', $id, (int) $item['id'], $item['tiv_word'])) { return; }
 
         $related = $model->getByPartOfSpeech($item['part_of_speech'], 5);
@@ -360,25 +368,26 @@ class DetailController extends Controller
                 && $link['table'] === 'daily_words'
         );
 
+        $displayWord = SeoHelper::displayWord($item['tiv_word']);
         $description = SeoHelper::describe(
             [$item['figurative_meaning'] ?? null, $item['literal_meaning'] ?? null, $item['english_meaning'] ?? null],
-            "Tiv word: {$item['tiv_word']}."
+            "Tiv word: {$displayWord}."
         );
-        $breadcrumb = $this->breadcrumbFor('Dictionary', 'archive/words', $item['tiv_word']);
+        $breadcrumb = $this->breadcrumbFor('Dictionary', section_path('words'), $displayWord);
         $canonicalUrl = url(SeoHelper::canonicalSlugPath('word', (int) $id, $item['tiv_word']));
 
         $this->render('detail/word', [
-            'title'         => $item['tiv_word'] . ' - Tiv Word',
+            'title'         => $displayWord . ' - Tiv Word',
             'description'   => $description,
             'breadcrumb'    => $breadcrumb,
             'jsonLd'        => SeoHelper::jsonLd([
                 [
                     '@context'         => 'https://schema.org',
                     '@type'            => 'DefinedTerm',
-                    'name'             => $item['tiv_word'],
+                    'name'             => $displayWord,
                     'description'      => $description,
                     'url'              => $canonicalUrl,
-                    'inDefinedTermSet' => url('archive/words'),
+                    'inDefinedTermSet' => url(section_path('words')),
                     'inLanguage'       => 'tiv',
                 ],
                 SeoHelper::breadcrumbListSchema($breadcrumb),
@@ -391,6 +400,9 @@ class DetailController extends Controller
             'derivedWords'  => $derivedWords,
             'wordRelations' => $wordRelations,
             'currentPage'   => 'archive',
+            // A bare word + meaning (no example or notes) is too thin to stand
+            // as its own search result; keep it for visitors, not for Google.
+            'noindex'       => !EntryQuality::isIndexable('daily_words', $item), // thin records: see services/EntryQuality.php
         ]);
     }
 }

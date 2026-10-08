@@ -11,9 +11,50 @@ abstract class Model
     protected string $primaryKey = 'id';
     protected array $fillable = [];
 
+    /**
+     * Collection (collections.code) the public listing methods are limited to,
+     * for tables shared between collections (people, events, articles). null =
+     * table is not shared, no limit. find/count/paginate/all stay unlimited
+     * (detail pages and admin). Rule: see collectionScope().
+     */
+    protected ?string $publicCollection = null;
+
     public function __construct()
     {
         $this->db = Database::getInstance();
+    }
+
+    /**
+     * SQL condition limiting this table's rows to $publicCollection ('1 = 1'
+     * when unset). A row belongs to 'tiv' unless it is tagged only with other
+     * collections, so records created before/outside collection tagging stay
+     * Tiv; any other collection needs an explicit collection_items row.
+     */
+    protected function collectionScope(string $alias = ''): string
+    {
+        if ($this->publicCollection === null) {
+            return '1 = 1';
+        }
+        $id = ($alias !== '' ? $alias . '.' : $this->table . '.') . $this->primaryKey;
+        $member = "SELECT 1 FROM collection_items ci WHERE ci.entity_table = '{$this->table}' AND ci.entity_id = {$id}";
+        $inCode = "EXISTS ({$member} AND ci.collection_id = (SELECT id FROM collections WHERE code = '{$this->publicCollection}'))";
+        return $this->publicCollection === 'tiv'
+            ? "(NOT EXISTS ({$member}) OR {$inCode})"
+            : $inCode;
+    }
+
+    /** collectionScope() for raw queries outside the model (e.g. the sitemap). */
+    public function publicScopeSql(string $alias = ''): string
+    {
+        return $this->collectionScope($alias);
+    }
+
+    /** Does the row with this id belong to $publicCollection? (always true when unset) */
+    public function inPublicCollection(int $id): bool
+    {
+        $stmt = $this->db->prepare("SELECT 1 FROM {$this->table} WHERE {$this->primaryKey} = ? AND " . $this->collectionScope());
+        $stmt->execute([$id]);
+        return (bool) $stmt->fetchColumn();
     }
 
     /**
@@ -181,8 +222,9 @@ abstract class Model
      */
     public function featured(int $limit = 5): array
     {
+        $scope = $this->collectionScope();
         $count = (int) $this->db->query(
-            "SELECT COUNT(*) FROM {$this->table} WHERE is_featured = 1"
+            "SELECT COUNT(*) FROM {$this->table} WHERE is_featured = 1 AND {$scope}"
         )->fetchColumn();
 
         if ($count === 0) return [];
@@ -190,7 +232,7 @@ abstract class Model
         $offset = $count > $limit ? rand(0, $count - $limit) : 0;
 
         $stmt = $this->db->prepare(
-            "SELECT * FROM {$this->table} WHERE is_featured = 1 LIMIT ? OFFSET ?"
+            "SELECT * FROM {$this->table} WHERE is_featured = 1 AND {$scope} LIMIT ? OFFSET ?"
         );
         $stmt->execute([$limit, $offset]);
         return $stmt->fetchAll();
@@ -216,7 +258,7 @@ abstract class Model
             $stmt = $this->db->prepare(
                 "SELECT *, MATCH({$fieldList}) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance
                 FROM {$this->table}
-                WHERE MATCH({$fieldList}) AGAINST(? IN NATURAL LANGUAGE MODE)
+                WHERE MATCH({$fieldList}) AGAINST(? IN NATURAL LANGUAGE MODE) AND {$this->collectionScope()}
                 ORDER BY relevance DESC
                 LIMIT ?"
             );
@@ -256,7 +298,7 @@ abstract class Model
         $firstField = $fields[0];
 
         $conditions = array_map(fn($f) => "{$f} LIKE ?", $fields);
-        $whereClause = implode(' OR ', $conditions);
+        $whereClause = '(' . implode(' OR ', $conditions) . ') AND ' . $this->collectionScope();
 
         // ORDER BY prioritises: exact first-field match → prefix match → any contains
         $sql = sprintf(
@@ -304,7 +346,7 @@ abstract class Model
     public function mostViewed(int $limit = 10): array
     {
         $stmt = $this->db->prepare(
-            "SELECT * FROM {$this->table} ORDER BY view_count DESC LIMIT ?"
+            "SELECT * FROM {$this->table} WHERE {$this->collectionScope()} ORDER BY view_count DESC LIMIT ?"
         );
         $stmt->execute([$limit]);
         return $stmt->fetchAll();
@@ -318,7 +360,7 @@ abstract class Model
     public function mostViewedBy(string $column, int $limit = 10): array
     {
         $stmt = $this->db->prepare(
-            "SELECT * FROM {$this->table} ORDER BY `{$column}` DESC LIMIT ?"
+            "SELECT * FROM {$this->table} WHERE {$this->collectionScope()} ORDER BY `{$column}` DESC LIMIT ?"
         );
         $stmt->execute([$limit]);
         return $stmt->fetchAll();
@@ -330,9 +372,41 @@ abstract class Model
     public function recent(int $limit = 10): array
     {
         $stmt = $this->db->prepare(
-            "SELECT * FROM {$this->table} ORDER BY created_at DESC LIMIT ?"
+            "SELECT * FROM {$this->table} WHERE {$this->collectionScope()} ORDER BY created_at DESC LIMIT ?"
         );
         $stmt->execute([$limit]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Records for newsletter rotation, scoped by a raw WHERE clause on this
+     * table (alias "t"; never user input): those never included in a sent
+     * (approved/archived) newsletter issue first, in random order, then the
+     * ones whose last appearance is oldest. Nothing is excluded permanently —
+     * recently used records just sort last, so a small pool cycles through
+     * every record before any repeats.
+     */
+    public function newsletterRotation(int $limit, string $where = '1 = 1', array $excludeIds = []): array
+    {
+        $exclude = $excludeIds
+            ? 'AND t.id NOT IN (' . implode(',', array_map('intval', $excludeIds)) . ')'
+            : '';
+
+        $stmt = $this->db->prepare(
+            "SELECT t.* FROM {$this->table} t
+             LEFT JOIN (
+                 SELECT i.item_id, MAX(i.issue_id) AS last_issue_id
+                 FROM marketing_newsletter_issue_items i
+                 JOIN marketing_newsletter_issues n
+                   ON n.id = i.issue_id AND n.status IN ('approved', 'archived')
+                 WHERE i.item_table = ? AND i.section != 'popular_baseline'
+                 GROUP BY i.item_id
+             ) u ON u.item_id = t.id
+             WHERE ({$where}) AND {$this->collectionScope('t')} {$exclude}
+             ORDER BY u.last_issue_id IS NOT NULL, u.last_issue_id ASC, RAND()
+             LIMIT ?"
+        );
+        $stmt->execute([$this->table, $limit]);
         return $stmt->fetchAll();
     }
 
@@ -343,7 +417,7 @@ abstract class Model
      */
     public function getRandom(string $where = '', array $params = []): ?array
     {
-        $whereSql = $where !== '' ? "WHERE {$where}" : '';
+        $whereSql = 'WHERE ' . ($where !== '' ? "({$where}) AND " : '') . $this->collectionScope();
 
         $countStmt = $this->db->prepare("SELECT COUNT(*) FROM {$this->table} {$whereSql}");
         $countStmt->execute($params);

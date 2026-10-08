@@ -151,6 +151,8 @@
         <?php endif; ?>
 
         <!-- Back / CTAs -->
+        <?php if (!empty($inTivCollection)) $this->partial('nigeria-tiv-link'); ?>
+
         <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid #e5e0d5;display:flex;gap:.8rem;flex-wrap:wrap;">
             <a href="<?= url($section . '/' . $sub) ?>" class="btn btn-secondary">
                 &larr; Back to <?= htmlspecialchars($subConfig['label']) ?>

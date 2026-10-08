@@ -5,6 +5,7 @@ require_once BASE_PATH . '/core/Model.php';
 class ContentItem extends Model
 {
     protected string $table = 'content_items';
+    protected ?string $publicCollection = 'tiv';
 
     protected array $fillable = [
         'section', 'subcategory',
@@ -19,7 +20,7 @@ class ContentItem extends Model
     {
         $stmt = $this->db->prepare(
             "SELECT * FROM {$this->table}
-             WHERE section = ? AND subcategory = ? AND status = 'published'
+             WHERE section = ? AND subcategory = ? AND status = 'published' AND {$this->collectionScope()}
              ORDER BY is_featured DESC, created_at DESC
              LIMIT ? OFFSET ?"
         );
@@ -31,7 +32,7 @@ class ContentItem extends Model
     {
         $stmt = $this->db->prepare(
             "SELECT COUNT(*) FROM {$this->table}
-             WHERE section = ? AND subcategory = ? AND status = 'published'"
+             WHERE section = ? AND subcategory = ? AND status = 'published' AND {$this->collectionScope()}"
         );
         $stmt->execute([$section, $sub]);
         return (int) $stmt->fetchColumn();
@@ -42,7 +43,7 @@ class ContentItem extends Model
         $like = '%' . $q . '%';
         $stmt = $this->db->prepare(
             "SELECT * FROM {$this->table}
-             WHERE section = ? AND subcategory = ? AND status = 'published'
+             WHERE section = ? AND subcategory = ? AND status = 'published' AND {$this->collectionScope()}
                AND (title LIKE ? OR tiv_title LIKE ? OR excerpt LIKE ? OR content LIKE ?)
              ORDER BY is_featured DESC, created_at DESC
              LIMIT 50"
@@ -55,7 +56,7 @@ class ContentItem extends Model
     {
         $stmt = $this->db->prepare(
             "SELECT * FROM {$this->table}
-             WHERE section = ? AND subcategory = ? AND is_featured = 1 AND status = 'published'
+             WHERE section = ? AND subcategory = ? AND is_featured = 1 AND status = 'published' AND {$this->collectionScope()}
              ORDER BY created_at DESC LIMIT ?"
         );
         $stmt->execute([$section, $sub, $limit]);
@@ -89,7 +90,7 @@ class ContentItem extends Model
     {
         $stmt = $this->db->prepare(
             "SELECT * FROM {$this->table}
-             WHERE section = ? AND subcategory = ? AND status = 'published'
+             WHERE section = ? AND subcategory = ? AND status = 'published' AND {$this->collectionScope()}
              ORDER BY is_featured DESC, created_at DESC
              LIMIT ?"
         );

@@ -1,3 +1,15 @@
+# Google's ad crawlers may read every page: AdSense reviews and targets ads from what
+# Mediapartners-Google can fetch, and AdsBot-Google checks ad pages. A crawler with its
+# own group ignores the "*" group below.
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
 User-agent: *
 Disallow: /admin
 Disallow: /admin/
@@ -13,6 +25,8 @@ Disallow: /contribute/success
 Disallow: /outreach/
 Disallow: /storage/
 Disallow: /uploads/
+Disallow: /go/
+Disallow: /references/*/export/
 
 Allow: /uploads/images/
 

@@ -5,7 +5,26 @@ require_once BASE_PATH . '/models/ContentItem.php';
 
 class ContentCategoryController extends Controller
 {
-    private array $sections = [
+    /** Public so other controllers (e.g. HomeController) can reuse this exact
+     *  content/labels/links as the single source of truth — never duplicate it. */
+    public static function getSections(): array
+    {
+        $sections = self::$sections;
+        foreach ($sections as &$section) {
+            foreach ($section['subcategories'] as &$sub) {
+                if (!empty($sub['redirect'])) $sub['redirect'] = self::resolveRedirect($sub['redirect']);
+            }
+        }
+        return $sections;
+    }
+
+    /** archive/{section} targets point at the section's main (full-text) page. */
+    private static function resolveRedirect(string $path): string
+    {
+        return preg_match('#^archive/([a-z]+)$#', $path, $m) ? section_path($m[1]) : $path;
+    }
+
+    private static array $sections = [
         'language' => [
             'title'       => 'Language',
             'icon'        => '&#128172;',
@@ -144,12 +163,12 @@ class ContentCategoryController extends Controller
 
     public function section(string $section): void
     {
-        if (!isset($this->sections[$section])) {
+        if (!isset(self::$sections[$section])) {
             $this->redirect(url('/'));
             return;
         }
 
-        $config = $this->sections[$section];
+        $config = self::getSections()[$section];
 
         $this->render('content/section', [
             'title'       => $config['title'] . ' | Tiv Heritage Archive',
@@ -162,12 +181,12 @@ class ContentCategoryController extends Controller
 
     public function subcategory(string $section, string $sub): void
     {
-        if (!isset($this->sections[$section])) {
+        if (!isset(self::$sections[$section])) {
             $this->redirect(url('/'));
             return;
         }
 
-        $sConfig = $this->sections[$section];
+        $sConfig = self::$sections[$section];
         $subKey  = strtolower($sub);
 
         if (!isset($sConfig['subcategories'][$subKey])) {
@@ -178,7 +197,7 @@ class ContentCategoryController extends Controller
         $subConfig = $sConfig['subcategories'][$subKey];
 
         if (!empty($subConfig['redirect'])) {
-            $this->redirect(url($subConfig['redirect']));
+            $this->redirect(url(self::resolveRedirect($subConfig['redirect'])));
             return;
         }
 
@@ -246,6 +265,7 @@ class ContentCategoryController extends Controller
             'pagination'    => $pagination,
             'search'        => $search,
             'currentPage'   => $section,
+            'noindex'       => $total === 0, // an empty section is no page for search engines
         ]);
     }
 
@@ -261,7 +281,7 @@ class ContentCategoryController extends Controller
 
         $model->incrementViews((int) $id);
 
-        $sections = $this->sections;
+        $sections = self::$sections;
         $sConfig  = $sections[$item['section']] ?? [];
         $subKey   = $item['subcategory'];
         $subConfig = $sConfig['subcategories'][$subKey] ?? ['label' => ContentItem::subcategoryLabel($subKey), 'icon' => '&#128196;'];
@@ -275,6 +295,7 @@ class ContentCategoryController extends Controller
             'sub'         => $subKey,
             'subConfig'   => $subConfig,
             'currentPage' => $item['section'],
+            'inTivCollection' => $model->inPublicCollection((int) $id),
         ]);
     }
 }

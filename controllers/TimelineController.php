@@ -6,6 +6,7 @@
 require_once BASE_PATH . '/models/TimelineEvent.php';
 require_once BASE_PATH . '/models/KnowledgeLink.php';
 require_once BASE_PATH . '/services/SeoHelper.php';
+require_once BASE_PATH . '/services/EntryQuality.php';
 
 class TimelineController extends Controller
 {
@@ -109,6 +110,12 @@ class TimelineController extends Controller
             return;
         }
 
+        // National records live at /nigeria/events/{slug}.
+        if (!empty($item['national_slug'])) {
+            redirect301(nigeria_url('events/' . $item['national_slug']));
+            return;
+        }
+
         $canonical = SeoHelper::canonicalSlugPath('timeline-event', (int) $item['id'], $item['title']);
         if ($id !== substr($canonical, strlen('timeline-event') + 1)) {
             redirect301(url($canonical));
@@ -151,6 +158,7 @@ class TimelineController extends Controller
         }
 
         $this->render('detail/timeline-event', [
+            'noindex'     => $item['status'] !== 'published' || !EntryQuality::isIndexable('timeline_events', $item), // see services/EntryQuality.php
             'title'       => $item['title'] . ' - Timeline | Tiv Heritage Archive',
             'description' => $description,
             'ogImage'     => $ogImage,

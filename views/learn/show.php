@@ -172,13 +172,13 @@
 
         </div><!-- /.vaction-bar -->
 
-        <?php if (ADSENSE_ENABLED): ?>
+        <?php if (ads_on()): ?>
         <!-- Ad 1: below Like/Comments, above description -->
         <div class="adsense-wrap">
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-pub-7960622250292703"
-                 data-ad-slot="6111588136"
+                 data-ad-client="<?= ADSENSE_CLIENT ?>"
+                 data-ad-slot="<?= ADSENSE_SLOT ?>"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
         </div>
@@ -252,13 +252,13 @@
         </div>
         <?php endif; ?>
 
-        <?php if (ADSENSE_ENABLED): ?>
+        <?php if (ads_on()): ?>
         <!-- Ad 2: between description and share bar -->
         <div class="adsense-wrap">
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-pub-7960622250292703"
-                 data-ad-slot="6111588136"
+                 data-ad-client="<?= ADSENSE_CLIENT ?>"
+                 data-ad-slot="<?= ADSENSE_SLOT ?>"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
         </div>

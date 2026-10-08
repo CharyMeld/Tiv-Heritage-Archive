@@ -72,6 +72,20 @@ $router->post('newsletter/subscribe', 'NewsletterSubscribeController', 'subscrib
 $router->get('archive', 'ArchiveController', 'index');
 $router->get('archive/{category}', 'ArchiveController', 'category');
 
+// Full-text collection pages (see controllers/CollectionController.php)
+$router->get('collections', 'CollectionController', 'index');
+$router->get('collections/dictionary/{letter}', 'CollectionController', 'dictionary');
+$router->get('collections/dictionary/{letter}/{page}', 'CollectionController', 'dictionary');
+$router->get('collections/names', 'CollectionController', 'names');
+$router->get('collections/names/{gender}', 'CollectionController', 'names');
+$router->get('collections/proverbs', 'CollectionController', 'proverbs');
+$router->get('collections/proverbs/{page}', 'CollectionController', 'proverbs');
+$router->get('collections/plants', 'CollectionController', 'plants');
+$router->get('collections/plants/{page}', 'CollectionController', 'plants');
+$router->get('collections/animals', 'CollectionController', 'animals');
+$router->get('collections/foods', 'CollectionController', 'foods');
+$router->get('collections/festivals', 'CollectionController', 'festivals');
+
 // Detail Routes
 $router->get('name/{id}', 'DetailController', 'name');
 $router->get('proverb/{id}', 'DetailController', 'proverb');
@@ -108,6 +122,18 @@ $router->get('bible', 'BibleReaderController', 'index');
 $router->get('bible/search', 'BibleReaderController', 'search');
 $router->get('bible/verses', 'BibleReaderController', 'versesApi');
 $router->get('bible/{book}/{chapter}', 'BibleReaderController', 'chapter');
+
+// Nigeria Heritage (national section) — links are built with nigeria_url()
+$router->get('nigeria', 'NigeriaController', 'home');
+$router->get('nigeria/states', 'NigeriaController', 'states');
+$router->get('nigeria/states/{slug}', 'NigeriaController', 'state');
+$router->get('nigeria/states/{state}/lgas/{slug}', 'NigeriaController', 'lga');
+$router->get('nigeria/units/{slug}', 'NigeriaController', 'unit');
+$router->get('nigeria/culture', 'NigeriaController', 'culture');
+$router->get('nigeria/culture/{type}', 'NigeriaController', 'cultureType');
+$router->get('nigeria/culture/{type}/{slug}', 'NigeriaController', 'cultureRecord');
+$router->get('nigeria/{section:places|ethnic-groups|languages|kingdoms|periods|people|events}', 'NigeriaController', 'section');
+$router->get('nigeria/{section:places|ethnic-groups|languages|kingdoms|periods|people|events}/{slug}', 'NigeriaController', 'show');
 
 // Auth Routes
 $router->get('login', 'AuthController', 'loginForm');
@@ -284,6 +310,24 @@ $router->post('admin/historical-figures/{id}/delete',                   'AdminHi
 $router->post('admin/historical-figures/{id}/gallery/upload',           'AdminHistoricalFigureController', 'uploadGalleryPhoto');
 $router->post('admin/historical-figures/{id}/gallery/{photoId}/delete', 'AdminHistoricalFigureController', 'deleteGalleryPhoto');
 
+// Admin — Nigeria Heritage (national knowledge tables + research dashboard)
+$router->get('admin/heritage',                                        'AdminHeritageController', 'dashboard');
+$router->get('admin/heritage/{type}',                                 'AdminHeritageController', 'index');
+$router->get('admin/heritage/{type}/create',                          'AdminHeritageController', 'create');
+$router->post('admin/heritage/{type}/create',                         'AdminHeritageController', 'store');
+$router->get('admin/heritage/{type}/{id:\d+}/edit',                   'AdminHeritageController', 'edit');
+$router->post('admin/heritage/{type}/{id:\d+}/edit',                  'AdminHeritageController', 'update');
+$router->post('admin/heritage/{type}/{id:\d+}/delete',                'AdminHeritageController', 'delete');
+$router->post('admin/heritage/{type}/{id:\d+}/sources',               'AdminHeritageController', 'addSource');
+$router->post('admin/heritage/{type}/{id:\d+}/names',                 'AdminHeritageController', 'addName');
+$router->post('admin/heritage/{type}/{id:\d+}/statistics',            'AdminHeritageController', 'addStatistic');
+$router->post('admin/heritage/{type}/{id:\d+}/relations',             'AdminHeritageController', 'addRelation');
+$router->post('admin/heritage/{type}/{id:\d+}/changes',               'AdminHeritageController', 'addChange');
+$router->post('admin/heritage/{type}/{id:\d+}/collections',           'AdminHeritageController', 'setCollections');
+$router->post('admin/heritage/{type}/{id:\d+}/{kind:sources|names|statistics|relations|changes}/{rowId:\d+}/delete', 'AdminHeritageController', 'deleteKnowledge');
+$router->post('admin/heritage/{type}/{id:\d+}/panel/{kind:claim-sources|attributes|media-links}',                  'AdminHeritageController', 'addPanelRow');
+$router->post('admin/heritage/{type}/{id:\d+}/panel/{kind:claim-sources|attributes|media-links}/{rowId:\d+}/delete', 'AdminHeritageController', 'deletePanelRow');
+
 // Admin — Archive Intelligence (search index rebuild)
 $router->get('admin/intelligence',         'ArchiveIntelligenceController', 'index');
 $router->post('admin/intelligence/reindex', 'ArchiveIntelligenceController', 'reindex');
@@ -348,6 +392,9 @@ $router->get('nominate-influential/success', 'NominateController', 'success');
 
 // Public: unsubscribe from outreach emails
 $router->get('outreach/unsubscribe/{token}', 'OutreachUnsubscribeController', 'unsubscribe');
+
+// Public: unsubscribe from newsletter campaign emails
+$router->get('newsletter/unsubscribe/{token}', 'NewsletterUnsubscribeController', 'unsubscribe');
 
 // Admin: Outreach Dashboard
 $router->get('admin/outreach', 'AdminInfluentialController', 'index');
@@ -458,6 +505,12 @@ $router->post('admin/marketing/facebook/retry/{scheduleId}', 'AdminMarketingFace
 // Admin: Email Campaigns (stub)
 $router->get('admin/marketing/campaigns', 'AdminMarketingController', 'emailCampaignsStub');
 
+// Admin: Profile pack (ready-to-post items for the owner's personal Facebook profile)
+$router->get('admin/marketing/profile', 'AdminMarketingProfileController', 'index');
+$router->post('admin/marketing/profile/generate', 'AdminMarketingProfileController', 'generate');
+$router->post('admin/marketing/profile/{id}/update', 'AdminMarketingProfileController', 'update');
+$router->post('admin/marketing/profile/{id}/status', 'AdminMarketingProfileController', 'status');
+
 // Admin: Social Media Captions
 $router->get('admin/marketing/social', 'AdminMarketingSocialController', 'index');
 $router->get('admin/marketing/social/{postId}', 'AdminMarketingSocialController', 'view');
@@ -476,7 +529,7 @@ $url = $_GET['url'] ?? '';
 $url = trim($url, '/');
 
 // Bot / scraper protection on archive content routes
-$_protectedPrefixes = ['archive', 'name/', 'proverb/', 'plant/', 'festival/', 'food/', 'word/', 'animal/', 'learn', 'historical-figures', 'historical-figure/', 'timeline', 'timeline-event/', 'references'];
+$_protectedPrefixes = ['archive', 'collections', 'name/', 'proverb/', 'plant/', 'festival/', 'food/', 'word/', 'animal/', 'learn', 'historical-figures', 'historical-figure/', 'timeline', 'timeline-event/', 'references', 'nigeria'];
 foreach ($_protectedPrefixes as $_prefix) {
     if ($url === rtrim($_prefix, '/') || strpos($url, $_prefix) === 0) {
         ApiAuth::protectPage();

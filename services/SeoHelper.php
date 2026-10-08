@@ -94,6 +94,37 @@ class SeoHelper
         ];
     }
 
+    /**
+     * The dictionary source data disambiguates homonyms — words spelled
+     * identically but with unrelated meanings — with a digit glued
+     * straight onto the headword (e.g. "wua1"/"wua2"/"wua3" for three
+     * unrelated words all spelled "wua": grind, Guinea corn, kill; or
+     * "kaa4 mo", "ta2 iwanger" where the marked headword is followed by a
+     * qualifier). That digit was meant to be a superscript sense number
+     * (wua¹, wua², wua³), the standard lexicographic convention, but was
+     * typed as a plain ASCII digit and reads as part of the word itself.
+     * Confirmed against the full dataset: a digit here is always
+     * immediately preceded by a letter and never immediately followed by
+     * another letter or digit (only end-of-string or a space/punctuation
+     * qualifier), so matching "letter, digit, non-alnum-or-end" anywhere
+     * in the string is safe. This renders it as a proper Unicode
+     * superscript for display only — the raw digit is left untouched in
+     * the database and in URL slugs (canonicalSlugPath), which must stay
+     * stable/ASCII.
+     */
+    public static function displayWord(string $word): string
+    {
+        static $superscript = [
+            '0' => '⁰', '1' => '¹', '2' => '²', '3' => '³', '4' => '⁴',
+            '5' => '⁵', '6' => '⁶', '7' => '⁷', '8' => '⁸', '9' => '⁹',
+        ];
+        return preg_replace_callback(
+            '/(?<=[a-zA-Z])([0-9])(?![0-9a-zA-Z])/u',
+            static fn(array $m): string => $superscript[$m[1]],
+            $word
+        );
+    }
+
     public static function slugify(string $text): string
     {
         $slug = strtolower(trim($text));

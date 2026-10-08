@@ -35,11 +35,20 @@ class ContentIndexer
         $total += $this->indexLearningVideos();
         $total += $this->indexAlphabetEntries();
         $total += $this->indexHistoricalFigures();
+        $total += $this->indexGrammarRules();
+        $total += $this->indexTimelineEvents();
+        $total += $this->indexNationalRecords();
 
-        // Extract text from uploaded files before indexing content_items
-        require_once BASE_PATH . '/services/FileIndexer.php';
-        $fileIndexer = new FileIndexer($this->db);
-        $fileIndexer->processPending(100);
+        // Extract text from uploaded files before indexing content_items.
+        // Guarded: on environments where the extraction_status/extracted_text migration
+        // hasn't been applied yet, this must not abort the rest of the reindex.
+        try {
+            require_once BASE_PATH . '/services/FileIndexer.php';
+            $fileIndexer = new FileIndexer($this->db);
+            $fileIndexer->processPending(100);
+        } catch (\PDOException $e) {
+            error_log('ContentIndexer: file extraction skipped — ' . $e->getMessage());
+        }
 
         $total += $this->indexContentItems();
         $total += $this->indexPhrases();
@@ -67,6 +76,10 @@ class ContentIndexer
             case 'learning_videos':     $this->indexVideoById($id);        break;
             case 'tiv_alphabet':        $this->indexAlphabetById($id);     break;
             case 'historical_figures':  $this->indexHistoricalFigureById($id); break;
+            case 'tiv_grammar_rules':   $this->indexGrammarRuleById($id);      break;
+            case 'timeline_events':     $this->indexTimelineEventById($id);    break;
+            default:
+                if (isset(self::NATIONAL_TYPES[$table])) $this->indexNationalById($table, $id);
         }
     }
 
@@ -497,12 +510,200 @@ class ContentIndexer
             table: 'historical_figures', id: $r['id'], type: 'historical_figure',
             primary: $primary, secondary: $secondary,
             excerpt: mb_substr($r['short_summary'] ?? '', 0, 200),
-            url: '/historical-figure/' . $r['id'],
+            url: $this->recordPath('historical_figures', $r, '/historical-figure/' . $r['id']),
             meta: [
                 'category'    => $r['category'] ?? '',
                 'subcategory' => $r['subcategory'] ?? '',
                 'historical_period' => $r['historical_period'] ?? '',
             ]
+        );
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Nigeria Heritage records (published only)
+    // ─────────────────────────────────────────────────────────────
+
+    /** National table => index content_type. */
+    private const NATIONAL_TYPES = [
+        'admin_units' => 'admin_unit', 'places' => 'place', 'ethnic_groups' => 'ethnic_group',
+        'languages' => 'language', 'polities' => 'polity', 'cultural_records' => 'cultural_record',
+        'historical_periods' => 'historical_period',
+    ];
+
+    private function indexNationalRecords(): int
+    {
+        require_once BASE_PATH . '/services/HeritagePublic.php';
+        $n = 0;
+        foreach (array_keys(self::NATIONAL_TYPES) as $table) {
+            try {
+                // Wards have no page of their own (they are listed on their LGA page), so they are not indexed.
+                $scope = "review_status = 'published'" . ($table === 'admin_units' ? " AND unit_type <> 'ward'" : '');
+                $rows = $this->db->query("SELECT * FROM {$table} WHERE {$scope}")->fetchAll();
+                // Drop index rows of records that were unpublished or deleted since the last run.
+                $this->db->prepare("DELETE FROM archive_search_index WHERE source_table = ? AND source_id NOT IN
+                                    (SELECT id FROM {$table} WHERE {$scope})")->execute([$table]);
+            } catch (\PDOException $e) {
+                continue; // national tables not migrated on this install
+            }
+            foreach ($rows as $r) {
+                $this->indexNationalRow($table, $r);
+            }
+            $n += count($rows);
+        }
+        return $n;
+    }
+
+    private function indexNationalById(string $table, int $id): void
+    {
+        require_once BASE_PATH . '/services/HeritagePublic.php';
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM {$table} WHERE id = ? AND review_status = 'published'"
+                . ($table === 'admin_units' ? " AND unit_type <> 'ward'" : ''));
+            $stmt->execute([$id]);
+            $r = $stmt->fetch();
+        } catch (\PDOException $e) { return; }
+        if (!$r) { $this->removeRecord($table, $id); return; }
+        $this->indexNationalRow($table, $r);
+    }
+
+    /**
+     * Name, other names, summary and prose are the primary text; the record type and
+     * its published relations ("present in Benue State", "speaks Tiv") the secondary
+     * text, so graph facts are searchable too.
+     */
+    private function indexNationalRow(string $table, array $r): void
+    {
+        $id = (int) $r['id'];
+        $names = $this->db->prepare("SELECT name FROM entity_names WHERE entity_table = ? AND entity_id = ?");
+        $names->execute([$table, $id]);
+        $altNames = implode(' ', $names->fetchAll(\PDO::FETCH_COLUMN));
+
+        $prose = '';
+        foreach (array_keys(HeritagePublic::PROSE[$table] ?? []) as $col) $prose .= ' ' . ($r[$col] ?? '');
+        $primary = trim(($r['name'] ?? '') . ' ' . ($r['endonym'] ?? '') . ' ' . ($r['local_name'] ?? '') . ' '
+                 . ($r['official_name'] ?? '') . ' ' . $altNames . ' ' . ($r['summary'] ?? '') . ' ' . $prose);
+
+        $facts = [];
+        $knowledge = HeritagePublic::knowledge($table, $id);
+        foreach ($knowledge['relations'] as $reads => $rels) {
+            $facts[] = $reads . ' ' . implode(', ', array_map(fn($x) => $x['other']['name'], $rels));
+        }
+        $typeCol = ['admin_units' => 'unit_type', 'places' => 'place_type', 'languages' => 'lang_type',
+                    'polities' => 'polity_type', 'cultural_records' => 'record_type'][$table] ?? null;
+        $secondary = trim(str_replace('_', ' ', (string) ($typeCol ? $r[$typeCol] : self::NATIONAL_TYPES[$table])) . '. ' . implode('. ', $facts));
+
+        $this->upsertIndex(
+            table: $table, id: $id, type: self::NATIONAL_TYPES[$table],
+            primary: $primary, secondary: $secondary,
+            excerpt: mb_substr($r['summary'] ?? '', 0, 200),
+            url: $this->recordPath($table, $r, ''),
+            meta: ['evidence_status' => $r['evidence_status'] ?? '', 'collection' => 'nigeria',
+                   'sources' => count($knowledge['sources'])],
+            section: 'nigeria'
+        );
+    }
+
+    /**
+     * Site-relative path of a record, like the other index rows (national records and
+     * Nigeria-only people/events live under NIGERIA_BASE_URL). Absolute only if the
+     * national section is on another host.
+     */
+    private function recordPath(string $table, array $r, string $tivPath): string
+    {
+        if (in_array($table, ['historical_figures', 'timeline_events'], true) && empty($r['national_slug'])) {
+            return $tivPath;
+        }
+        require_once BASE_PATH . '/services/HeritagePublic.php';
+        $url = HeritagePublic::recordUrl($table, $r);
+        return str_starts_with($url, SITE_URL . '/') ? substr($url, strlen(SITE_URL)) : $url;
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Grammar rules indexer
+    // ─────────────────────────────────────────────────────────────
+
+    private function indexGrammarRules(): int
+    {
+        try {
+            $rows = $this->db->query("SELECT * FROM tiv_grammar_rules")->fetchAll();
+        } catch (\PDOException $e) {
+            return 0;
+        }
+        foreach ($rows as $r) {
+            $this->indexGrammarRuleRow($r);
+        }
+        return count($rows);
+    }
+
+    private function indexGrammarRuleById(int $id): void
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM tiv_grammar_rules WHERE id = ?");
+            $stmt->execute([$id]);
+            $r = $stmt->fetch();
+        } catch (\PDOException $e) { return; }
+
+        if (!$r) { $this->removeRecord('tiv_grammar_rules', $id); return; }
+        $this->indexGrammarRuleRow($r);
+    }
+
+    private function indexGrammarRuleRow(array $r): void
+    {
+        $examples = json_decode($r['examples'] ?? '', true) ?: [];
+        $exampleText = implode(' ', array_map(
+            fn($e) => trim(($e['tiv'] ?? '') . ' ' . ($e['english'] ?? '')),
+            $examples
+        ));
+        $primary = ($r['title'] ?? '') . ' ' . ($r['explanation'] ?? '') . ' ' . $exampleText;
+        $this->upsertIndex(
+            table: 'tiv_grammar_rules', id: $r['id'], type: 'grammar',
+            primary: $primary,
+            secondary: $r['summary'] ?? '',
+            excerpt: mb_substr($r['summary'] ?? '', 0, 200),
+            url: '/language/grammar',
+            meta: ['category' => $r['category'] ?? '']
+        );
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Timeline events indexer
+    // ─────────────────────────────────────────────────────────────
+
+    private function indexTimelineEvents(): int
+    {
+        try {
+            $rows = $this->db->query("SELECT * FROM timeline_events WHERE status = 'published'")->fetchAll();
+        } catch (\PDOException $e) {
+            return 0;
+        }
+        foreach ($rows as $r) {
+            $this->indexTimelineEventRow($r);
+        }
+        return count($rows);
+    }
+
+    private function indexTimelineEventById(int $id): void
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM timeline_events WHERE id = ? AND status = 'published'");
+            $stmt->execute([$id]);
+            $r = $stmt->fetch();
+        } catch (\PDOException $e) { return; }
+
+        if (!$r) { $this->removeRecord('timeline_events', $id); return; }
+        $this->indexTimelineEventRow($r);
+    }
+
+    private function indexTimelineEventRow(array $r): void
+    {
+        $primary = ($r['title'] ?? '') . ' ' . ($r['description'] ?? '') . ' ' . ($r['historical_significance'] ?? '');
+        $secondary = ($r['short_summary'] ?? '') . ' ' . ($r['era'] ?? '') . ' ' . ($r['location'] ?? '');
+        $this->upsertIndex(
+            table: 'timeline_events', id: $r['id'], type: 'timeline_event',
+            primary: $primary, secondary: $secondary,
+            excerpt: mb_substr($r['short_summary'] ?? '', 0, 200),
+            url: $this->recordPath('timeline_events', $r, '/timeline-event/' . $r['id']),
+            meta: ['era' => $r['era'] ?? '', 'year' => $r['year'] ?? '']
         );
     }
 
@@ -803,6 +1004,13 @@ class ContentIndexer
         $secondary = $secondary !== null ? $this->sanitizeText($secondary) : null;
         $excerpt   = $excerpt   !== null ? $this->sanitizeText($excerpt)   : null;
 
+        // embedding is deliberately left out of the INSERT column list (defaults NULL
+        // for a genuinely new row) and, on UPDATE, is only cleared when the indexed
+        // text actually changed — `<=>` is MySQL's NULL-safe equality, needed since
+        // secondary_text/excerpt are nullable. A full reindex of unchanged content
+        // (e.g. clicking "reindex all" in the admin panel) must NOT wipe out already-
+        // computed embeddings, or every reindex would force re-embedding the entire
+        // archive again via bin/backfill-embeddings.php. See EmbeddingSearch.php.
         $stmt = $this->db->prepare(
             "INSERT INTO archive_search_index
                  (source_table, source_id, content_type, section, primary_text, secondary_text, excerpt, url, meta_json, updated_at)
@@ -810,6 +1018,12 @@ class ContentIndexer
              ON DUPLICATE KEY UPDATE
                  content_type = VALUES(content_type),
                  section      = VALUES(section),
+                 embedding    = IF(
+                     primary_text <=> VALUES(primary_text)
+                     AND secondary_text <=> VALUES(secondary_text)
+                     AND excerpt <=> VALUES(excerpt),
+                     embedding, NULL
+                 ),
                  primary_text = VALUES(primary_text),
                  secondary_text = VALUES(secondary_text),
                  excerpt      = VALUES(excerpt),

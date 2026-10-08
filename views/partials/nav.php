@@ -1,3 +1,9 @@
+<?php
+// Nigeria Heritage menu: only once the national section has published content,
+// so visitors never land on an empty section.
+require_once BASE_PATH . '/services/HeritagePublic.php';
+$showNigeriaNav = HeritagePublic::hasPublishedContent();
+?>
 <style>
 /* ============================================================
    MEGA MENU — Desktop only (≥ 1025 px)
@@ -222,7 +228,7 @@
                 <span class="mnav-arr">&#9660;</span>
             </button>
             <ul class="mnav-sub" id="ms-lang">
-                <li><a href="<?= url('archive/words') ?>"><i class="mni">&#128218;</i>Dictionary</a></li>
+                <li><a href="<?= url(section_path('words')) ?>"><i class="mni">&#128218;</i>Dictionary</a></li>
                 <li><a href="<?= url('language/alphabet') ?>"><i class="mni">&#127279;</i>Alphabet</a></li>
                 <li><a href="<?= url('language/grammar') ?>"><i class="mni">&#128220;</i>Grammar</a></li>
                 <li><a href="<?= url('learn') ?>"><i class="mni">&#127979;</i>Lessons</a></li>
@@ -238,7 +244,7 @@
             </button>
             <ul class="mnav-sub" id="ms-lit">
                 <li><a href="<?= url('literature/folktales') ?>"><i class="mni">&#127919;</i>Folktales</a></li>
-                <li><a href="<?= url('archive/proverbs') ?>"><i class="mni">&#128221;</i>Proverbs</a></li>
+                <li><a href="<?= url(section_path('proverbs')) ?>"><i class="mni">&#128221;</i>Proverbs</a></li>
                 <li><a href="<?= url('literature/stories') ?>"><i class="mni">&#128196;</i>Stories</a></li>
                 <li><a href="<?= url('literature/poems') ?>"><i class="mni">&#128145;</i>Poems</a></li>
             </ul>
@@ -252,7 +258,7 @@
             </button>
             <ul class="mnav-sub" id="ms-cult">
                 <li><a href="<?= url('culture/traditions') ?>"><i class="mni">&#127981;</i>Traditions</a></li>
-                <li><a href="<?= url('archive/festivals') ?>"><i class="mni">&#127881;</i>Festivals</a></li>
+                <li><a href="<?= url(section_path('festivals')) ?>"><i class="mni">&#127881;</i>Festivals</a></li>
                 <li><a href="<?= url('culture/attire') ?>"><i class="mni">&#128255;</i>Attire</a></li>
                 <li><a href="<?= url('culture/marriage-customs') ?>"><i class="mni">&#128149;</i>Marriage Customs</a></li>
             </ul>
@@ -283,15 +289,35 @@
                 <li><a href="<?= url('archive/audio') ?>"><i class="mni">&#127911;</i>Audio Recordings</a></li>
                 <li><a href="<?= url('learn') ?>"><i class="mni">&#127909;</i>Videos</a></li>
                 <li><a href="<?= url('archive/publications') ?>"><i class="mni">&#128214;</i>Research Publications</a></li>
-                <li><a href="<?= url('archive/words') ?>"><i class="mni">&#128172;</i>Dictionary</a></li>
-                <li><a href="<?= url('archive/names') ?>"><i class="mni">&#128100;</i>Tiv Names</a></li>
-                <li><a href="<?= url('archive/plants') ?>"><i class="mni">&#127807;</i>Plants</a></li>
-                <li><a href="<?= url('archive/foods') ?>"><i class="mni">&#127858;</i>Foods</a></li>
-                <li><a href="<?= url('archive/animals') ?>"><i class="mni">&#128062;</i>Animals</a></li>
+                <li><a href="<?= url(section_path('words')) ?>"><i class="mni">&#128172;</i>Dictionary</a></li>
+                <li><a href="<?= url(section_path('names')) ?>"><i class="mni">&#128100;</i>Tiv Names</a></li>
+                <li><a href="<?= url(section_path('plants')) ?>"><i class="mni">&#127807;</i>Plants</a></li>
+                <li><a href="<?= url(section_path('foods')) ?>"><i class="mni">&#127858;</i>Foods</a></li>
+                <li><a href="<?= url(section_path('animals')) ?>"><i class="mni">&#128062;</i>Animals</a></li>
                 <li><a href="<?= url('archive') ?>"><i class="mni">&#128269;</i>Browse All</a></li>
             </ul>
         </li>
 
+<?php if ($showNigeriaNav): ?>
+        <!-- NIGERIA HERITAGE -->
+        <li>
+            <button class="mnav-btn" aria-expanded="false" aria-controls="ms-ng">
+                <span>&#127475;&#127468; Nigeria Heritage</span>
+                <span class="mnav-arr">&#9660;</span>
+            </button>
+            <ul class="mnav-sub" id="ms-ng">
+                <li><a href="<?= nigeria_url() ?>"><i class="mni">&#127475;&#127468;</i>Explore Nigeria</a></li>
+                <li><a href="<?= nigeria_url('states') ?>"><i class="mni">&#127963;</i>States &amp; FCT</a></li>
+                <li><a href="<?= nigeria_url('ethnic-groups') ?>"><i class="mni">&#128101;</i>Ethnic Groups</a></li>
+                <li><a href="<?= nigeria_url('languages') ?>"><i class="mni">&#128483;</i>Languages</a></li>
+                <li><a href="<?= nigeria_url('events') ?>"><i class="mni">&#128337;</i>History &amp; Events</a></li>
+                <li><a href="<?= nigeria_url('people') ?>"><i class="mni">&#129332;</i>People</a></li>
+                <li><a href="<?= nigeria_url('places') ?>"><i class="mni">&#128205;</i>Places &amp; Sites</a></li>
+                <li><a href="<?= nigeria_url('kingdoms') ?>"><i class="mni">&#128081;</i>Kingdoms &amp; Institutions</a></li>
+                <li><a href="<?= nigeria_url('culture') ?>"><i class="mni">&#127917;</i>Culture</a></li>
+            </ul>
+        </li>
+<?php endif; ?>
         <!-- COMMUNITY -->
         <li>
             <button class="mnav-btn" aria-expanded="false" aria-controls="ms-comm">
@@ -357,7 +383,7 @@
                 <div class="mega-panel">
                     <div class="mega-inner">
                         <div class="mega-grid mega-grid-5">
-                            <a href="<?= url('archive/words') ?>" class="mega-item">
+                            <a href="<?= url(section_path('words')) ?>" class="mega-item">
                                 <span class="mega-item-icon">&#128218;</span>
                                 <div class="mega-item-body">
                                     <p class="mega-item-label">Dictionary</p>
@@ -412,7 +438,7 @@
                                     <p class="mega-item-desc">Traditional stories preserving cultural values</p>
                                 </div>
                             </a>
-                            <a href="<?= url('archive/proverbs') ?>" class="mega-item">
+                            <a href="<?= url(section_path('proverbs')) ?>" class="mega-item">
                                 <span class="mega-item-icon">&#128221;</span>
                                 <div class="mega-item-body">
                                     <p class="mega-item-label">Proverbs</p>
@@ -453,7 +479,7 @@
                                     <p class="mega-item-desc">Cultural practices &amp; customs across generations</p>
                                 </div>
                             </a>
-                            <a href="<?= url('archive/festivals') ?>" class="mega-item">
+                            <a href="<?= url(section_path('festivals')) ?>" class="mega-item">
                                 <span class="mega-item-icon">&#127881;</span>
                                 <div class="mega-item-body">
                                     <p class="mega-item-label">Festivals</p>
@@ -564,35 +590,35 @@
                             <div>
                                 <p class="mega-col-label">Browse Content Library</p>
                                 <div class="mega-grid mega-grid-2">
-                                    <a href="<?= url('archive/words') ?>" class="mega-item">
+                                    <a href="<?= url(section_path('words')) ?>" class="mega-item">
                                         <span class="mega-item-icon">&#128172;</span>
                                         <div class="mega-item-body">
                                             <p class="mega-item-label">Dictionary</p>
                                             <p class="mega-item-desc">Tiv words &amp; definitions</p>
                                         </div>
                                     </a>
-                                    <a href="<?= url('archive/names') ?>" class="mega-item">
+                                    <a href="<?= url(section_path('names')) ?>" class="mega-item">
                                         <span class="mega-item-icon">&#128100;</span>
                                         <div class="mega-item-body">
                                             <p class="mega-item-label">Tiv Names</p>
                                             <p class="mega-item-desc">Names &amp; their meanings</p>
                                         </div>
                                     </a>
-                                    <a href="<?= url('archive/plants') ?>" class="mega-item">
+                                    <a href="<?= url(section_path('plants')) ?>" class="mega-item">
                                         <span class="mega-item-icon">&#127807;</span>
                                         <div class="mega-item-body">
                                             <p class="mega-item-label">Plants</p>
                                             <p class="mega-item-desc">Medicinal &amp; cultural plants</p>
                                         </div>
                                     </a>
-                                    <a href="<?= url('archive/foods') ?>" class="mega-item">
+                                    <a href="<?= url(section_path('foods')) ?>" class="mega-item">
                                         <span class="mega-item-icon">&#127858;</span>
                                         <div class="mega-item-body">
                                             <p class="mega-item-label">Foods</p>
                                             <p class="mega-item-desc">Traditional cuisine &amp; recipes</p>
                                         </div>
                                     </a>
-                                    <a href="<?= url('archive/animals') ?>" class="mega-item">
+                                    <a href="<?= url(section_path('animals')) ?>" class="mega-item">
                                         <span class="mega-item-icon">&#128062;</span>
                                         <div class="mega-item-body">
                                             <p class="mega-item-label">Animals</p>
@@ -613,6 +639,84 @@
                 </div>
             </li>
 
+<?php if ($showNigeriaNav): ?>
+            <!-- ── NIGERIA HERITAGE (shown once the national section has published records) ── -->
+            <style>
+            /* One more top-level item: keep the bar on one line on mid-width desktops. */
+            @media (min-width: 1025px) and (max-width: 1359px) {
+                .nav-list > li > .nav-link { padding-left: .45rem; padding-right: .45rem; }
+                .ng-nav-long { display: none; }
+            }
+            @media (min-width: 1360px) { .ng-nav-short { display: none; } }
+            </style>
+            <li class="nav-item-mega">
+                <a href="<?= nigeria_url() ?>" class="nav-link">
+                    <span class="ng-nav-long">Nigeria Heritage</span><span class="ng-nav-short">Nigeria</span> <span class="mega-caret">&#9660;</span>
+                </a>
+                <div class="mega-panel">
+                    <div class="mega-inner">
+                        <div class="mega-grid mega-grid-4">
+                            <a href="<?= nigeria_url('states') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#127963;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">States &amp; FCT</p>
+                                    <p class="mega-item-desc">States, LGAs &amp; how they were formed</p>
+                                </div>
+                            </a>
+                            <a href="<?= nigeria_url('ethnic-groups') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#128101;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">Ethnic Groups</p>
+                                    <p class="mega-item-desc">Nigeria’s peoples and their heritage</p>
+                                </div>
+                            </a>
+                            <a href="<?= nigeria_url('languages') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#128483;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">Languages</p>
+                                    <p class="mega-item-desc">Languages &amp; dialects of Nigeria</p>
+                                </div>
+                            </a>
+                            <a href="<?= nigeria_url('events') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#128337;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">History &amp; Events</p>
+                                    <p class="mega-item-desc">Events in Nigeria’s history</p>
+                                </div>
+                            </a>
+                            <a href="<?= nigeria_url('people') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#129332;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">People</p>
+                                    <p class="mega-item-desc">Historical &amp; cultural figures</p>
+                                </div>
+                            </a>
+                            <a href="<?= nigeria_url('places') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#128205;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">Places &amp; Sites</p>
+                                    <p class="mega-item-desc">Towns, heritage sites &amp; museums</p>
+                                </div>
+                            </a>
+                            <a href="<?= nigeria_url('kingdoms') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#128081;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">Kingdoms &amp; Institutions</p>
+                                    <p class="mega-item-desc">Kingdoms, emirates &amp; chiefdoms</p>
+                                </div>
+                            </a>
+                            <a href="<?= nigeria_url('culture') ?>" class="mega-item">
+                                <span class="mega-item-icon">&#127917;</span>
+                                <div class="mega-item-body">
+                                    <p class="mega-item-label">Culture</p>
+                                    <p class="mega-item-desc">Festivals, food, dress, music &amp; crafts</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+<?php endif; ?>
             <!-- ── COMMUNITY ───────────────────────────────────────── -->
             <li class="nav-item-mega">
                 <a href="<?= url('community') ?>" class="nav-link">

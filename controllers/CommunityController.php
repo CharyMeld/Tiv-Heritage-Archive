@@ -4,6 +4,7 @@ require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/CommunityApplication.php';
 require_once BASE_PATH . '/models/CommunityMember.php';
 require_once BASE_PATH . '/models/User.php';
+require_once BASE_PATH . '/services/RegistrationMailer.php';
 
 class CommunityController extends Controller
 {
@@ -161,7 +162,15 @@ class CommunityController extends Controller
         $data['profile_photo']      = $this->handleUpload('profile_photo', 'community/photos');
         $data['supporting_document']= $this->handleUpload('supporting_document', 'community/documents', false);
 
-        $this->appModel->create($data);
+        $newId = $this->appModel->create($data);
+
+        // Email notifications are additive to the application record just
+        // created above and must never block a successful registration —
+        // RegistrationMailer logs and swallows any delivery failure itself.
+        $newApp = $this->appModel->find($newId);
+        if ($newApp) {
+            RegistrationMailer::newRegistration($newApp);
+        }
 
         $this->redirect(url('community/join/success'));
     }

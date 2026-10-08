@@ -7,6 +7,7 @@ require_once BASE_PATH . '/models/HistoricalFigure.php';
 require_once BASE_PATH . '/models/Source.php';
 require_once BASE_PATH . '/models/KnowledgeLink.php';
 require_once BASE_PATH . '/services/SeoHelper.php';
+require_once BASE_PATH . '/services/EntryQuality.php';
 
 class HistoricalFigureController extends Controller
 {
@@ -260,6 +261,12 @@ class HistoricalFigureController extends Controller
             return;
         }
 
+        // National records live at /nigeria/people/{slug}.
+        if (!empty($item['national_slug'])) {
+            redirect301(nigeria_url('people/' . $item['national_slug']));
+            return;
+        }
+
         $canonical = SeoHelper::canonicalSlugPath('historical-figure', (int) $item['id'], $item['english_name']);
         if ($id !== substr($canonical, strlen('historical-figure') + 1)) {
             redirect301(url($canonical));
@@ -311,6 +318,7 @@ class HistoricalFigureController extends Controller
         }
 
         $this->render('detail/historical-figure', [
+            'noindex'     => $item['status'] !== 'published' || !EntryQuality::isIndexable('historical_figures', $item), // see services/EntryQuality.php
             'title'       => $item['english_name'] . ' - Historical Figure',
             'description' => $description,
             'ogImage'     => $ogImage,

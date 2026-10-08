@@ -73,7 +73,7 @@ class KnowledgeController extends Controller
             'location'         => $this->post('location'),
             'year_recorded'    => $this->post('year_recorded') ?: null,
             'notes'            => $this->post('notes'),
-        ]);
+        ] + $this->researchSourceFields());
 
         $this->flash('Source added successfully.', 'success');
         $this->redirect(url('admin/sources'));
@@ -108,10 +108,38 @@ class KnowledgeController extends Controller
             'location'         => $this->post('location'),
             'year_recorded'    => $this->post('year_recorded') ?: null,
             'notes'            => $this->post('notes'),
-        ]);
+        ] + $this->researchSourceFields());
 
         $this->flash('Source updated.', 'success');
         $this->redirect(url('admin/sources'));
+    }
+
+    /**
+     * Citation fields used by national research (publisher, URL, access date, …).
+     * The form always posts them pre-filled, so saving never blanks existing values.
+     */
+    private function researchSourceFields(): array
+    {
+        $out = [];
+        foreach (['publisher', 'organisation', 'url', 'publication_date', 'publication_details', 'archive_reference', 'isbn', 'doi'] as $f) {
+            $v = trim((string) $this->post($f, ''));
+            $out[$f] = $v !== '' ? $v : null;
+        }
+        $date = trim((string) $this->post('access_date', ''));
+        $out['access_date'] = preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) ? $date : null;
+        $status = $this->post('verification_status');
+        $out['verification_status'] = in_array($status, ['verified', 'needs_corroboration', 'disputed'], true) ? $status : 'needs_corroboration';
+        // Source type and tier (NIGERIA_STEP5 §4); sources that copy each other share a copy group.
+        require_once BASE_PATH . '/services/HeritageRegistry.php';
+        $kind = $this->post('source_kind');
+        $out['source_kind'] = isset(HeritageRegistry::SOURCE_KIND[$kind]) ? $kind : null;
+        $tier = (int) $this->post('source_tier', 0);
+        $out['source_tier'] = $tier >= 1 && $tier <= 5 ? $tier : null;
+        $lineage = strtoupper(trim((string) $this->post('lineage_group', '')));
+        $out['lineage_group'] = $lineage !== '' ? substr(preg_replace('/[^A-Z0-9-]+/', '-', $lineage), 0, 40) : null;
+        $rights = trim((string) $this->post('rights_notes', ''));
+        $out['rights_notes'] = $rights !== '' ? $rights : null;
+        return $out;
     }
 
     /** Delete source */

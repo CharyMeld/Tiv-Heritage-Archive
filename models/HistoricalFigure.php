@@ -8,6 +8,7 @@ require_once BASE_PATH . '/core/Model.php';
 class HistoricalFigure extends Model
 {
     protected string $table = 'historical_figures';
+    protected ?string $publicCollection = 'tiv';
 
     protected array $fillable = [
         'english_name', 'tiv_name', 'title', 'slug', 'category', 'subcategory', 'reign_order',
@@ -200,7 +201,7 @@ class HistoricalFigure extends Model
     public function countByCategory(): array
     {
         $stmt = $this->db->query(
-            "SELECT category, COUNT(*) c FROM {$this->table} WHERE status = 'published' GROUP BY category"
+            "SELECT category, COUNT(*) c FROM {$this->table} WHERE status = 'published' AND {$this->collectionScope()} GROUP BY category"
         );
         $raw = array_column($stmt->fetchAll(), 'c', 'category');
         $out = [];
@@ -213,7 +214,7 @@ class HistoricalFigure extends Model
     {
         $stmt = $this->db->prepare(
             "SELECT subcategory, COUNT(*) c FROM {$this->table}
-             WHERE category = 'Traditional Leadership' AND status = 'published'
+             WHERE category = 'Traditional Leadership' AND status = 'published' AND {$this->collectionScope()}
              GROUP BY subcategory"
         );
         $stmt->execute();
@@ -231,7 +232,8 @@ class HistoricalFigure extends Model
     {
         $fields = ['english_name', 'tiv_name', 'title', 'short_summary', 'biography', 'achievements', 'legacy'];
         $like = '%' . $query . '%';
-        $clauses = ['status = ?', '(' . implode(' OR ', array_map(fn($f) => "{$f} LIKE ?", $fields)) . ')'];
+        $clauses = ['status = ?', '(' . implode(' OR ', array_map(fn($f) => "{$f} LIKE ?", $fields)) . ')',
+                    $this->collectionScope()];
         $params = ['published'];
         foreach ($fields as $f) { $params[] = $like; }
 
@@ -276,7 +278,7 @@ class HistoricalFigure extends Model
 
     private function buildWhere(array $filters): array
     {
-        $clauses = [];
+        $clauses = [$this->collectionScope()];
         $params = [];
 
         foreach (self::FILTERABLE_COLUMNS as $col) {
@@ -317,7 +319,7 @@ class HistoricalFigure extends Model
     {
         if (!in_array($column, self::FILTERABLE_COLUMNS, true)) return [];
         $stmt = $this->db->query(
-            "SELECT DISTINCT {$column} FROM {$this->table} WHERE {$column} IS NOT NULL AND {$column} != '' AND status = 'published' ORDER BY {$column} ASC"
+            "SELECT DISTINCT {$column} FROM {$this->table} WHERE {$column} IS NOT NULL AND {$column} != '' AND status = 'published' AND {$this->collectionScope()} ORDER BY {$column} ASC"
         );
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
@@ -354,7 +356,7 @@ class HistoricalFigure extends Model
         if (!$figure) return [];
         $stmt = $this->db->prepare(
             "SELECT * FROM {$this->table}
-             WHERE id != ? AND category = ? AND status = 'published'
+             WHERE id != ? AND category = ? AND status = 'published' AND {$this->collectionScope()}
              ORDER BY id DESC LIMIT ?"
         );
         $stmt->execute([$id, $figure['category'], $limit]);
@@ -394,5 +396,11 @@ class HistoricalFigure extends Model
     {
         $stmt = $this->db->prepare('DELETE FROM historical_figure_gallery WHERE id = ? AND figure_id = ?');
         $stmt->execute([$photoId, $figureId]);
+    }
+
+    /** Every published record (newsletter popularity candidates). */
+    public function allPublished(): array
+    {
+        return $this->db->query("SELECT * FROM {$this->table} WHERE status = 'published' AND {$this->collectionScope()}")->fetchAll();
     }
 }

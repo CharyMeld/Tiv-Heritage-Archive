@@ -63,49 +63,49 @@ class ArchiveController extends Controller
                 'description' => 'Traditional names and their meanings',
                 'icon'        => '&#128100;',
                 'count'       => $counts['names'],
-                'url'         => url('archive/names'),
+                'url'         => url(section_path('names')),
             ],
             'proverbs' => [
                 'label'       => 'Proverbs',
                 'description' => 'Ancient wisdom passed through generations',
                 'icon'        => '&#128221;',
                 'count'       => $counts['proverbs'],
-                'url'         => url('archive/proverbs'),
+                'url'         => url(section_path('proverbs')),
             ],
             'plants' => [
                 'label'       => 'Plants',
                 'description' => 'Medicinal and sacred cultural plants',
                 'icon'        => '&#127807;',
                 'count'       => $counts['plants'],
-                'url'         => url('archive/plants'),
+                'url'         => url(section_path('plants')),
             ],
             'festivals' => [
                 'label'       => 'Festivals',
                 'description' => 'Cultural celebrations and traditions',
                 'icon'        => '&#127881;',
                 'count'       => $counts['festivals'],
-                'url'         => url('archive/festivals'),
+                'url'         => url(section_path('festivals')),
             ],
             'foods' => [
                 'label'       => 'Foods',
                 'description' => 'Traditional cuisine and recipes',
                 'icon'        => '&#127858;',
                 'count'       => $counts['foods'],
-                'url'         => url('archive/foods'),
+                'url'         => url(section_path('foods')),
             ],
             'words' => [
                 'label'       => 'Dictionary',
                 'description' => 'Tiv words and their translations',
                 'icon'        => '&#128172;',
                 'count'       => $counts['words'],
-                'url'         => url('archive/words'),
+                'url'         => url(section_path('words')),
             ],
             'animals' => [
                 'label'       => 'Animals',
                 'description' => 'Animals in Tiv culture and their significance',
                 'icon'        => '&#128062;',
                 'count'       => $counts['animals'],
-                'url'         => url('archive/animals'),
+                'url'         => url(section_path('animals')),
             ],
             'bible' => [
                 'label'       => 'Bible',
@@ -176,6 +176,17 @@ class ArchiveController extends Controller
         $search = $this->get('q');
         $filter = $this->get('filter');
 
+        // These sections are read on their full-text pages (section_path()); the card
+        // listing below is kept only for search results.
+        if (trim((string) $search) === '' && section_path($category) !== 'archive/' . $category) {
+            $target = section_path($category);
+            if ($category === 'names' && in_array($filter, ['male', 'female', 'unisex'], true)) {
+                $target = 'collections/names/' . $filter;
+            }
+            redirect301(url($target));
+            return;
+        }
+
         switch ($category) {
             case 'names':
                 $this->browseNames($search, $filter);
@@ -226,6 +237,7 @@ class ArchiveController extends Controller
             : $model->getBySubcategory('archive', 'documents', $pagination['per_page'], $pagination['offset']);
 
         $this->render('archive/documents', [
+            'noindex'         => $total === 0, // an empty section is no page for search engines
             'title'           => 'Documents | Tiv Archive',
             'description'     => 'Historical manuscripts, written records, and official documents from the Tiv people.',
             'items'           => $items,
@@ -247,6 +259,7 @@ class ArchiveController extends Controller
             : $model->getBySubcategory('archive', 'audio', $pagination['per_page'], $pagination['offset']);
 
         $this->render('archive/audio', [
+            'noindex'         => $total === 0, // an empty section is no page for search engines
             'title'           => 'Audio Recordings | Tiv Archive',
             'description'     => 'Recordings of Tiv songs, speeches, oral traditions, and language samples.',
             'items'           => $items,
@@ -268,6 +281,7 @@ class ArchiveController extends Controller
             : $model->getBySubcategory('archive', 'publications', $pagination['per_page'], $pagination['offset']);
 
         $this->render('archive/publications', [
+            'noindex'         => $total === 0, // an empty section is no page for search engines
             'title'           => 'Research Publications | Tiv Archive',
             'description'     => 'Academic and community research publications about Tiv language, culture, and history.',
             'items'           => $items,

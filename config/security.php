@@ -416,6 +416,55 @@ function url(string $path = ''): string
     return SITE_URL . '/' . ltrim($path, '/');
 }
 
+/** Public URL inside the Nigeria Heritage section (see NIGERIA_BASE_URL). */
+function nigeria_url(string $path = ''): string
+{
+    $path = trim($path, '/');
+    return NIGERIA_BASE_URL . ($path !== '' ? '/' . $path : '');
+}
+
+/**
+ * Main page of an archive section. Dictionary, names, proverbs, plants, animals, foods
+ * and festivals are read on their full-text pages (CollectionController); the old
+ * card listings at archive/{section} only serve search results (?q=) and redirect
+ * otherwise. Other sections keep archive/{section}.
+ */
+function section_path(string $section): string
+{
+    return [
+        'words'     => 'collections/dictionary/a',
+        'names'     => 'collections/names',
+        'proverbs'  => 'collections/proverbs',
+        'plants'    => 'collections/plants',
+        'animals'   => 'collections/animals',
+        'foods'     => 'collections/foods',
+        'festivals' => 'collections/festivals',
+    ][$section] ?? 'archive/' . $section;
+}
+
+/**
+ * Whether the page being rendered may carry ads. Set by Controller::render() from the
+ * page's data: only real content pages qualify — a 200 response, not noindex (thin,
+ * unverified or duplicate pages are noindex), and not an account, form or admin page.
+ * Ads on low-value or no-content pages are what AdSense rejects sites for.
+ */
+function ads_eligible(): bool
+{
+    return !empty($GLOBALS['_ads_page_eligible']);
+}
+
+/** Auto ads loader script in <head>. */
+function ads_script_on(): bool
+{
+    return ADSENSE_SCRIPT_ENABLED && ads_eligible();
+}
+
+/** Manual in-page ad units (only after the site is approved; see ADSENSE_ENABLED). */
+function ads_on(): bool
+{
+    return ADSENSE_ENABLED && ads_eligible();
+}
+
 function asset(string $path): string
 {
     $filePath = BASE_PATH . '/assets/' . ltrim($path, '/');

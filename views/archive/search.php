@@ -71,7 +71,7 @@
             </button>
             <div class="explore-track" data-cat="<?= $catKey ?>">
                 <?php foreach ($items as $item):
-                    $titleRaw = $item[$cfg['title_field']] ?? '';
+                    $titleRaw = SeoHelper::displayWord($item[$cfg['title_field']] ?? '');
                     $title    = mb_strlen($titleRaw) > 50 ? mb_substr($titleRaw, 0, 48) . '…' : $titleRaw;
                     $sub      = mb_substr($item[$cfg['sub_field']] ?? '', 0, 60);
                     $url      = url($cfg['url_prefix'] . '/' . $item['id']);

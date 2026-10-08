@@ -4,7 +4,7 @@
         <div class="hf-breadcrumb-dark">
             <?php $this->partial('breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
         </div>
-        <a href="<?= url('archive/names') ?>" class="detail-banner-back">
+        <a href="<?= url(section_path('names')) ?>" class="detail-banner-back">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             All Names
         </a>
@@ -61,9 +61,9 @@
 
         <?php include BASE_PATH . '/views/partials/source-and-links.php'; ?>
 
-        <?php if (ADSENSE_ENABLED): ?>
+        <?php if (ads_on()): ?>
         <div class="adsense-wrap">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<?= ADSENSE_CLIENT ?>" data-ad-slot="<?= ADSENSE_SLOT ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
         <?php endif; ?>
 
@@ -83,7 +83,7 @@
         <?php endif; ?>
 
         <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border-light);">
-            <a href="<?= url('archive/names') ?>" class="btn btn-secondary">&larr; All Names</a>
+            <a href="<?= url(section_path('names')) ?>" class="btn btn-secondary">&larr; All Names</a>
         </div>
     </div>
 </div>

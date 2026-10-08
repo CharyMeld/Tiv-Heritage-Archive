@@ -138,9 +138,9 @@ $confidenceClass = $item['confidence_score'] >= 75 ? 'is-high' : ($item['confide
 
         <?php $this->partial('source-and-links', ['source' => null, 'links' => $links]); ?>
 
-        <?php if (ADSENSE_ENABLED): ?>
+        <?php if (ads_on()): ?>
         <div class="adsense-wrap">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<?= ADSENSE_CLIENT ?>" data-ad-slot="<?= ADSENSE_SLOT ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
         <?php endif; ?>
 
@@ -160,6 +160,8 @@ $confidenceClass = $item['confidence_score'] >= 75 ? 'is-high' : ($item['confide
             <?php endif; ?>
         </div>
         <?php endif; ?>
+
+        <?php $this->partial('nigeria-tiv-link'); ?>
 
         <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border-light);">
             <a href="<?= url('timeline') ?>" class="btn btn-secondary">&larr; All Timeline Events</a>

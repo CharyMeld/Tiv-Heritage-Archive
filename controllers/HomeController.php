@@ -13,26 +13,17 @@ require_once BASE_PATH . '/models/TivFood.php';
 require_once BASE_PATH . '/models/LearningVideo.php';
 require_once BASE_PATH . '/models/TivAnimal.php';
 require_once BASE_PATH . '/models/TeamMember.php';
+require_once BASE_PATH . '/models/ContentItem.php';
 require_once BASE_PATH . '/services/SeoHelper.php';
 
 class HomeController extends Controller
 {
-    private DailyWord $dailyWordModel;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->dailyWordModel = new DailyWord();
-    }
-
     /**
      * Homepage
      */
     public function index(): void
     {
-        $dailyWord = $this->dailyWordModel->getToday();
-
-        // Cache homepage featured rows for 30 minutes
+        // Cache homepage featured/count data for 30 minutes
         $featured = Cache::remember('home_featured', 1800, function () {
             $nameModel          = new TivName();
             $proverbModel       = new TivProverb();
@@ -41,16 +32,27 @@ class HomeController extends Controller
             $foodModel          = new TivFood();
             $animalModel        = new TivAnimal();
             $learningVideoModel = new LearningVideo();
+            $wordModel          = new DailyWord();
+            $contentItemModel   = new ContentItem();
 
             return [
-                'featuredNames'         => $nameModel->recent(10),
-                'featuredProverbs'      => $proverbModel->recent(10),
-                'featuredPlants'        => $plantModel->recent(10),
                 'featuredFestivals'     => $festivalModel->recentWithCover(8),
-                'featuredFoods'         => $foodModel->recent(10),
-                'featuredAnimals'       => $animalModel->recent(10),
+                'featuredFoods'         => $foodModel->featured(10),
                 'learningVideos'        => $learningVideoModel->getFeatured(8),
                 'festivalGalleryPhotos' => $festivalModel->getGalleryForHomepage(30),
+                // "Browse by Category" tile counts — live, not hardcoded.
+                'categoryCounts' => [
+                    'names'        => $nameModel->count(),
+                    'proverbs'     => $proverbModel->count(),
+                    'plants'       => $plantModel->count(),
+                    'festivals'    => $festivalModel->count(),
+                    'foods'        => $foodModel->count(),
+                    'words'        => $wordModel->countActive(),
+                    'animals'      => $animalModel->count(),
+                    'documents'    => $contentItemModel->countBySubcategory('archive', 'documents'),
+                    'audio'        => $contentItemModel->countBySubcategory('archive', 'audio'),
+                    'publications' => $contentItemModel->countBySubcategory('archive', 'publications'),
+                ],
             ];
         });
 
@@ -59,6 +61,7 @@ class HomeController extends Controller
 
         $dailyVerse  = $bibleModel->getDailyVerse();
         $verseTotal  = $bibleModel->count();
+        $featured['categoryCounts']['bible'] = $verseTotal;
         // Always seed from Genesis 1:1 (offset 0).
         // The JS picks up from localStorage so returning visitors resume where they left off.
         $verseBatch  = $bibleModel->getVersesBatch(0, 20);
@@ -89,13 +92,18 @@ class HomeController extends Controller
             ],
         ]);
 
+        // Same section/subcategory config (labels, descriptions, icons, links) the real
+        // /language, /literature, /culture, /history pages are built from — reused as-is
+        // so the homepage feature can never drift out of sync with those pages.
+        require_once BASE_PATH . '/controllers/ContentCategoryController.php';
+
         $this->render('home/index', array_merge($featured, [
-            'title'       => SITE_NAME . ' - ' . SITE_TAGLINE,
-            'dailyWord'   => $dailyWord,
-            'dailyVerse'  => $dailyVerse,
-            'verseBatch'  => $verseBatch,
-            'verseTotal'  => $verseTotal,
-            'teamMembers' => $teamModel->getActive(),
+            'title'         => SITE_NAME . ' - ' . SITE_TAGLINE,
+            'dailyVerse'    => $dailyVerse,
+            'verseBatch'    => $verseBatch,
+            'verseTotal'    => $verseTotal,
+            'teamMembers'   => $teamModel->getActive(),
+            'contentSections' => ContentCategoryController::getSections(),
             'jsonLd'      => $jsonLd,
             'currentPage' => 'home',
             'showWelcomePopup' => true,

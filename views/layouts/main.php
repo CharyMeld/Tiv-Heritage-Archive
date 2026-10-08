@@ -6,12 +6,15 @@
     <meta name="site-url" content="<?= SITE_URL ?>">
     <title><?= e($title ?? SITE_NAME) ?></title>
     <meta name="description" content="<?= e($description ?? SITE_TAGLINE) ?>">
+    <?php if (!empty($noindex)): ?>
+    <meta name="robots" content="noindex, follow">
+    <?php endif; ?>
     <meta name="google-adsense-account" content="ca-pub-7960622250292703">
     <?php if (GSC_VERIFICATION_CODE !== ''): ?>
     <meta name="google-site-verification" content="<?= e(GSC_VERIFICATION_CODE) ?>">
     <?php endif; ?>
-    <?php if (ADSENSE_ENABLED): ?>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7960622250292703" crossorigin="anonymous"></script>
+    <?php if (ads_script_on()): ?>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?= ADSENSE_CLIENT ?>" crossorigin="anonymous"></script>
     <?php endif; ?>
     <!-- Theme color for PWA -->
     <meta name="theme-color" content="#5C3A21">
@@ -53,6 +56,8 @@
     echo $bodyRole;
     // Site-wide content-protection toggle (config/config.php)
     echo ' data-protection="' . (CONTENT_PROTECTION_ENABLED ? '1' : '0') . '"';
+    // Optional section class (e.g. section-nigeria); absent on existing pages.
+    if (!empty($bodyClass)) echo ' class="' . e($bodyClass) . '"';
 ?>>
 
     <?php $this->partial('header'); ?>
@@ -74,6 +79,10 @@
     <?php $this->partial('footer'); ?>
     <?php $this->partial('bottom-nav'); ?>
 
+    <script>
+    /* Page views in this browser; the newsletter card waits for a returning reader (welcome-popup partial). */
+    try { localStorage.setItem('tiv_pv', String((parseInt(localStorage.getItem('tiv_pv') || '0', 10) || 0) + 1)); } catch (e) {}
+    </script>
     <?php if (!empty($showWelcomePopup)): ?>
         <?php $this->partial('welcome-popup'); ?>
     <?php endif; ?>
@@ -85,58 +94,21 @@
 
     <?php $this->partial('charymeld'); ?>
 
-    <?php if (ADSENSE_ENABLED): ?>
-    <!-- Sticky anchor bar -->
-    <div id="adAnchorBar" class="ad-anchor-bar">
-        <button id="adAnchorClose" class="ad-anchor-close" aria-label="Close advertisement">&times;</button>
-        <span class="ad-anchor-bar-label">Advertisement</span>
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-7960622250292703"
-             data-ad-slot="6111588136"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-    </div>
-
-    <!-- AdSense lazy-loader + anchor dismiss -->
+    <?php if (ads_on()): ?>
+    <!-- In-page ad units: each one is filled when it scrolls near the viewport.
+         Anchor (sticky) and other overlay formats come from Auto ads in the AdSense
+         dashboard, not hand-built containers, so they follow Google's placement rules. -->
     <script>
     (function () {
-        /* ── Anchor bar dismiss ── */
-        var bar   = document.getElementById('adAnchorBar');
-        var close = document.getElementById('adAnchorClose');
-        if (bar) {
-            if (sessionStorage.getItem('adAnchorClosed')) {
-                bar.style.display = 'none';
-            } else if (close) {
-                close.addEventListener('click', function () {
-                    bar.style.display = 'none';
-                    sessionStorage.setItem('adAnchorClosed', '1');
-                });
-            }
-        }
-
-        /* ── Lazy-load all ads when scrolled into view ── */
-        var ads = document.querySelectorAll('.adsbygoogle');
+        var ads = document.querySelectorAll('ins.adsbygoogle');
         if (!ads.length) return;
-
-        function initAd() {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-        }
-
-        if (!('IntersectionObserver' in window)) {
-            ads.forEach(initAd);
-            return;
-        }
-
+        function fill() { (window.adsbygoogle = window.adsbygoogle || []).push({}); }
+        if (!('IntersectionObserver' in window)) { ads.forEach(fill); return; }
         var observer = new IntersectionObserver(function (entries, obs) {
             entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    initAd();
-                    obs.unobserve(entry.target);
-                }
+                if (entry.isIntersecting) { fill(); obs.unobserve(entry.target); }
             });
         }, { rootMargin: '200px 0px' });
-
         ads.forEach(function (ad) { observer.observe(ad); });
     }());
     </script>

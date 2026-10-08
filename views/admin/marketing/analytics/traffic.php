@@ -47,7 +47,7 @@
                         <tbody>
                             <?php foreach ($trafficByPlatform as $row): ?>
                             <tr style="border-bottom:1px solid #f0ede8;">
-                                <td style="padding:.65rem 1rem;font-weight:500;color:#2d1b0e;"><?= e(MarketingUtmLink::PLATFORMS[$row['platform']] ?? $row['platform']) ?></td>
+                                <td style="padding:.65rem 1rem;font-weight:500;color:#2d1b0e;"><?= e(MarketingUtmLink::channelLabel($row['platform'])) ?></td>
                                 <td style="padding:.65rem 1rem;color:#5a4a3a;"><?= (int) $row['link_count'] ?></td>
                                 <td style="padding:.65rem 1rem;color:#5C3A21;font-weight:600;"><?= number_format($row['total_clicks']) ?></td>
                             </tr>

@@ -256,7 +256,7 @@ class AdminMarketingScheduleController extends Controller
 
         try {
             $content = NewsletterGeneratorService::generate($issueType);
-            $id = $this->newsletters->create([
+            $id = $this->newsletters->createWithItems([
                 'issue_type' => $issueType,
                 'issue_date' => date('Y-m-d'),
                 'subject' => $content['subject'],
@@ -264,7 +264,7 @@ class AdminMarketingScheduleController extends Controller
                 'text_body' => $content['text_body'],
                 'status' => 'draft',
                 'created_by' => $this->user['id'],
-            ]);
+            ], $content['items']);
             $this->flash('Newsletter generated.', 'success');
             $this->redirect(url('admin/marketing/newsletter/' . $id));
         } catch (\Throwable $e) {

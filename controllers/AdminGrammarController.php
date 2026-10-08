@@ -2,6 +2,7 @@
 
 require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/TivGrammarRule.php';
+require_once BASE_PATH . '/services/ContentIndexer.php';
 
 class AdminGrammarController extends Controller
 {
@@ -51,7 +52,8 @@ class AdminGrammarController extends Controller
             return;
         }
 
-        $this->model->create($data);
+        $id = $this->model->create($data);
+        (new ContentIndexer(Database::getInstance()))->indexRecord('tiv_grammar_rules', $id);
 
         $this->flash('Grammar rule "' . $data['title'] . '" added.', 'success');
         $this->redirect(url('admin/grammar'));
@@ -85,6 +87,7 @@ class AdminGrammarController extends Controller
         }
 
         $this->model->update((int) $id, $data);
+        (new ContentIndexer(Database::getInstance()))->indexRecord('tiv_grammar_rules', (int) $id);
 
         $this->flash('"' . $data['title'] . '" updated.', 'success');
         $this->redirect(url('admin/grammar'));
@@ -94,6 +97,7 @@ class AdminGrammarController extends Controller
     {
         if (!$this->validateCSRF()) { $this->back(); return; }
         $this->model->delete((int) $id);
+        (new ContentIndexer(Database::getInstance()))->removeRecord('tiv_grammar_rules', (int) $id);
         $this->flash('Grammar rule deleted.', 'info');
         $this->redirect(url('admin/grammar'));
     }

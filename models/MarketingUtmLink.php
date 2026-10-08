@@ -69,11 +69,30 @@ class MarketingUtmLink extends Model
         return (int) $this->db->query("SELECT COUNT(*) FROM {$this->table}")->fetchColumn();
     }
 
+    /**
+     * Report-only channels: Profile pack links (services/ProfilePackGenerator.php) are
+     * stored as platform 'facebook' (the column is an enum), but are the owner's
+     * personal profile, not the Page — reports show them as their own row.
+     */
+    public const REPORT_CHANNELS = [
+        'facebook'         => 'Facebook Page',
+        'facebook_profile' => 'Facebook (personal profile)',
+    ];
+
+    /** Display name of a trafficByPlatform() row's platform. */
+    public static function channelLabel(string $platform): string
+    {
+        return self::REPORT_CHANNELS[$platform] ?? self::PLATFORMS[$platform] ?? $platform;
+    }
+
     public function trafficByPlatform(): array
     {
         $stmt = $this->db->query(
-            "SELECT platform, COUNT(*) AS link_count, COALESCE(SUM(click_count),0) AS total_clicks
-             FROM {$this->table} GROUP BY platform ORDER BY total_clicks DESC"
+            "SELECT CASE WHEN utm_source = 'facebook_profile' THEN 'facebook_profile' ELSE platform END AS platform,
+                    COUNT(*) AS link_count, COALESCE(SUM(click_count),0) AS total_clicks
+             FROM {$this->table}
+             GROUP BY CASE WHEN utm_source = 'facebook_profile' THEN 'facebook_profile' ELSE platform END
+             ORDER BY total_clicks DESC"
         );
         return $stmt->fetchAll();
     }

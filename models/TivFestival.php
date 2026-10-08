@@ -178,7 +178,7 @@ class TivFestival extends Model
                     (SELECT fg.image_path FROM festival_gallery fg
                      WHERE fg.festival_id = f.id ORDER BY fg.id ASC LIMIT 1) AS gallery_image
              FROM {$this->table} f
-             ORDER BY f.created_at DESC LIMIT ?"
+             ORDER BY f.is_featured DESC, f.created_at DESC LIMIT ?"
         );
         $stmt->execute([$limit]);
         return $stmt->fetchAll();

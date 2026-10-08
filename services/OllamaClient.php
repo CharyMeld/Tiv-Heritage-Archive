@@ -16,21 +16,35 @@ class OllamaClient
      */
     public static function generate(string $systemPrompt, string $userPrompt, float $temperature = 0.7): ?string
     {
+        return self::chat([
+            ['role' => 'system', 'content' => $systemPrompt],
+            ['role' => 'user', 'content' => $userPrompt],
+        ], $temperature);
+    }
+
+    /**
+     * Send an arbitrary multi-turn chat completion request — system/user/assistant
+     * messages passed straight through to Ollama's /api/chat, which natively
+     * supports full conversation history. Used by Charymeld for conversational
+     * (multi-turn) replies; generate() above remains the single-shot form used
+     * by the marketing content pipeline. Same "return null, never throw" contract.
+     *
+     * @param array<int, array{role:string, content:string}> $messages
+     */
+    public static function chat(array $messages, float $temperature = 0.7, int $numPredict = 700): ?string
+    {
         if (!OLLAMA_ENABLED) {
             return null;
         }
 
         $payload = [
             'model' => OLLAMA_MODEL,
-            'messages' => [
-                ['role' => 'system', 'content' => $systemPrompt],
-                ['role' => 'user', 'content' => $userPrompt],
-            ],
+            'messages' => $messages,
             'stream' => false,
             'keep_alive' => -1, // never unload — must be a bare number, not a string: Ollama's API rejects "-1" (missing duration unit) while accepting the JSON number -1
             'options' => [
                 'temperature' => $temperature,
-                'num_predict' => 700,
+                'num_predict' => $numPredict,
             ],
         ];
 
@@ -45,6 +59,37 @@ class OllamaClient
         }
 
         return $decoded['message']['content'];
+    }
+
+    /**
+     * Get a vector embedding for a piece of text, via a dedicated embedding model
+     * (e.g. nomic-embed-text — NOT the chat model). Returns the raw float array, or
+     * null on any failure. Same "return null, never throw" contract as chat().
+     *
+     * @return float[]|null
+     */
+    public static function embed(string $text, string $model = EMBEDDING_MODEL): ?array
+    {
+        if (!OLLAMA_ENABLED) {
+            return null;
+        }
+
+        // keep_alive: -1 — same reasoning as chat()'s: without it Ollama unloads the
+        // model after its default idle timeout, so the next call after any quiet
+        // period eats a ~4s cold-load penalty. Cheap to keep resident; it's a small
+        // (~270MB) model.
+        $payload = ['model' => $model, 'input' => $text, 'keep_alive' => -1];
+        $raw = self::post('/api/embed', $payload, EMBEDDING_TIMEOUT);
+        if ($raw === null) {
+            return null;
+        }
+
+        $decoded = json_decode($raw, true);
+        if (!is_array($decoded) || !isset($decoded['embeddings'][0]) || !is_array($decoded['embeddings'][0])) {
+            return null;
+        }
+
+        return $decoded['embeddings'][0];
     }
 
     /**

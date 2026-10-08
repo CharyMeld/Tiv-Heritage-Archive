@@ -28,7 +28,7 @@ class SocialGraphicGenerator
     ];
 
     /**
-     * Maps each of the 9 template types to the eyebrow label shown at the
+     * Maps each of the 10 template types to the eyebrow label shown at the
      * top and which source fields become the title/subtitle/body.
      */
     private const TEMPLATE_FIELD_MAP = [
@@ -41,6 +41,8 @@ class SocialGraphicGenerator
         'animal'            => ['eyebrow' => 'ANIMAL',             'title' => 'name',        'subtitle' => 'tiv_name',        'body' => 'description'],
         'timeline'          => ['eyebrow' => 'FROM TIV HISTORY',   'title' => 'title',       'subtitle' => null,              'body' => 'short_summary'],
         'quote'             => ['eyebrow' => 'TIV WISDOM',         'title' => null,          'subtitle' => null,              'body' => 'caption'],
+        // Profile pack (services/ProfilePackGenerator.php): a Nigeria Heritage record.
+        'nigeria_heritage'  => ['eyebrow' => 'NIGERIA HERITAGE',   'title' => 'name',        'subtitle' => 'kind',            'body' => 'image_text'],
     ];
 
     /**

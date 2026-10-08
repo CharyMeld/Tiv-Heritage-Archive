@@ -61,6 +61,7 @@
                     <div class="admin-dropdown-menu">
                         <a href="<?= url('admin/sources') ?>" class="<?= ($currentPage ?? '') === 'sources' ? 'active' : '' ?>">&#128218; Sources</a>
                         <a href="<?= url('admin/links') ?>" class="<?= ($currentPage ?? '') === 'links' ? 'active' : '' ?>">&#127760; Graph Links</a>
+                        <a href="<?= url('admin/heritage') ?>" class="<?= ($currentPage ?? '') === 'heritage' ? 'active' : '' ?>">&#127475;&#127468; Nigeria Heritage</a>
                         <a href="<?= url('references') ?>" target="_blank">&#128279; View Public Page</a>
                     </div>
                 </div>
@@ -143,6 +144,7 @@
                         <a href="<?= url('admin/marketing/generator') ?>" class="<?= ($currentPage ?? '') === 'marketing_generator' ? 'active' : '' ?>">&#129302; Content Generator</a>
                         <a href="<?= url('admin/marketing/templates') ?>" class="<?= ($currentPage ?? '') === 'marketing_templates' ? 'active' : '' ?>">&#128196; Prompt Templates</a>
                         <a href="<?= url('admin/marketing/social') ?>" class="<?= ($currentPage ?? '') === 'marketing_social' ? 'active' : '' ?>">&#128241; Social Media</a>
+                        <a href="<?= url('admin/marketing/profile') ?>" class="<?= ($currentPage ?? '') === 'marketing_profile' ? 'active' : '' ?>">&#128100; Profile Pack</a>
                         <a href="<?= url('admin/marketing/images') ?>" class="<?= ($currentPage ?? '') === 'marketing_images' ? 'active' : '' ?>">&#128444; Image Generator</a>
                         <a href="<?= url('admin/marketing/calendar') ?>" class="<?= ($currentPage ?? '') === 'marketing_scheduled' ? 'active' : '' ?>">&#128197; Scheduled Posts</a>
                         <a href="<?= url('admin/marketing/facebook/queue') ?>" class="<?= ($currentPage ?? '') === 'marketing_queue' ? 'active' : '' ?>">&#128257; Publishing Queue</a>
@@ -244,6 +246,7 @@
                     <ul class="adnav-sub" id="adn-knowledge">
                         <li><a href="<?= url('admin/sources') ?>">&#128218; Sources</a></li>
                         <li><a href="<?= url('admin/links') ?>">&#127760; Graph Links</a></li>
+                        <li><a href="<?= url('admin/heritage') ?>">&#127475;&#127468; Nigeria Heritage</a></li>
                     </ul>
                 </li>
 
@@ -298,6 +301,7 @@
                         <li><a href="<?= url('admin/marketing/generator') ?>">&#129302; Content Generator</a></li>
                         <li><a href="<?= url('admin/marketing/templates') ?>">&#128196; Prompt Templates</a></li>
                         <li><a href="<?= url('admin/marketing/social') ?>">&#128241; Social Media</a></li>
+                        <li><a href="<?= url('admin/marketing/profile') ?>">&#128100; Profile Pack</a></li>
                         <li><a href="<?= url('admin/marketing/images') ?>">&#128444; Image Generator</a></li>
                         <li><a href="<?= url('admin/marketing/calendar') ?>">&#128197; Scheduled Posts</a></li>
                         <li><a href="<?= url('admin/marketing/facebook/queue') ?>">&#128257; Publishing Queue</a></li>

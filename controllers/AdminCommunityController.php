@@ -4,6 +4,7 @@ require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/CommunityApplication.php';
 require_once BASE_PATH . '/models/CommunityMember.php';
 require_once BASE_PATH . '/models/User.php';
+require_once BASE_PATH . '/services/RegistrationMailer.php';
 
 class AdminCommunityController extends Controller
 {
@@ -108,6 +109,13 @@ class AdminCommunityController extends Controller
             }
         }
 
+        // Email is additive to the approval above and must never block it —
+        // RegistrationMailer logs and swallows any delivery failure itself.
+        $updatedApp = $this->appModel->find((int) $id);
+        if ($updatedApp) {
+            RegistrationMailer::approved($updatedApp);
+        }
+
         $this->flash('Application approved and member added to the directory.', 'success');
         $this->redirect(url('admin/community/applications'));
     }
@@ -120,8 +128,8 @@ class AdminCommunityController extends Controller
         }
 
         $app = $this->appModel->find((int) $id);
-        if (!$app) {
-            $this->flash('Application not found.', 'error');
+        if (!$app || $app['status'] === 'rejected') {
+            $this->flash('Application not found or already rejected.', 'error');
             $this->redirect(url('admin/community/applications'));
             return;
         }
@@ -139,6 +147,13 @@ class AdminCommunityController extends Controller
         $existing = $this->memberModel->getByApplicationId((int) $id);
         if ($existing) {
             $this->memberModel->update($existing['id'], ['is_active' => 0]);
+        }
+
+        // Email is additive to the rejection above and must never block it —
+        // RegistrationMailer logs and swallows any delivery failure itself.
+        $updatedApp = $this->appModel->find((int) $id);
+        if ($updatedApp) {
+            RegistrationMailer::declined($updatedApp);
         }
 
         $this->flash('Application rejected.', 'info');

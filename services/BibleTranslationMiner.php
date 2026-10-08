@@ -35,6 +35,19 @@ class BibleTranslationMiner
         'na','ve','yô','maa','kà','er','ér','nande','lô','tô','mba',
     ];
 
+    // Stage 7 (TRANSLATION_ENGINE_STAGE_7_REPORT.md): SQL fragments that
+    // normalize a stored column value the same way normalise() (below)
+    // normalizes user input, mirroring TranslationEngine::NORMALIZE_STRIP_PATTERN
+    // / NORMALIZE_SPACE_PATTERN exactly (kept as a separate copy here since this
+    // is a different class — both must stay in sync with normalise()'s regex).
+    // Before this stage, lookupVerse()'s exact and partial tiers compared a
+    // punctuation-STRIPPED input against a punctuation-INTACT stored `tiv`/
+    // `english_web` value, so almost no realistically-punctuated verse could
+    // ever be found by either tier. Bound as query parameters, never
+    // concatenated into SQL text.
+    private const NORMALIZE_STRIP_PATTERN = '[^\p{L}\p{N}\s\'-]';
+    private const NORMALIZE_SPACE_PATTERN = '\s+';
+
     public function __construct(PDO $db)
     {
         $this->db = $db;
@@ -57,28 +70,36 @@ class BibleTranslationMiner
 
         $col = $sourceLang === 'tiv' ? 'tiv' : 'english_web';
 
-        // 1. Exact match
+        // 1. Exact match — Stage 7: {$col} is normalized the same way $clean
+        // already is, so a verse with internal/trailing punctuation (the large
+        // majority of the archive) can still be found by its own exact text.
         $stmt = $this->db->prepare(
             "SELECT *, CONCAT(book,' ',chapter,':',verse) AS ref
              FROM bible_verses
-             WHERE LOWER({$col}) = ? AND tiv IS NOT NULL AND tiv != ''
+             WHERE TRIM(REGEXP_REPLACE(REGEXP_REPLACE(LOWER({$col}), ?, ''), ?, ' ')) = ?
+               AND tiv IS NOT NULL AND tiv != ''
              LIMIT 1"
         );
-        $stmt->execute([$clean]);
+        $stmt->execute([self::NORMALIZE_STRIP_PATTERN, self::NORMALIZE_SPACE_PATTERN, $clean]);
         $row = $stmt->fetch();
         if ($row) {
             return $this->verseResult($row, 98);
         }
 
-        // 2. Input is fully contained in a verse (user typed partial verse)
+        // 2. Input is fully contained in a verse (user typed partial verse) —
+        // Stage 7: same normalization applied before the LIKE comparison, so a
+        // partial quotation that happens to span internal punctuation in the
+        // stored verse can still be found. Ranking (ORDER BY LENGTH) and the
+        // post-fetch similarity ratio below are unchanged.
         $stmt = $this->db->prepare(
             "SELECT *, CONCAT(book,' ',chapter,':',verse) AS ref
              FROM bible_verses
-             WHERE LOWER({$col}) LIKE ? AND tiv IS NOT NULL AND tiv != ''
+             WHERE TRIM(REGEXP_REPLACE(REGEXP_REPLACE(LOWER({$col}), ?, ''), ?, ' ')) LIKE ?
+               AND tiv IS NOT NULL AND tiv != ''
              ORDER BY LENGTH({$col}) ASC
              LIMIT 1"
         );
-        $stmt->execute(['%' . $clean . '%']);
+        $stmt->execute([self::NORMALIZE_STRIP_PATTERN, self::NORMALIZE_SPACE_PATTERN, '%' . $clean . '%']);
         $row = $stmt->fetch();
         if ($row) {
             $similarity = mb_strlen($clean) / mb_strlen($this->normalise($row[$col]));
@@ -362,42 +383,35 @@ class BibleTranslationMiner
      * Returns the most likely translation for the word, or null.
      * Used by TranslationEngine::refineLocally() to resolve missing tokens.
      */
+    /**
+     * Stage 6 (TRANSLATION_ENGINE_STAGE_6_REPORT.md): disabled.
+     *
+     * This used to search bible_verses for any short verse CONTAINING $word
+     * (`LIKE '% word %'`) and return that verse's ENTIRE opposite-language
+     * text as if it were the translation of the single word. Word occurrence
+     * inside a verse is not word-level translation evidence — a verse under
+     * 60 characters can still be a full multi-word sentence, so its complete
+     * English (or Tiv) text would get substituted into refineLocally()'s
+     * word-by-word reconstruction for one missing token. Confirmed in Stage 5
+     * to produce output for one verse (e.g. Genesis 17:23) containing another,
+     * unrelated verse's text (Genesis 11:1's "The whole earth was of one
+     * language and of one speech") — a citation-integrity failure, since the
+     * caller also has no per-token source_id to point at, only a blanket
+     * `source_table = 'bible_verses'`.
+     *
+     * bible_verses has no word-level alignment data (no per-word gloss table
+     * anywhere in the schema) to build a reliable replacement from, so per
+     * the safest-default principle, this returns null unconditionally: no
+     * reliable Bible word match rather than a guessed one. The translation
+     * pipeline already treats null as "no improvement from this source" and
+     * continues normally (see TranslationEngine::refineLocally()). Ordinary
+     * verse-level lookup (lookupVerse(), Feature 1 above) is untouched by
+     * this change — it already required a real verse-length match and never
+     * substituted one verse's content for another's.
+     */
     public function lookupWordInBible(string $word, string $sourceLang): ?string
     {
-        $col    = $sourceLang === 'tiv' ? 'tiv' : 'english_web';
-        $retCol = $sourceLang === 'tiv' ? 'english_web' : 'tiv';
-        $like   = '% ' . mb_strtolower($word) . ' %';
-
-        // Find short bilingual verses where the word appears in isolation
-        $stmt = $this->db->prepare(
-            "SELECT {$retCol} AS translated, CHAR_LENGTH({$col}) AS src_len
-             FROM bible_verses
-             WHERE LOWER({$col}) LIKE ?
-               AND {$retCol} IS NOT NULL AND {$retCol} != ''
-               AND CHAR_LENGTH({$col}) < 60
-             ORDER BY src_len ASC
-             LIMIT 3"
-        );
-        $stmt->execute([$like]);
-        $rows = $stmt->fetchAll();
-
-        if (empty($rows)) return null;
-
-        // Pick the shortest matching verse translation (most likely a clean word pair)
-        $best = $rows[0]['translated'] ?? '';
-        $bestLen = mb_strlen($best);
-        foreach ($rows as $r) {
-            $len = mb_strlen($r['translated']);
-            if ($len < $bestLen) {
-                $best    = $r['translated'];
-                $bestLen = $len;
-            }
-        }
-
-        // Only return if the result is short enough to be a meaningful word/phrase
-        if ($bestLen > 80) return null;
-
-        return trim($best);
+        return null;
     }
 
     // ═══════════════════════════════════════════════════════════════════

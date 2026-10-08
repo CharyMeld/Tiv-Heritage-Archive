@@ -3,6 +3,7 @@
         <span class="page-banner-eyebrow">&#128221; Archive</span>
         <h1 class="page-banner-title">Tiv Proverbs</h1>
         <p class="page-banner-sub">Ancient wisdom passed down through generations</p>
+        <p style="margin: .75rem 0 0;"><a href="<?= url('collections/proverbs') ?>" class="explore-pill" style="display:inline-flex;align-items:center;gap:.4rem;">&#128214; Read every proverb with its meaning</a></p>
         <div class="page-banner-search">
             <form action="<?= url('archive/proverbs') ?>" method="GET">
                 <div class="explore-search-wrap">
@@ -50,9 +51,9 @@
             </a>
             <?php endforeach; ?>
         </div>
-        <?php if (ADSENSE_ENABLED): ?>
+        <?php if (ads_on()): ?>
         <div class="adsense-wrap">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<?= ADSENSE_CLIENT ?>" data-ad-slot="<?= ADSENSE_SLOT ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
         <?php endif; ?>
         <?= pagination($pagination, url('archive/proverbs').($filter ? '?filter='.urlencode($filter) : '')) ?>

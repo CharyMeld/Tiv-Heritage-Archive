@@ -33,7 +33,7 @@
                             <?php foreach ($items as $l): ?>
                             <tr>
                                 <td data-label="Short Link"><a href="<?= url('go/' . $l['short_code']) ?>" target="_blank" style="color:#5C3A21;"><?= e($l['short_code']) ?></a></td>
-                                <td data-label="Platform"><?= e($platforms[$l['platform']] ?? $l['platform']) ?></td>
+                                <td data-label="Platform"><?= e($l['utm_source'] === 'facebook_profile' ? MarketingUtmLink::channelLabel('facebook_profile') : ($platforms[$l['platform']] ?? $l['platform'])) ?></td>
                                 <td data-label="Destination" class="op-truncate" title="<?= e($l['destination_url']) ?>"><?= e($l['destination_url']) ?></td>
                                 <td data-label="Campaign" class="op-truncate" title="<?= e($l['utm_campaign']) ?>"><?= e($l['utm_campaign']) ?></td>
                                 <td data-label="Clicks" class="op-center-cell" style="font-weight:600;color:#5C3A21;"><?= number_format($l['click_count']) ?></td>

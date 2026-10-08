@@ -283,7 +283,7 @@ if (!function_exists('tiv_grammar_examples_table')) {
         <!-- CTAs -->
         <div style="margin-top:1rem;padding-top:2rem;border-top:1px solid #e5e0d5;display:flex;gap:1rem;flex-wrap:wrap;">
             <a href="<?= url('language/alphabet') ?>" class="btn btn-primary">&#127279; Tiv Alphabet</a>
-            <a href="<?= url('archive/words') ?>" class="btn btn-secondary">&#128218; Browse Dictionary</a>
+            <a href="<?= url(section_path('words')) ?>" class="btn btn-secondary">&#128218; Browse Dictionary</a>
             <a href="<?= url('learn') ?>" class="btn btn-secondary">&#127979; Language Lessons</a>
             <a href="<?= url('translate') ?>" class="btn btn-secondary">&#127760; Translator</a>
         </div>

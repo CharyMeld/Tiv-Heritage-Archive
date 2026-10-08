@@ -3,6 +3,19 @@
 # Enable rewrite engine
 RewriteEngine On
 
+# Canonical host: force apex → www. Without this, tivheritage.com and
+# www.tivheritage.com both served the exact same content directly (no
+# redirect either way) — confirmed live, every real page was fully
+# duplicated across two hostnames, each with its own self-referencing
+# SITE_URL/canonical tag (SITE_URL is built from whatever HTTP_HOST the
+# request came in on — see config/config.php). This is very likely the
+# single biggest contributor to Search Console's "Duplicate, Google chose
+# different canonical than user" and inflated "Discovered - currently not
+# indexed" counts. www is the documented production host (see the routing
+# rule below), so apex redirects to it, not the other way around.
+RewriteCond %{HTTP_HOST} ^tivheritage\.com$ [NC]
+RewriteRule ^(.*)$ https://www.tivheritage.com/$1 [L,R=301]
+
 # Redirect HTTP to HTTPS (works behind Hostinger's load balancer)
 # NOTE: commented out for local development — uncomment when deploying to Hostinger
 # RewriteCond %{HTTPS} !=on

@@ -138,7 +138,7 @@
 <div class="page-banner about-banner">
     <div class="container">
         <span class="page-banner-eyebrow">&#127758; About</span>
-        <h1 class="page-banner-title">About Tiv Culture Archive</h1>
+        <h1 class="page-banner-title">About Tiv Heritage Archive</h1>
         <p class="page-banner-sub">Preserving Language &bull; Literature &bull; Culture &bull; History &bull; Identity</p>
     </div>
 </div>
@@ -148,7 +148,7 @@
     <div class="container">
         <h2 class="section-title">Our Mission</h2>
         <p class="about-lead">
-            The Tiv Culture Archive is a living digital library dedicated to documenting, preserving, and sharing
+            The Tiv Heritage Archive is a living digital library dedicated to documenting, preserving, and sharing
             the full breadth of Tiv heritage — from the spoken word to written history, from traditional customs
             to modern community knowledge. We exist to ensure that nothing is lost and that every generation of
             Tiv people and every student of African culture has a place to learn, contribute, and connect.
@@ -287,7 +287,7 @@
             <a href="<?= url('translate') ?>" class="about-tool-pill"><span>&#127760;</span> English ↔ Tiv Translator</a>
             <a href="<?= url('language/alphabet') ?>" class="about-tool-pill"><span>&#127279;</span> Interactive Alphabet + Audio</a>
             <a href="<?= url('learn') ?>" class="about-tool-pill"><span>&#127979;</span> Video Lesson Library</a>
-            <a href="<?= url('archive/words') ?>" class="about-tool-pill"><span>&#128218;</span> Tiv Dictionary</a>
+            <a href="<?= url(section_path('words')) ?>" class="about-tool-pill"><span>&#128218;</span> Tiv Dictionary</a>
             <a href="<?= url('bible') ?>" class="about-tool-pill"><span>&#128214;</span> Bible in Tiv</a>
             <a href="<?= url('references') ?>" class="about-tool-pill"><span>&#128279;</span> Knowledge References</a>
             <a href="<?= url('community') ?>" class="about-tool-pill"><span>&#128101;</span> Community Directory</a>

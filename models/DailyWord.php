@@ -35,6 +35,70 @@ class DailyWord extends Model
     ];
 
     /**
+     * A word entry with more than a bare headword + meaning (an example
+     * sentence or usage notes). Only these are offered to search engines
+     * (sitemap + indexable word page); bare entries are noindexed as thin
+     * content. Keep isSubstantial() and SUBSTANTIAL_SQL in sync.
+     */
+    public const SUBSTANTIAL_SQL = "(COALESCE(TRIM(example_tiv), '') != ''
+        OR COALESCE(TRIM(example_english), '') != ''
+        OR COALESCE(TRIM(usage_notes), '') != '')";
+
+    public static function isSubstantial(array $word): bool
+    {
+        foreach (['example_tiv', 'example_english', 'usage_notes'] as $field) {
+            if (trim((string) ($word[$field] ?? '')) !== '') return true;
+        }
+        return false;
+    }
+
+    /**
+     * Override: Model::recent() doesn't filter is_active, which would let a
+     * deactivated word surface in homepage/featured contexts.
+     */
+    public function recent(int $limit = 10): array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table} WHERE is_active = 1 ORDER BY created_at DESC LIMIT ?"
+        );
+        $stmt->execute([$limit]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Active words added after the given newsletter issue was created
+     * (compared in SQL, TIMESTAMP to TIMESTAMP, so no timezone conversion is
+     * involved). With no issue, falls back to the last 7 days by MySQL's clock.
+     */
+    public function addedSince(?int $sinceIssueId, int $limit): array
+    {
+        $where = $sinceIssueId === null
+            ? 'created_at > NOW() - INTERVAL 7 DAY'
+            : 'created_at > (SELECT created_at FROM marketing_newsletter_issues WHERE id = ?)';
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table}
+             WHERE is_active = 1 AND {$where}
+             ORDER BY created_at DESC, id DESC LIMIT ?"
+        );
+        $stmt->execute($sinceIssueId === null ? [$limit] : [$sinceIssueId, $limit]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Existing active words for the newsletter's "Words to Learn" rotation
+     * (see Model::newsletterRotation). Words without an English meaning are
+     * skipped since there's nothing to learn from them.
+     */
+    public function leastRecentlyInNewsletter(int $limit, array $excludeIds = []): array
+    {
+        return $this->newsletterRotation(
+            $limit,
+            "t.is_active = 1 AND t.english_meaning IS NOT NULL AND t.english_meaning != ''",
+            $excludeIds
+        );
+    }
+
+    /**
      * Get today's word (cached for the day)
      */
     public function getToday(): ?array

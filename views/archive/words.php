@@ -3,6 +3,7 @@
         <span class="page-banner-eyebrow">&#128172; Archive</span>
         <h1 class="page-banner-title">Tiv Dictionary</h1>
         <p class="page-banner-sub">Words, meanings and usage in the Tiv language</p>
+        <p style="margin: .75rem 0 0;"><a href="<?= url('collections') ?>" class="explore-pill" style="display:inline-flex;align-items:center;gap:.4rem;">&#128214; Read the dictionary in full, letter by letter</a></p>
         <div class="page-banner-search">
             <form action="<?= url('archive/words') ?>" method="GET">
                 <div class="explore-search-wrap">
@@ -37,7 +38,7 @@
                 <div class="archive-item-modern-icon" style="background:rgba(26,82,118,0.12);">&#128172;</div>
                 <div class="archive-item-modern-body">
                     <div class="archive-item-modern-title">
-                        <?= e($item['tiv_word']) ?>
+                        <?= e(SeoHelper::displayWord($item['tiv_word'])) ?>
                         <?php if (!empty($item['ipa'])): ?><span style="font-family:monospace;font-weight:400;font-size:.8em;color:var(--color-text-muted);"><?= e($item['ipa']) ?></span><?php endif; ?>
                     </div>
                     <div class="archive-item-modern-sub"><?= e($item['english_meaning']) ?></div>
@@ -49,9 +50,9 @@
             </a>
             <?php endforeach; ?>
         </div>
-        <?php if (ADSENSE_ENABLED): ?>
+        <?php if (ads_on()): ?>
         <div class="adsense-wrap">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7960622250292703" data-ad-slot="6111588136" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<?= ADSENSE_CLIENT ?>" data-ad-slot="<?= ADSENSE_SLOT ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
         <?php endif; ?>
         <?= pagination($pagination, url('archive/words').($filter ? '?filter='.$filter : '')) ?>

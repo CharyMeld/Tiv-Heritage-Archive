@@ -11,7 +11,9 @@ class Source extends Model
 
     protected array $fillable = [
         'source_type', 'title', 'author', 'publisher', 'isbn', 'doi', 'url', 'access_date',
-        'contributor_name', 'location', 'year_recorded', 'notes', 'verification_status'
+        'contributor_name', 'location', 'year_recorded', 'notes', 'verification_status',
+        'organisation', 'publication_date', 'publication_details', 'archive_reference',
+        'source_kind', 'source_tier', 'lineage_group', 'rights_notes',
     ];
 
     /**
@@ -55,6 +57,17 @@ class Source extends Model
         'oral_tradition'       => 'Oral Traditions',
         'interview'            => 'Interviews',
         'community_submission' => 'Community Contributors',
+        'journal_article'        => 'Journal Articles',
+        'government_publication' => 'Government Publications',
+        'official_website'       => 'Official Websites',
+        'website'                => 'Websites',
+        'news'                   => 'News Reports',
+        'encyclopedia'           => 'Encyclopedias',
+        'archival_record'        => 'Archival Records',
+        'dataset'                => 'Datasets',
+        'map'                    => 'Maps',
+        'thesis'                 => 'Theses & Dissertations',
+        'other'                  => 'Other Sources',
     ];
 
     /**
@@ -66,6 +79,17 @@ class Source extends Model
         'oral_tradition'       => '&#127897;',
         'interview'            => '&#127908;',
         'community_submission' => '&#128101;',
+        'journal_article'        => '&#128240;',
+        'government_publication' => '&#127963;',
+        'official_website'       => '&#127760;',
+        'website'                => '&#127760;',
+        'news'                   => '&#128240;',
+        'encyclopedia'           => '&#128214;',
+        'archival_record'        => '&#128220;',
+        'dataset'                => '&#128202;',
+        'map'                    => '&#128506;',
+        'thesis'                 => '&#127891;',
+        'other'                  => '&#128196;',
     ];
 
     /**
@@ -84,6 +108,33 @@ class Source extends Model
     /**
      * Get sources grouped by type
      */
+    /**
+     * May visitors see this source? False only for sources cited solely by
+     * unpublished Nigeria Heritage research (see HeritagePublic::sourceIsPublicSql).
+     */
+    public function isPublic(int $id): bool
+    {
+        require_once BASE_PATH . '/services/HeritagePublic.php';
+        $stmt = $this->db->prepare("SELECT 1 FROM {$this->table} s WHERE s.id = ? AND " . HeritagePublic::sourceIsPublicSql('s'));
+        $stmt->execute([$id]);
+        return (bool) $stmt->fetchColumn();
+    }
+
+    /** Sources visitors may see, grouped by type (public References page). */
+    public function getPublicGroupedByType(): array
+    {
+        require_once BASE_PATH . '/services/HeritagePublic.php';
+        $rows = $this->db->query(
+            "SELECT s.* FROM {$this->table} s WHERE " . HeritagePublic::sourceIsPublicSql('s') . "
+             ORDER BY FIELD(s.source_type,'book','research','oral_tradition','interview','community_submission'), s.contributor_name ASC"
+        )->fetchAll();
+        $grouped = [];
+        foreach ($rows as $row) {
+            $grouped[$row['source_type']][] = $row;
+        }
+        return $grouped;
+    }
+
     public function getGroupedByType(): array
     {
         $rows = $this->getAllOrdered();

@@ -52,7 +52,7 @@ function exploreCard(string $cat, array $item): array
             ];
         case 'words':
             return [
-                'title'    => $item['tiv_word'] ?? '',
+                'title'    => SeoHelper::displayWord($item['tiv_word'] ?? ''),
                 'subtitle' => $item['english_meaning'] ?? '',
                 'meta'     => $item['part_of_speech'] ?? '',
                 'desc'     => $item['example_tiv'] ?? '',
@@ -118,7 +118,7 @@ function exploreCard(string $cat, array $item): array
 <div class="explore-hero">
     <div class="explore-hero-inner">
         <div class="container">
-            <p class="explore-eyebrow">&#128218; Tiv Culture Archive</p>
+            <p class="explore-eyebrow">&#128218; Tiv Heritage Archive</p>
             <h1 class="explore-heading">Explore Tiv Culture</h1>
             <p class="explore-subheading">
                 <?= number_format($totalEntries) ?> entries &mdash;
