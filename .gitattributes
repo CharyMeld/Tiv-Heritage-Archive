@@ -1,0 +1,2 @@
+# Saved web pages used as research data, not source code; exclude from GitHub language stats
+database/research/data/** linguist-vendored
